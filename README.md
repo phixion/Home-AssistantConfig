@@ -1,5 +1,3 @@
-WIP
-
 My Smarthome so far:
 
 - 6 RGBWW Bulbs Teckin SB50 (ESP8266 running esphome)
