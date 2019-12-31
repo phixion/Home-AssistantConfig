@@ -9,3 +9,4 @@ My Smarthome so far:
 - docker host
 - Nexus 9 (running slimrom + HomeHabit as a touchpanel)
 - a couple of shelly relays and a shelly rgb strip controller
+- plus me, a solder iron a ftdi232 and a laptop running vscode with platformio
