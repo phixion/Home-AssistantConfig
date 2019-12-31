@@ -8,5 +8,5 @@ My Smarthome so far:
 - 3 rpi (BTLE pressence detection running archlinux WIP)
 - docker host
 - Nexus 9 (running slimrom + HomeHabit as a touchpanel)
-- a couple of shelly relays and a shelly rgb strip controller
+- a couple of shelly relays and a shelly rgb strip controller (WIP)
 - plus me, a solder iron, a ftdi232 and a laptop running vscode with platformio
