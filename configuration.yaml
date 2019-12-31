@@ -1,0 +1,495 @@
+default_config:
+wake_on_lan:
+config:
+websocket_api:
+history:
+system_health:
+logbook:
+esphome:
+conversation:
+map:
+stream:
+zeroconf:
+cloud:
+switch:
+#circadian_lighting:
+ssdp:
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+upnp: !include upnp.yaml
+scene: !include scenes.yaml
+zone: !include zones.yaml
+panel_iframe: !include panels.yaml
+updater:
+  include_used_components: true
+sabnzbd:
+  api_key: !secret sabnzbd_pwd
+  host: !secret sabnzbhost
+  name: !secret sabnzbd_usr
+  port: 8243
+  ssl: true
+  sensors:
+    - current_status
+    - speed
+    - queue_size
+    - queue_remaining
+    - disk_size
+    - disk_free
+    - queue_count
+    - day_size
+    - week_size
+    - month_size
+    - total_size
+logger:
+  default: info
+  logs:
+    homeassistant.components.http.ban: warning
+ifttt:
+  key: !secret iftttapi_pwd
+wiser:
+  host: !secret wiser_host
+  password: !secret wiserapi_pwd
+  scan_interval: 300
+  boost_temp: 4
+  boost_time: 1800
+  minimum: 7
+sensor:
+  - platform: rest
+    resource: https://api.myip.com
+    name: External IP
+    value_template: '{{ value_json.ip }}'
+  - platform: authenticated
+  - platform: uptime
+    unit_of_measurement: days
+  - platform: mvglive
+    nextdeparture:
+      - station: !secret station_mvg_tram
+        destinations: !secret destination_tram 
+        name: mvg.Tram
+        lines: !secret line_tram
+        products: ["Tram", "Nachteule"]
+        number: 3
+      - station: !secret station_mvg_bus
+        destinations: !secret destination_bus
+        name: mvg.Bus
+        lines: !secret line_bus
+        products: ["Bus"]
+        number: 3
+      - station: !secret station_mvg_u
+        name: mvg.U-Bahn
+        directions: ["2"]
+        products: ["U-Bahn"]
+        number: 3
+  - platform: unifigateway
+    host: !secret unifigw_host
+    port: !secret unifigw_port
+    username: !secret unifigw_user
+    password: !secret unifigw_pwd
+    monitored_conditions:
+      - www
+      - wlan
+      - alerts
+      - firmware
+    verify_ssl: true
+  - platform: template
+    sensors:
+      climate_wohnung_temp:
+        friendly_name: "Wohnung"
+        unit_of_measurement: "°C"
+        value_template: "{{ states.climate.alle_thermostate.attributes.current_temperature }}"
+      climate_flur_temp:
+        friendly_name: "Flur"
+        unit_of_measurement: "°C"
+        value_template: "{{ states.climate.wiser_flur.attributes.current_temperature }}"
+      climate_bad_temp:
+        friendly_name: "Bad"
+        unit_of_measurement: "°C"
+        value_template: "{{ states.climate.wiser_bad.attributes.current_temperature }}"
+      climate_wohnzimmer_temp:
+        friendly_name: "Wohnzimmer"
+        unit_of_measurement: "°C"
+        value_template: "{{ states.climate.wiser_wohnzimmer.attributes.current_temperature }}"
+      climate_wohnzimmer_window:
+        friendly_name: "Fenster Wohnzimmer"
+        value_template: "{{ states.climate.wiser_wohnzimmer.attributes.window_state }}"
+      climate_bad_window:
+        friendly_name: "Fenster Bad"
+        value_template: "{{ states.climate.wiser_bad.attributes.window_state }}"
+      climate_flur_window:
+        friendly_name: "Fenster Flur"
+        value_template: "{{ states.climate.wiser_flur.attributes.window_state }}"
+      unifi_speedtest_rx:
+        entity_id: sensor.unifi_gateway_www
+        friendly_name: "Download"
+        value_template: "{{ state_attr('sensor.unifi_gateway_www','xput_down') }}"
+      unifi_speedtest_tx:
+        entity_id: sensor.unifi_gateway_www
+        friendly_name: "Upload"
+        value_template: "{{ state_attr('sensor.unifi_gateway_www','xput_up') }}"
+      unifi_speedtest_ping:
+        entity_id: sensor.unifi_gateway_www
+        friendly_name: "Ping"
+        value_template: "{{ state_attr('sensor.unifi_gateway_www','speedtest_ping') }}"
+      unifi_wlan_user:
+        entity_id: sensor.unifi_gateway_wlan
+        friendly_name: "WLAN User"
+        value_template: "{{ state_attr('sensor.unifi_gateway_wlan','num_user') }}"
+      unifi_wlan_guest:
+        entity_id: sensor.unifi_gateway_wlan
+        friendly_name: "WLAN Guests"
+        value_template: "{{ state_attr('sensor.unifi_gateway_wlan','num_guests') }}"
+      unifi_wlan_iot:
+        entity_id: sensor.unifi_gateway_wlan
+        friendly_name: "WLAN IoT"
+        value_template: "{{ state_attr('unifi_gateway_wlan','num_iot') }}"
+      sun_sunset:
+        entity_id: sun.sun
+        friendly_name: "Sonnenuntergang"
+        value_template: "{{ state_attr('sun.sun','next_dusk') }}"
+      sun_sunrise:
+        entity_id: sun.sun
+        friendly_name: "Sonnenaufgang"
+        value_template: "{{ state_attr('sun.sun','next_dawn') }}"
+      battery_level_pixel:
+        entity_id: device_tracker.google_pixel
+        friendly_name: Batterylevel Google Pixel
+        unit_of_measurement: '%'
+        value_template: >-
+            {%- if state_attr('device_tracker.google_pixel', 'battery') %}
+                {{ state_attr('device_tracker.google_pixel', 'battery')|round }}
+            {% else %}
+                {{ states('sensor.battery.google_pixel') }}
+            {%- endif %}
+        device_class: battery
+      proximity_dir_of_travel:
+        entity_id: proximity.home
+        friendly_name: "Direction of travel"
+        value_template: "{{ state_attr('proximity.home','dir_of_travel') }}"
+  - platform: qnap
+    host: !secret qnap_host
+    username: !secret qnap_usr
+    password: !secret qnap_pwd
+    ssl: true
+    verify_ssl: true
+    port: 443
+    monitored_conditions:
+      - status
+      - cpu_usage
+      - memory_percent_used
+      - network_tx
+      - volume_percentage_used
+  - platform: scrape
+    name: HA upstream
+    resource: https://pypi.org/project/homeassistant/#history
+    select: 'a[href^="/project/homeassistant/0"]'
+  - platform: darksky
+    api_key: !secret weatherdarkskyapi_pwd
+    monitored_conditions:
+      - summary
+      - precip_type
+      - precip_intensity
+      - precip_probability
+      - precip_accumulation
+      - temperature
+      - apparent_temperature
+      - dew_point
+      - wind_speed
+      - wind_bearing
+      - cloud_cover
+      - humidity
+      - pressure
+      - visibility
+      - ozone
+      - temperature_high
+      - temperature_low
+      - apparent_temperature_high
+      - apparent_temperature_low
+      - precip_intensity_max
+      - uv_index
+      - moon_phase
+  - platform: google_travel_time
+    name: Morning Commute
+    api_key: !secret google_assistantapikey_pwd
+    origin: device_tracker.google_pixel
+    destination: zone.work
+    options:
+      mode: transit
+      transit_mode: train
+      transit_routing_preference: fewer_transfers
+weather:
+  - platform: darksky
+    api_key: !secret weatherdarkskyapi_pwd
+tts:
+  - platform: google_cloud
+    key_file: !secret google_service_accout_json
+    language: "de-DE"
+    gender: "female"
+    voice: "de-DE-Standard-A"
+    base_url: !secret base_url
+media_player:
+  - platform: androidtv
+    host: !secret host_androidtv
+    name: Android TV
+    device_class: androidtv
+    adb_server_ip: localhost
+    adb_server_port: 5037
+    apps:
+      com.google.android.youtube.tv: "Youtube"
+      org.xbmc.kodi: "Kodi"
+      com.netflix.ninja: "Netflix"
+      com.google.android.tvlauncher: "Homescreen"
+      com.plexapp.android: "Plex"
+http:
+  base_url: !secret base_url
+  ssl_certificate: /ssl/fullchain.pem
+  ssl_key: /ssl/privkey.pem
+vultr:
+  api_key: !secret vultrapi_pwd
+homeassistant:
+  whitelist_external_dirs:
+    - /config/faces
+  auth_providers:
+    - type: homeassistant
+    - type: trusted_networks
+      trusted_networks: !include trustednetworks.yaml
+      allow_bypass_login: true
+  customize:
+    device_tracker.phixel:
+      hidden: true
+    device_tracker.pixel:
+      hidden: true
+    person.martin:
+      entity_picture: https://avatars2.githubusercontent.com/u/13013670
+  auth_mfa_modules:
+    - type: totp
+      name: Authy
+    - type: notify
+      message: 'Hey, to get into my clubhouse, you need to say {}'
+  name: Home
+  time_zone: Europe/Berlin
+  unit_system: metric
+  latitude: !secret home_lat
+  longitude: !secret home_lon
+  elevation: !secret home_ela
+discovery:
+  ignore:
+    - sabnzbd
+light:
+  - platform: group
+    name: All Bulbs
+    entities:
+      - light.bulbflur
+      - light.bulbkueche
+      - light.bulbwhzlamp
+      - light.bulbbad
+      - light.schalter_bad_light
+      - light.schalter_flur_whz_light
+      - light.schalter_whz_light
+  - platform: group 
+    name: All Spotlights
+    entities:
+      - light.bulbspotwhzdesk
+      - light.bulbspotwhztv
+#  - platform: group
+#    name: All Lights
+#    entities:
+#      - light.all_bulbs
+#      - light.all_spotlights
+  - platform: group
+    name: Mood Lights
+    entities:
+      - light.bulbspotwhzdesk
+      - light.bulbspotwhztv
+      - light.bulbwhzlamp
+# magichome led strip (destroyed by hias)
+#  - platform: flux_led
+#    automatic_add: true
+#    scan_interval: 30
+#    devices:
+#      10.10.10.231:
+#        name: rgbwstrip
+#        mode: "rgb"
+climate:
+  - platform: climate_group
+    name: 'Alle Thermostate'
+    entities:
+    - climate.wiser_bad
+    - climate.wiser_flur
+    - climate.wiser_wohnzimmer
+google_assistant:
+  project_id: !secret gproject_id
+  service_account: !secret google_service_accout_json_file
+  report_state: true
+  expose_by_default: false
+  api_key: !secret google_assistantapikey_pwd
+  exposed_domains:
+    - light
+    - switch
+    - camera
+    - input_boolean
+    - scene
+    - sensor
+    - climate
+binary_sensor:
+  - platform: workday
+    country: DE
+    excludes: [sat, sun, holiday]
+    province: BY
+    add_holidays:
+      - 2019-12-24
+  - platform: template
+    sensors:
+      dark_outside:
+        value_template: "{{ is_state('sun.sun', 'below_horizon') }}"
+        friendly_name: "Dark Outside"
+notify:
+  - name: pushover
+    platform: pushover
+    api_key: !secret pushover_api_pwd
+    user_key: !secret pushover_user_pwd
+  - name: android
+    platform: nfandroidtv
+    host: !secret host_androidtv
+    position: top-right
+    fontsize: medium
+recorder:
+  purge_interval: 1
+  purge_keep_days: 700
+  db_url: !secret dburl
+coinbase:
+  api_key: !secret coinbasekey_pwd
+  api_secret: !secret coinbasesecret_pwd
+  account_balance_currencies:
+    - EUR
+    - BTC
+  exchange_rate_currencies:
+    - BTC
+influxdb:
+  host: a0d7b954-influxdb
+  port: 8086
+  database: homeassistant
+  username: !secret influx_usr
+  password: !secret influx_pwd
+  max_retries: 100
+  default_measurement: state
+  tags:
+    instance: prod
+    source: hass
+proximity:
+  home:
+    devices:
+    - person.martin
+    tolerance: 50
+    unit_of_measurement: m
+  home_away:
+    devices:
+    - person.martin
+    unit_of_measurement: m
+    tolerance: 50
+device_tracker:
+  - platform: traccar
+    host: localhost
+    port: 18682
+    username: !secret traccar_user
+    password: !secret traccar_pwd
+  - platform: composite
+    name: 'Google Pixel'
+    time_as: device_or_local
+    entity_id:
+      - device_tracker.pixel
+      - device_tracker.phixel
+camera:
+  - platform: mjpeg
+    mjpeg_url: !secret mjpeg_url
+    still_image_url: !secret still_image_url
+    name: Wohnzimmer
+    username: !secret camwhzuser_pwd
+    password: !secret camwhzpass_pwd
+    authentication: basic
+  - platform: mjpeg
+    mjpeg_url: !secret mjpeg_url2
+    name: Wohnzimmer_jpg
+  - platform: combined
+    base_address: !secret base_address
+    entities:
+    - camera.wohnzimmer
+    - camera.wohnzimmer_jpg
+  - platform: local_file
+    file_path: /config/www/deepstack/deepstack_person_detector_latest_person.jpg
+    name: deepstack_latest_person
+unifi:
+  controllers:
+    - host: !secret unifigw_host
+      site: !secret unifigw_site
+      ssid_filter:
+        - !secret ssid_1
+        - !secret ssid_2
+      dont_track_devices: true
+      dont_track_wired_clients: true
+image_processing:
+#  - platform: doods
+#    scan_interval: 1000
+#    timeout: 60
+#    url: "http://localhost:8789"
+#    detector: default
+#    source:
+#      - entity_id: camera.wohnzimmer_jpg
+#    file_out:
+#      - "/tmp/{{ camera_entity.split('.')[1] }}_latest.jpg"
+#      - "/tmp/{{ camera_entity.split('.')[1] }}_{{ now().strftime('%Y%m%d_%H%M%S') }}.jpg"
+  - platform: deepstack_face
+    ip_address: localhost
+    port: 5000
+    api_key: !secret deepstack_api
+    timeout: 5
+    confidence: 60
+    detect_only: False
+    scan_interval: 20
+    source:
+      - entity_id: camera.wohnzimmer_jpg
+        name: face_counter
+  - platform: deepstack_object
+    ip_address: localhost
+    port: 5000
+    api_key: !secret deepstack_api
+    scan_interval: 10
+    save_file_folder: /config/www/deepstack
+    confidence: 60
+    target: person
+    save_timestamped_file: True
+    source:
+      - entity_id: camera.wohnzimmer_jpg
+        name: deepstack_person_detector
+dialogflow:
+intent_script:
+  Temperature:
+    speech:
+      text: The temperature at home is {{ states('sensor.home_temp') }} degrees
+  LocateIntent:
+    speech:
+      text: >
+        {%- for state in states.device_tracker -%}
+          {%- if state.name.lower() == User.lower() -%}
+            {{ state.name }} is at {{ state.state }}
+          {%- elif loop.last -%}
+            I am sorry, I do not know where {{ User }} is.
+          {%- endif -%}
+        {%- else -%}
+          Sorry, I don't have any trackers registered.
+        {%- endfor -%}
+  TurnLights:
+    speech:
+      text: Turning {{ Room }} lights {{ OnOff }}
+    action:
+      - service: notify.pushbullet
+        data_template:
+          message: Someone asked via apiai to turn {{ Room }} lights {{ OnOff }}
+      - service_template: >
+          {%- if OnOff == "on" -%}
+            switch.turn_on
+          {%- else -%}
+            switch.turn_off
+          {%- endif -%}
+        data_template:
+          entity_id: "switch.light_{{ Room | replace(' ', '_') }}"

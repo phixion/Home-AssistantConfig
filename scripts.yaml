@@ -1,0 +1,3 @@
+check_config:
+  sequence: []
+  alias: Check Configuration

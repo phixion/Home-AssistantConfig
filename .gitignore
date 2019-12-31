@@ -1,0 +1,17 @@
+#ignore all
+*
+#whitelist
+!configuration.yaml
+!.gitignore
+!automations.yaml
+!scenes.yaml
+!scripts.yaml
+!groups.yaml
+
+#ensure 
+secrets.yaml
+*.json
+zones.yaml
+*.db
+*.log
+.ip_authenticated.yaml
