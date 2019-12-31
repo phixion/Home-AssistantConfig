@@ -7,4 +7,8 @@ My Smarthome so far:
 - docker host
 - Nexus 9 (running slimrom + HomeHabit as a touchpanel)
 - a couple of shelly relays and a shelly rgb strip controller (WIP)
+- a android TV (nvshield, adb bridge)
+- a google home mini (voice commands etc)
+- android phone (running gpstracker for pressence detection)
+- unifi usg3/unifiap ac-lite/unifi poe switch (presence tetection, internet etc)
 - plus me, a solder iron, a ftdi232 and a laptop running vscode with platformio
