@@ -42,28 +42,40 @@
       hours: 0
       minutes: 5
       seconds: 0
-  condition: 
-    - condition: state
-      entity_id: image_processing.deepstack_person_detector
-      state: "0"
+  #  condition:
+  #    - condition: state
+  #      entity_id: image_processing.deepstack_person_detector
+  #      state: "0"
   action:
     - service: light.turn_off
-      entity_id: 
-#        - light.schalter_bad_light
-#        - light.schalter_flur_whz_light
-#        - light.schalter_whz_light
-#        - light.bulbwhz
-#        - light.bulbkueche
-#        - light.bulbwhzlamp
-#        - light.bulbspotwhztv
-#        - light.bulbspotwhzdesk
-#        - light.bulbbad
+      entity_id:
+        #        - light.schalter_bad_light
+        #        - light.schalter_flur_whz_light
+        #        - light.schalter_whz_light
+        #        - light.bulbwhz
+        #        - light.bulbkueche
+        #        - light.bulbwhzlamp
+        #        - light.bulbspotwhztv
+        #        - light.bulbspotwhzdesk
+        #        - light.bulbbad
         - group.all_lights
-#    - service: switch.turn_on
-#      entity_id: switch.wiser_away_mode
-    - service: climate.turn_off
-      data:
-        entity_id: climate.alle_thermostate
+    - service: switch.turn_on
+      entity_id: switch.wiser_away_mode
+    #    - service: climate.turn_off
+    #      data:
+    #        entity_id: climate.alle_thermostate
+    #    - service: climate.set_hvac_mode
+    #      data:
+    #        entity_id: climate.wiser_wohnzimmer
+    #        hvac_mode: 'off'
+    #    - service: climate.set_hvac_mode
+    #      data:
+    #        entity_id: climate.wiser_bad
+    #        hvac_mode: 'off'
+    #    - service: climate.set_hvac_mode
+    #      data:
+    #        entity_id: climate.wiser_flur
+    #        hvac_mode: 'off'
     - service: switch.turn_off
       entity_id:
         - switch.schalter_bad_relay
@@ -82,8 +94,8 @@
   initial_state: on
   trigger:
     platform: state
-    entity_id: proximity.home
-    to: arrived
+    entity_id: person.martin
+    to: "home"
   condition:
     - condition: time
       after: "16:00:00"
@@ -91,22 +103,33 @@
     - condition: state
       entity_id: "binary_sensor.workday_sensor"
       state: "on"
-    - condition: state
-      entity_id: image_processing.deepstack_person_detector
-      state: "0"
+  #    - condition: state
+  #      entity_id: image_processing.deepstack_person_detector
+  #      state: "0"
   action:
     - service: light.turn_on
       entity_id: light.schalter_flur_whz_light
     - service: light.turn_on
       data:
         entity_id: light.mood_lights
-#        effect: 'Slow Random'
-        flash: short
-#    - service: switch.turn_off
-#      entity_id: switch.wiser_away_mode
+        effect: "Slow Random"
+    - service: switch.turn_off
+      entity_id: switch.wiser_away_mode
     - service: climate.turn_on
       data:
         entity_id: climate.alle_thermostate
+    - service: climate.set_hvac_mode
+      data:
+        entity_id: climate.wiser_wohnzimmer
+        hvac_mode: auto
+    - service: climate.set_hvac_mode
+      data:
+        entity_id: climate.wiser_bad
+        hvac_mode: auto
+    - service: climate.set_hvac_mode
+      data:
+        entity_id: climate.wiser_flur
+        hvac_mode: auto
     - service: notify.pushover
       data:
         title: "🚶 Martin got Home"
@@ -115,25 +138,26 @@
       data:
         message: "Light's and Heating turned ON"
         title: "✅ Light's and Heating turned ON"
-#  action:
-#    - service: media_player.volume_set
-#      data:
-#        entity_id: media_player.android_tv
-#       volume_level: 0.7
-#   - service: media_player.volume_set
-#     data:
-#       entity_id: media_player.shield
-#       volume_level: 0.7
+    #  action:
+    #    - service: media_player.volume_set
+    #      data:
+    #        entity_id: media_player.android_tv
+    #       volume_level: 0.7
+    #   - service: media_player.volume_set
+    #     data:
+    #       entity_id: media_player.shield
+    #       volume_level: 0.7
     - service: media_player.volume_set
       data:
-        entity_id: media_player.shield
-        volume_level: 0.7
+        entity_id: media_player.google_home
+        volume_level: 0.3
     - service: tts.google_cloud_say
-      entity_id: media_player.shield
+      entity_id: media_player.google_home
       data_template:
         message: "Hallo Martin, ich habe dich vermisst. Die Temperatur ist {{states('sensor.climate_wohnung_temp')}} Grad. Ich drehe die Heizung besser etwas auf."
-        cache: false
-- alias: 'Leave Home notification'
+        cache: true
+        cache_dir: /local/tts
+- alias: "Leave Home notification"
   trigger:
     platform: zone
     event: leave
@@ -141,7 +165,7 @@
     entity_id: person.martin
   condition:
     condition: time
-    after: '20:00'
+    after: "20:00"
   action:
     service: notify.pushover
     data_template:
@@ -154,7 +178,7 @@
     to: "off"
   action:
     - service: light.turn_off
-      entity_id: 
+      entity_id:
         - light.bulbkueche
 - alias: "Flur und Kueche an"
   trigger:
@@ -163,7 +187,7 @@
     to: "on"
   action:
     - service: light.turn_on
-      entity_id: 
+      entity_id:
         - light.bulbkueche
 - alias: "Badezimmer besetzt"
   trigger:
@@ -187,17 +211,31 @@
         message: "Event triggered: {{ trigger.entity_id }} changed from {{ trigger.from_state.state }} to {{ trigger.to_state.state }}"
 - id: update_morning_commute_sensor
   alias: "Commute - Update morning commute sensor"
-  initial_state: 'on'
+  initial_state: "on"
   trigger:
     - platform: time_pattern
-      minutes: '/2'
+      minutes: "/2"
   condition:
     - condition: time
-      after: '07:00:00'
-      before: '11:00:00'
+      after: "07:00:00"
+      before: "11:00:00"
     - condition: state
-      entity_id: 'binary_sensor.workday_sensor'
-      state: 'on'
+      entity_id: "binary_sensor.workday_sensor"
+      state: "on"
   action:
     - service: homeassistant.update_entity
       entity_id: sensor.morning_commute
+- id: Notify - youhavebeenpwnd
+  alias: Notify - youhavebeenpwnd
+  initial_state: "on"
+  trigger:
+    - platform: state
+      entity_id: group.security
+      to: "on"
+  condition: []
+  action:
+    - service: notify.pushover
+      data_template:
+        title: "Security issue:"
+        message: "Email address {{ trigger.to_state.attributes.friendly_name }} has been found in a compromised database: {{ trigger.to_state.attributes.breach }}."
+        who: "everyone"
