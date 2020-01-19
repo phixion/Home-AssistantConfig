@@ -10,6 +10,10 @@
 !scripts.yaml
 !sensors.yaml
 !ui-lovelace.yaml
+<<<<<<< Updated upstream
+=======
+!integrations/*
+>>>>>>> Stashed changes
 #ensure
 secrets.yaml
 *.json
