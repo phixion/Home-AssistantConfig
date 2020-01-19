@@ -7,8 +7,10 @@
 !scenes.yaml
 !scripts.yaml
 !groups.yaml
-
-#ensure 
+!scripts.yaml
+!sensors.yaml
+!ui-lovelace.yaml
+#ensure
 secrets.yaml
 *.json
 zones.yaml

@@ -1,3 +1,103 @@
 check_config:
   sequence: []
   alias: Check Configuration
+send_broadcast:
+  sequence:
+    - service: notify.google_assistant
+      data_template:
+        message: "{{ states.input_text.broadcast_message.state }}"
+    - service: input_text.set_value
+      data:
+        entity_id: input_text.broadcast_message
+        value: ""
+send_google_command:
+  sequence:
+    - service: notify.google_assistant_command
+      data_template:
+        message: "{{ states.input_text.google_command.state }}"
+    - service: input_text.set_value
+      data:
+        entity_id: input_text.google_command
+        value: ""
+party_mode_lights_on:
+  alias: Party Mode Lights On
+  sequence:
+    service: light.turn_on
+    data_template:
+      entity_id: light.{{['bulbspotwhzdesk','bulbspotwhztv','bulbwhzlamp','ledstripwhz']|random}}
+      rgb_color:
+        [
+          "{{ (range(0, 255)|random) }}",
+          "{{ (range(0, 255)|random) }}",
+          "{{ (range(0, 255)|random) }}",
+        ]
+      brightness: "{{ (range(250, 255)|random) }}"
+      transition: "{{ (range(1, 2)|random) }}"
+      whitevalue: 0
+lights_mode_party_on:
+  alias: Party on
+  sequence:
+    - service: homeassistant.turn_on
+      entity_id: automation.party_mode_lights_on
+lights_mode_party_off:
+  alias: Party off
+  sequence:
+    - service: automation.turn_off
+      entity_id: automation.party_mode_lights_on
+    - service: script.normal_mode_on
+normal_mode_on:
+  alias: Normal Mode
+  sequence:
+    - service: light.turn_on
+      entity_id: light.mood_lights
+    - service: scene.turn_on
+      entity_id: scene.normal_mode
+bright_mode_on:
+  alias: Bright Mode
+  sequence:
+    - service: light.turn_on
+      entity_id: light.mood_lights
+    - service: scene.turn_on
+      entity_id: scene.bright_mode
+chill_mode_lights_on:
+  alias: Chill Mode Lights On
+  sequence:
+    service: light.turn_on
+    data_template:
+      entity_id: light.{{['bulbspotwhzdesk','bulbspotwhztv','bulbwhzlamp','ledstripwhz']|random}}
+      rgb_color:
+        [
+          "{{ (range(0, 255)|random) }}",
+          "{{ (range(0, 255)|random) }}",
+          "{{ (range(0, 255)|random) }}",
+        ]
+      brightness: "{{ (range(254, 255)|random) }}"
+      transition: "{{ (range(55, 70)|random) }}"
+      white_value: "{{ (range(1, 5)|random) }}"
+      effect: None
+lights_mode_chill_on:
+  alias: Chill on
+  sequence:
+    - service: homeassistant.turn_on
+      entity_id: automation.chill_mode_lights_on
+lights_mode_chill_off:
+  alias: Chill off
+  sequence:
+    - service: automation.turn_off
+      entity_id: automation.chill_mode_lights_on
+    - service: script.normal_mode_on
+pre_chill_mode:
+  alias: Pre Chill Mode
+  sequence:
+    service: light.turn_on
+    data_template:
+      entity_id: light.mood_lights
+      rgb_color:
+        [
+          "{{ (range(0, 255)|random) }}",
+          "{{ (range(0, 255)|random) }}",
+          "{{ (range(0, 255)|random) }}",
+        ]
+      brightness: "{{ (range(220, 255)|random) }}"
+      transition: "1"
+      white_value: 0

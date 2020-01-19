@@ -1,98 +1,25 @@
-#- id: '1577024401468'
-- name: Chill
+- id: bright_mode
+  name: Bright Mode
   entities:
-    light.bulbwhzlamp:
-      brightness: 165
-      color_temp: 0.8853303790092468
-      effect: Slow Random
-      effect_list:
-      - None
-      - Random
-      - Slow Random
-      - Strobe
-      - Flicker
-      - 4 Color Rotation
-      - randomflicker
-      - WTF
-      - 3 Color Strobe
-      - Lightning
-      friendly_name: Wohnzimmer (stehlampe)
-      hs_color:
-      - 0
-      - 100
-      max_mireds: 357.1428527832031
-      min_mireds: 161.2903289794922
-      rgb_color:
-      - 255
-      - 0
-      - 0
-      state: 'on'
-      supported_features: 191
-      white_value: 199
-      xy_color:
-      - 0.701
-      - 0.299
-    light.bulbspotwhzdesk:
+    light.mood_lights:
       brightness: 255
-      color_temp: 0.3666057884693146
-      effect: Slow Random
-      effect_list:
-      - None
-      - Random
-      - Slow Random
-      - Strobe
-      - Flicker
-      - 4 Color Rotation
-      - randomflicker
-      - WTF
-      - 3 Color Strobe
-      - Lightning
-      friendly_name: Spotlight Wohnzimmer
       hs_color:
-      - 282.254
-      - 83.529
-      max_mireds: 357.1428527832031
-      min_mireds: 161.2903289794922
+        - 0
+        - 0
       rgb_color:
-      - 192
-      - 42
-      - 255
-      state: 'on'
-      supported_features: 191
+        - 255
+        - 255
+        - 255
+      state: "on"
       white_value: 255
-      xy_color:
-      - 0.301
-      - 0.124
-    light.spotlight_whz_tv:
-      brightness: 255
-      color_temp: 0.13224104046821594
-      effect: Slow Random
-      effect_list:
-      - None
-      - Random
-      - Slow Random
-      - Strobe
-      - Flicker
-      - 4 Color Rotation
-      - randomflicker
-      - WTF
-      - 3 Color Strobe
-      - Lightning
-      friendly_name: Spotlight Wohnzimmer (Schreibtisch)
-      hs_color:
-      - 25.333
-      - 35.294
-      max_mireds: 357.1428527832031
-      min_mireds: 161.2903289794922
+- id: normal_mode
+  name: Normal Mode
+  entities:
+    light.mood_lights:
+      brightness: 125
       rgb_color:
-      - 255
-      - 202
-      - 165
-      state: 'on'
-      supported_features: 191
-      white_value: 193
-      xy_color:
-      - 0.424
-      - 0.361
-    light.schalter_whz_light:
-      state: 'off'
+        - 255
+        - 255
+        - 255
+      state: "on"
+      white_value: 155
