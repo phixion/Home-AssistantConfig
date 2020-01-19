@@ -10,7 +10,6 @@
 !scripts.yaml
 !sensors.yaml
 !ui-lovelace.yaml
-!integrations/*.yaml
 #ensure
 secrets.yaml
 *.json
