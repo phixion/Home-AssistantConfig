@@ -1,0 +1,9 @@
+unifi:
+  controllers:
+    - host: !secret unifigw_host
+      site: !secret unifigw_site
+      ssid_filter:
+        - !secret ssid_1
+        - !secret ssid_2
+      dont_track_devices: true
+      dont_track_wired_clients: true

@@ -1,0 +1,7 @@
+wiser:
+  host: !secret wiser_host
+  password: !secret wiserapi_pwd
+  scan_interval: 300
+  boost_temp: 4
+  boost_time: 1800
+  minimum: 7

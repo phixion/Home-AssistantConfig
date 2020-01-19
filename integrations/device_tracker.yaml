@@ -1,0 +1,19 @@
+device_tracker:
+  - platform: composite
+    name: "Google Pixel"
+    time_as: device_or_local
+    entity_id:
+      - device_tracker.pixel_gps
+      - device_tracker.pixel_wifi
+      - device_tracker.pixel_ping
+  - platform: composite
+    name: "Google Nexus"
+    time_as: device_or_local
+    entity_id:
+      - device_tracker.nexus_gps
+      - device_tracker.nexus_wifi
+  - platform: nmap_tracker
+    hosts:
+      - !secret host_pixel_wifi
+      - !secret host_nexus_wifi
+    home_interval: 10

@@ -1,0 +1,20 @@
+default_config:
+wake_on_lan:
+config:
+websocket_api:
+system_health:
+hassio:
+esphome:
+conversation:
+map:
+zeroconf:
+cloud:
+ssdp:
+updater:
+  reporting: false
+frontend:
+  javascript_version: latest
+  themes: !include_dir_merge_named ../themes
+discovery:
+  ignore:
+    - sabnzbd

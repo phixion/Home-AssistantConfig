@@ -1,0 +1,16 @@
+tts:
+  - platform: google_translate
+    cache: true
+    cache_dir: /config/tts
+  - platform: google_cloud
+    key_file: !secret google_service_accout_json
+    #    language: "de-DE"
+    #    gender: "female"
+    voice: "de-DE-Standard-A"
+    cache: true
+    cache_dir: /config/tts
+  #    base_url: !secret base_url
+  - platform: watson_tts
+    watson_apikey: !secret ibm_cloud
+    watson_url: !secret ibm_watson_url
+    voice: "de-DE_BirgitV3Voice"

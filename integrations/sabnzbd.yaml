@@ -1,0 +1,18 @@
+sabnzbd:
+  api_key: !secret sabnzbd_pwd
+  host: !secret sabnzbhost
+  name: !secret sabnzbd_usr
+  port: 8243
+  ssl: true
+  sensors:
+    - current_status
+    - speed
+    - queue_size
+    - queue_remaining
+    - disk_size
+    - disk_free
+    - queue_count
+    - day_size
+    - week_size
+    - month_size
+    - total_size

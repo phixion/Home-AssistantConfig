@@ -1,0 +1,53 @@
+recorder:
+  purge_interval: 1
+  purge_keep_days: 30
+  db_url: !secret dburl
+  exclude:
+    entities:
+      - automation.party_mode
+      - automation.chill_mode
+      - automation.lights_chill_mode
+    domains:
+      - updater
+      - camera
+      - media_player
+      - weather
+      - sun
+      - image_processing
+      - script
+logbook:
+  exclude:
+    entities:
+      - automation.party_mode
+      - automation.chill_mode
+      - automation.lights_chill_mode
+      - script.party_mode_lights_on
+      - script.pre_chill_mode
+      - script.lights_mode_chill_off
+      - script.lights_mode_chill_on
+      - script.chill_mode_lights_on
+    domains:
+      - updater
+      - camera
+      - media_player
+      - weather
+      - sun
+      - image_processing
+history:
+  exclude:
+    entities:
+      - automation.party_mode
+      - automation.chill_mode
+      - automation.lights_chill_mode
+      - script.party_mode_lights_on
+      - script.pre_chill_mode
+      - script.lights_mode_chill_off
+      - script.lights_mode_chill_on
+      - script.chill_mode_lights_on
+    domains:
+      - updater
+      - camera
+      - media_player
+      - weather
+      - sun
+      - image_processing

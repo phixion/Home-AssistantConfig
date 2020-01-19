@@ -1,0 +1,14 @@
+google_assistant:
+  project_id: !secret gproject_id
+  service_account: !secret google_service_accout_json_file
+  report_state: false
+  expose_by_default: false
+  #  api_key: !secret google_assistantapikey_pwd
+  exposed_domains:
+    - light
+    - switch
+    - camera
+    #    - input_boolean
+    - scene
+    - sensor
+#    - climate

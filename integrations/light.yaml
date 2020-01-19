@@ -1,0 +1,36 @@
+light:
+  - platform: group
+    name: All Bulbs
+    entities:
+      - light.bulbflur
+      - light.bulbkueche
+      - light.bulbwhzlamp
+      - light.bulbbad
+      - light.schalter_bad_light
+      - light.schalter_flur_whz_light
+      - light.schalter_whz_light
+  - platform: group
+    name: All Spotlights
+    entities:
+      - light.bulbspotwhzdesk
+      - light.bulbspotwhztv
+  - platform: group
+    name: All Lights
+    entities:
+      - light.all_bulbs
+      - light.all_spotlights
+  - platform: group
+    name: Mood Lights
+    entities:
+      - light.bulbspotwhzdesk
+      - light.bulbspotwhztv
+      - light.bulbwhzlamp
+      - light.ledstripwhz
+# magichome led strip (destroyed by hias)
+#  - platform: flux_led
+#    automatic_add: true
+#    scan_interval: 30
+#    devices:
+#      10.10.10.135:
+#        name: rgbwstrip
+#        mode: "rgb"

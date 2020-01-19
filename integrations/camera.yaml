@@ -1,0 +1,51 @@
+camera:
+  - platform: generic
+    still_image_url: https://www.yr.no/place/Germany/Bavaria/Munich/meteogram.svg
+    name: Weather
+    content_type: "image/svg+xml"
+  - platform: mjpeg
+    mjpeg_url: !secret mjpeg_url
+    name: Wohnzimmer
+  - platform: local_file
+    file_path: "/config/tmp/wohnzimmer_latest.jpg"
+    name: Tensorflow Wohnzimmer
+  #  - platform: local_file
+  #    file_path: "/config/tmp/marienplatz_latest.jpg"
+  #    name: Tensorflow Marienplatz
+  #  - platform: local_file
+  #    file_path: "/config/tmp/marienplatz_beck_latest.jpg"
+  #    name: Tensorflow Marienplatz Beck
+  #  - platform: local_file
+  #    file_path: "/config/tmp/westin_grand_latest.jpg"
+  #    name: Tensorflow Westin Grand
+  #  - platform: local_file
+  #    file_path: "/config/tmp/studentenstadt_latest.jpg"
+  #    name: Tensorflow Studentenstadt
+  #  - platform: local_file
+  #    file_path: "/config/tmp/freimann_latest.jpg"
+  #    name: Tensorflow Freimann
+  #  - platform: local_file
+  #    file_path: "/config/tmp/wiener_platz_latest.jpg"
+  #    name: Tensorflow Wiener Platz
+  - platform: mjpeg
+    mjpeg_url: "https://app.muenchen.de/webcam/marienplatz//marienplatzgross000M.jpg"
+    name: Marienplatz
+  - platform: mjpeg
+    mjpeg_url: "http://ftp.kaufhaus.ludwigbeck.de/webcam/webcam.jpg"
+    name: Marienplatz Beck
+  - platform: mjpeg
+    mjpeg_url: "https://images-webcams.windy.com/10/1512053210/current/full/1512053210.jpg"
+    name: Westin Grand
+  - platform: mjpeg
+    mjpeg_url: "https://www.foto-webcam.eu/webcam/freimann/current/1200.jpg"
+    name: Freimann
+  - platform: mjpeg
+    mjpeg_url: "https://www.foto-webcam.eu/webcam/muenchen/current/1200.jpg"
+    name: Studentenstadt
+  - platform: mjpeg
+    mjpeg_url: "http://hb-webcam.registrierung.net/biergarten.jpg"
+    name: Wiener Platz
+#  - platform: generic
+#    name: Google Maps
+#    still_image_url: https://maps.googleapis.com/maps/api/staticmap?center={{ state_attr('sensor.martin', 'current_latitude') }},{{ state_attr('sensor.martin', 'current_longitude') }}&zoom=13&size=500x500&maptype=roadmap&markers=color:blue%7Clabel:Martin%7C{{ state_attr('sensor.martin', 'current_latitude') }},{{ state_attr('sensor.martin', 'current_longitude') }}&key='!secret google_assistantapikey_pwd'
+#    limit_refetch_to_url_change: true

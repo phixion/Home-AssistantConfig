@@ -1,0 +1,7 @@
+climate:
+  - platform: climate_group
+    name: "Alle Thermostate"
+    entities:
+      - climate.wiser_bad
+      - climate.wiser_flur
+      - climate.wiser_wohnzimmer

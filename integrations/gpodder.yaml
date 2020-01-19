@@ -1,0 +1,7 @@
+gpodder:
+  username: !secret gpodder_user
+  password: !secret gpodder_password
+  sensor:
+    - enabled: true
+      name: podcasts
+      device: hassio

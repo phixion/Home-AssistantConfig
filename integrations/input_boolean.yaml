@@ -1,0 +1,4 @@
+input_boolean:
+  home_mode_party:
+    name: Party Mode
+    initial: off
