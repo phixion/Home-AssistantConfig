@@ -1,25 +1,158 @@
-- id: bright_mode
-  name: Bright Mode
+- id: mood_lights_normal_mode_on
+  name: Mood Lights Normal Mode on
   entities:
     light.mood_lights:
       brightness: 255
+      color_temp: 357
+      effect: None
       hs_color:
-        - 0
-        - 0
+      - 0
+      - 0
+      max_mireds: 357.1428527832031
+      min_mireds: 161.2903289794922
       rgb_color:
-        - 255
-        - 255
-        - 255
-      state: "on"
+      - 255
+      - 255
+      - 255
+      state: 'on'
+      supported_features: 191
       white_value: 255
-- id: normal_mode
-  name: Normal Mode
+      xy_color:
+      - 0.323
+      - 0.329
+      transition: 3
+- id: mood_lights_off_mode
+  name: Mood Lights Off Mode
   entities:
     light.mood_lights:
-      brightness: 125
+      transition: 3
+      state: 'off'
+      effect: None
+- id: all_lights_off_mode
+  name: All Off Mode
+  entities:
+    light.all_lights:
+      friendly_name: All Lights
+      state: 'off'
+- id: chill_mode_on
+  name: Chill Mode On
+  entities:
+    light.mood_lights:
+      brightness: 255
+      color_temp: 119
+      effect: Chill Mode
+      effect_list:
+      - Disco
+      - randomflicker
+      - Lightning
+      - Candle
+      - Chill Mode
+      - Chill Mode (Vibrant)
+      - None
+      - WTF
+      friendly_name: Mood Lights
+      hs_color:
+      - 225.205
+      - 57.255
+      max_mireds: 357.1428527832031
+      min_mireds: 161.2903289794922
       rgb_color:
-        - 255
-        - 255
-        - 255
-      state: "on"
-      white_value: 155
+      - 108
+      - 145
+      - 255
+      state: 'on'
+      supported_features: 191
+      white_value: 0
+      xy_color:
+      - 0.192
+      - 0.176
+- id: '1579975225860'
+  name: Teal
+  entities:
+    light.mood_lights:
+      brightness: 255
+      color_temp: 0
+      effect: None
+      effect_list:
+      - randomflicker
+      - Candle
+      - Chill Mode
+      - Lightning
+      - WTF
+      - None
+      friendly_name: Mood Lights
+      hs_color:
+      - 184.875
+      - 62.745
+      max_mireds: 357.1428527832031
+      min_mireds: 161.2903289794922
+      rgb_color:
+      - 95
+      - 242
+      - 255
+      state: 'on'
+      supported_features: 191
+      white_value: 121
+      xy_color:
+      - 0.179
+      - 0.321
+- id: '1579975278489'
+  name: Purple
+  entities:
+    light.mood_lights:
+      brightness: 255
+      color_temp: 0
+      effect: None
+      effect_list:
+      - randomflicker
+      - Candle
+      - Chill Mode
+      - Lightning
+      - WTF
+      - None
+      friendly_name: Mood Lights
+      hs_color:
+      - 271.765
+      - 100
+      max_mireds: 357.1428527832031
+      min_mireds: 161.2903289794922
+      rgb_color:
+      - 135
+      - 0
+      - 255
+      state: 'on'
+      supported_features: 191
+      white_value: 121
+      xy_color:
+      - 0.227
+      - 0.082
+- id: '1579975387765'
+  name: Red
+  entities:
+    light.mood_lights:
+      brightness: 255
+      color_temp: 0
+      effect: None
+      effect_list:
+      - randomflicker
+      - Candle
+      - Chill Mode
+      - Lightning
+      - WTF
+      - None
+      friendly_name: Mood Lights
+      hs_color:
+      - 345.176
+      - 100
+      max_mireds: 357.1428527832031
+      min_mireds: 161.2903289794922
+      rgb_color:
+      - 255
+      - 0
+      - 63
+      state: 'on'
+      supported_features: 191
+      white_value: 121
+      xy_color:
+      - 0.667
+      - 0.284

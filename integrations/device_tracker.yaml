@@ -1,5 +1,6 @@
 device_tracker:
   - platform: composite
+    consider_home: 600
     name: "Google Pixel"
     time_as: device_or_local
     entity_id:
@@ -12,8 +13,19 @@ device_tracker:
     entity_id:
       - device_tracker.nexus_gps
       - device_tracker.nexus_wifi
-  - platform: nmap_tracker
-    hosts:
-      - !secret host_pixel_wifi
-      - !secret host_nexus_wifi
-    home_interval: 10
+      - device_tracker.nexus_ping
+#  - platform: ping
+#    count: 2
+#    hosts:
+#      pixel_ping: !secret host_pixel_wifi
+#      nexus_ping: !secret host_nexus_wifi
+#      cray_ping: !secret host_cray_ethernet
+#      macbookair11_ping: !secret host_macbookair11_wifi
+#      macbookair13_ping: !secret host_macbookair13_wifi
+#      shield_ping: !secret host_shield_ethernet
+#      omega_ping: !secret host_omega_ethernet
+#      theta_ping: !secret host_theta_ethernet
+#  - platform: arpscan_tracker
+#    interval_seconds: 15
+#    consider_home: 60
+#    track_new_devices: false

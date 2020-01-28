@@ -4,9 +4,57 @@ recorder:
   db_url: !secret dburl
   exclude:
     entities:
-      - automation.party_mode
-      - automation.chill_mode
-      - automation.lights_chill_mode
+      - sensor.tram
+      - sensor.bus
+      - sensor.u_bahn
+      - sensor.alert
+      - sensor.battery_level_google_nexus
+      - sensor.battery_level_google_pixel
+      - sensor.bad_wifi_signal
+      - sensor.flur_wifi_signal
+      - sensor.kueche_wifi_signal
+      - sensor.schalter_lavalampe_wifi_signal
+      - sensor.schalter_whz_wifi_signal
+      - sensor.schalter_bad_wifi_signal
+      - sensor.schalter_kueche_wifi_signal
+      - sensor.schalter_flur_whz_wifi_signal
+      - sensor.sonoff_pow_r2_tv_wifi_signal
+      - sensor.sonoff_th16_whz_wifi_signal
+      - sensor.sonoff_pow_r2_whz_wifi_signal
+      - sensor.bulbspotwhztv_wifi_signal
+      - sensor.bulbspotdesk_wifi_signal
+      - sensor.wohnzimmer_stehlampe_wifi_signal
+      - sensor.led_strip_wohnzimmer_1_wifi_signal
+      - sensor.led_strip_wohnzimmer_2_wifi_signal
+      - sensor.led_strip_wohnzimmer_3_wifi_signal
+      - sensor.load_1m
+      - sensor.load_5m
+      - sensor.load_15m
+      - sensor.last_boot
+      - sensor.btc_exchange_rate
+      - sensor.dark_sky_apparent_temperature
+      - sensor.dark_sky_cloud_coverage
+      - sensor.dark_sky_dew_point
+      - sensor.dark_sky_humidity
+      - sensor.dark_sky_ozone
+      - sensor.dark_sky_precip
+      - sensor.dark_sky_precip_intensity
+      - sensor.dark_sky_precip_probability
+      - sensor.dark_sky_pressure
+      - sensor.dark_sky_temperature
+      - sensor.dark_sky_uv_index
+      - sensor.dark_sky_visibility
+      - sensor.dark_sky_wind_bearing
+      - sensor.dark_sky_wind_speed
+      - sensor.circadian_values
+      - sensor.climate_flur_battery
+      - sensor.climate_roomstat_battery
+      - sensor.climate_wohnzimmer_battery
+      - sensor.climate_bad_battery
+      - sensor.climate_flur_battery_voltage
+      - sensor.climate_roomstat_battery_voltage
+      - sensor.climate_wohnzimmer_battery_voltage
+      - sensor.climate_bad_battery_voltage
     domains:
       - updater
       - camera
@@ -14,18 +62,11 @@ recorder:
       - weather
       - sun
       - image_processing
-      - script
+      - automation
 logbook:
   exclude:
     entities:
-      - automation.party_mode
-      - automation.chill_mode
-      - automation.lights_chill_mode
-      - script.party_mode_lights_on
-      - script.pre_chill_mode
-      - script.lights_mode_chill_off
-      - script.lights_mode_chill_on
-      - script.chill_mode_lights_on
+      - automation.update_morning_commute_sensor
     domains:
       - updater
       - camera
@@ -36,14 +77,13 @@ logbook:
 history:
   exclude:
     entities:
-      - automation.party_mode
-      - automation.chill_mode
-      - automation.lights_chill_mode
-      - script.party_mode_lights_on
-      - script.pre_chill_mode
-      - script.lights_mode_chill_off
-      - script.lights_mode_chill_on
-      - script.chill_mode_lights_on
+      - automation.update_morning_commute_sensor
+      - sensor.last_boot
+      - sensor.date
+      - sensor.since_last_boot
+      - sensor.since_last_boot_templated
+      - sensor.ha_uptime
+      - sensor.time
     domains:
       - updater
       - camera
@@ -51,3 +91,9 @@ history:
       - weather
       - sun
       - image_processing
+
+logger:
+  default: warning
+  logs:
+    homeassistant.components.http.ban: warning
+    homeassistant.components.google_assistant.http: debug

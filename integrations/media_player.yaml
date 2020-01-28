@@ -1,7 +1,7 @@
 media_player:
   - platform: androidtv
     host: !secret host_androidtv
-    name: Android TV
+    name: TV
     device_class: androidtv
     adb_server_ip: localhost
     adb_server_port: 5037

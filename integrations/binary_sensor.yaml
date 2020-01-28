@@ -1,32 +1,38 @@
 binary_sensor:
-- platform: workday
-  country: DE
-  excludes: [sat, sun, holiday]
-  province: BY
-  add_holidays:
-    - 2019-12-24
-- platform: template
-  sensors:
-    dark_outside:
-      value_template: "{{ is_state('sun.sun', 'below_horizon') }}"
-      friendly_name: "Dark Outside"
-- platform: bayesian
-  prior: 0.5
-  name: "Martin's Presence"
-  probability_threshold: 0.9
-  observations:
-    - entity_id: "device_tracker.pixel_gps"
-      prob_given_true: 0.9
-      prob_given_false: 0.4
-      platform: "state"
-      to_state: "home"
-    - entity_id: "device_tracker.pixel_wifi"
-      prob_given_true: 0.9
-      prob_given_false: 0.2
-      platform: "state"
-      to_state: "home"
-    - entity_id: "device_tracker.pixel_ping"
-      prob_given_true: 0.9
-      prob_given_false: 0.1
-      platform: "state"
-      to_state: "home"
+  - platform: workday
+    country: DE
+    excludes: [sat, sun, holiday]
+    province: BY
+    add_holidays:
+      - 2019-12-24
+  - platform: template
+    sensors:
+      dark_outside:
+        value_template: "{{ is_state('sun.sun', 'below_horizon') }}"
+        friendly_name: "Dark Outside"
+  - platform: bayesian
+    prior: 0.5
+    name: "Martin's Presence"
+    probability_threshold: 0.9
+    observations:
+      - entity_id: "device_tracker.pixel_gps"
+        prob_given_true: 0.9
+        prob_given_false: 0.4
+        platform: "state"
+        to_state: "home"
+      - entity_id: "device_tracker.pixel_wifi"
+        prob_given_true: 0.9
+        prob_given_false: 0.2
+        platform: "state"
+        to_state: "home"
+      - entity_id: "device_tracker.pixel_ping"
+        prob_given_true: 0.9
+        prob_given_false: 0.1
+        platform: "state"
+        to_state: "home"
+  - platform: template
+    sensors:
+      cray_turned_on:
+        value_template: "{{ is_state('device_tracker.cray_ping', 'home') }}"
+        friendly_name: "Cray"
+

@@ -11,3 +11,36 @@ utility_meter:
   energy_consumed_monthly_whz_1:
     source: sensor.energy_consumtion_whz_1
     cycle: monthly
+  energy_consumed_yearly_whz_1:
+    source: sensor.energy_consumtion_whz_1
+    cycle: yearly
+  energy_consumed_hourly_whz_2:
+    source: sensor.energy_consumtion_whz_2
+    cycle: hourly
+  energy_consumed_daily_whz_2:
+    source: sensor.energy_consumtion_whz_2
+    cycle: daily
+  energy_consumed_weekly_whz_2:
+    source: sensor.energy_consumtion_whz_2
+    cycle: weekly
+  energy_consumed_monthly_whz_2:
+    source: sensor.energy_consumtion_whz_2
+    cycle: monthly
+  energy_consumed_yearly_whz_2:
+    source: sensor.energy_consumtion_whz_2
+    cycle: yearly
+  energy_consumed_hourly_combined:
+    source: sensor.energy_consumtion_combined
+    cycle: hourly
+  energy_consumed_daily_combined:
+    source: sensor.energy_consumtion_combined
+    cycle: daily
+  energy_consumed_weekly_combined:
+    source: sensor.energy_consumtion_combined
+    cycle: weekly
+  energy_consumed_monthly_combined:
+    source: sensor.energy_consumtion_combined
+    cycle: monthly
+  energy_consumed_yearly_combined:
+    source: sensor.energy_consumtion_combined
+    cycle: yearly

@@ -1,1 +1,23 @@
-[]
+#energy_consumtion_combined:
+#  entities:
+#    - sensor.energy_consumtion_whz_1
+#    - sensor.energy_consumtion_whz_2
+#energy_combined_current:
+#  entities:
+#    - sensor.sonoff_pow_r2_tv_current
+#    - sensor.sonoff_pow_r2_whz_current
+#energy_combined_power:
+#  entities:
+#    - sensor.sonoff_pow_r2_tv_power
+#    - sensor.sonoff_pow_r2_whz_power
+#energy_combined_voltage:
+#  entities:
+#    - sensor.sonoff_pow_r2_tv_voltage
+#    - sensor.sonoff_pow_r2_whz_voltage
+  automation_view:
+    name: Automation
+    view: yes
+    entities:
+      - group.all_automations
+      - group.all_scripts
+

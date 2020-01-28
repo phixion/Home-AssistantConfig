@@ -1,4 +1,7 @@
-input_boolean:
-  home_mode_party:
-    name: Party Mode
-    initial: off
+#input_boolean:
+#  home_mode_chill:
+#    name: Chill Mode
+#    initial: off
+#  light_mode_bright:
+#    name: Bright Mode
+#    initial: off

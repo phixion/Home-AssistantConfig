@@ -2,7 +2,8 @@
   trigger:
     platform: state
     entity_id: person.martin
-    to: not_home
+    from: "home"
+    to: "not_home"
     for:
       hours: 12
       minutes: 0
@@ -32,27 +33,27 @@
   trigger:
     platform: state
     entity_id: person.martin
-    to: not_home
+    from: "home"
+    to: "not_home"
     for:
       hours: 0
       minutes: 5
       seconds: 0
   action:
-    - service: light.turn_off
-      entity_id:
-        - group.all_lights
     - service: switch.turn_on
       entity_id: switch.wiser_away_mode
-    - service: switch.turn_off
+    - service: light.turn_off
       entity_id:
-        - switch.schalter_bad_relay
-        - switch.schalter_flur_whz_relay
-        - switch.schalter_whz_relay
+        - light.schalter_bad_light
+        - light.schalter_flur_whz_light
+        - light.schalter_whz_light
+    - service: light.turn_off
+      entity_id:
+        - light.mood_lights
     - service: media_player.turn_off
       entity_id:
         - media_player.android_tv
         - media_player.shield
-        - media_player.google_home
     - service: notify.pushover
       data_template:
         message: Temperatur ist {{states('sensor.climate_wohnung_temp')}}
@@ -64,10 +65,8 @@
     entity_id: person.martin
     to: home
   action:
-    - service: switch.turn_on
-      entity_id: switch.schalter_flur_whz_relay
-    - service: script.turn_on
-      entity_id: script.chill_mode
+    - service: light.turn_on
+      entity_id: light.schalter_flur_whz_light
     - service: switch.turn_off
       entity_id: switch.wiser_away_mode
     - service: climate.turn_on
@@ -93,50 +92,29 @@
       data_template:
         message: Temperatur ist {{states('sensor.climate_wohnung_temp')}}
         title: ✅ Light's and Heating turned ON
-    - delay: 00:00:02
     - service: media_player.turn_on
       entity_id: media_player.google_home
+    - delay: 00:00:02
     - service: notify.google_assistant
       entity_id: media_player.google_home
       data:
         message: Hallo Martin
-    - delay: 00:00:04
-    - service: media_player.turn_off
-      entity_id: media_player.google_home
   id: df47ca4915274cf494fc429ae46aa3b1
 - alias: Leave Home notification
   trigger:
-    platform: zone
-    event: leave
-    zone: zone.home
+    platform: state
     entity_id: person.martin
-  condition:
-    condition: time
-    after: "20:00"
+    from: "home"
+    to: "not_home"
+  #  condition:
+  #    condition: time
+  #    after: "20:00"
   action:
     service: notify.pushover
     data_template:
       title: 🚶 Martin left the flat
       message: "Event triggered: {{ trigger.entity_id }} changed from {{ trigger.from_state.state }} to {{ trigger.to_state.state }}"
   id: aebd69cf232b488ca078745e1c1bdf4f
-- alias: Wohnzimmer Lichtschalter aus
-  trigger:
-    platform: state
-    entity_id: switch.schalter_whz_relay
-    to: "off"
-  action:
-    - service: scene.turn_on
-      data:
-        entity_id: scene.chill
-- alias: Wohnzimmer Lichtschalter an
-  trigger:
-    platform: state
-    entity_id: switch.schalter_whz_relay
-    to: "on"
-  action:
-    - service: scene.turn_on
-      data:
-        entity_id: scene.all_bright
 - alias: Badezimmer besetzt
   trigger:
     platform: state
@@ -160,7 +138,7 @@
         message: " "
   id: 2459b936fc0442459411361ba69453af
 - id: update_morning_commute_sensor
-  alias: Commute - Update morning commute sensor
+  alias: Update morning commute sensor
   trigger:
     - platform: time_pattern
       minutes: /2
@@ -206,31 +184,15 @@
       data_template:
         title: ₿ Coinbase Wallet Value changed
         message: "Event triggered: {{ trigger.entity_id }} changed from {{ trigger.from_state.state }} to {{ trigger.to_state.state }}"
-- alias: Party Mode
+- alias: Xur
   trigger:
-    platform: time_pattern
-    seconds: "/2" # {{ "/" ~ ((range(2, 5) | random) | int) }}
+    - platform: state
+      entity_id: sensor.wtfisxur
+  condition:
+    - condition: template
+      value_template: "{{trigger.from_state.state != trigger.to_state.state}}"
   action:
-    service: script.party_mode_lights_on
-- alias: "Lights Party Mode"
-  id: "Lights Party Mode"
-  trigger:
-    platform: state
-    entity_id: input_boolean.home_mode_party
-  action:
-    service_template: >
-      script.lights_mode_party_{{ trigger.to_state.state }}
-- alias: Chill Mode
-  trigger:
-    platform: time_pattern
-    seconds: "/55" # {{ "/" ~ ((range(50, 70) | random) | int) }}
-  action:
-    service: script.chill_mode_lights_on
-- alias: "Lights Chill Mode"
-  id: "Lights Chill Mode"
-  trigger:
-    platform: state
-    entity_id: input_boolean.home_mode_chill
-  action:
-    service_template: >
-      script.lights_mode_chill_{{ trigger.to_state.state }}
+    - service: notify.pushover
+      data_template:
+        title: Xur changed location
+        message: "Find him at: {{states('sensor.wtfisxur')}}"

@@ -1,0 +1,16 @@
+notify:
+  - name: pushover
+    platform: pushover
+    api_key: !secret pushover_api_pwd
+    user_key: !secret pushover_user_pwd
+  - name: android
+    platform: nfandroidtv
+    host: !secret host_androidtv
+    position: top-right
+    fontsize: medium
+  - name: Google Assistant
+    platform: rest
+    resource: !secret google_assistant_webserver_bc
+  - name: Google Assistant Command
+    platform: rest
+    resource: !secret google_assistant_webserver_cmd

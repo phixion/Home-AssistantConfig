@@ -1,0 +1,37 @@
+switch:
+  - platform: template
+    switches:
+      chill_mode:
+        friendly_name: Chill Mode
+        value_template: "{{ is_state('chill_mode', 'on') }}"
+        turn_on:
+          service: scene.turn_on
+          entity_id: scene.chill_mode_on
+        turn_off:
+          service: scene.turn_on
+          entity_id: scene.mood_lights_normal_mode_on
+  - platform: circadian_lighting
+    lights_rgb:
+          - light.mood_lights
+    lights_ct:
+          - light.bulbkueche
+          - light.bulbbad
+          - light.bulbflur
+  - platform: rest
+    resource: http://127.0.0.1:8126/container/portainer
+    name: Portainer
+    body_on: '{"state": "start"}'
+    body_off: '{"state": "stop"}'
+    is_on_template: '{{ value_json is not none and value_json.state == "running" }}'
+  - platform: rest
+    resource: http://127.0.0.1:8126/container/unifibrowser
+    name: Unifi Browser
+    body_on: '{"state": "start"}'
+    body_off: '{"state": "stop"}'
+    is_on_template: '{{ value_json is not none and value_json.state == "running" }}'
+  - platform: rest
+    resource: http://127.0.0.1:8126/container/addon_a0d7b954_unifi
+    name: Unifi Controller
+    body_on: '{"state": "start"}'
+    body_off: '{"state": "stop"}'
+    is_on_template: '{{ value_json is not none and value_json.state == "running" }}'
