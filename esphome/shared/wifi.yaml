@@ -1,0 +1,10 @@
+  networks:
+    - ssid: !secret iot_ssid
+      password: !secret phixnet_wifi_iot_pwd
+      hidden: true
+  fast_connect: true
+  domain: !secret domain
+  power_save_mode: none
+  ap:
+    ssid: !secret fallback_ssid
+    password: !secret fallback_wifi_pwd

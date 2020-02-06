@@ -1,0 +1,86 @@
+#- random:
+#    name: Chill Mode
+#    transition_length: 55s
+#    update_interval: 70s
+- lambda:
+    name: randomflicker
+    update_interval: 200 ms
+    lambda: |-
+      auto call = id($devicename).turn_on();
+      float r = random_float() * 2.0f - 1.0f; 
+      r =  r * r * r;
+      call.set_transition_length(r);
+      static double br=id(global_brightness);
+      call.set_brightness(br + r/10);
+      call.set_publish(false);
+      call.set_save(false);
+      call.perform();
+- lambda:
+    name: Chill Mode
+    update_interval: 70s
+    lambda: |-
+      auto call = id($devicename).turn_on();
+      call.set_transition_length(55000);
+      call.set_white(0.0);
+      light::ESPColor c = light::ESPColor::random_color();
+      call.set_rgb((c.red%255)/255.0, (c.green%255)/255.0, (c.blue%255)/255.0);
+      call.perform();
+- lambda:
+    name: Chill Mode (Vibrant)
+    update_interval: 70s
+    lambda: |-
+      auto call = id($devicename).turn_on();
+      call.set_transition_length(55000);
+      call.set_white(0.0);
+      light::ESPColor c = light::ESPColor::random_color();
+      call.set_rgb((c.red%128)/255.0, (c.green%128)/255.0, (c.blue%128)/255.0);
+      call.perform();
+- lambda:
+    name: Disco
+    update_interval: 500ms
+    lambda: |-
+      auto call = id($devicename).turn_on();
+      call.set_transition_length(500);
+      call.set_white(0.0);
+      light::ESPColor c = light::ESPColor::random_color();
+      call.set_rgb((c.red)/255.0, (c.green)/255.0, (c.blue)/255.0);
+      call.perform();
+- lambda:
+    name: WTF
+    update_interval: 200ms
+    lambda: |-
+      auto call = id($devicename).turn_on();
+      call.set_transition_length(200);
+      call.set_white(0.0);
+      call.set_brightness((rand() % 255 + 1) / 255.0);
+      call.set_color_temperature(rand() % 2 == 0 ? 0: 512);
+      call.perform();
+- strobe:
+    name: Lightning
+    colors:
+      - state: True
+        brightness: 100%
+        red: 90%
+        green: 90%
+        blue: 100%
+        duration: 50ms
+      - state: False
+        duration: 50ms
+      - state: True
+        brightness: 100%
+        red: 90%
+        green: 90%
+        blue: 100%
+        duration: 160ms
+      - state: False
+        duration: 50ms
+      - state: True
+        brightness: 100%
+        red: 90%
+        green: 90%
+        blue: 100%
+        duration: 50ms
+      - state: False
+        duration: 3000ms
+- flicker:
+    name: Candle

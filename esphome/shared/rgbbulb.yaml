@@ -1,0 +1,10 @@
+  - platform: rgb
+    name: $devicename
+    id: $devicename
+    red: output_red
+    green: output_green
+    blue: output_blue
+    default_transition_length: 3s
+    restore_mode: RESTORE_DEFAULT_OFF
+    effects:
+      !include effects.yaml

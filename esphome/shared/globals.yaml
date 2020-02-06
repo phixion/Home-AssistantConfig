@@ -1,0 +1,4 @@
+  - id: global_brightness
+    type: double
+    restore_value: no
+    initial_value: "0.7"

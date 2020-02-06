@@ -16,7 +16,7 @@
 !esphome/*.yaml
 #esphome/shared
 !shared
-!shared/*.yaml
+!esphome/shared/*.yaml
 #ensure
 secrets.yaml
 *.json
