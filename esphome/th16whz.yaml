@@ -1,0 +1,96 @@
+substitutions:
+  devicename: th16whz
+  friendly_name: "Sonoff TH16 (WHZ)"
+  update_interval_short: 2s
+  update_interval_long: 2min
+esphome:
+  esp8266_restore_from_flash: true
+  name: $devicename
+  platform: ESP8266
+  board: esp01_1m
+  board_flash_mode: dout
+i2c:
+wifi: !include shared/wifi.yaml
+time: !include shared/time.yaml
+web_server: !include shared/webserver.yaml
+captive_portal:
+api:
+  password: !secret esphome_api_pwd
+  reboot_timeout: 1h
+ota:
+  safe_mode: true
+  password: !secret esphome_ota_pwd
+logger:
+  baud_rate: 0
+uart:
+  rx_pin: RX
+  baud_rate: 4800
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: GPIO0
+      mode: INPUT_PULLUP
+      inverted: True
+    name: ${friendly_name} Button
+    on_press:
+      - switch.toggle: ${devicename}_button
+sensor:
+  - platform: wifi_signal
+    name: ${friendly_name} WiFi Signal
+    update_interval: ${update_interval_long}
+    unit_of_measurement: db
+    icon: "mdi:wifi"
+  - platform: uptime
+    name: ${friendly_name} Uptime
+    filters:
+      - lambda: return x / 60.0;
+    unit_of_measurement: minutes
+    icon: "mdi:alarm"
+  - platform: dht
+    pin: GPIO14
+    model: SI7021
+    temperature:
+      name: ${friendly_name} Temperatur Sensor
+      unit_of_measurement: "°C"
+      icon: "mdi:thermometer-lines"
+      accuracy_decimals: 1
+      force_update: true
+    humidity:
+      name: ${friendly_name} Humidity Sensor
+      accuracy_decimals: 0
+      force_update: true
+      icon: "mdi:water-percent"
+switch:
+  - platform: restart
+    name: ${friendly_name} Restart
+  - platform: template
+    restore_state: true
+    name: ${friendly_name} Relay
+    optimistic: true
+    internal: true
+    id: ${devicename}_button
+    turn_on_action:
+      - switch.turn_on: relay
+      - light.turn_on: led
+    turn_off_action:
+      - switch.turn_off: relay
+      - light.turn_off: led
+  - platform: gpio
+    id: relay
+    pin: GPIO12
+    restore_mode: ALWAYS_ON
+output:
+  #  - platform: gpio
+  #    pin: GPIO12
+  #    id: relay_${devicename}
+  - platform: esp8266_pwm
+    id: th_blue_led
+    pin:
+      number: GPIO13
+      inverted: True
+light:
+  - platform: monochromatic
+    internal: true
+    name: ${friendly_name} Blue LED
+    output: th_blue_led
+    id: led

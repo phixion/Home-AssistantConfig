@@ -1,0 +1,43 @@
+substitutions:
+  devicename: bulbwhzlamp
+  friendly_name: "Wohnzimmer Stehlampe"
+  update_interval: 10min
+  frequency_rgb: 1000 Hz
+  frequency_cw: 1000 Hz
+  frequency_ww: 1000 Hz
+esphome:
+  esp8266_restore_from_flash: true
+  name: $devicename
+  platform: ESP8266
+  board: esp01_1m
+  on_boot:
+    priority: 100
+    then:
+      - light.turn_on:
+          state: True
+          id: $devicename
+          transition_length: 3s
+globals: !include shared/globals.yaml
+web_server: !include shared/webserver.yaml
+time: !include shared/time.yaml
+sensor: !include shared/sensors.yaml
+binary_sensor: !include shared/binarysensors.yaml
+#output: !include shared/rgbwspotoutput.yaml
+output: !include shared/rgbwoutput.yaml
+light: !include shared/rgbwbulb.yaml
+text_sensor: !include shared/textsensors.yaml
+wifi: !include shared/wifi.yaml
+captive_portal:
+api:
+  password: !secret esphome_api_pwd
+ota:
+  safe_mode: true
+  password: !secret esphome_ota_pwd
+logger:
+  baud_rate: 0
+uart:
+  rx_pin: RX
+  baud_rate: 4800
+switch:
+  - platform: restart
+    name: ${friendly_name} Restart

@@ -1,0 +1,54 @@
+#Luminea ZX... LAC
+substitutions:
+  devicename: ledstripwhz1
+  friendly_name: "LED Strip Wohnzimmer 1"
+  update_interval: 10min
+  frequency_rgb: 1000 Hz
+  frequency_w: 1000 Hz
+esphome:
+  esp8266_restore_from_flash: true
+  name: $devicename
+  platform: ESP8266
+  board: esp01_1m
+web_server: !include shared/webserver.yaml
+globals: !include shared/globals.yaml
+wifi: !include shared/wifi.yaml
+light: !include shared/rgbwstrip.yaml
+output: !include shared/rgbwledstrip.yaml
+text_sensor: !include shared/textsensors.yaml
+sensor: !include shared/sensors.yaml
+time: !include shared/time.yaml
+api:
+  password: !secret esphome_api_pwd
+ota:
+  safe_mode: true
+  password: !secret esphome_ota_pwd
+captive_portal:
+logger:
+  baud_rate: 0
+uart:
+  rx_pin: RX
+  baud_rate: 4800
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: GPIO0
+      mode: INPUT_PULLUP
+      inverted: True
+    id: ${devicename}_binbutton
+    name: ${friendly_name} Button
+    on_press:
+      - switch.toggle: ${devicename}_button
+switch:
+  - platform: restart
+    name: ${friendly_name} Restart
+  - platform: template
+    name: ${friendly_name} Schalter
+    optimistic: true
+    internal: true
+    id: ${devicename}_button
+    turn_on_action:
+      - light.turn_on: $devicename
+    turn_off_action:
+      - light.turn_off: $devicename
+    restore_state: true

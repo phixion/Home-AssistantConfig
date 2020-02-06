@@ -1,0 +1,47 @@
+substitutions:
+  devicename: bulbflur
+  friendly_name: "Flur"
+  update_interval: 10min
+  frequency_rgb: 1000 Hz
+  frequency_cw: 1000 Hz
+  frequency_ww: 1000 Hz
+esphome:
+  esp8266_restore_from_flash: true
+  name: $devicename
+  platform: ESP8266
+  board: esp01_1m
+  on_boot:
+    priority: 100
+    then:
+    - light.turn_on:
+        state: True
+        id: $devicename
+        transition_length: 3s
+        white: 100%
+        brightness: 100%
+        red: 0
+        green: 0
+        blue: 0
+logger:
+  baud_rate: 0
+uart:
+  rx_pin: RX
+  baud_rate: 4800
+globals: !include shared/globals.yaml
+api:
+  password: !secret esphome_api_pwd
+ota:
+  safe_mode: true
+  password: !secret esphome_ota_pwd
+captive_portal:
+switch:
+  - platform: restart
+    name: ${friendly_name} Restart
+web_server: !include shared/webserver.yaml
+time: !include shared/time.yaml
+sensor: !include shared/sensors.yaml
+binary_sensor: !include shared/binarysensors.yaml
+output: !include shared/rgbwoutput.yaml
+light: !include shared/rgbwbulb.yaml
+text_sensor: !include shared/textsensors.yaml
+wifi: !include shared/wifi.yaml

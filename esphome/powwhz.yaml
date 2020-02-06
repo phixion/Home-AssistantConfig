@@ -1,0 +1,117 @@
+substitutions:
+  devicename: powwhz
+  friendly_name: "Sonoff POW R2 (WHZ)"
+  update_interval_short: 2s
+  update_interval_long: 2min
+esphome:
+  name: $devicename
+  platform: ESP8266
+  board: esp01_1m
+  board_flash_mode: dout
+wifi: !include shared/wifi.yaml
+time: !include shared/time.yaml
+text_sensor: !include shared/textsensors.yaml
+web_server:
+captive_portal:
+logger:
+  baud_rate: 0
+uart:
+  rx_pin: RX
+  baud_rate: 4800
+api:
+  password: !secret esphome_api_pwd
+  reboot_timeout: 1h
+ota:
+  safe_mode: true
+  password: !secret esphome_ota_pwd
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: GPIO0
+      mode: INPUT_PULLUP
+      inverted: True
+    name: ${friendly_name} Button
+    on_press:
+      - switch.toggle: ${devicename}_button
+switch:
+  - platform: restart
+    name: ${friendly_name} Restart
+  - platform: template
+    name: ${friendly_name} Relay
+    optimistic: true
+    internal: true
+    id: ${devicename}_button
+    turn_on_action:
+      #     - switch.turn_on: relay
+      - light.turn_on: led
+    turn_off_action:
+      #     - switch.turn_off: relay
+      - light.turn_off: led
+  - platform: gpio
+    id: relay
+    pin: GPIO12
+    restore_mode: ALWAYS_ON
+output:
+  - platform: esp8266_pwm
+    id: pow_blue_led
+    pin:
+      number: GPIO13
+      inverted: True
+light:
+  - platform: monochromatic
+    internal: true
+    name: ${friendly_name} Blue LED
+    output: pow_blue_led
+    id: led
+sensor:
+  - platform: wifi_signal
+    name: ${friendly_name} WiFi Signal
+    update_interval: ${update_interval_long}
+    unit_of_measurement: db
+    icon: mdi:wifi
+    force_update: true
+  - platform: uptime
+    name: ${friendly_name} Uptime
+    filters:
+      - lambda: return x / 60.0;
+    unit_of_measurement: minutes
+    icon: mdi:alarm
+    force_update: true
+  - platform: cse7766
+    update_interval: ${update_interval_short}
+    current:
+      force_update: true
+      name: ${friendly_name} Current
+      unit_of_measurement: A
+      accuracy_decimals: 3
+      icon: 'mdi:flash-auto'
+      filters:
+        - lambda: if (x < 0.01) return 0; else return x;
+    voltage:
+      name: ${friendly_name} Voltage
+      unit_of_measurement: V
+      accuracy_decimals: 1
+      icon: mdi:flash-circle
+    power:
+      name: ${friendly_name} Power
+      id: power
+      on_value_range:
+        - above: 14.0
+          then:
+            - light.turn_on: led
+        - below: 7.0
+          then:
+            - light.turn_off: led
+      unit_of_measurement: W
+      icon: mdi:power-plug
+      accuracy_decimals: 0
+      filters:
+        - lambda: if (x < 2) return 0; else return x;
+  - platform: total_daily_energy
+    force_update: true
+    name: ${friendly_name} Daily Energy
+    power_id: power
+    icon: mdi:calendar-month
+    filters:
+      - multiply: 0.001
+    unit_of_measurement: kWh

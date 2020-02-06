@@ -1,0 +1,87 @@
+substitutions:
+  devicename: switchflurwhz
+  friendly_name: "Schalter Flur (WHZ)"
+  update_interval: 10min
+esphome:
+  esp8266_restore_from_flash: true
+  name: $devicename
+  platform: ESP8266
+  board: esp01_1m
+logger:
+  baud_rate: 0
+uart:
+  rx_pin: RX
+  baud_rate: 4800
+wifi: !include shared/wifi.yaml
+web_server: !include shared/webserver.yaml
+time: !include shared/time.yaml
+text_sensor: !include shared/textsensors.yaml
+sensor: !include shared/sensors.yaml
+api:
+  password: !secret esphome_api_pwd
+ota:
+  safe_mode: true
+  password: !secret esphome_ota_pwd
+output:
+  - platform: gpio
+    pin: GPIO12
+    id: relay_${devicename}
+  - platform: esp8266_pwm
+    id: ${devicename}_light
+    pin: GPIO13
+    inverted: True
+light:
+  - platform: binary
+    name: "${friendly_name} Light"
+    id: $devicename
+    output: relay_${devicename}
+  - platform: monochromatic
+    name: ${friendly_name} LED
+    internal: true
+    output: ${devicename}_light
+    id: ${devicename}_led
+switch:
+  - platform: gpio
+    pin: GPIO12
+    id: relay
+  - platform: restart
+    name: ${friendly_name} Restart
+  - platform: template
+    name: ${friendly_name} Relay
+    optimistic: true
+    restore_state: true
+    id: ${devicename}_button
+    turn_on_action:
+      - homeassistant.service:
+          service: light.turn_on
+          data:
+            entity_id: light.bulbkueche
+      - homeassistant.service:
+          service: switch.turn_on
+          data:
+            entity_id: switch.schalter_kueche_relay
+      - switch.turn_on: relay
+      - light.turn_on: ${devicename}_led
+    turn_off_action:
+      - homeassistant.service:
+          service: light.turn_off
+          data:
+            entity_id: light.bulbkueche
+      - delay: 20ms
+      - switch.turn_off: relay
+      - light.turn_off: ${devicename}_led
+      - homeassistant.service:
+          service: switch.turn_off
+          data:
+            entity_id: switch.schalter_kueche_relay
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: GPIO0
+      mode: INPUT_PULLUP
+      inverted: True
+    id: button
+    on_press:
+      - switch.toggle: ${devicename}_button
+  - platform: status
+    name: "${friendly_name} Status"
