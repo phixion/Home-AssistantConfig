@@ -1,0 +1,13 @@
+  - platform: wifi_signal
+    name: ${friendly_name} WiFi Signal
+    update_interval: ${update_interval}
+    unit_of_measurement: db
+    icon: mdi:wifi
+    force_update: true
+  - platform: uptime
+    force_update: true
+    name: ${friendly_name} Uptime
+    filters:
+      - lambda: return x / 60.0;
+    unit_of_measurement: minutes
+    icon: mdi:alarm

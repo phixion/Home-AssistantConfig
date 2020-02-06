@@ -14,8 +14,9 @@
 !integrations/*.yaml
 !esphome
 !esphome/*.yaml
-!esphome/shared/
-!esphome/shared/*.yaml
+#esphome/shared
+!shared
+!shared/*.yaml
 #ensure
 secrets.yaml
 *.json
