@@ -3,7 +3,7 @@ switch:
     switches:
       chill_mode:
         friendly_name: Chill Mode
-        value_template: "{{ is_state('chill_mode', 'on') }}"
+        value_template: "{{ is_state('scene.chill_mode_on', 'on') }}"
         turn_on:
           service: scene.turn_on
           entity_id: scene.chill_mode_on
@@ -11,12 +11,16 @@ switch:
           service: scene.turn_on
           entity_id: scene.mood_lights_normal_mode_on
   - platform: circadian_lighting
-    lights_rgb:
-          - light.mood_lights
+    name: Circadian Lightling RGBWW Bulbs
     lights_ct:
-          - light.bulbkueche
-          - light.bulbbad
-          - light.bulbflur
+      - light.bulbkueche
+      - light.bulbbad
+      - light.bulbflur
+  - platform: circadian_lighting
+    name: Circadian Lightling Moodlights
+    disable_brightness_adjust: true
+    lights_rgb:
+      - light.mood_lights
   - platform: rest
     resource: http://127.0.0.1:8126/container/portainer
     name: Portainer

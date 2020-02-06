@@ -12,6 +12,3 @@ media_player:
       com.google.android.tvlauncher: "Homescreen"
       com.plexapp.android: "Plex"
       com.liskovsoft.videomanager: "Youtube TV"
-  - platform: spotify
-    client_id: !secret spotifyapi_id
-    client_secret: !secret spotifyapi_secret

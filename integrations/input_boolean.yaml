@@ -1,7 +1,1 @@
-#input_boolean:
-#  home_mode_chill:
-#    name: Chill Mode
-#    initial: off
-#  light_mode_bright:
-#    name: Bright Mode
-#    initial: off
+[]

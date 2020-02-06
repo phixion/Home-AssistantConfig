@@ -4,12 +4,10 @@ recorder:
   db_url: !secret dburl
   exclude:
     entities:
+      - sensor.reddit_gamedeals
       - sensor.tram
       - sensor.bus
       - sensor.u_bahn
-      - sensor.alert
-      - sensor.battery_level_google_nexus
-      - sensor.battery_level_google_pixel
       - sensor.bad_wifi_signal
       - sensor.flur_wifi_signal
       - sensor.kueche_wifi_signal
@@ -63,6 +61,7 @@ recorder:
       - sun
       - image_processing
       - automation
+      - light
 logbook:
   exclude:
     entities:

@@ -4,6 +4,13 @@
 #    unit_of_measurement: "%"
 #    entities:
 #      - sensor.battery_level_pixel
+#  - platform: rest
+#    resource: http://api.muc.ccc.de/spaceapi.json
+#    name: muccc
+#    value_template: >
+#      {% for x in value_json %}
+#        '{{ loop.index }}. {{ x.title }}'
+#      {% endfor %}
 #  - platform: steam_online
 #    api_key: !secret steam_apikey
 #    accounts:
@@ -15,8 +22,6 @@
   resources:
     - type: disk_use_percent
       arg: /
-    - type: disk_use_percent
-      arg: /dev/sda1
     - type: memory_free
     - type: swap_use_percent
     - type: load_1m
@@ -32,10 +37,6 @@
       arg: enp0s31f6
     - type: network_out
       arg: enp0s31f6
-- platform: meteoalarm
-  id: "DE-Germany"
-  name: alert
-  scan_interval: 1800
 - platform: integration
   source: sensor.sonoff_pow_r2_whz_power
   name: energy_consumtion_whz_1
@@ -55,10 +56,10 @@
 #  - platform: command_line
 #    name: installed version
 #    command: "cat /config/.HA_VERSION"
-#  - platform: command_line
-#    name: pending ubuntu updates
-#    unit_of_measurement: pending update(s)
-#    command: "cat /config/ubuntu_updates.log"
+#- platform: command_line
+#  name: pending OS update(s)
+#  unit_of_measurement: pending update(s)
+#  command: "cat /config/ubuntu_updates.log"
 - platform: dnsip
   hostname: !secret home_host
   name: !secret home_host
@@ -119,7 +120,7 @@
 - platform: places
   name: Martin
   devicetracker_id: device_tracker.google_pixel
-  options: zone,place,street_number,street,city,county,state,postal_code,country,formatted_address
+  options: zone,place,street_number,street,city,state,postal_code
   map_provider: google
   map_zoom: 19
   home_zone: zone.home
@@ -415,3 +416,10 @@
   api_key: !secret google_assistantapikey_pwd
   origin: device_tracker.google_pixel
   destination: zone.home
+- platform: attributes
+  friendly_name: "Batteries"
+  attribute: battery_level
+  unit_of_measurement: "%"
+  entities:
+    - device_tracker.pixel_gps
+    - device_tracker.nexus_gps

@@ -14,3 +14,6 @@ notify:
   - name: Google Assistant Command
     platform: rest
     resource: !secret google_assistant_webserver_cmd
+  - name: Telegram
+    platform: telegram
+    chat_id: !secret telegram_chatid1

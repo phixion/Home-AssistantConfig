@@ -1,22 +1,22 @@
 image_processing:
-  - platform: tensorflow
-    scan_interval: 10000
-    source:
-      - entity_id: camera.marienplatz
-      - entity_id: camera.marienplatz_beck
-      - entity_id: camera.westin_grand
-      - entity_id: camera.studentenstadt
-      - entity_id: camera.wiener_platz
-      - entity_id: camera.freimann
-    file_out:
-      - "/config/tmp/{{ camera_entity.split('.')[1] }}_latest.jpg"
-    model:
-      graph: /config/tensorflow/frozen_inference_graph.pb
-  - platform: tensorflow
-    source:
-      - entity_id: camera.wohnzimmer
-    file_out:
-      - "/config/tmp/{{ camera_entity.split('.')[1] }}_latest.jpg"
-    #      - "/config/tmp/{{ camera_entity.split('.')[1] }}_{{ now().strftime('%Y%m%d_%H%M%S') }}.jpg"
-    model:
-      graph: /config/tensorflow/frozen_inference_graph.pb
+#  - platform: tensorflow
+#    scan_interval: 10000
+#    source:
+#      - entity_id: camera.marienplatz
+#      - entity_id: camera.marienplatz_beck
+#      - entity_id: camera.westin_grand
+#      - entity_id: camera.studentenstadt
+#      - entity_id: camera.wiener_platz
+#      - entity_id: camera.freimann
+#    file_out:
+#      - "/config/tmp/{{ camera_entity.split('.')[1] }}_latest.jpg"
+#    model:
+#      graph: /config/tensorflow/frozen_inference_graph.pb
+#  - platform: tensorflow
+#    source:
+#      - entity_id: camera.wohnzimmer
+#    file_out:
+#      - "/config/tmp/{{ camera_entity.split('.')[1] }}_latest.jpg"
+#      - "/config/tmp/{{ camera_entity.split('.')[1] }}_{{ now().strftime('%Y%m%d_%H%M%S') }}.jpg"
+#    model:
+#      graph: /config/tensorflow/frozen_inference_graph.pb

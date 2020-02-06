@@ -6,14 +6,12 @@ device_tracker:
     entity_id:
       - device_tracker.pixel_gps
       - device_tracker.pixel_wifi
-      - device_tracker.pixel_ping
   - platform: composite
     name: "Google Nexus"
     time_as: device_or_local
     entity_id:
       - device_tracker.nexus_gps
       - device_tracker.nexus_wifi
-      - device_tracker.nexus_ping
 #  - platform: ping
 #    count: 2
 #    hosts:
@@ -29,3 +27,4 @@ device_tracker:
 #    interval_seconds: 15
 #    consider_home: 60
 #    track_new_devices: false
+#    scan_options: " --interface=enp0s31f6 10.10.10.0/24 -g -t1 -q"

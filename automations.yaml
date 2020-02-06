@@ -191,8 +191,19 @@
   condition:
     - condition: template
       value_template: "{{trigger.from_state.state != trigger.to_state.state}}"
+    - condition: time
+      weekday:
+        - fri
+        - sat
+        - sun
+        - mon
+        - tue
   action:
     - service: notify.pushover
+      data_template:
+        title: Xur changed location
+        message: "Find him at: {{states('sensor.wtfisxur')}}"
+    - service: notify.telegram
       data_template:
         title: Xur changed location
         message: "Find him at: {{states('sensor.wtfisxur')}}"
