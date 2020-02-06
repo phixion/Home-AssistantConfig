@@ -12,6 +12,7 @@
 !ui-lovelace.yaml
 !integrations
 !integrations/*.yaml
+!esphome/*.yaml
 #ensure
 secrets.yaml
 *.json
