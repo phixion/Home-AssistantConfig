@@ -25,14 +25,3 @@ binary_sensor:
         prob_given_false: 0.2
         platform: "state"
         to_state: "home"
-      - entity_id: "device_tracker.pixel_ping"
-        prob_given_true: 0.9
-        prob_given_false: 0.1
-        platform: "state"
-        to_state: "home"
-  - platform: template
-    sensors:
-      cray_turned_on:
-        value_template: "{{ is_state('device_tracker.cray_ping', 'home') }}"
-        friendly_name: "Cray"
-

@@ -1,0 +1,5 @@
+person:
+  - name: Martin
+    id: 9a67e26feb8f4815914f3ce1c9f52054
+    device_trackers:
+      - device_tracker.google_pixel

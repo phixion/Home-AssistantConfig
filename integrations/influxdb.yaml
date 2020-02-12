@@ -5,26 +5,29 @@ influxdb:
   username: !secret influx_usr
   password: !secret influx_pwd
   max_retries: 10
+  tags_attributes:
+    - friendly_name
   #override_measurement: state
   default_measurement: state
-#  include:
-#    entities:
-#      - sensor.energy_combined_current
-#      - sensor.energy_combined_power
-#      - sensor.energy_combined_voltage
-#      - sensor.energy_consumed_hourly_combined
-#      - sensor.energy_consumed_daily_combined
-#      - sensor.energy_consumed_weekly_combined
-#      - sensor.energy_consumed_monthly_combined
-#      - sensor.energy_consumed_yearly_combined
-#      - sensor.coinbase_vault_in_euro
-#      - sensor.coinbase_wallet_in_euro
-#      - sensor.coinbase_euro
-#      - sensor.climate_wohnung_temp
-#      - sensor.climate_flur_temp
-#      - sensor.climate_bad_temp
-#      - sensor.climate_wohnzimmer_temp
-#      - sensor.sonoff_th16_whz_humidity_sensor
-#      - sensor.sonoff_th16_whz_temperatur_sensor
+  #  include:
+  #    entities:
+  #      - sensor.energy_combined_current
+  #      - sensor.energy_combined_power
+  #      - sensor.energy_combined_voltage
+  #      - sensor.energy_consumed_hourly_combined
+  #      - sensor.energy_consumed_daily_combined
+  #      - sensor.energy_consumed_weekly_combined
+  #      - sensor.energy_consumed_monthly_combined
+  #      - sensor.energy_consumed_yearly_combined
+  #      - sensor.coinbase_vault_in_euro
+  #      - sensor.coinbase_wallet_in_euro
+  #      - sensor.coinbase_euro
+  #      - sensor.climate_wohnung_temp
+  #      - sensor.climate_flur_temp
+  #      - sensor.climate_bad_temp
+  #      - sensor.climate_wohnzimmer_temp
+  #      - sensor.sonoff_th16_whz_humidity_sensor
+  #      - sensor.sonoff_th16_whz_temperatur_sensor
   tags:
     source: hass
+

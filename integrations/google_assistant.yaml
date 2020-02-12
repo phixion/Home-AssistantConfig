@@ -1,6 +1,6 @@
 google_assistant:
   project_id: !secret gproject_id
-  service_account: !secret google_service_accout_json_file
+  service_account: !include smart-home-260801-e9b287f7ece7.json
   report_state: false
   expose_by_default: false
   #  api_key: !secret google_assistantapikey_pwd
