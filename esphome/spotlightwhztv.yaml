@@ -10,6 +10,7 @@ esphome:
   name: $devicename
   platform: ESP8266
   board: esp01_1m
+  board_flash_mode: dout
   on_boot:
     priority: 100
     then:

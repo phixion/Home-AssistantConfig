@@ -1,0 +1,202 @@
+output:
+  - platform: ledc
+    pin: GPIO19
+    id: buzzer
+
+script:
+  - id: ImperialMarch
+    then:
+        - output.ledc.set_frequency:
+            id: buzzer
+            frequency: 440
+        - output.set_level:
+            id: buzzer
+            level: 50%
+        - delay: 500ms
+        - output.turn_off: buzzer
+        - delay: 20ms
+        - output.ledc.set_frequency:
+            id: buzzer
+            frequency: 440
+        - output.set_level:
+            id: buzzer
+            level: 50%
+        - delay: 500ms
+        - output.turn_off: buzzer
+        - delay: 20ms
+        - output.ledc.set_frequency:
+            id: buzzer
+            frequency: 440
+        - output.set_level:
+            id: buzzer
+            level: 50%
+        - delay: 500ms
+        - output.turn_off: buzzer
+        - delay: 20ms        
+        - output.ledc.set_frequency:
+            id: buzzer
+            frequency: 349
+        - output.set_level:
+            id: buzzer
+            level: 50%
+        - delay: 350ms
+        - output.turn_off: buzzer
+        - delay: 20ms
+        - output.ledc.set_frequency:
+            id: buzzer
+            frequency: 523
+        - output.set_level:
+            id: buzzer
+            level: 50%
+        - delay: 150ms
+        - output.turn_off: buzzer
+        - delay: 20ms
+        - output.ledc.set_frequency:
+            id: buzzer
+            frequency: 440
+        - output.set_level:
+            id: buzzer
+            level: 50%
+        - delay: 500ms
+        - output.turn_off: buzzer
+        - delay: 20ms
+        - output.ledc.set_frequency:
+            id: buzzer
+            frequency: 349
+        - output.set_level:
+            id: buzzer
+            level: 50%
+        - delay: 350ms
+        - output.turn_off: buzzer
+        - delay: 20ms
+        - output.ledc.set_frequency:
+            id: buzzer
+            frequency: 523
+        - output.set_level:
+            id: buzzer
+            level: 50%
+        - delay: 150ms
+        - output.turn_off: buzzer
+        - delay: 20ms
+        - output.ledc.set_frequency:
+            id: buzzer
+            frequency: 440
+        - output.set_level:
+            id: buzzer
+            level: 50%
+        - delay: 650ms
+        - output.turn_off: buzzer
+
+  - id: SuperMario
+    then:
+        - output.ledc.set_frequency:
+            id: buzzer
+            frequency: 660 
+        - output.set_level:
+            id: buzzer
+            level: 50%
+        - delay: 100ms
+        - output.turn_off: buzzer
+        - delay: 150ms
+        - output.ledc.set_frequency:
+            id: buzzer
+            frequency: 660 
+        - output.set_level:
+            id: buzzer
+            level: 50%
+        - delay: 100ms
+        - output.turn_off: buzzer
+        - delay: 300ms
+        - output.ledc.set_frequency:
+            id: buzzer
+            frequency: 660
+        - output.set_level:
+            id: buzzer
+            level: 50%
+        - delay: 100ms
+        - output.turn_off: buzzer
+        - delay: 300ms        
+        - output.ledc.set_frequency:
+            id: buzzer
+            frequency: 510
+        - output.set_level:
+            id: buzzer
+            level: 50%
+        - delay: 100ms
+        - output.turn_off: buzzer
+        - delay: 100ms
+        - output.ledc.set_frequency:
+            id: buzzer
+            frequency: 660
+        - output.set_level:
+            id: buzzer
+            level: 50%
+        - delay: 100ms
+        - output.turn_off: buzzer
+        - delay: 300ms
+        - output.ledc.set_frequency:
+            id: buzzer
+            frequency: 770
+        - output.set_level:
+            id: buzzer
+            level: 50%
+        - delay: 100ms
+        - output.turn_off: buzzer
+        - delay: 550ms
+        - output.ledc.set_frequency:
+            id: buzzer
+            frequency: 380
+        - output.set_level:
+            id: buzzer
+            level: 50%
+        - delay: 100ms
+        - output.turn_off: buzzer
+
+
+switch:
+  - platform: template
+    name: Buzz Imperial March
+    icon: "mdi:bell-ring"
+    turn_on_action:
+      - if:
+          condition:
+            - script.is_running: ImperialMarch
+          then:
+            - script.stop: ImperialMarch
+            - script.execute: ImperialMarch
+          else:
+            - script.execute: ImperialMarch    
+
+  - platform: template
+    name: Buzz Super Mario
+    icon: "mdi:bell-ring"
+    turn_on_action:
+      - if:
+          condition:
+            - script.is_running: SuperMario
+          then:
+            - script.stop: SuperMario
+            - script.execute: SuperMario
+          else:
+            - script.execute: SuperMario
+
+# Imperial March
+- output.ledc.song:
+    id: buzzer
+    active_level: 50%
+    pattern:
+      - {note: A, duration: 500ms}
+      - {space: 20ms}
+      - {note: A, duration: 500ms}
+      - {space: 20ms}
+      - {note: A, duration: 500ms}
+      - {space: 20ms}
+      - {note: F, duration: 350ms}
+      - {space: 20ms}
+      - {note: C5, duration: 150ms}
+      - {space: 20ms}
+      - {note: A, duration: 500ms}
+      - {space: 20ms}
+      - {note: F, duration: 350ms}
+      - {space: 20ms}
+      - {note: A, duration: 650ms}

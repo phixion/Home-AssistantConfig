@@ -1,0 +1,7 @@
+  - platform: fastled_clockless
+    id: ${devicename}
+    name: ${devicename}
+    chipset: WS2812B
+    pin: GPIO4
+    num_leds: 40
+    rgb_order: GRB

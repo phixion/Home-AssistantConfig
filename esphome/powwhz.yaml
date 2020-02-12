@@ -114,4 +114,4 @@ sensor:
     icon: mdi:calendar-month
     filters:
       - multiply: 0.001
-    unit_of_measurement: kWh
+    unit_of_measurement: "kWh"

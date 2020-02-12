@@ -9,7 +9,6 @@ esphome:
   platform: ESP8266
   board: esp01_1m
   board_flash_mode: dout
-i2c:
 wifi: !include shared/wifi.yaml
 time: !include shared/time.yaml
 web_server: !include shared/webserver.yaml

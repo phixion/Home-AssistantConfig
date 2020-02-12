@@ -1,5 +1,5 @@
-  css_url: https://esphome.io/_static/webserver-v1.min.css
-  js_url: https://esphome.io/_static/webserver-v1.min.js
+  css_url: https://hass.internal.phixion.org:8123/local/_static/webserver-v1.min.css
+  js_url: https://hass.internal.phixion.org:8123/local/_static/webserver-v1.min.js
   auth:
     username: !secret esphome_ota_usr
     password: !secret esphome_ota_pwd

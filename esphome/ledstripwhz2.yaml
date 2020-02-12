@@ -7,9 +7,10 @@ substitutions:
   frequency_w: 1000 Hz
 esphome:
   esp8266_restore_from_flash: true
-  name: $devicename
+  name: ${devicename}
   platform: ESP8266
   board: esp01_1m
+  board_flash_mode: dout
 web_server: !include shared/webserver.yaml
 globals: !include shared/globals.yaml
 wifi: !include shared/wifi.yaml
@@ -42,9 +43,15 @@ switch:
   - platform: template
     name: ${friendly_name} Schalter
     optimistic: true
+    internal: true
     id: ${devicename}_button
     turn_on_action:
-      - light.turn_on: $devicename
+      - light.turn_on: ${devicename}
     turn_off_action:
-      - light.turn_off: $devicename
+      - light.turn_off: ${devicename}
     restore_state: true
+#remote_receiver:
+#  pin:
+#    number: GPIO4
+#    inverted: true
+#  dump: all

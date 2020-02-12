@@ -10,12 +10,13 @@ esphome:
   name: $devicename
   platform: ESP8266
   board: esp01_1m
+  board_flash_mode: dout
   on_boot:
     priority: 100
     then:
       - light.turn_on:
           state: True
-          id: $devicename
+          id: ${devicename}
           transition_length: 3s
 globals: !include shared/globals.yaml
 web_server: !include shared/webserver.yaml
