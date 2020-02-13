@@ -2,7 +2,6 @@ output:
   - platform: ledc
     pin: GPIO19
     id: buzzer
-
 script:
   - id: ImperialMarch
     then:
@@ -86,7 +85,6 @@ script:
             level: 50%
         - delay: 650ms
         - output.turn_off: buzzer
-
   - id: SuperMario
     then:
         - output.ledc.set_frequency:
@@ -151,8 +149,6 @@ script:
             level: 50%
         - delay: 100ms
         - output.turn_off: buzzer
-
-
 switch:
   - platform: template
     name: Buzz Imperial March
@@ -166,7 +162,6 @@ switch:
             - script.execute: ImperialMarch
           else:
             - script.execute: ImperialMarch    
-
   - platform: template
     name: Buzz Super Mario
     icon: "mdi:bell-ring"
@@ -179,24 +174,24 @@ switch:
             - script.execute: SuperMario
           else:
             - script.execute: SuperMario
-
-# Imperial March
-- output.ledc.song:
-    id: buzzer
-    active_level: 50%
-    pattern:
-      - {note: A, duration: 500ms}
-      - {space: 20ms}
-      - {note: A, duration: 500ms}
-      - {space: 20ms}
-      - {note: A, duration: 500ms}
-      - {space: 20ms}
-      - {note: F, duration: 350ms}
-      - {space: 20ms}
-      - {note: C5, duration: 150ms}
-      - {space: 20ms}
-      - {note: A, duration: 500ms}
-      - {space: 20ms}
-      - {note: F, duration: 350ms}
-      - {space: 20ms}
-      - {note: A, duration: 650ms}
+script:
+  - id: ImperialMarch v2
+  - output.ledc.song:
+      id: buzzer
+      active_level: 50%
+      pattern:
+        - {note: A, duration: 500ms}
+        - {space: 20ms}
+        - {note: A, duration: 500ms}
+        - {space: 20ms}
+        - {note: A, duration: 500ms}
+        - {space: 20ms}
+        - {note: F, duration: 350ms}
+        - {space: 20ms}
+        - {note: C5, duration: 150ms}
+        - {space: 20ms}
+        - {note: A, duration: 500ms}
+        - {space: 20ms}
+        - {note: F, duration: 350ms}
+        - {space: 20ms}
+        - {note: A, duration: 650ms}

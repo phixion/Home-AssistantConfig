@@ -1,0 +1,18 @@
+- platform: rgb
+  name: ${friendly_name} (RGB)
+  id: ${devicename}_rgb
+  red: output_red
+  green: output_green
+  blue: output_blue
+  default_transition_length: 3s
+  restore_mode: RESTORE_DEFAULT_OFF
+  effects: !include effects.yaml
+- platform: cwww
+  name: ${friendly_name} (CWWW)
+  id: ${devicename}_cwww
+  warm_white: output_warm_white
+  cold_white: output_cold_white
+  cold_white_color_temperature: 6536 K
+  warm_white_color_temperature: 2000 K
+  default_transition_length: 3s
+  restore_mode: RESTORE_DEFAULT_OFF

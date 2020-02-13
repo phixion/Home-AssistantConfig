@@ -4,7 +4,7 @@ substitutions:
   update_interval: 10min
 esphome:
   esp8266_restore_from_flash: true
-  name: $devicename
+  name: ${devicename}
   platform: ESP8266
   board: esp01_1m
   board_flash_mode: dout
@@ -26,16 +26,16 @@ ota:
 output:
   - platform: gpio
     pin: GPIO12
-    id: relay_${devicename}
+    id: ${devicename}_relay
   - platform: esp8266_pwm
     id: ${devicename}_light
     pin: GPIO13
-    inverted: True
+    inverted: true
 light:
   - platform: binary
     name: ${friendly_name} Light
-    id: $devicename
-    output: relay_${devicename}
+    id: ${devicename}
+    output: ${devicename}_relay
   - platform: monochromatic
     internal: true
     name: ${friendly_name} LED
@@ -56,27 +56,35 @@ switch:
       - switch.turn_on: relay
       - light.turn_on: ${devicename}_led
       - homeassistant.service:
-          service: scene.turn_on
+          service: switch.turn_on
           data:
-            entity_id: scene.mood_lights_normal_mode_on
+            entity_id: light.mood_lights_cwww
     turn_off_action:
       - switch.turn_off: relay
       - light.turn_off: ${devicename}_led
       - homeassistant.service:
-          service: scene.turn_on
+          service: switch.turn_off
           data:
-            entity_id: scene.mood_lights_off_mode
-      - homeassistant.service:
-          service: light.turn_off
-          data:
-            entity_id: light.mood_lights
+            entity_id: light.mood_lights_cwww
+#      - homeassistant.service:
+#          service: light.turn_off
+#          data:
+#            entity_id: light.mood_lights
 binary_sensor:
   - platform: gpio
     pin:
       number: GPIO0
       mode: INPUT_PULLUP
-      inverted: True
+      inverted: true
     id: button
+    on_press:
+      - switch.toggle: ${devicename}_button
+  - platform: gpio
+    pin:
+      number: GPIO0
+      mode: INPUT_PULLUP
+      inverted: true
+    id: ${devicename}_binbutton
     on_click:
       - min_length: 1ms
         max_length: 350ms
@@ -89,5 +97,20 @@ binary_sensor:
               service: scene.turn_on
               data:
                 entity_id: scene.chill_mode_on
+          - homeassistant.service:
+              service: light.turn_on
+              data:
+                entity_id: light.mood_lights_rgb
+          - homeassistant.service:
+               service: light.turn_off
+               data:
+                 entity_id: light.mood_lights_cwww
+      - min_length: 5000ms
+        max_length: 7000ms
+        then:
+          - homeassistant.service:
+              service: switch.turn_off
+              data:
+                entity_id: light.all_lights
   - platform: status
     name: ${friendly_name} Status

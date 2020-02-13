@@ -14,8 +14,8 @@ esphome:
 web_server: !include shared/webserver.yaml
 globals: !include shared/globals.yaml
 wifi: !include shared/wifi.yaml
-light: !include shared/rgbwstrip.yaml
-output: !include shared/rgbwledstrip.yaml
+light: !include shared/rgbw.yaml
+output: !include shared/rgbwoutput.yaml
 text_sensor: !include shared/textsensors.yaml
 sensor: !include shared/sensors.yaml
 time: !include shared/time.yaml
@@ -31,7 +31,7 @@ binary_sensor:
     pin:
       number: GPIO0
       mode: INPUT_PULLUP
-      inverted: True
+      inverted: true
     id: ${devicename}_binbutton
     name: ${friendly_name} Button
     on_press:
@@ -44,12 +44,13 @@ switch:
     name: ${friendly_name} Schalter
     optimistic: true
     internal: true
+    restore_state: true
     id: ${devicename}_button
     turn_on_action:
-      - light.turn_on: ${devicename}
+      - light.turn_on: ${devicename}_rgb
+        brightness: 100%
     turn_off_action:
-      - light.turn_off: ${devicename}
-    restore_state: true
+      - light.turn_off: ${devicename}_rgb
 #remote_receiver:
 #  pin:
 #    number: GPIO4

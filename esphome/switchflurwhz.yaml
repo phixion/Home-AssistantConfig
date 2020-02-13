@@ -4,7 +4,7 @@ substitutions:
   update_interval: 10min
 esphome:
   esp8266_restore_from_flash: true
-  name: $devicename
+  name: ${devicename}
   platform: ESP8266
   board: esp01_1m
   board_flash_mode: dout
@@ -26,7 +26,7 @@ ota:
 output:
   - platform: gpio
     pin: GPIO12
-    id: relay_${devicename}
+    id: ${devicename}_relay
   - platform: esp8266_pwm
     id: ${devicename}_light
     pin: GPIO13
@@ -34,8 +34,8 @@ output:
 light:
   - platform: binary
     name: ${friendly_name} Light
-    id: $devicename
-    output: relay_${devicename}
+    id: ${devicename}
+    output: ${devicename}_relay
   - platform: monochromatic
     internal: true
     name: ${friendly_name} LED
@@ -58,22 +58,22 @@ switch:
       - homeassistant.service:
           service: light.turn_on
           data:
-            entity_id: light.bulbkueche
+            entity_id: light.bulbkueche_cwww
       - homeassistant.service:
           service: switch.turn_on
           data:
-            entity_id: switch.schalter_kueche_relay
+            entity_id: light.schalter_kueche_light
     turn_off_action:
       - switch.turn_off: relay
       - light.turn_off: ${devicename}_led
       - homeassistant.service:
           service: light.turn_off
           data:
-            entity_id: light.bulbkueche
+            entity_id: light.bulbkueche_cwww
       - homeassistant.service:
           service: switch.turn_off
           data:
-            entity_id: switch.schalter_kueche_relay
+            entity_id: light.schalter_kueche_light
 binary_sensor:
   - platform: gpio
     pin:

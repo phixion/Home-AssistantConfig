@@ -5,7 +5,7 @@ substitutions:
   update_interval_long: 2min
 esphome:
   esp8266_restore_from_flash: true
-  name: $devicename
+  name: ${devicename}
   platform: ESP8266
   board: esp01_1m
   board_flash_mode: dout

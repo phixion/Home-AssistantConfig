@@ -7,37 +7,38 @@ substitutions:
   frequency_ww: 1000 Hz
 esphome:
   esp8266_restore_from_flash: true
-  name: $devicename
+  name: ${devicename}
   platform: ESP8266
   board: esp01_1m
   board_flash_mode: dout
   on_boot:
     priority: 100
     then:
-    - light.turn_on:
-        state: True
-        id: $devicename
-        transition_length: 3s
+      - light.turn_on:
+          state: True
+          id: ${devicename}_rgb
+          transition_length: 3s
+          brightness: 100%
 globals: !include shared/globals.yaml
+web_server: !include shared/webserver.yaml
+time: !include shared/time.yaml
+sensor: !include shared/sensors.yaml
+binary_sensor: !include shared/binarysensors.yaml
+output: !include shared/rgbcwwwoutput.yaml
+light: !include shared/rgbcwww.yaml
+text_sensor: !include shared/textsensors.yaml
+wifi: !include shared/wifi.yaml
+captive_portal:
 api:
   password: !secret esphome_api_pwd
 ota:
   safe_mode: true
   password: !secret esphome_ota_pwd
-captive_portal:
-switch:
-  - platform: restart
-    name: ${friendly_name} Restart
 logger:
   baud_rate: 0
 uart:
   rx_pin: RX
   baud_rate: 4800
-web_server: !include shared/webserver.yaml
-time: !include shared/time.yaml
-sensor: !include shared/sensors.yaml
-binary_sensor: !include shared/binarysensors.yaml
-output: !include shared/rgbwoutput.yaml
-light: !include shared/rgbwbulb.yaml
-text_sensor: !include shared/textsensors.yaml
-wifi: !include shared/wifi.yaml
+switch:
+  - platform: restart
+    name: ${friendly_name} Restart

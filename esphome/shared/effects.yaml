@@ -2,7 +2,7 @@
     name: randomflicker
     update_interval: 200 ms
     lambda: |-
-      auto call = id($devicename).turn_on();
+      auto call = id(${devicename}_rgb).turn_on();
       float r = random_float() * 2.0f - 1.0f; 
       r =  r * r * r;
       call.set_transition_length(r);
@@ -15,7 +15,7 @@
     name: Chill Mode
     update_interval: 70s
     lambda: |-
-      auto call = id($devicename).turn_on();
+      auto call = id(${devicename}_rgb).turn_on();
       call.set_transition_length(55000);
       call.set_white(0.0);
       light::ESPColor c = light::ESPColor::random_color();
@@ -27,7 +27,7 @@
     name: Chill Mode (Vibrant)
     update_interval: 70s
     lambda: |-
-      auto call = id($devicename).turn_on();
+      auto call = id(${devicename}_rgb).turn_on();
       call.set_transition_length(55000);
       call.set_white(0.0);
       light::ESPColor c = light::ESPColor::random_color();
@@ -39,7 +39,7 @@
     name: Disco
     update_interval: 500ms
     lambda: |-
-      auto call = id($devicename).turn_on();
+      auto call = id(${devicename}_rgb).turn_on();
       //call.set_transition_length(rand() % 400 + 1);
       call.set_transition_length(500);
       call.set_white(0.0);
@@ -52,7 +52,7 @@
     name: WTF
     update_interval: 200ms
     lambda: |-
-      auto call = id($devicename).turn_on();
+      auto call = id(${devicename}_rgb).turn_on();
       call.set_transition_length(200);
       call.set_white(0.0);
       call.set_brightness((rand() % 255 + 1) / 255.0);
