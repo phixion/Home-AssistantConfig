@@ -51,6 +51,5 @@ switch:
     id: ${devicename}_button
     turn_on_action:
       - light.turn_on: ${devicename}_rgb
-        brightness: 100%
     turn_off_action:
       - light.turn_off: ${devicename}_rgb

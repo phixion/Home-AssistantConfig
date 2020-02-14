@@ -6,7 +6,8 @@
     blue: output_blue
     default_transition_length: 3s
     restore_mode: RESTORE_DEFAULT_OFF
-    effects: !include effects.yaml
+    effects: 
+      !include effects.yaml
   - platform: monochromatic
     name: ${friendly_name} (W)
     id: ${devicename}_w

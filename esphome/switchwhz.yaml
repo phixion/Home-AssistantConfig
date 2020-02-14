@@ -56,14 +56,14 @@ switch:
       - switch.turn_on: relay
       - light.turn_on: ${devicename}_led
       - homeassistant.service:
-          service: switch.turn_on
+          service: light.turn_on
           data:
             entity_id: light.mood_lights_cwww
     turn_off_action:
       - switch.turn_off: relay
       - light.turn_off: ${devicename}_led
       - homeassistant.service:
-          service: switch.turn_off
+          service: light.turn_off
           data:
             entity_id: light.mood_lights_cwww
 #      - homeassistant.service:
@@ -102,9 +102,9 @@ binary_sensor:
               data:
                 entity_id: light.mood_lights_rgb
           - homeassistant.service:
-               service: light.turn_off
-               data:
-                 entity_id: light.mood_lights_cwww
+              service: light.turn_off
+              data:
+                entity_id: light.mood_lights_cwww
       - min_length: 5000ms
         max_length: 7000ms
         then:
