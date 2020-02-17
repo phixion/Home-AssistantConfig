@@ -1,10 +1,9 @@
   - platform: rgb
-    name: ${friendly_name} (RGB)
-    id: ${devicename}
+    name: ${devicename}_rgb
+    id: ${devicename}_rgb
     red: output_red
     green: output_green
     blue: output_blue
     default_transition_length: 3s
     restore_mode: RESTORE_DEFAULT_OFF
-    effects: 
-      !include effects.yaml
+    effects: !include effects.yaml

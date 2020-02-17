@@ -1,0 +1,2 @@
+password: !secret esphome_api_pwd
+reboot_timeout: 1h

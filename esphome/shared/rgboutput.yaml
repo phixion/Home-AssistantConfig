@@ -1,3 +1,4 @@
+#for rgb ledstrips
   - platform: esp8266_pwm
     id: output_green
     pin: GPIO4

@@ -9,24 +9,6 @@ camera:
   - platform: local_file
     file_path: "/config/tmp/wohnzimmer_latest.jpg"
     name: Tensorflow Wohnzimmer
-  #  - platform: local_file
-  #    file_path: "/config/tmp/marienplatz_latest.jpg"
-  #    name: Tensorflow Marienplatz
-  #  - platform: local_file
-  #    file_path: "/config/tmp/marienplatz_beck_latest.jpg"
-  #    name: Tensorflow Marienplatz Beck
-  #  - platform: local_file
-  #    file_path: "/config/tmp/westin_grand_latest.jpg"
-  #    name: Tensorflow Westin Grand
-  #  - platform: local_file
-  #    file_path: "/config/tmp/studentenstadt_latest.jpg"
-  #    name: Tensorflow Studentenstadt
-  #  - platform: local_file
-  #    file_path: "/config/tmp/freimann_latest.jpg"
-  #    name: Tensorflow Freimann
-  #  - platform: local_file
-  #    file_path: "/config/tmp/wiener_platz_latest.jpg"
-  #    name: Tensorflow Wiener Platz
   - platform: mjpeg
     mjpeg_url: "https://app.muenchen.de/webcam/marienplatz//marienplatzgross000M.jpg"
     name: Marienplatz
@@ -45,7 +27,3 @@ camera:
   - platform: mjpeg
     mjpeg_url: "http://hb-webcam.registrierung.net/biergarten.jpg"
     name: Wiener Platz
-#  - platform: generic
-#    name: Google Maps
-#    still_image_url: https://maps.googleapis.com/maps/api/staticmap?center={{ state_attr('sensor.martin', 'current_latitude') }},{{ state_attr('sensor.martin', 'current_longitude') }}&zoom=13&size=500x500&maptype=roadmap&markers=color:blue%7Clabel:Martin%7C{{ state_attr('sensor.martin', 'current_latitude') }},{{ state_attr('sensor.martin', 'current_longitude') }}&key='!secret google_assistantapikey_pwd'
-#    limit_refetch_to_url_change: true

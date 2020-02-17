@@ -1,10 +1,10 @@
 #Lumninea LAC ZX2843-675 RGBW with W disbled
+#Plattenschrank klein
 substitutions:
   devicename: ledstripwhz3
   friendly_name: "LED Strip Wohnzimmer 3"
   update_interval: 10min
-  frequency_rgb: 1000 Hz
-  frequency_w: 1000 Hz
+  frequency_rgb: 100 Hz
 esphome:
   esp8266_restore_from_flash: true
   name: ${devicename}
@@ -13,17 +13,14 @@ esphome:
   board_flash_mode: dout
 web_server: !include shared/webserver.yaml
 globals: !include shared/globals.yaml
-wifi: !include shared/wifi.yaml
-light: !include shared/rgbw.yaml
-output: !include shared/rgbwoutput.yaml
+light: !include shared/rgb.yaml
+output: !include shared/rgboutput.yaml
 text_sensor: !include shared/textsensors.yaml
 sensor: !include shared/sensors.yaml
 time: !include shared/time.yaml
-api:
-  password: !secret esphome_api_pwd
-ota:
-  safe_mode: true
-  password: !secret esphome_ota_pwd
+wifi: !include shared/wifi.yaml
+api: !include shared/api.yaml
+ota: !include shared/ota.yaml
 captive_portal:
 logger:
 binary_sensor:
@@ -37,6 +34,8 @@ binary_sensor:
     name: ${friendly_name} Button
     on_press:
       - switch.toggle: ${devicename}_button
+  - platform: status
+    name: ${friendly_name} Status
 switch:
   - platform: restart
     name: ${friendly_name} Restart

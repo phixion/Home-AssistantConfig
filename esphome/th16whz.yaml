@@ -11,25 +11,17 @@ esphome:
   board_flash_mode: dout
 wifi: !include shared/wifi.yaml
 time: !include shared/time.yaml
+api: !include shared/api.yaml
+ota: !include shared/ota.yaml
 web_server: !include shared/webserver.yaml
 captive_portal:
-api:
-  password: !secret esphome_api_pwd
-  reboot_timeout: 1h
-ota:
-  safe_mode: true
-  password: !secret esphome_ota_pwd
 logger:
-  baud_rate: 0
-uart:
-  rx_pin: RX
-  baud_rate: 4800
 binary_sensor:
   - platform: gpio
     pin:
       number: GPIO0
       mode: INPUT_PULLUP
-      inverted: True
+      inverted: true
     name: ${friendly_name} Button
     on_press:
       - switch.toggle: ${devicename}_button
@@ -66,7 +58,6 @@ switch:
     restore_state: true
     name: ${friendly_name} Relay
     optimistic: true
-    internal: true
     id: ${devicename}_button
     turn_on_action:
       - switch.turn_on: relay
@@ -86,7 +77,7 @@ output:
     id: th_blue_led
     pin:
       number: GPIO13
-      inverted: True
+      inverted: true
 light:
   - platform: monochromatic
     internal: true

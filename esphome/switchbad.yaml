@@ -9,20 +9,13 @@ esphome:
   board: esp01_1m
   board_flash_mode: dout
 logger:
-  baud_rate: 0
-uart:
-  rx_pin: RX
-  baud_rate: 4800
 wifi: !include shared/wifi.yaml
 web_server: !include shared/webserver.yaml
 time: !include shared/time.yaml
 text_sensor: !include shared/textsensors.yaml
 sensor: !include shared/sensors.yaml
-api:
-  password: !secret esphome_api_pwd
-ota:
-  safe_mode: true
-  password: !secret esphome_ota_pwd
+ota: !include shared/ota.yaml
+api: !include shared/api.yaml
 output:
   - platform: gpio
     pin: GPIO12
@@ -30,7 +23,7 @@ output:
   - platform: esp8266_pwm
     id: ${devicename}_light
     pin: GPIO13
-    inverted: True
+    inverted: true
 light:
   - platform: binary
     name: ${friendly_name} Light
@@ -63,7 +56,7 @@ binary_sensor:
     pin:
       number: GPIO0
       mode: INPUT_PULLUP
-      inverted: True
+      inverted: true
     id: button
     on_press:
       - switch.toggle: ${devicename}_button

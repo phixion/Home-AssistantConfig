@@ -2,7 +2,7 @@ substitutions:
   devicename: bulbkueche
   friendly_name: "Küche"
   update_interval: 10min
-  frequency_rgb: 1000 Hz
+  frequency_rgb: 100 Hz
   frequency_cw: 1000 Hz
   frequency_ww: 1000 Hz
 esphome:
@@ -29,17 +29,10 @@ output: !include shared/rgbcwwwoutput.yaml
 light: !include shared/rgbcwww.yaml
 text_sensor: !include shared/textsensors.yaml
 wifi: !include shared/wifi.yaml
+api: !include shared/api.yaml
+ota: !include shared/ota.yaml
 captive_portal:
-api:
-  password: !secret esphome_api_pwd
-ota:
-  safe_mode: true
-  password: !secret esphome_ota_pwd
 logger:
-  baud_rate: 0
-uart:
-  rx_pin: RX
-  baud_rate: 4800
 switch:
   - platform: restart
     name: ${friendly_name} Restart

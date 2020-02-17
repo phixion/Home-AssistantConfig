@@ -4,12 +4,14 @@ substitutions:
   update_interval_short: 2s
   update_interval_long: 2min
 esphome:
-  name: {devicename}
+  name: ${devicename}
   platform: ESP8266
   board: esp01_1m
   board_flash_mode: dout
 wifi: !include shared/wifi.yaml
 time: !include shared/time.yaml
+ota: !include shared/ota.yaml
+api: !include shared/api.yaml
 text_sensor: !include shared/textsensors.yaml
 web_server:
 captive_portal:
@@ -18,12 +20,6 @@ logger:
 uart:
   rx_pin: RX
   baud_rate: 4800
-api:
-  password: !secret esphome_api_pwd
-  reboot_timeout: 1h
-ota:
-  safe_mode: true
-  password: !secret esphome_ota_pwd
 binary_sensor:
   - platform: gpio
     pin:
@@ -84,7 +80,7 @@ sensor:
       name: ${friendly_name} Current
       unit_of_measurement: A
       accuracy_decimals: 3
-      icon: 'mdi:flash-auto'
+      icon: mdi:flash-auto
       filters:
         - lambda: if (x < 0.01) return 0; else return x;
     voltage:

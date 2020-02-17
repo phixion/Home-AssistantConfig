@@ -2,28 +2,40 @@ light:
   - platform: group
     name: All Lights
     entities:
-      - light.bulbspotwhzdesk
-      - light.bulbspotwhztv
-      - light.bulbwhzlamp
-      - light.ledstripwhz
-      - light.bulbflur
-      - light.bulbkueche
-      - light.bulbwhzlamp
-      - light.bulbbad
+      - light.bulbspotwhzdesk_rgb
+      - light.bulbspotwhzdesk_cwww
+      - light.bulbspotwhztv_rgb
+      - light.bulbspotwhztv_cwww
+      - light.bulbwhzlamp_rgb
+      - light.bulbwhzlamp_cwww
+      - light.bulbflur_rgb
+      - light.bulbflur_cwww
+      - light.bulbkueche_rgb
+      - light.bulbkueche_cwww
+      - light.bulbbad_rgb
+      - light.bulbbad_cwww
       - light.schalter_bad_light
       - light.schalter_flur_whz_light
       - light.schalter_whz_light
       - light.schalter_lavalampe_light
-      - light.ledstripwhz1
-      - light.ledstripwhz2
-      - light.ledstripwhz3
+      - light.ledstripwhz1_rgb
+      - light.ledstripwhz2_rgb
+      - light.ledstripwhz3_rgb
+      - light.ledstripwhz1_w
   - platform: group
-    name: Mood Lights
+    name: Mood Lights RGB
     entities:
-      - light.bulbspotwhzdesk
-      - light.bulbspotwhztv
-      - light.bulbwhzlamp
-      - light.ledstripwhz1
-      - light.ledstripwhz2
-      - light.ledstripwhz3
+      - light.bulbspotwhzdesk_rgb
+      - light.bulbspotwhztv_rgb
+      - light.bulbwhzlamp_rgb
+      - light.ledstripwhz1_rgb
+      - light.ledstripwhz3_rgb
       - light.schalter_lavalampe_light
+  - platform: group
+    name: Mood Lights CWWW
+    entities:
+      - light.bulbspotwhzdesk_cwww
+      - light.bulbspotwhztv_cwww
+      - light.bulbwhzlamp_cwww
+      - light.ledstripwhz1_w
+

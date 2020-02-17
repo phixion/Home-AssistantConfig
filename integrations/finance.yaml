@@ -4,3 +4,4 @@ coinbase:
   account_balance_currencies:
     - EUR
     - BTC
+    - XLM

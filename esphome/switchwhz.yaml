@@ -9,20 +9,13 @@ esphome:
   board: esp01_1m
   board_flash_mode: dout
 logger:
-  baud_rate: 0
-uart:
-  rx_pin: RX
-  baud_rate: 4800
 wifi: !include shared/wifi.yaml
 web_server: !include shared/webserver.yaml
 time: !include shared/time.yaml
 text_sensor: !include shared/textsensors.yaml
 sensor: !include shared/sensors.yaml
-api:
-  password: !secret esphome_api_pwd
-ota:
-  safe_mode: true
-  password: !secret esphome_ota_pwd
+api: !include shared/api.yaml
+ota: !include shared/ota.yaml
 output:
   - platform: gpio
     pin: GPIO12
@@ -66,10 +59,6 @@ switch:
           service: light.turn_off
           data:
             entity_id: light.mood_lights_cwww
-#      - homeassistant.service:
-#          service: light.turn_off
-#          data:
-#            entity_id: light.mood_lights
 binary_sensor:
   - platform: gpio
     pin:
@@ -102,6 +91,10 @@ binary_sensor:
               data:
                 entity_id: light.mood_lights_rgb
           - homeassistant.service:
+              service: light.turn_on
+              data:
+                entity_id: light.schalter_lavalampe_light
+          - homeassistant.service:
               service: light.turn_off
               data:
                 entity_id: light.mood_lights_cwww
@@ -109,7 +102,7 @@ binary_sensor:
         max_length: 7000ms
         then:
           - homeassistant.service:
-              service: switch.turn_off
+              service: light.turn_off
               data:
                 entity_id: light.all_lights
   - platform: status

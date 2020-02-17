@@ -1,20 +1,51 @@
-#  - platform: attributes
-#    friendly_name: "Batteries"
-#    attribute: battery_level
-#    unit_of_measurement: "%"
-#    entities:
-#      - sensor.battery_level_pixel
-#  - platform: rest
-#    resource: http://api.muc.ccc.de/spaceapi.json
-#    name: muccc
-#    value_template: >
-#      {% for x in value_json %}
-#        '{{ loop.index }}. {{ x.title }}'
-#      {% endfor %}
+#███████╗███████╗███╗   ██╗███████╗ ██████╗ ██████╗ ███████╗
+#██╔════╝██╔════╝████╗  ██║██╔════╝██╔═══██╗██╔══██╗██╔════╝
+#███████╗█████╗  ██╔██╗ ██║███████╗██║   ██║██████╔╝███████╗
+#╚════██║██╔══╝  ██║╚██╗██║╚════██║██║   ██║██╔══██╗╚════██║
+#███████║███████╗██║ ╚████║███████║╚██████╔╝██║  ██║███████║
+#╚══════╝╚══════╝╚═╝  ╚═══╝╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝
 #  - platform: steam_online
 #    api_key: !secret steam_apikey
 #    accounts:
 #      - !secret steam_account
+- platform: influxdb
+  host: localhost
+  port: 8086
+  username: !secret influx_usr
+  password: !secret influx_pwd
+  queries:
+    - name: InfluxDB Size Internal
+      unit_of_measurement: MB
+      group_function: mean
+      value_template: "{{ (value | float / 1024 /1024) | round(1) }}"
+      measurement: '"monitor"."shard"'
+      where: "time > now() - 15m"
+      database: _internal
+      field: diskBytes
+    - name: InfluxDB Size UniFi
+      unit_of_measurement: MB
+      group_function: mean
+      value_template: "{{ (value | float / 1024 /1024) | round(1) }}"
+      measurement: '"monitor"."shard"'
+      where: '"database"=''unifi'' AND time > now() - 15m'
+      database: _internal
+      field: diskBytes
+    - name: InfluxDB Size Telegraf
+      unit_of_measurement: MB
+      group_function: mean
+      value_template: "{{ (value | float / 1024 /1024) | round(1) }}"
+      measurement: '"monitor"."shard"'
+      where: '"database"=''telegraf'' AND time > now() - 15m'
+      database: _internal
+      field: diskBytes
+    - name: InfluxDB Size Homeassistant
+      unit_of_measurement: MB
+      group_function: mean
+      value_template: "{{ (value | float / 1024 /1024) | round(1) }}"
+      measurement: '"monitor"."shard"'
+      where: '"database"=''homeassistant'' AND time > now() - 15m'
+      database: _internal
+      field: diskBytes
 - platform: version
   image: qemux86-64
   source: local
@@ -39,12 +70,17 @@
       arg: enp0s31f6
 - platform: integration
   source: sensor.sonoff_pow_r2_whz_power
-  name: energy_consumtion_whz_1
+  name: energy_consumption_whz_1
   unit_prefix: k
   round: 2
 - platform: integration
   source: sensor.sonoff_pow_r2_tv_power
-  name: energy_consumtion_whz_2
+  name: energy_consumption_whz_2
+  unit_prefix: k
+  round: 2
+- platform: integration
+  source: sensor.energy_combined_power
+  name: energy_consumption_combined
   unit_prefix: k
   round: 2
 - platform: github
@@ -92,7 +128,7 @@
     - image
 - platform: feedparser
   name: rss free steam keys
-  feed_url: "https://www.reddit.com/r/GameDeals/search.rss?q=steam+free&sort=new&restrict_sr=on&t=all.rss"
+  feed_url: "https://www.reddit.com/r/GameDeals/search.rss?q=free&sort=new&restrict_sr=on&t=all.rss"
   inclusions:
     - title
     - link
@@ -293,48 +329,22 @@
       entity_id: sun.sun
       friendly_name: "Sonnenaufgang"
       value_template: "{{ state_attr('sun.sun','next_dawn') }}"
-    battery_level_google_pixel:
-      entity_id: device_tracker.google_pixel
-      friendly_name: Batterylevel Pixel
-      unit_of_measurement: "%"
-      value_template: >-
-        {%- if state_attr('device_tracker.google_pixel', 'battery') %}
-            {{ state_attr('device_tracker.google_pixel', 'battery')|round }}
-        {% else %}
-            {{ states('sensor.battery.google_pixel') }}
-        {%- endif %}
-      device_class: battery
-    battery_level_google_nexus:
-      entity_id: device_tracker.google_nexus
-      friendly_name: Batterylevel Nexus
-      unit_of_measurement: "%"
-      value_template: >-
-        {%- if state_attr('device_tracker.google_nexus', 'battery') %}
-            {{ state_attr('device_tracker.google_nexus', 'battery')|round }}
-        {% else %}
-            {{ states('device_tracker.google_nexus') }}
-        {%- endif %}
-      device_class: battery
     proximity_dir_of_travel:
       entity_id: proximity.home
       friendly_name: "Direction of travel"
       value_template: "{{ state_attr('proximity.home','dir_of_travel') }}"
-    energy_consumtion_combined:
-      value_template: "{{ ((states.sensor.energy_consumtion_whz_1.state | float) + (states.sensor.energy_consumtion_whz_2.state | float)) | round(2) }}"
-      friendly_name: "Energy consumtion combined"
-      unit_of_measurement: "kwh"
     energy_combined_current:
       value_template: "{{ ((states.sensor.sonoff_pow_r2_tv_current.state | float) + (states.sensor.sonoff_pow_r2_whz_current.state | float)) | round(3) }}"
       friendly_name: "Energy combined current"
-      unit_of_measurement: "A"
+      unit_of_measurement: A
     energy_combined_power:
       value_template: "{{ ((states.sensor.sonoff_pow_r2_tv_power.state | float) + (states.sensor.sonoff_pow_r2_whz_power.state | float)) | round(2) }}"
       friendly_name: "Energy combined power"
-      unit_of_measurement: "W"
+      unit_of_measurement: W
     energy_combined_voltage:
       value_template: "{{ (((states.sensor.sonoff_pow_r2_tv_voltage.state | float) + (states.sensor.sonoff_pow_r2_whz_voltage.state | float)) / 2) | round(2) }}"
       friendly_name: "Energy combined voltage"
-      unit_of_measurement: "V"
+      unit_of_measurement: V
     coinbase_vault_in_euro:
       entity_id: sensor.coinbase_btc_vault
       friendly_name: "Coinbase BTC Vault (EUR)"
@@ -345,10 +355,102 @@
       friendly_name: "Coinbase BTC Wallet (EUR)"
       unit_of_measurement: EUR
       value_template: "{{ ((states.sensor.coinbase_btc_wallet.state | float) * (states.sensor.btc_exchange_rate.state | float)) | round(2)}}"
-    coinbase_euro:
-      value_template: "{{ ((states.sensor.coinbase_vault_in_euro.state | float) + (states.sensor.coinbase_wallet_in_euro.state | float) + (states.sensor.coinbase_eur_wallet.state | float)) | round(2)}}"
-      friendly_name: "Coinbase Deposit (EUR)"
-      unit_of_measurement: "EUR"
+    coinbase_vault_xlm_in_euro:
+      entity_id: sensor.coinbase_xlm_vault
+      value_template: "{{ ((states.sensor.coinbase_xlm_vault.state | float) * (states.sensor.xlm_exchange_rate.state | float)) | round(2)}}"
+      friendly_name: "Coinbase XLM Vault (EUR)"
+      unit_of_measurement: EUR
+    coinbase_wallet_xlm_in_euro:
+      entity_id: sensor.coinbase_xlm_wallet
+      value_template: "{{ ((states.sensor.coinbase_xlm_wallet.state | float) * (states.sensor.xlm_exchange_rate.state | float)) | round(2)}}"
+      friendly_name: "Coinbase XLM Wallet (EUR)"
+      unit_of_measurement: EUR
+    coinbase_deposit:
+      value_template: "{{ ((states.sensor.coinbase_vault_in_euro.state | float) + (states.sensor.coinbase_wallet_in_euro.state | float) + (states.sensor.coinbase_eur_wallet.state | float) + (states.sensor.coinbase_wallet_xlm_in_euro.state | float) + (states.sensor.coinbase_vault_xlm_in_euro.state | float)) | round(2)}}"
+      friendly_name: "Coinbase Deposit"
+      unit_of_measurement: EUR
+    energy_consumed_hourly_combined:
+      unit_of_measurement: kWh
+      value_template: "{{ ((states.sensor.energy_consumed_hourly_whz_1.state | float) + (states.sensor.energy_consumed_hourly_whz_2.state | float)) | round(2) }}"
+    energy_consumed_daily_combined:
+      unit_of_measurement: kWh
+      value_template: "{{ ((states.sensor.energy_consumed_daily_whz_1.state | float) + (states.sensor.energy_consumed_daily_whz_2.state | float)) | round(2) }}"
+    energy_consumed_weekly_combined:
+      unit_of_measurement: kWh
+      value_template: "{{ ((states.sensor.energy_consumed_weekly_whz_1.state | float) + (states.sensor.energy_consumed_weekly_whz_2.state | float)) | round(2) }}"
+    energy_consumed_monthly_combined:
+      unit_of_measurement: kWh
+      value_template: "{{ ((states.sensor.energy_consumed_monthly_whz_1.state | float) + (states.sensor.energy_consumed_monthly_whz_2.state | float)) | round(2) }}"
+    energy_consumed_yearly_combined:
+      unit_of_measurement: kWh
+      value_template: "{{ ((states.sensor.energy_consumed_yearly_whz_1.state | float) + (states.sensor.energy_consumed_yearly_whz_2.state | float)) | round(2) }}"
+- platform: statistics
+  sampling_size: 100
+  name: InfluxDB Telegraf Size
+  entity_id: sensor.influxdb_size_telegraf
+- platform: statistics
+  sampling_size: 100
+  name: InfluxDB Homeassistant Size
+  entity_id: sensor.influxdb_size_homeassistant
+- platform: statistics
+  sampling_size: 100
+  name: InfluxDB Internal Size
+  entity_id: sensor.influxdb_size_internal
+- platform: statistics
+  sampling_size: 100
+  name: InfluxDB UniFi Size
+  entity_id: sensor.influxdb_size_unifi
+- platform: statistics
+  sampling_size: 100
+  name: MariaDB Homeassistant Size
+  entity_id: sensor.mariadb_homeassistant
+- platform: statistics
+  sampling_size: 100
+  name: Sonoff POW WHZ Power
+  entity_id: sensor.sonoff_pow_r2_whz_power
+- platform: statistics
+  sampling_size: 100
+  name: Sonoff POW WHZ Current
+  entity_id: sensor.sonoff_pow_r2_whz_current
+- platform: statistics
+  sampling_size: 100
+  name: Sonoff POW WHZ Voltage
+  entity_id: sensor.sonoff_pow_r2_whz_voltage
+- platform: statistics
+  sampling_size: 100
+  name: Sonoff POW TV Power
+  entity_id: sensor.sonoff_pow_r2_tv_power
+- platform: statistics
+  sampling_size: 100
+  name: Sonoff POW TV Current
+  entity_id: sensor.sonoff_pow_r2_tv_current
+- platform: statistics
+  sampling_size: 100
+  name: Sonoff POW TV Voltage
+  entity_id: sensor.sonoff_pow_r2_tv_voltage
+- platform: statistics
+  sampling_size: 100
+  name: Sonoff POW Combined Power
+  entity_id: sensor.energy_combined_power
+- platform: statistics
+  sampling_size: 100
+  name: Sonoff POW Combined Current
+  entity_id: sensor.energy_combined_current
+- platform: statistics
+  sampling_size: 100
+  name: Sonoff POW Combined Voltage
+  entity_id: sensor.energy_combined_voltage
+- platform: statistics
+  sampling_size: 100
+  name: Coinbase Deposit (EUR)
+  entity_id: sensor.coinbase_deposit
+- platform: sql
+  db_url: !secret dburl
+  queries:
+    - name: MariaDB Homeassistant
+      query: 'SELECT table_schema "database", Round(Sum(data_length + index_length) / 1024 / 1024 / 1024, 2) "value" FROM information_schema.tables WHERE table_schema="homeassistant" GROUP BY table_schema;'
+      column: "value"
+      unit_of_measurement: GB
 - platform: qnap
   host: !secret qnap_host
   username: !secret qnap_usr
@@ -418,8 +520,8 @@
   destination: zone.home
 - platform: attributes
   friendly_name: "Batteries"
-  attribute: battery_level
+  attribute: battery
   unit_of_measurement: "%"
   entities:
-    - device_tracker.pixel_gps
-    - device_tracker.nexus_gps
+    - device_tracker.google_pixel
+    - device_tracker.google_nexus

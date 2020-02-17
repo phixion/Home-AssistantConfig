@@ -2,7 +2,7 @@ substitutions:
   devicename: bulbspotwhztv
   friendly_name: "Spotlight WHZ (TV)"
   update_interval: 10min
-  frequency_rgb: 1000 Hz
+  frequency_rgb: 100 Hz
   frequency_cw: 1000 Hz
   frequency_ww: 1000 Hz
 esphome:
@@ -11,14 +11,6 @@ esphome:
   platform: ESP8266
   board: esp01_1m
   board_flash_mode: dout
-  on_boot:
-    priority: 100
-    then:
-      - light.turn_on:
-          state: True
-          id: ${devicename}_rgb
-          transition_length: 3s
-          brightness: 100%
 globals: !include shared/globals.yaml
 web_server: !include shared/webserver.yaml
 time: !include shared/time.yaml
@@ -28,17 +20,10 @@ output: !include shared/rgbcwwwoutput.yaml
 light: !include shared/rgbcwww.yaml
 text_sensor: !include shared/textsensors.yaml
 wifi: !include shared/wifi.yaml
+api: !include shared/api.yaml
+ota: !include shared/ota.yaml
 captive_portal:
-api:
-  password: !secret esphome_api_pwd
-ota:
-  safe_mode: true
-  password: !secret esphome_ota_pwd
 logger:
-  baud_rate: 0
-uart:
-  rx_pin: RX
-  baud_rate: 4800
 switch:
   - platform: restart
     name: ${friendly_name} Restart

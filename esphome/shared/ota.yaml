@@ -1,0 +1,2 @@
+safe_mode: true
+password: !secret esphome_ota_pwd

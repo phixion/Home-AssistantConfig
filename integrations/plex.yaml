@@ -1,0 +1,9 @@
+plex:
+  host: !secret host_androidtv
+  port: !secret plex_prt
+  token: !secret plex_token
+  ssl: true
+  verify_ssl: true
+  media_player:
+    use_episode_art: true
+    show_all_controls: true

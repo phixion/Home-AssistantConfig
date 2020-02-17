@@ -1,122 +1,127 @@
-- id: mood_lights_normal_mode_on
-  name: Mood Lights Normal Mode on
+- id: mood_lights_cwww_on
+  name: Mood Lights CWWW on
   entities:
-    light.mood_lights:
+    light.mood_lights_cwww:
       brightness: 255
-      color_temp: 357
       effect: None
-      hs_color:
-        - 0
-        - 0
-      max_mireds: 357.1428527832031
-      min_mireds: 161.2903289794922
-      rgb_color:
-        - 255
-        - 255
-        - 255
-      state: "on"
-      supported_features: 191
-      white_value: 255
-      xy_color:
-        - 0.323
-        - 0.329
-- id: mood_lights_off_mode
-  name: Mood Lights Off Mode
+      state: 'on'
+- id: mood_lights_cwww_off
+  name: Mood Lights CWWW off
   entities:
-    light.mood_lights:
-      state: "off"
-      effect: None
-- id: all_lights_off_mode
-  name: All Off Mode
+    light.mood_lights_cwww:
+      state: 'off'
+- id: mood_lights_rgb_on
+  name: Mood Lights RGB on
+  entities:
+    light.mood_lights_rgb:
+      brightness: 255
+      state: 'on'
+- id: mood_lights_rgb_off
+  name: Mood Lights RGB off
+  entities:
+    light.mood_lights_rgb:
+      state: 'off'
+- id: mood_lights_off
+  name: Mood Lights Off
+  entities:
+    light.mood_lights_cwww:
+      state: 'off'
+    light.mood_lights_rgb:
+      state: 'off'
+- id: all_lights_off
+  name: All Lights off
   entities:
     light.all_lights:
-      friendly_name: All Lights
-      state: "off"
+      state: 'off'
 - id: chill_mode_on
   name: Chill Mode On
   entities:
-    light.mood_lights:
-      brightness: 255
-      color_temp: 119
+    light.mood_lights_rgb:
       effect: Chill Mode
-      hs_color:
-        - 225.205
-        - 57.255
-      max_mireds: 357.1428527832031
-      min_mireds: 161.2903289794922
+      brightness: 255
+      state: 'on'
+    light.mood_lights_cwww:
+      state: 'off'
+- id: chill_mode_vibrant_on
+  name: Chill Mode Vibrant On
+  entities:
+    light.mood_lights_rgb:
+      effect: Chill Mode (Vibrant)
+      brightness: 255
+      state: 'on'
+    light.mood_lights_cwww:
+      state: 'off'
+- id: disco_mode_on
+  name: Disco Mode on
+  entities:
+    light.bulbbad_rgb:
+      brightness: 255
+      effect: Disco
+      state: 'on'
+    light.bulbflur_rgb:
+      brightness: 255
+      effect: Disco
+      state: 'on'
+    light.bulbkueche_rgb:
+      brightness: 255
+      effect: Disco
+      state: 'on'
+    light.mood_lights_rgb:
+      brightness: 255
+      state: 'on'
+      effect: Disco
+    light.schalter_bad_light:
+      state: 'on'
+    light.schalter_flur_whz_light:
+      state: 'on'
+- id: normal_mode_on
+  name: Normal Mode on
+  entities:
+    light.bulbbad_rgb:
+      brightness: 255
+      effect: None
+      state: 'on'
       rgb_color:
-        - 108
-        - 145
-        - 255
-      state: "on"
-      supported_features: 191
-      white_value: 0
-      xy_color:
-        - 0.192
-        - 0.176
-- id: "1579975225860"
+      - 0
+      - 0
+      - 0
+    light.bulbflur_rgb:
+      brightness: 255
+      effect: None
+      state: 'on'
+      rgb_color:
+      - 0
+      - 0
+      - 0
+    light.bulbkueche_rgb:
+      brightness: 255
+      effect: None
+      state: 'on'
+      rgb_color:
+      - 0
+      - 0
+      - 0
+    light.mood_lights_rgb:
+      brightness: 255
+      state: 'on'
+      effect: None
+      rgb_color:
+      - 0
+      - 0
+      - 0
+    light.schalter_bad_light:
+      state: 'on'
+    light.schalter_flur_whz_light:
+      state: 'on'
+- id: teal
   name: Teal
   entities:
-    light.mood_lights:
+    light.mood_lights_rgb:
       brightness: 255
-      color_temp: 0
       effect: None
-      hs_color:
-        - 184.875
-        - 62.745
-      max_mireds: 357.1428527832031
-      min_mireds: 161.2903289794922
       rgb_color:
-        - 95
-        - 242
-        - 255
-      state: "on"
-      supported_features: 191
-      white_value: 121
-      xy_color:
-        - 0.179
-        - 0.321
-- id: "1579975278489"
-  name: Purple
-  entities:
-    light.mood_lights:
-      brightness: 255
-      color_temp: 0
-      effect: None
-      hs_color:
-        - 271.765
-        - 100
-      max_mireds: 357.1428527832031
-      min_mireds: 161.2903289794922
-      rgb_color:
-        - 135
-        - 0
-        - 255
-      state: "on"
-      supported_features: 191
-      white_value: 121
-      xy_color:
-        - 0.227
-        - 0.082
-- id: "1579975387765"
-  name: Red
-  entities:
-    light.mood_lights:
-      brightness: 255
-      color_temp: 0
-      effect: None
-      hs_color:
-        - 345.176
-        - 100
-      max_mireds: 357.1428527832031
-      min_mireds: 161.2903289794922
-      rgb_color:
-        - 255
-        - 0
-        - 63
-      state: "on"
-      supported_features: 191
-      white_value: 121
-      xy_color:
-        - 0.667
-        - 0.284
+      - 95
+      - 242
+      - 255
+      state: 'on'
+

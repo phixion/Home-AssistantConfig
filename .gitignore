@@ -18,6 +18,12 @@
 !shared
 !esphome/shared/*.yaml
 #ensure
+esphome/secrets.yaml
+esphome/shared/secrets.yaml
+integrations/secrets.yaml
+esphome/*.json
+esphome/shared/*.json
+integrations/*.json
 secrets.yaml
 *.json
 zones.yaml

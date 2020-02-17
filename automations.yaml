@@ -1,9 +1,15 @@
+# █████╗ ██╗   ██╗████████╗ ██████╗ ███╗   ███╗ █████╗ ████████╗██╗ ██████╗ ███╗   ██╗███████╗
+#██╔══██╗██║   ██║╚══██╔══╝██╔═══██╗████╗ ████║██╔══██╗╚══██╔══╝██║██╔═══██╗████╗  ██║██╔════╝
+#███████║██║   ██║   ██║   ██║   ██║██╔████╔██║███████║   ██║   ██║██║   ██║██╔██╗ ██║███████╗
+#██╔══██║██║   ██║   ██║   ██║   ██║██║╚██╔╝██║██╔══██║   ██║   ██║██║   ██║██║╚██╗██║╚════██║
+#██║  ██║╚██████╔╝   ██║   ╚██████╔╝██║ ╚═╝ ██║██║  ██║   ██║   ██║╚██████╔╝██║ ╚████║███████║
+#╚═╝  ╚═╝ ╚═════╝    ╚═╝    ╚═════╝ ╚═╝     ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝╚══════╝
 - alias: Vacation Mode
   trigger:
     platform: state
     entity_id: person.martin
-    from: "home"
-    to: "not_home"
+    from: home
+    to: not_home
     for:
       hours: 12
       minutes: 0
@@ -33,8 +39,8 @@
   trigger:
     platform: state
     entity_id: person.martin
-    from: "home"
-    to: "not_home"
+    from: home
+    to: not_home
     for:
       hours: 0
       minutes: 5
@@ -104,16 +110,15 @@
   trigger:
     platform: state
     entity_id: person.martin
-    from: "home"
-    to: "not_home"
-  #  condition:
-  #    condition: time
-  #    after: "20:00"
+    from: home
+    to: not_home
   action:
     service: notify.pushover
     data_template:
       title: 🚶 Martin left the flat
-      message: "Event triggered: {{ trigger.entity_id }} changed from {{ trigger.from_state.state }} to {{ trigger.to_state.state }}"
+      message:
+        "Event triggered: {{ trigger.entity_id }} changed from {{ trigger.from_state.state
+        }} to {{ trigger.to_state.state }}"
   id: aebd69cf232b488ca078745e1c1bdf4f
 - alias: Badezimmer besetzt
   trigger:
@@ -154,24 +159,6 @@
       entity_id: sensor.morning_commute_trains
     - service: homeassistant.update_entity
       entity_id: sensor.morning_commute_bike
-- id: weather_alert
-  alias: Wetter Alarm
-  trigger:
-    - platform: state
-      entity_id: sensor.alert
-  condition:
-    - condition: template
-      value_template: "{{trigger.from_state.state != trigger.to_state.state}}"
-  action:
-    - service: script.all_notify
-      data_template:
-        title: Wetter Alarm
-        message:
-          "{%- if not is_state('sensor.alert', '0') -%}\n  {%- for s  in ['today',\
-          \ 'tomorrow'] -%}\n    {%- set v = state_attr('sensor.w_alert', s) -%}\n \
-          \   {%- if v -%}\n      {% for d  in v -%}\n        {{s}} - {{d['code']}}\
-          \ {{d['event']}} {{d['end']}}\n      {% endfor -%}\n    {%- endif -%}\n  {%\
-          \ endfor -%}\n{% else %}\n  alert expired\n{% endif %}"
 - alias: Coinbase Wallet
   trigger:
     - platform: state
@@ -183,7 +170,9 @@
     - service: notify.pushover
       data_template:
         title: ₿ Coinbase Wallet Value changed
-        message: "Event triggered: {{ trigger.entity_id }} changed from {{ trigger.from_state.state }} to {{ trigger.to_state.state }}"
+        message:
+          "Event triggered: {{ trigger.entity_id }} changed from {{ trigger.from_state.state
+          }} to {{ trigger.to_state.state }}"
 - alias: Xur
   trigger:
     - platform: state
@@ -207,3 +196,38 @@
       data_template:
         title: Xur changed location
         message: "Find him at: {{states('sensor.wtfisxur')}}"
+- alias: somethig is added to HACS
+  trigger:
+    platform: event
+    event_type: hacs/repository
+    event_data:
+      action: registration
+  condition:
+    condition: template
+    value_template: "{{ trigger.event.data.repository is defined }}"
+  action:
+    service: persistent_notification.create
+    data_template:
+      title: New repository in HACS
+      message: >-
+        {% set repo = trigger.event.data.repository %}
+        {% set id = trigger.event.data.repository_id %}
+        [{{ repo }}](/hacs/repository/{{ id }})
+        was just added to HACS.
+- alias: updates pending in HACS
+  trigger:
+    platform: state
+    entity_id: sensor.hacs
+  condition:
+    - condition: template
+      value_template: "{{ states(trigger.entity_id) != 'unknown'}}"
+    - condition: template
+      value_template: "{{ (states(trigger.entity_id) | float) != 0}}"
+  action:
+    service: persistent_notification.create
+    data_template:
+      title: Updates pending in HACS
+      message: >-
+        {% for repo in state_attr(trigger.entity_id, 'repositories') %}
+          **{{ repo.display_name }}** _{{ repo["installed version"] }}_ -> _{{ repo["available version"] }}_
+        {% endfor %}

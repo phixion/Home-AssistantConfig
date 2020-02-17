@@ -1,3 +1,9 @@
+# ██████╗ ██████╗  ██████╗ ██╗   ██╗██████╗ ███████╗
+#██╔════╝ ██╔══██╗██╔═══██╗██║   ██║██╔══██╗██╔════╝
+#██║  ███╗██████╔╝██║   ██║██║   ██║██████╔╝███████╗
+#██║   ██║██╔══██╗██║   ██║██║   ██║██╔═══╝ ╚════██║
+#╚██████╔╝██║  ██║╚██████╔╝╚██████╔╝██║     ███████║
+# ╚═════╝ ╚═╝  ╚═╝ ╚═════╝  ╚═════╝ ╚═╝     ╚══════╝
 #energy_consumtion_combined:
 #  entities:
 #    - sensor.energy_consumtion_whz_1
@@ -14,10 +20,8 @@
 #  entities:
 #    - sensor.sonoff_pow_r2_tv_voltage
 #    - sensor.sonoff_pow_r2_whz_voltage
-  automation_view:
-    name: Automation
-    view: yes
-    entities:
-      - group.all_automations
-      - group.all_scripts
-
+automation_view:
+  name: Automation
+  entities:
+    - group.all_automations
+    - group.all_scripts
