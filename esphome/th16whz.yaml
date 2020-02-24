@@ -60,10 +60,10 @@ switch:
     optimistic: true
     id: ${devicename}_button
     turn_on_action:
-      - switch.turn_on: relay
+#      - switch.turn_on: relay
       - light.turn_on: led
     turn_off_action:
-      - switch.turn_off: relay
+#      - switch.turn_off: relay
       - light.turn_off: led
   - platform: gpio
     id: relay

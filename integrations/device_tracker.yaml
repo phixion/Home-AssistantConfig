@@ -1,10 +1,10 @@
-#██████╗ ███████╗██╗   ██╗██╗ ██████╗███████╗    ████████╗██████╗  █████╗  ██████╗██╗  ██╗███████╗██████╗
-#██╔══██╗██╔════╝██║   ██║██║██╔════╝██╔════╝    ╚══██╔══╝██╔══██╗██╔══██╗██╔════╝██║ ██╔╝██╔════╝██╔══██╗
-#██║  ██║█████╗  ██║   ██║██║██║     █████╗         ██║   ██████╔╝███████║██║     █████╔╝ █████╗  ██████╔╝
-#██║  ██║██╔══╝  ╚██╗ ██╔╝██║██║     ██╔══╝         ██║   ██╔══██╗██╔══██║██║     ██╔═██╗ ██╔══╝  ██╔══██╗
-#██████╔╝███████╗ ╚████╔╝ ██║╚██████╗███████╗       ██║   ██║  ██║██║  ██║╚██████╗██║  ██╗███████╗██║  ██║
-#╚═════╝ ╚══════╝  ╚═══╝  ╚═╝ ╚═════╝╚══════╝       ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝
-#
+#██████╗ ███████╗██╗   ██╗██╗ ██████╗███████╗████████╗██████╗  █████╗  ██████╗██╗  ██╗███████╗██████╗ 
+#██╔══██╗██╔════╝██║   ██║██║██╔════╝██╔════╝╚══██╔══╝██╔══██╗██╔══██╗██╔════╝██║ ██╔╝██╔════╝██╔══██╗
+#██║  ██║█████╗  ██║   ██║██║██║     █████╗     ██║   ██████╔╝███████║██║     █████╔╝ █████╗  ██████╔╝
+#██║  ██║██╔══╝  ╚██╗ ██╔╝██║██║     ██╔══╝     ██║   ██╔══██╗██╔══██║██║     ██╔═██╗ ██╔══╝  ██╔══██╗
+#██████╔╝███████╗ ╚████╔╝ ██║╚██████╗███████╗   ██║   ██║  ██║██║  ██║╚██████╗██║  ██╗███████╗██║  ██║
+#╚═════╝ ╚══════╝  ╚═══╝  ╚═╝ ╚═════╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝
+#                                                                                                     
 device_tracker:
   - platform: composite
     consider_home: 600
@@ -19,3 +19,25 @@ device_tracker:
     entity_id:
       - device_tracker.nexus_gps
       - device_tracker.nexus_wifi
+  - platform: composite
+    name: "MacBook Air"
+    time_as: device_or_local
+    entity_id:
+      - device_tracker.0x3efe_icloud
+      - device_tracker.0x3efe_wifi
+#  - platform: ping
+#    count: 2
+#    hosts:
+#      pixel_ping: !secret host_pixel_wifi
+#      nexus_ping: !secret host_nexus_wifi
+#      cray_ping: !secret host_cray_ethernet
+#      macbookair11_ping: !secret host_macbookair11_wifi
+#      macbookair13_ping: !secret host_macbookair13_wifi
+#      shield_ping: !secret host_shield_ethernet
+#      omega_ping: !secret host_omega_ethernet
+#      theta_ping: !secret host_theta_ethernet
+#  - platform: arpscan_tracker
+#    interval_seconds: 15
+#    consider_home: 60
+#    track_new_devices: false
+#    scan_options: " --interface=enp0s31f6 10.10.10.0/24 -g -t1 -q"

@@ -1,8 +1,49 @@
+#██╗      ██████╗  ██████╗  ██████╗ ██╗███╗   ██╗ ██████╗ 
+#██║     ██╔═══██╗██╔════╝ ██╔════╝ ██║████╗  ██║██╔════╝ 
+#██║     ██║   ██║██║  ███╗██║  ███╗██║██╔██╗ ██║██║  ███╗
+#██║     ██║   ██║██║   ██║██║   ██║██║██║╚██╗██║██║   ██║
+#███████╗╚██████╔╝╚██████╔╝╚██████╔╝██║██║ ╚████║╚██████╔╝
+#╚══════╝ ╚═════╝  ╚═════╝  ╚═════╝ ╚═╝╚═╝  ╚═══╝ ╚═════╝ 
+#                                                         
 recorder:
-  purge_keep_days: 5
+  purge_keep_days: 28
   purge_interval: 1
   db_url: !secret dburl
   exclude:
+    entities:
+      - sensor.influxdb_size_telegraf
+      - sensor.influxdb_size_homeassistant
+      - sensor.influxdb_size_internal
+      - sensor.influxdb_size_unifi
+      - sensor.mariadb_homeassistant
+      - sensor.sonoff_pow_r2_whz_power
+      - sensor.sonoff_pow_r2_whz_current
+      - sensor.sonoff_pow_r2_whz_voltage
+      - sensor.sonoff_pow_r2_tv_power
+      - sensor.sonoff_pow_r2_tv_current
+      - sensor.sonoff_pow_r2_tv_voltage
+      - sensor.sonoff_pow_r2_whz_daily_energy
+      - sensor.sonoff_pow_r2_tv_daily_energy
+      - sensor.energy_combined_power
+      - sensor.energy_combined_current
+      - sensor.energy_combined_voltage
+      - sensor.uptime
+      - sensor.dark_sky_alerts
+      - sensor.dark_sky_apparent_temperature
+      - sensor.dark_sky_cloud_coverage
+      - sensor.dark_sky_dew_point
+      - sensor.dark_sky_humidity
+      - sensor.dark_sky_ozone
+      - sensor.dark_sky_precip
+      - sensor.dark_sky_precip_intensity
+      - sensor.dark_sky_precip_probability
+      - sensor.dark_sky_pressure
+      - sensor.dark_sky_summary
+      - sensor.dark_sky_temperature
+      - sensor.dark_sky_uv_index
+      - sensor.dark_sky_visibility
+      - sensor.dark_sky_wind_bearing
+      - sensor.dark_sky_wind_speed
     domains:
       - updater
       - camera
@@ -20,6 +61,7 @@ logbook:
   exclude:
     entities:
       - automation.update_morning_commute_sensor
+      - automation.keep_google_home_alive
     domains:
       - updater
       - camera
@@ -29,6 +71,28 @@ logbook:
       - image_processing
 history:
   exclude:
+    entities:
+      - sensor.influxdb_size_telegraf
+      - sensor.influxdb_size_homeassistant
+      - sensor.influxdb_size_internal
+      - sensor.influxdb_size_unifi
+      - sensor.mariadb_homeassistant
+      - sensor.sonoff_pow_r2_whz_power
+      - sensor.sonoff_pow_r2_whz_current
+      - sensor.sonoff_pow_r2_whz_voltage
+      - sensor.sonoff_pow_r2_tv_power
+      - sensor.sonoff_pow_r2_tv_current
+      - sensor.sonoff_pow_r2_tv_voltage
+      - sensor.energy_combined_power
+      - sensor.energy_combined_current
+      - sensor.energy_combined_voltage
+      - sensor.sonoff_th16_whz_temperatur_sensor
+      - sensor.sonoff_th16_whz_humidity_sensor
+      - sensor.climate_flur_temp
+      - sensor.climate_bad_temp
+      - sensor.climate_wonzimmer_temp
+      - sensor.sonoff_pow_r2_whz_daily_energy
+      - sensor.sonoff_pow_r2_tv_daily_energy
     domains:
       - updater
       - camera
@@ -41,3 +105,8 @@ logger:
   logs:
     homeassistant.components.http.ban: warning
     homeassistant.components.google_assistant.http: debug
+    homeassistant.components.google_cloud: debug
+    homeassistant.components.google: debug
+system_log:
+  fire_event: true
+  max_entries: 500

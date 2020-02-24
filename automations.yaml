@@ -53,9 +53,10 @@
         - light.schalter_bad_light
         - light.schalter_flur_whz_light
         - light.schalter_whz_light
+        - light.schalter_kueche_light
     - service: light.turn_off
       entity_id:
-        - light.mood_lights
+        - light.all_lights
     - service: media_player.turn_off
       entity_id:
         - media_player.android_tv
@@ -98,13 +99,29 @@
       data_template:
         message: Temperatur ist {{states('sensor.climate_wohnung_temp')}}
         title: ✅ Light's and Heating turned ON
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.google_home
+        volume_level: 0.01
     - service: media_player.turn_on
       entity_id: media_player.google_home
-    - delay: 00:00:02
-    - service: notify.google_assistant
-      entity_id: media_player.google_home
+    - delay: 00:00:20
+    - service: media_player.volume_set
       data:
-        message: Hallo Martin
+        entity_id: media_player.google_home
+        volume_level: 0.38
+    - delay: 00:00:5
+    - service: tts.google_cloud_say
+      entity_id: media_player.google_home
+      data_template:
+        message: Hallo Martin heute ist {{ ['Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag','Sonntag'][now().weekday()] }}. Die Zimmertemperatur betraegt {{states('sensor.climate_wohnung_temp')}} Grad Celsius. Das Wetter ist {{states('sensor.dark_sky_summary')}} bei {{states('sensor.dark_sky_temperature')}} Grad Celsius. Du bist heute bereits {{states('sensor.google_fit_martin_move_time')}} Minuten und {{states('sensor.google_fit_martin_steps')}} Schritte gelaufen, mach weiter so!
+  #    - service: tts.watson_tts_say
+  #      entity_id: media_player.google_home
+  #      data_template:
+  #        message: >
+  #          <speak>
+  #            Hallo Martin heute ist {{ ['Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag','Sonntag'][now().weekday()] }}. Die Zimmertemperatur betraegt {{states('sensor.climate_wohnung_temp')}} Grad Celsius. Das Wetter ist {{states('sensor.dark_sky_summary')}} bei {{states('sensor.dark_sky_temperature')}} Grad Celsius. Du bist heute bereits {{states('sensor.google_fit_martin_move_time')}} Minuten und {{states('sensor.google_fit_martin_steps')}} Schritte gelaufen, mach weiter so!
+  #          </speak>
   id: df47ca4915274cf494fc429ae46aa3b1
 - alias: Leave Home notification
   trigger:
@@ -142,11 +159,11 @@
         title: 🚽 Badezimmer ist frei
         message: " "
   id: 2459b936fc0442459411361ba69453af
-- id: update_morning_commute_sensor
-  alias: Update morning commute sensor
+- id: update_commute_sensors
+  alias: Update commute sensors
   trigger:
     - platform: time_pattern
-      minutes: /2
+      minutes: /10
   condition:
     - condition: time
       after: 07:00:00
@@ -159,6 +176,10 @@
       entity_id: sensor.morning_commute_trains
     - service: homeassistant.update_entity
       entity_id: sensor.morning_commute_bike
+    - service: homeassistant.update_entity
+      entity_id: sensor.commute_parents_trains
+    - service: homeassistant.update_entity
+      entity_id: sensor.commute_parents_bike
 - alias: Coinbase Wallet
   trigger:
     - platform: state
@@ -180,13 +201,6 @@
   condition:
     - condition: template
       value_template: "{{trigger.from_state.state != trigger.to_state.state}}"
-    - condition: time
-      weekday:
-        - fri
-        - sat
-        - sun
-        - mon
-        - tue
   action:
     - service: notify.pushover
       data_template:
@@ -196,7 +210,7 @@
       data_template:
         title: Xur changed location
         message: "Find him at: {{states('sensor.wtfisxur')}}"
-- alias: somethig is added to HACS
+- alias: somethig has been added to HACS
   trigger:
     platform: event
     event_type: hacs/repository
@@ -231,3 +245,69 @@
         {% for repo in state_attr(trigger.entity_id, 'repositories') %}
           **{{ repo.display_name }}** _{{ repo["installed version"] }}_ -> _{{ repo["available version"] }}_
         {% endfor %}
+#- alias: Keep Google Home Alive
+#  trigger:
+#    platform: time_pattern
+#    minutes: /2
+#  condition:
+#    condition: or
+#    conditions:
+#      - condition: state
+#        entity_id: media_player.google_home
+#        state: "off"
+#      - condition: state
+#        entity_id: media_player.google_home
+#        state: "idle"
+#  action:
+#    service: media_player.play_media
+#    entity_id: media_player.google_home
+#    data:
+#      media_content_id: http://10.10.10.7:8123/local/_static/1sec.mp3
+#      media_content_type: music
+- alias: Warn when batteries are below threshold
+  trigger:
+    - platform: numeric_state
+      entity_id:
+        - device_tracker.google_nexus
+        - device_tracker.google_pixel
+      value_template: "{{ state.attributes.battery if state.attributes.battery else 101 }}"
+      below: 20
+  action:
+    - service: notify.pushover
+      data_template:
+        title: "{{ trigger.entity_id.name }} Battery Low"
+        message: 'Charge {{ trigger.to_state.name|default("unknown") }} batteries'
+- alias: Low Disk Space
+  description: "Notify me of low disk space"
+  trigger:
+    platform: state
+    entity_id: sensor.disk_use_percent
+  condition:
+    - condition: template
+      value_template: "{{ (states(trigger.entity_id) | float) > 70}}"
+  action:
+    - service: notify.pushover
+      data_template:
+        title: Main disk is almost full!
+        message: "Diskusage: {{states(trigger.entity_id)}}"
+- alias: Count warnings
+  trigger:
+    platform: event
+    event_type: system_log_event
+    event_data:
+      level: WARNING
+  action:
+    service: counter.increment
+    entity_id: counter.warning_counter
+- alias: Create notifications for "service" errors
+  trigger:
+    platform: event
+    event_type: system_log_event
+  condition:
+    condition: template
+    value_template: '{{ "service" in trigger.event.data.message }}'
+  action:
+    service: persistent_notification.create
+    data_template:
+      title: Something bad happened
+      message: '{{ trigger.event.data.message }}'

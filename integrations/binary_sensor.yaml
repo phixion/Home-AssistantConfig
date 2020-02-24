@@ -1,15 +1,40 @@
+#██████╗ ██╗███╗   ██╗ █████╗ ██████╗ ██╗   ██╗    ███████╗███████╗███╗   ██╗███████╗ ██████╗ ██████╗ 
+#██╔══██╗██║████╗  ██║██╔══██╗██╔══██╗╚██╗ ██╔╝    ██╔════╝██╔════╝████╗  ██║██╔════╝██╔═══██╗██╔══██╗
+#██████╔╝██║██╔██╗ ██║███████║██████╔╝ ╚████╔╝     ███████╗█████╗  ██╔██╗ ██║███████╗██║   ██║██████╔╝
+#██╔══██╗██║██║╚██╗██║██╔══██║██╔══██╗  ╚██╔╝      ╚════██║██╔══╝  ██║╚██╗██║╚════██║██║   ██║██╔══██╗
+#██████╔╝██║██║ ╚████║██║  ██║██║  ██║   ██║       ███████║███████╗██║ ╚████║███████║╚██████╔╝██║  ██║
+#╚═════╝ ╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝       ╚══════╝╚══════╝╚═╝  ╚═══╝╚══════╝ ╚═════╝ ╚═╝  ╚═╝
+#                                                                                                     
 binary_sensor:
   - platform: workday
+    name: Werktag
     country: DE
-    excludes: [sat, sun, holiday]
     province: BY
+    excludes: [sat, sun, holiday]
     add_holidays:
       - 2019-12-24
-  - platform: template
-    sensors:
-      dark_outside:
-        value_template: "{{ is_state('sun.sun', 'below_horizon') }}"
-        friendly_name: "Dark Outside"
+  - platform: workday
+    name: Werktag Morgen
+    country: DE
+    province: BY
+    excludes: [sat, sun, holiday]
+    add_holidays:
+      - 2019-12-24
+    days_offset: 1
+  - platform: workday
+    country: DE
+    province: BY
+    name: Feiertag Morgen
+    workdays: [holiday]
+    days_offset: 1
+    excludes: []
+  - platform: workday
+    country: DE
+    province: BY
+    name: Feiertag in einer Woche
+    workdays: [holiday]
+    days_offset: 7
+    excludes: []
   - platform: bayesian
     prior: 0.5
     name: "Martin's Presence"
@@ -25,3 +50,17 @@ binary_sensor:
         prob_given_false: 0.2
         platform: "state"
         to_state: "home"
+  - platform: template
+    sensors:
+      macbook_battery_level_low:
+        value_template: "{{ (states.sensor.macbook_air_battery_level.state | float) < 25 }}"
+        friendly_name: "MacBook battery is low"
+      nexus_battery_level_low:
+        value_template: "{{ (states.sensor.google_nexus_battery_level.state | float) < 25 }}"
+        friendly_name: "Nexus battery is low"
+      pixel_battery_level_low:
+        value_template: "{{ (states.sensor.google_pixel_battery_level.state | float) < 25 }}"
+        friendly_name: "Pixel battery is low"
+      dark_outside:
+        value_template: "{{ is_state('sun.sun', 'below_horizon') }}"
+        friendly_name: "Dark Outside"

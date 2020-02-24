@@ -1,3 +1,10 @@
+#███████╗ ██████╗███████╗███╗   ██╗███████╗███████╗
+#██╔════╝██╔════╝██╔════╝████╗  ██║██╔════╝██╔════╝
+#███████╗██║     █████╗  ██╔██╗ ██║█████╗  ███████╗
+#╚════██║██║     ██╔══╝  ██║╚██╗██║██╔══╝  ╚════██║
+#███████║╚██████╗███████╗██║ ╚████║███████╗███████║
+#╚══════╝ ╚═════╝╚══════╝╚═╝  ╚═══╝╚══════╝╚══════╝
+#                                                  
 - id: mood_lights_cwww_on
   name: Mood Lights CWWW on
   entities:
@@ -113,15 +120,33 @@
       state: 'on'
     light.schalter_flur_whz_light:
       state: 'on'
+    light.schalter_kueche_light:
+      state: 'on'
 - id: teal
   name: Teal
   entities:
     light.mood_lights_rgb:
       brightness: 255
       effect: None
+      effect_list:
+      - Lightning
+      - randomflicker
+      - Chill Mode
+      - WTF
+      - Candle
+      - None
+      - Disco
+      - Chill Mode (Vibrant)
+      friendly_name: Mood Lights RGB
+      hs_color:
+      - 184.875
+      - 62.745
       rgb_color:
       - 95
       - 242
       - 255
       state: 'on'
-
+      supported_features: 61
+      xy_color:
+      - 0.179
+      - 0.321

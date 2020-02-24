@@ -17,7 +17,7 @@
     - name: InfluxDB Size Internal
       unit_of_measurement: MB
       group_function: mean
-      value_template: "{{ (value | float / 1024 /1024) | round(1) }}"
+      value_template: "{{ (value | float / 1024 / 1024) | round(1) }}"
       measurement: '"monitor"."shard"'
       where: "time > now() - 15m"
       database: _internal
@@ -25,15 +25,15 @@
     - name: InfluxDB Size UniFi
       unit_of_measurement: MB
       group_function: mean
-      value_template: "{{ (value | float / 1024 /1024) | round(1) }}"
+      value_template: "{{ (value | float / 1024 / 1024) | round(1) }}"
       measurement: '"monitor"."shard"'
       where: '"database"=''unifi'' AND time > now() - 15m'
       database: _internal
       field: diskBytes
     - name: InfluxDB Size Telegraf
-      unit_of_measurement: MB
+      unit_of_measurement: GB
       group_function: mean
-      value_template: "{{ (value | float / 1024 /1024) | round(1) }}"
+      value_template: "{{ (value | float / 1024 / 1024 / 1024) | round(1) }}"
       measurement: '"monitor"."shard"'
       where: '"database"=''telegraf'' AND time > now() - 15m'
       database: _internal
@@ -41,7 +41,7 @@
     - name: InfluxDB Size Homeassistant
       unit_of_measurement: MB
       group_function: mean
-      value_template: "{{ (value | float / 1024 /1024) | round(1) }}"
+      value_template: "{{ (value | float / 1024 / 1024) | round(1) }}"
       measurement: '"monitor"."shard"'
       where: '"database"=''homeassistant'' AND time > now() - 15m'
       database: _internal
@@ -99,7 +99,7 @@
 - platform: dnsip
   hostname: !secret home_host
   name: !secret home_host
-  resolver: 1.1.1.1
+  resolver: 10.10.10.10
 - platform: reddit
   username: !secret reddit_username
   password: !secret reddit_password
@@ -108,15 +108,6 @@
   subreddits:
     - gamedeals
   sort_by: new
-- platform: alpha_vantage
-  api_key: !secret alphavantage_apipwd
-  foreign_exchange:
-    - from: BTC
-      to: EUR
-      name: BTC Exchange rate
-    - from: XLM
-      to: EUR
-      name: XLM Exchange rate
 - platform: feedparser
   name: !secret feed_1_name
   feed_url: !secret feed_1_url
@@ -166,6 +157,8 @@
   name: External IP
   value_template: "{{ value_json.ip }}"
 - platform: authenticated
+  provider: ipvigilante
+  log_location: /config/auth.log
 - platform: uptime
   unit_of_measurement: days
 - platform: mvglive
@@ -242,26 +235,6 @@
     climate_flur_window:
       friendly_name: "Fenster Flur"
       value_template: "{{ states.climate.wiser_flur.attributes.window_state }}"
-    climate_wohnzimmer_battery:
-      friendly_name: "Thermostat Wohnzimmer Battery"
-      value_template: "{{ state_attr('sensor.wiser_itrv_wohnzimmer','battery_level') }}"
-      icon_template: mdi:battery-charging-40
-      device_class: battery
-    climate_bad_battery:
-      friendly_name: "Thermostat Bad Battery"
-      value_template: "{{ state_attr('sensor.wiser_itrv_bad','battery_level') }}"
-      device_class: battery
-      icon_template: mdi:battery-charging-40
-    climate_flur_battery:
-      friendly_name: "Thermostat Flur Battery"
-      value_template: "{{ state_attr('sensor.wiser_itrv_flur','battery_level') }}"
-      device_class: battery
-      icon_template: mdi:battery-charging-40
-    climate_roomstat_battery:
-      friendly_name: "Raum Thermostat Battery"
-      value_template: "{{ state_attr('sensor.sensor.wiser_roomstat_wohnzimmer','battery_level') }}"
-      device_class: battery
-      icon_template: mdi:battery-charging-40
     climate_wohnzimmer_battery_voltage:
       friendly_name: "Thermostat Wohnzimmer Voltage"
       unit_of_measurement: "V"
@@ -282,6 +255,26 @@
       unit_of_measurement: "V"
       value_template: "{{ state_attr('sensor.sensor.wiser_roomstat_wohnzimmer','battery_voltage') }}"
       icon_template: mdi:flash
+    climate_wohnzimmer_battery:
+      friendly_name: "Thermostat Wohnzimmer Battery"
+      value_template: "{{ state_attr('sensor.wiser_itrv_wohnzimmer','battery_level') }}"
+      icon_template: mdi:battery-charging-40
+      device_class: battery
+    climate_bad_battery:
+      friendly_name: "Thermostat Bad Battery"
+      value_template: "{{ state_attr('sensor.wiser_itrv_bad','battery_level') }}"
+      device_class: battery
+      icon_template: mdi:battery-charging-40
+    climate_flur_battery:
+      friendly_name: "Thermostat Flur Battery"
+      value_template: "{{ state_attr('sensor.wiser_itrv_flur','battery_level') }}"
+      device_class: battery
+      icon_template: mdi:battery-charging-40
+    climate_roomstat_battery:
+      friendly_name: "Raum Thermostat Battery"
+      value_template: "{{ state_attr('sensor.wiser_roomstat_wohnzimmer','battery_level') }}"
+      device_class: battery
+      icon_template: mdi:battery-charging-40
     climate_bad_preset:
       friendly_name: "Bad Modus"
       value_template: "{{ states.climate.wiser_bad.attributes.preset_mode }}"
@@ -340,34 +333,39 @@
     energy_combined_power:
       value_template: "{{ ((states.sensor.sonoff_pow_r2_tv_power.state | float) + (states.sensor.sonoff_pow_r2_whz_power.state | float)) | round(2) }}"
       friendly_name: "Energy combined power"
+      device_class: power
       unit_of_measurement: W
     energy_combined_voltage:
       value_template: "{{ (((states.sensor.sonoff_pow_r2_tv_voltage.state | float) + (states.sensor.sonoff_pow_r2_whz_voltage.state | float)) / 2) | round(2) }}"
       friendly_name: "Energy combined voltage"
       unit_of_measurement: V
+    btc_exchange_rate_in_euro:
+      value_template: "{{ ((states.sensor.btc_exchange_rate.state | float) / (states.sensor.eur_exchange_rate.state | float)) | round(2)}}"
+      friendly_name: "BTC Exchange Rate (EUR)"
+      unit_of_measurement: EUR
     coinbase_vault_in_euro:
       entity_id: sensor.coinbase_btc_vault
       friendly_name: "Coinbase BTC Vault (EUR)"
       unit_of_measurement: EUR
-      value_template: "{{ ((states.sensor.coinbase_btc_vault.state | float) * (states.sensor.btc_exchange_rate.state | float)) | round(2)}}"
+      value_template: "{{ state_attr('sensor.coinbase_btc_vault','Balance in native currency')|replace('EUR','') }}"
     coinbase_wallet_in_euro:
       entity_id: sensor.coinbase_btc_wallet
       friendly_name: "Coinbase BTC Wallet (EUR)"
       unit_of_measurement: EUR
-      value_template: "{{ ((states.sensor.coinbase_btc_wallet.state | float) * (states.sensor.btc_exchange_rate.state | float)) | round(2)}}"
+      value_template: "{{ state_attr('sensor.coinbase_btc_wallet','Balance in native currency')|replace('EUR','') }}"
     coinbase_vault_xlm_in_euro:
       entity_id: sensor.coinbase_xlm_vault
-      value_template: "{{ ((states.sensor.coinbase_xlm_vault.state | float) * (states.sensor.xlm_exchange_rate.state | float)) | round(2)}}"
+      value_template: "{{ state_attr('sensor.coinbase_xlm_vault','Balance in native currency')|replace('EUR','') }}"
       friendly_name: "Coinbase XLM Vault (EUR)"
       unit_of_measurement: EUR
     coinbase_wallet_xlm_in_euro:
       entity_id: sensor.coinbase_xlm_wallet
-      value_template: "{{ ((states.sensor.coinbase_xlm_wallet.state | float) * (states.sensor.xlm_exchange_rate.state | float)) | round(2)}}"
+      value_template: "{{ state_attr('sensor.coinbase_xlm_wallet','Balance in native currency')|replace('EUR','') }}"
       friendly_name: "Coinbase XLM Wallet (EUR)"
       unit_of_measurement: EUR
     coinbase_deposit:
       value_template: "{{ ((states.sensor.coinbase_vault_in_euro.state | float) + (states.sensor.coinbase_wallet_in_euro.state | float) + (states.sensor.coinbase_eur_wallet.state | float) + (states.sensor.coinbase_wallet_xlm_in_euro.state | float) + (states.sensor.coinbase_vault_xlm_in_euro.state | float)) | round(2)}}"
-      friendly_name: "Coinbase Deposit"
+      friendly_name: "Coinbase Deposit (EUR)"
       unit_of_measurement: EUR
     energy_consumed_hourly_combined:
       unit_of_measurement: kWh
@@ -384,73 +382,198 @@
     energy_consumed_yearly_combined:
       unit_of_measurement: kWh
       value_template: "{{ ((states.sensor.energy_consumed_yearly_whz_1.state | float) + (states.sensor.energy_consumed_yearly_whz_2.state | float)) | round(2) }}"
-- platform: statistics
-  sampling_size: 100
+    google_pixel_battery_level:
+      value_template: "{{ states.device_tracker.google_pixel.attributes.battery | default(101) | int if states.device_tracker.google_pixel.attributes.battery is not none}}"
+      friendly_name: "Goolge Pixel Battery"
+      entity_id: device_tracker.google_pixel
+      unit_of_measurement: "%"
+      device_class: battery
+    google_nexus_battery_level:
+      value_template: "{{ states.device_tracker.google_nexus.attributes.battery | default(101) | int if states.device_tracker.google_nexus.attributes.battery is not none}}"
+      friendly_name: "Goolge Nexus Battery"
+      entity_id: device_tracker.google_nexus
+      unit_of_measurement: "%"
+      device_class: battery
+    macbook_air_battery_level:
+      value_template: "{{ states.device_tracker.macbook_air.attributes.battery | default(101) | int if states.device_tracker.macbook_air.attributes.battery is not none}}"
+      friendly_name: "MacBook Air Battery"
+      entity_id: device_tracker.macbook_air
+      unit_of_measurement: "%"
+      device_class: battery
+    muellabfuhr:
+      friendly_name: Müllabfuhr
+      value_template: "{{ states.calendar.mullabfuhr.attributes.start_time }}"
+- platform: filter
+  filters:
+    - filter: time_throttle
+      window_size: 00:01
   name: InfluxDB Telegraf Size
   entity_id: sensor.influxdb_size_telegraf
-- platform: statistics
-  sampling_size: 100
+- platform: filter
+  filters:
+    - filter: time_throttle
+      window_size: 00:01
   name: InfluxDB Homeassistant Size
   entity_id: sensor.influxdb_size_homeassistant
-- platform: statistics
-  sampling_size: 100
+- platform: filter
+  filters:
+    - filter: time_throttle
+      window_size: 00:01
   name: InfluxDB Internal Size
   entity_id: sensor.influxdb_size_internal
-- platform: statistics
-  sampling_size: 100
+- platform: filter
+  filters:
+    - filter: time_throttle
+      window_size: 00:01
   name: InfluxDB UniFi Size
   entity_id: sensor.influxdb_size_unifi
-- platform: statistics
-  sampling_size: 100
+- platform: filter
+  filters:
+    - filter: time_throttle
+      window_size: 00:01
   name: MariaDB Homeassistant Size
   entity_id: sensor.mariadb_homeassistant
-- platform: statistics
-  sampling_size: 100
+- platform: filter
+  filters:
+    - filter: time_throttle
+      window_size: 00:01
   name: Sonoff POW WHZ Power
   entity_id: sensor.sonoff_pow_r2_whz_power
-- platform: statistics
-  sampling_size: 100
+- platform: filter
+  filters:
+    - filter: time_throttle
+      window_size: 00:01
   name: Sonoff POW WHZ Current
   entity_id: sensor.sonoff_pow_r2_whz_current
-- platform: statistics
-  sampling_size: 100
+- platform: filter
+  filters:
+    - filter: time_throttle
+      window_size: 00:01
   name: Sonoff POW WHZ Voltage
   entity_id: sensor.sonoff_pow_r2_whz_voltage
-- platform: statistics
-  sampling_size: 100
+- platform: filter
+  filters:
+    - filter: time_throttle
+      window_size: 00:01
   name: Sonoff POW TV Power
   entity_id: sensor.sonoff_pow_r2_tv_power
-- platform: statistics
-  sampling_size: 100
+- platform: filter
+  filters:
+    - filter: time_throttle
+      window_size: 00:01
   name: Sonoff POW TV Current
   entity_id: sensor.sonoff_pow_r2_tv_current
-- platform: statistics
-  sampling_size: 100
+- platform: filter
+  filters:
+    - filter: time_throttle
+      window_size: 00:01
   name: Sonoff POW TV Voltage
   entity_id: sensor.sonoff_pow_r2_tv_voltage
-- platform: statistics
-  sampling_size: 100
+- platform: filter
+  filters:
+    - filter: time_throttle
+      window_size: 00:01
   name: Sonoff POW Combined Power
   entity_id: sensor.energy_combined_power
-- platform: statistics
-  sampling_size: 100
+- platform: filter
+  filters:
+    - filter: time_throttle
+      window_size: 00:01
   name: Sonoff POW Combined Current
   entity_id: sensor.energy_combined_current
-- platform: statistics
-  sampling_size: 100
+- platform: filter
+  filters:
+    - filter: time_throttle
+      window_size: 00:01
   name: Sonoff POW Combined Voltage
   entity_id: sensor.energy_combined_voltage
-- platform: statistics
-  sampling_size: 100
-  name: Coinbase Deposit (EUR)
-  entity_id: sensor.coinbase_deposit
+- platform: filter
+  name: "Luftfeuchtigkeit Wohnzimmer (Filtered)"
+  entity_id: sensor.sonoff_th16_whz_humidity_sensor
+  filters:
+    - filter: outlier
+      window_size: 4
+      radius: 4.0
+    - filter: lowpass
+      time_constant: 10
+      precision: 2
+- platform: filter
+  name: "Temperatur Wohnzimmer Thermometer (Filtered)"
+  entity_id: sensor.sonoff_th16_whz_temperatur_sensor
+  filters:
+    - filter: outlier
+      window_size: 4
+      radius: 2.0
+    - filter: lowpass
+      time_constant: 10
+    - filter: time_simple_moving_average
+      window_size: 00:05
+      precision: 2
+- platform: filter
+  name: "Temperatur Wohnzimmer Thermostat (Filtered)"
+  entity_id: sensor.climate_wohnzimmer_temp
+  filters:
+    - filter: outlier
+      window_size: 4
+      radius: 2.0
+    - filter: lowpass
+      time_constant: 10
+    - filter: time_simple_moving_average
+      window_size: 00:05
+      precision: 2
+- platform: filter
+  name: "Temperatur Bad Thermostat (Filtered)"
+  entity_id: sensor.climate_bad_temp
+  filters:
+    - filter: outlier
+      window_size: 4
+      radius: 2.0
+    - filter: lowpass
+      time_constant: 10
+    - filter: time_simple_moving_average
+      window_size: 00:05
+      precision: 2
+- platform: filter
+  name: "Temperatur Flur Thermostat (Filtered)"
+  entity_id: sensor.climate_flur_temp
+  filters:
+    - filter: outlier
+      window_size: 4
+      radius: 2.0
+    - filter: lowpass
+      time_constant: 10
+    - filter: time_simple_moving_average
+      window_size: 00:05
+      precision: 2
 - platform: sql
   db_url: !secret dburl
   queries:
     - name: MariaDB Homeassistant
-      query: 'SELECT table_schema "database", Round(Sum(data_length + index_length) / 1024 / 1024 / 1024, 2) "value" FROM information_schema.tables WHERE table_schema="homeassistant" GROUP BY table_schema;'
+      query: 'SELECT table_schema "database", Round(Sum(data_length + index_length) / 1024 / 1024 / 1024, 2) "value" FROM information_schema.tables WHERE table_schema="hassio" GROUP BY table_schema;'
       column: "value"
       unit_of_measurement: GB
+    - name: MariaDB States recorded today
+      query: "SELECT COUNT(*) as value FROM states WHERE created BETWEEN CURDATE() AND adddate(current_date, 1) LIMIT 1;"
+      column: "value"
+      unit_of_measurement: States
+    - name: MariaDB States recorded yesterday
+      query: "SELECT COUNT(*) as value FROM states WHERE created BETWEEN subdate(current_date, 1) and CURDATE() LIMIT 1;"
+      column: "value"
+      unit_of_measurement: States
+    - name: MariaDB Total states stored
+      query: "SELECT COUNT(*) as value FROM states;"
+      column: "value"
+      unit_of_measurement: States
+    - name: MariaDB Unique Entity IDs
+      query: "SELECT count(DISTINCT entity_id) as value FROM states;"
+      column: "value"
+      unit_of_measurement: Entities
+    - name: MariaDB Newest Entity ID
+      query: "SELECT entity_id, min(last_updated) as last_state FROM states GROUP BY entity_id ORDER BY last_state DESC LIMIT 1;"
+      column: "entity_id"
+    - name: MariaDB Most Updated Entity ID
+      query: "SELECT entity_id, count(*) as count, max(last_updated), min(last_updated) FROM states GROUP BY entity_id ORDER BY count DESC LIMIT 1;"
+      column: "entity_id"
 - platform: qnap
   host: !secret qnap_host
   username: !secret qnap_usr
@@ -474,7 +597,10 @@
   select: "h1.page-title"
 - platform: darksky
   api_key: !secret weatherdarkskyapi_pwd
+  units: auto
+  language: de
   monitored_conditions:
+    - alerts
     - summary
     - precip_type
     - precip_intensity
@@ -497,6 +623,10 @@
     - precip_intensity_max
     - uv_index
     - moon_phase
+- platform: google_fit
+  name: Google Fit Martin
+  client_id: !secret google_fit_id
+  client_secret: !secret google_fit_secret
 - platform: google_travel_time
   name: Morning Commute (Trains)
   api_key: !secret google_assistantapikey_pwd
@@ -506,6 +636,22 @@
     mode: transit
     transit_mode: train
     transit_routing_preference: fewer_transfers
+- platform: google_travel_time
+  name: Commute Parents (Trains)
+  api_key: !secret google_assistantapikey_pwd
+  origin: device_tracker.google_pixel
+  destination: zone.mum_dad
+  options:
+    mode: transit
+    transit_mode: train
+    transit_routing_preference: fewer_transfers
+- platform: google_travel_time
+  name: Commute Parents (Bike)
+  api_key: !secret google_assistantapikey_pwd
+  origin: device_tracker.google_pixel
+  destination: zone.mum_dad
+  options:
+    mode: bicycling
 - platform: google_travel_time
   name: Morning Commute (Bike)
   api_key: !secret google_assistantapikey_pwd
@@ -518,10 +664,18 @@
   api_key: !secret google_assistantapikey_pwd
   origin: device_tracker.google_pixel
   destination: zone.home
-- platform: attributes
-  friendly_name: "Batteries"
-  attribute: battery
-  unit_of_measurement: "%"
-  entities:
-    - device_tracker.google_pixel
-    - device_tracker.google_nexus
+- platform: imap
+  server: imap.gmail.com
+  port: 993
+  username: !secret gmail_phixion_user
+  password: !secret gmail_phixion_pwd
+- platform: imap
+  server: imap.gmail.com
+  port: 993
+  username: !secret gmail_ridelore_user
+  password: !secret gmail_ridelore_pwd
+- platform: imap
+  server: imap.gmail.com
+  port: 993
+  username: !secret gmail_monitoring_user
+  password: !secret gmail_monitoring_pwd

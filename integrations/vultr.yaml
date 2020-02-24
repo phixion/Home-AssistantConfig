@@ -1,2 +1,0 @@
-vultr:
-  api_key: !secret vultrapi_pwd

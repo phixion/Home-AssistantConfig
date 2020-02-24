@@ -1,5 +1,12 @@
+#██████╗ ██╗     ███████╗██╗  ██╗
+#██╔══██╗██║     ██╔════╝╚██╗██╔╝
+#██████╔╝██║     █████╗   ╚███╔╝ 
+#██╔═══╝ ██║     ██╔══╝   ██╔██╗ 
+#██║     ███████╗███████╗██╔╝ ██╗
+#╚═╝     ╚══════╝╚══════╝╚═╝  ╚═╝
+#                                
 plex:
-  host: !secret host_androidtv
+  host: !secret plex_hst
   port: !secret plex_prt
   token: !secret plex_token
   ssl: true

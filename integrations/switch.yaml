@@ -1,3 +1,10 @@
+#███████╗██╗    ██╗██╗████████╗ ██████╗██╗  ██╗
+#██╔════╝██║    ██║██║╚══██╔══╝██╔════╝██║  ██║
+#███████╗██║ █╗ ██║██║   ██║   ██║     ███████║
+#╚════██║██║███╗██║██║   ██║   ██║     ██╔══██║
+#███████║╚███╔███╔╝██║   ██║   ╚██████╗██║  ██║
+#╚══════╝ ╚══╝╚══╝ ╚═╝   ╚═╝    ╚═════╝╚═╝  ╚═╝
+#                                              
 switch:
   - platform: template
     switches:
@@ -9,13 +16,23 @@ switch:
           entity_id: scene.chill_mode
         turn_off:
           service: scene.turn_on
-          entity_id: scene.mood_lights_normal_mode_on
+          entity_id: scene.normal_mode_on
   - platform: circadian_lighting
-    name: Circadian Lighting RGWW Bulbs
+    name: Circadian Lighting CWWW Bulbs
     lights_ct:
       - light.bulbkueche_cwww
       - light.bulbbad_cwww
       - light.bulbflur_cwww
+      - light.mood_lights_cwww
+    min_brightness: 65
+  - platform: circadian_lighting
+    name: Circadian Lighting RGB
+    lights_rgb:
+      - light.bulbspotwhzdesk_rgb
+      - light.bulbspotwhztv_rgb
+      - light.bulbwhzlamp_rgb
+      - light.ledstripwhz1_rgb
+      - light.ledstripwhz3_rgb
     min_brightness: 65
   - platform: rest
     resource: http://127.0.0.1:8126/container/addon_a0d7b954_unifi
