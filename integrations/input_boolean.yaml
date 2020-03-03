@@ -1,0 +1,16 @@
+input_boolean:
+  frencks_latest_video:
+    name: "Frencks latest video"
+    initial: off
+  nexpos_latest_video:
+    name: "Nexpos latest video"
+    initial: off
+  scaretheatres_latest_video:
+    name: "ScareTheatres latest video"
+    initial: off
+  reignbots_latest_video:
+    name: "Reignbots latest video"
+    initial: off
+  h3h3podcasts_latest_video:
+    name: "h3h3 Podcast latest video"
+    initial: off

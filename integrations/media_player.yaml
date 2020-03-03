@@ -1,21 +1,19 @@
-#███╗   ███╗███████╗██████╗ ██╗ █████╗ ██████╗ ██╗      █████╗ ██╗   ██╗███████╗██████╗ 
+#███╗   ███╗███████╗██████╗ ██╗ █████╗ ██████╗ ██╗      █████╗ ██╗   ██╗███████╗██████╗
 #████╗ ████║██╔════╝██╔══██╗██║██╔══██╗██╔══██╗██║     ██╔══██╗╚██╗ ██╔╝██╔════╝██╔══██╗
 #██╔████╔██║█████╗  ██║  ██║██║███████║██████╔╝██║     ███████║ ╚████╔╝ █████╗  ██████╔╝
 #██║╚██╔╝██║██╔══╝  ██║  ██║██║██╔══██║██╔═══╝ ██║     ██╔══██║  ╚██╔╝  ██╔══╝  ██╔══██╗
 #██║ ╚═╝ ██║███████╗██████╔╝██║██║  ██║██║     ███████╗██║  ██║   ██║   ███████╗██║  ██║
 #╚═╝     ╚═╝╚══════╝╚═════╝ ╚═╝╚═╝  ╚═╝╚═╝     ╚══════╝╚═╝  ╚═╝   ╚═╝   ╚══════╝╚═╝  ╚═╝
-#                                                                                       
+#
 media_player:
   - platform: androidtv
     host: !secret host_androidtv
-    name: TV
+    name: Android TV
     device_class: androidtv
     adb_server_ip: localhost
     adb_server_port: 5037
     apps:
-      com.google.android.youtube.tv: "Youtube"
-      org.xbmc.kodi: "Kodi"
       com.netflix.ninja: "Netflix"
       com.google.android.tvlauncher: "Homescreen"
       com.plexapp.android: "Plex"
-      com.liskovsoft.videomanager: "Youtube TV"
+      com.liskovsoft.videomanager: "YouTube"

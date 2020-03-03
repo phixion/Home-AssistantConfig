@@ -12,5 +12,8 @@ unifi:
       ssid_filter:
         - !secret ssid_1
         - !secret ssid_2
-      dont_track_devices: true
-      dont_track_wired_clients: true
+        - !secret ssid_3
+      dont_track_devices: false
+      dont_track_clients: false
+      dont_track_wired_clients: false
+      detection_time: 300

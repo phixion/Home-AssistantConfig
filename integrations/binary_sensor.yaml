@@ -1,10 +1,10 @@
-#██████╗ ██╗███╗   ██╗ █████╗ ██████╗ ██╗   ██╗    ███████╗███████╗███╗   ██╗███████╗ ██████╗ ██████╗ 
+#██████╗ ██╗███╗   ██╗ █████╗ ██████╗ ██╗   ██╗    ███████╗███████╗███╗   ██╗███████╗ ██████╗ ██████╗
 #██╔══██╗██║████╗  ██║██╔══██╗██╔══██╗╚██╗ ██╔╝    ██╔════╝██╔════╝████╗  ██║██╔════╝██╔═══██╗██╔══██╗
 #██████╔╝██║██╔██╗ ██║███████║██████╔╝ ╚████╔╝     ███████╗█████╗  ██╔██╗ ██║███████╗██║   ██║██████╔╝
 #██╔══██╗██║██║╚██╗██║██╔══██║██╔══██╗  ╚██╔╝      ╚════██║██╔══╝  ██║╚██╗██║╚════██║██║   ██║██╔══██╗
 #██████╔╝██║██║ ╚████║██║  ██║██║  ██║   ██║       ███████║███████╗██║ ╚████║███████║╚██████╔╝██║  ██║
 #╚═════╝ ╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝       ╚══════╝╚══════╝╚═╝  ╚═══╝╚══════╝ ╚═════╝ ╚═╝  ╚═╝
-#                                                                                                     
+#
 binary_sensor:
   - platform: workday
     name: Werktag
@@ -36,31 +36,101 @@ binary_sensor:
     days_offset: 7
     excludes: []
   - platform: bayesian
+    device_class: presence
     prior: 0.5
-    name: "Martin's Presence"
+    name: Presence Martin
     probability_threshold: 0.9
     observations:
-      - entity_id: "device_tracker.pixel_gps"
+      - entity_id: "device_tracker.google_pixel"
         prob_given_true: 0.9
-        prob_given_false: 0.4
-        platform: "state"
-        to_state: "home"
-      - entity_id: "device_tracker.pixel_wifi"
-        prob_given_true: 0.9
-        prob_given_false: 0.2
+        prob_given_false: 0.1
         platform: "state"
         to_state: "home"
   - platform: template
     sensors:
       macbook_battery_level_low:
         value_template: "{{ (states.sensor.macbook_air_battery_level.state | float) < 25 }}"
-        friendly_name: "MacBook battery is low"
+        friendly_name: "MacBook aufladen"
       nexus_battery_level_low:
         value_template: "{{ (states.sensor.google_nexus_battery_level.state | float) < 25 }}"
-        friendly_name: "Nexus battery is low"
+        friendly_name: "Nexus aufladen"
       pixel_battery_level_low:
         value_template: "{{ (states.sensor.google_pixel_battery_level.state | float) < 25 }}"
-        friendly_name: "Pixel battery is low"
+        friendly_name: "Pixel aufladen"
       dark_outside:
         value_template: "{{ is_state('sun.sun', 'below_horizon') }}"
         friendly_name: "Dark Outside"
+      window_wohnzimmer:
+        friendly_name: Fenster Wohnzimmer Offen
+        value_template: '{{state_attr("climate.wiser_wohnzimmer","window_state") == "Open"}}'
+        icon_template: >-
+          {% if is_state("binary_sensor.window_wohnzimmer", "on") %}
+            mdi:window-open-variant
+          {% else %}
+            mdi:window-closed-variant
+          {% endif %}
+      window_bad:
+        friendly_name: Fenster Bad Offen
+        value_template: '{{state_attr("climate.wiser_bad","window_state") == "Open"}}'
+        icon_template: >-
+          {% if is_state("binary_sensor.window_bad", "on") %}
+            mdi:window-open-variant
+          {% else %}
+            mdi:window-closed-variant
+          {% endif %}
+      window_flur:
+        friendly_name: Fenster Flur Offen
+        value_template: '{{state_attr("climate.wiser_flur","window_state") == "Open"}}'
+        icon_template: >-
+          {% if is_state("binary_sensor.window_flur", "on") %}
+            mdi:window-open-variant
+          {% else %}
+            mdi:window-closed-variant
+          {% endif %}
+      heating_wohnzimmer:
+        friendly_name: Heating Wohnzimmer
+        value_template: '{{state_attr("climate.wiser_wohnzimmer","control_output_state") == "On"}}'
+        icon_template: >-
+          {% if is_state("binary_sensor.heating_wohnzimmer", "on") %}
+            mdi:radiator
+          {% else %}
+            mdi:radiator-off
+          {% endif %}
+      heating_bad:
+        friendly_name: Heating Bad
+        value_template: '{{state_attr("climate.wiser_bad","control_output_state") == "On"}}'
+        icon_template: >-
+          {% if is_state("binary_sensor.heating_bad", "on") %}
+            mdi:radiator
+          {% else %}
+            mdi:radiator-off
+          {% endif %}
+      heating_flur:
+        friendly_name: Heating Flur
+        value_template: '{{state_attr("climate.wiser_flur","control_output_state") == "On"}}'
+        icon_template: >-
+          {% if is_state("binary_sensor.heating_flur", "on") %}
+            mdi:radiator
+          {% else %}
+            mdi:radiator-off
+          {% endif %}
+  - platform: ffmpeg_noise
+    name: Noise Sensor
+    input: -f alsa -ac 1 -i plughw:1 -vn -filter:a silencedetect=n=-10dB:d=1 -f null
+    #    extra_arguments: -filter:a highpass=f=300,lowpass=f=2500,volume=volume=2 -codec:a libmp3lame -ar 16000
+    initial_state: false
+    duration: 2
+    reset: 60
+    peak: -32
+  - platform: trend
+    sensors:
+      outside_temperature_rising:
+        entity_id: sensor.outside_temperature
+        sample_duration: 7200
+        min_gradient: 0.0008
+        device_class: heat
+      outside_temperature_falling:
+        entity_id: sensor.outside_temperature
+        sample_duration: 7200
+        min_gradient: -0.0008
+        device_class: cold

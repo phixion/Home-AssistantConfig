@@ -1,28 +1,22 @@
-# █████╗ ██╗   ██╗████████╗ ██████╗ ███╗   ███╗ █████╗ ████████╗██╗ ██████╗ ███╗   ██╗███████╗
-#██╔══██╗██║   ██║╚══██╔══╝██╔═══██╗████╗ ████║██╔══██╗╚══██╔══╝██║██╔═══██╗████╗  ██║██╔════╝
-#███████║██║   ██║   ██║   ██║   ██║██╔████╔██║███████║   ██║   ██║██║   ██║██╔██╗ ██║███████╗
-#██╔══██║██║   ██║   ██║   ██║   ██║██║╚██╔╝██║██╔══██║   ██║   ██║██║   ██║██║╚██╗██║╚════██║
-#██║  ██║╚██████╔╝   ██║   ╚██████╔╝██║ ╚═╝ ██║██║  ██║   ██║   ██║╚██████╔╝██║ ╚████║███████║
-#╚═╝  ╚═╝ ╚═════╝    ╚═╝    ╚═════╝ ╚═╝     ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝╚══════╝
 - alias: Vacation Mode
   trigger:
-    platform: state
-    entity_id: person.martin
-    from: home
-    to: not_home
-    for:
-      hours: 12
-      minutes: 0
-      seconds: 0
+    - entity_id: person.martin
+      platform: state
+      from: not_home
+      to: home
+      for:
+        hours: 12
+        minutes: 0
+        seconds: 0
   action:
-    - service: input_select.select_option
-      entity_id: input_select.house_mode
-      data:
+    - data:
+        entity_id: input_select.house_mode
         option: Vacation Mode
-    - service: notify.pushover
-      data:
+      service: input_select.select_option
+    - data:
         message: Vacation Mode turned ON
         title: 🌴 Vacation Mode turned ON
+      service: notify.pushover
   id: a4476090f8f94f369735125d6506079f
 - alias: Update
   trigger:
@@ -30,12 +24,13 @@
     entity_id: binary_sensor.updater
     to: "on"
   action:
-    - service: notify.pushover
-      data:
+    - data:
         message: Update available
         title: Update available
+      service: notify.pushover
   id: 18b95179215b42b78ee8a1f1cbdf7c1b
-- alias: Turn off all lights/heating
+- id: a863cca2442c4de1a9125b19a0dba85f
+  alias: Turn off all lights/heating
   trigger:
     platform: state
     entity_id: person.martin
@@ -65,8 +60,8 @@
       data_template:
         message: Temperatur ist {{states('sensor.climate_wohnung_temp')}}
         title: 🚫 Light's and Heating turned OFF
-  id: a863cca2442c4de1a9125b19a0dba85f
-- alias: Turn on all lights/heating
+- id: df47ca4915274cf494fc429ae46aa3b1
+  alias: Turn on all lights/heating
   trigger:
     platform: state
     entity_id: person.martin
@@ -114,28 +109,26 @@
     - service: tts.google_cloud_say
       entity_id: media_player.google_home
       data_template:
-        message: Hallo Martin heute ist {{ ['Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag','Sonntag'][now().weekday()] }}. Die Zimmertemperatur betraegt {{states('sensor.climate_wohnung_temp')}} Grad Celsius. Das Wetter ist {{states('sensor.dark_sky_summary')}} bei {{states('sensor.dark_sky_temperature')}} Grad Celsius. Du bist heute bereits {{states('sensor.google_fit_martin_move_time')}} Minuten und {{states('sensor.google_fit_martin_steps')}} Schritte gelaufen, mach weiter so!
-  #    - service: tts.watson_tts_say
-  #      entity_id: media_player.google_home
-  #      data_template:
-  #        message: >
-  #          <speak>
-  #            Hallo Martin heute ist {{ ['Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag','Sonntag'][now().weekday()] }}. Die Zimmertemperatur betraegt {{states('sensor.climate_wohnung_temp')}} Grad Celsius. Das Wetter ist {{states('sensor.dark_sky_summary')}} bei {{states('sensor.dark_sky_temperature')}} Grad Celsius. Du bist heute bereits {{states('sensor.google_fit_martin_move_time')}} Minuten und {{states('sensor.google_fit_martin_steps')}} Schritte gelaufen, mach weiter so!
-  #          </speak>
-  id: df47ca4915274cf494fc429ae46aa3b1
+        message:
+          Hallo Martin heute ist {{ ['Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag','Sonntag'][now().weekday()]
+          }}. Die Zimmertemperatur betraegt {{states('sensor.climate_wohnung_temp')}}
+          Grad Celsius. Das Wetter ist {{states('sensor.dark_sky_summary')}} bei {{states('sensor.dark_sky_temperature')}}
+          Grad Celsius. Du bist heute bereits {{states('sensor.google_fit_martin_move_time')}}
+          Minuten und {{states('sensor.google_fit_martin_steps')}} Schritte gelaufen,
+          mach weiter so!
 - alias: Leave Home notification
   trigger:
-    platform: state
-    entity_id: person.martin
-    from: home
-    to: not_home
+    - entity_id: person.martin
+      platform: state
+      from: "not_home"
+      to: "not_home"
   action:
-    service: notify.pushover
-    data_template:
-      title: 🚶 Martin left the flat
-      message:
-        "Event triggered: {{ trigger.entity_id }} changed from {{ trigger.from_state.state
-        }} to {{ trigger.to_state.state }}"
+    - service: notify.pushover
+      data_template:
+        title: 🚶 Martin left the flat
+        message:
+          "Event triggered: {{ trigger.entity_id }} changed from {{ trigger.from_state.state
+          }} to {{ trigger.to_state.state }}"
   id: aebd69cf232b488ca078745e1c1bdf4f
 - alias: Badezimmer besetzt
   trigger:
@@ -159,6 +152,70 @@
         title: 🚽 Badezimmer ist frei
         message: " "
   id: 2459b936fc0442459411361ba69453af
+- alias: h3h3 Podcast
+  trigger:
+    - platform: state
+      entity_id: sensor.yt_h3h3podcast
+  condition:
+    - condition: template
+      value_template: "{{trigger.from_state.state != trigger.to_state.state}}"
+  action:
+    - service: notify.pushover
+      data_template:
+        title: New h3h3 Podcast
+        message: "Watch: {{states('sensor.yt_h3h3podcast')}}"
+- alias: Nexpo Video
+  trigger:
+    - platform: state
+      entity_id: sensor.yt_nexpo
+  condition:
+    - condition: template
+      value_template: "{{trigger.from_state.state != trigger.to_state.state}}"
+  action:
+    - service: notify.pushover
+      data_template:
+        title: New Nexpo Video
+        message: "Watch: {{states('sensor.yt_nexpo')}}"
+  id: nexpo video
+- alias: ScareTheatre Video
+  trigger:
+    - platform: state
+      entity_id: sensor.yt_scaretheatre
+  condition:
+    - condition: template
+      value_template: "{{trigger.from_state.state != trigger.to_state.state}}"
+  action:
+    - service: notify.pushover
+      data_template:
+        title: New ScareTheatre Video
+        message: "Watch: {{states('sensor.yt_scaretheatre')}}"
+  id: scaretheatre video
+- alias: ReignBot Video
+  trigger:
+    - platform: state
+      entity_id: sensor.yt_reignbot
+  condition:
+    - condition: template
+      value_template: "{{trigger.from_state.state != trigger.to_state.state}}"
+  action:
+    - service: notify.pushover
+      data_template:
+        title: New ReignBot Video
+        message: "Watch: {{states('sensor.yt_reignbot')}}"
+  id: reignbot video
+- alias: Frenck Video
+  trigger:
+    - platform: state
+      entity_id: sensor.yt_frenck
+  condition:
+    - condition: template
+      value_template: "{{trigger.from_state.state != trigger.to_state.state}}"
+  action:
+    - service: notify.pushover
+      data_template:
+        title: New Frenck Video
+        message: "Watch: {{states('sensor.yt_frenck')}}"
+  id: frenck video
 - id: update_commute_sensors
   alias: Update commute sensors
   trigger:
@@ -177,9 +234,9 @@
     - service: homeassistant.update_entity
       entity_id: sensor.morning_commute_bike
     - service: homeassistant.update_entity
-      entity_id: sensor.commute_parents_trains
+      entity_id: sensor.travel_parents_trains
     - service: homeassistant.update_entity
-      entity_id: sensor.commute_parents_bike
+      entity_id: sensor.travel_parents_bike
 - alias: Coinbase Wallet
   trigger:
     - platform: state
@@ -194,6 +251,7 @@
         message:
           "Event triggered: {{ trigger.entity_id }} changed from {{ trigger.from_state.state
           }} to {{ trigger.to_state.state }}"
+  id: coinbase wallet
 - alias: Xur
   trigger:
     - platform: state
@@ -210,60 +268,43 @@
       data_template:
         title: Xur changed location
         message: "Find him at: {{states('sensor.wtfisxur')}}"
+  id: wtfiszur
 - alias: somethig has been added to HACS
   trigger:
-    platform: event
-    event_type: hacs/repository
-    event_data:
-      action: registration
+    - platform: event
+      event_type: hacs/repository
+      event_data:
+        action: registration
   condition:
-    condition: template
-    value_template: "{{ trigger.event.data.repository is defined }}"
+    - condition: template
+      value_template: "{{ trigger.event.data.repository is defined }}"
   action:
-    service: persistent_notification.create
-    data_template:
-      title: New repository in HACS
-      message: >-
-        {% set repo = trigger.event.data.repository %}
-        {% set id = trigger.event.data.repository_id %}
-        [{{ repo }}](/hacs/repository/{{ id }})
-        was just added to HACS.
+    - service: persistent_notification.create
+      data_template:
+        title: New repository in HACS
+        message: >-
+          {% set repo = trigger.event.data.repository %}
+          {% set id = trigger.event.data.repository_id %}
+           [{{ repo }}](/hacs/repository/{{ id }})
+           was just added to HACS.
+  id: something new in hacs
 - alias: updates pending in HACS
   trigger:
-    platform: state
-    entity_id: sensor.hacs
+    - platform: state
+      entity_id: sensor.hacs
   condition:
     - condition: template
       value_template: "{{ states(trigger.entity_id) != 'unknown'}}"
     - condition: template
       value_template: "{{ (states(trigger.entity_id) | float) != 0}}"
   action:
-    service: persistent_notification.create
-    data_template:
-      title: Updates pending in HACS
-      message: >-
-        {% for repo in state_attr(trigger.entity_id, 'repositories') %}
-          **{{ repo.display_name }}** _{{ repo["installed version"] }}_ -> _{{ repo["available version"] }}_
-        {% endfor %}
-#- alias: Keep Google Home Alive
-#  trigger:
-#    platform: time_pattern
-#    minutes: /2
-#  condition:
-#    condition: or
-#    conditions:
-#      - condition: state
-#        entity_id: media_player.google_home
-#        state: "off"
-#      - condition: state
-#        entity_id: media_player.google_home
-#        state: "idle"
-#  action:
-#    service: media_player.play_media
-#    entity_id: media_player.google_home
-#    data:
-#      media_content_id: http://10.10.10.7:8123/local/_static/1sec.mp3
-#      media_content_type: music
+    - service: persistent_notification.create
+      data_template:
+        title: Updates pending in HACS
+        message: >-
+          {% for repo in state_attr(trigger.entity_id, 'repositories') %}
+            **{{ repo.display_name }}** _{{ repo["installed version"] }}_ -> _{{ repo["available version"] }}_
+          {% endfor %}
 - alias: Warn when batteries are below threshold
   trigger:
     - platform: numeric_state
@@ -277,11 +318,12 @@
       data_template:
         title: "{{ trigger.entity_id.name }} Battery Low"
         message: 'Charge {{ trigger.to_state.name|default("unknown") }} batteries'
+  id: battery threshold reached
 - alias: Low Disk Space
-  description: "Notify me of low disk space"
+  description: Notify me of low disk space
   trigger:
-    platform: state
-    entity_id: sensor.disk_use_percent
+    - platform: state
+      entity_id: sensor.disk_use_percent
   condition:
     - condition: template
       value_template: "{{ (states(trigger.entity_id) | float) > 70}}"
@@ -290,6 +332,7 @@
       data_template:
         title: Main disk is almost full!
         message: "Diskusage: {{states(trigger.entity_id)}}"
+  id: low diskspace
 - alias: Count warnings
   trigger:
     platform: event
@@ -310,4 +353,85 @@
     service: persistent_notification.create
     data_template:
       title: Something bad happened
-      message: '{{ trigger.event.data.message }}'
+      message: "{{ trigger.event.data.message }}"
+  id: notification on errors
+- alias: frenck_latest_tv_on
+  trigger:
+    - platform: state
+      entity_id: input_boolean.frencks_latest_video
+      to: "on"
+  action:
+    - service: script.turn_on
+      entity_id: script.frenck_latest_tv_on
+- alias: frenck_latest_tv_off
+  trigger:
+    - platform: state
+      entity_id: input_boolean.frencks_latest_video
+      to: "off"
+  action:
+    - service: script.turn_on
+      entity_id: script.frenck_latest_tv_off
+- alias: nexpo_latest_tv_on
+  trigger:
+    - platform: state
+      entity_id: input_boolean.nexpos_latest_video
+      to: "on"
+  action:
+    - service: script.turn_on
+      entity_id: script.nexpo_latest_tv_on
+- alias: nexpo_latest_tv_off
+  trigger:
+    - platform: state
+      entity_id: input_boolean.nexpos_latest_video
+      to: "off"
+  action:
+    - service: script.turn_on
+      entity_id: script.nexpo_latest_tv_off
+- alias: scaretheatre_latest_tv_on
+  trigger:
+    - platform: state
+      entity_id: input_boolean.scaretheatres_latest_video
+      to: "on"
+  action:
+    - service: script.turn_on
+      entity_id: script.scaretheatre_latest_tv_on
+- alias: scaretheatre_latest_tv_off
+  trigger:
+    - platform: state
+      entity_id: input_boolean.scaretheatres_latest_video
+      to: "off"
+  action:
+    - service: script.turn_on
+      entity_id: script.scaretheatre_latest_tv_off
+- alias: reignbot_latest_tv_on
+  trigger:
+    - platform: state
+      entity_id: input_boolean.reignbots_latest_video
+      to: "on"
+  action:
+    - service: script.turn_on
+      entity_id: script.reignbot_latest_tv_on
+- alias: reignbot_latest_tv_off
+  trigger:
+    - platform: state
+      entity_id: input_boolean.reignbots_latest_video
+      to: "off"
+  action:
+    - service: script.turn_on
+      entity_id: script.reignbot_latest_tv_off
+- alias: h3h3podcast_latest_tv_on
+  trigger:
+    - platform: state
+      entity_id: input_boolean.h3h3podcasts_latest_video
+      to: "on"
+  action:
+    - service: script.turn_on
+      entity_id: script.h3h3podcast_latest_tv_on
+- alias: h3h3podcast_latest_tv_off
+  trigger:
+    - platform: state
+      entity_id: input_boolean.h3h3podcasts_latest_video
+      to: "off"
+  action:
+    - service: script.turn_on
+      entity_id: script.h3h3podcast_latest_tv_off

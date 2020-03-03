@@ -7,7 +7,7 @@
 #                                     
 light:
   - platform: group
-    name: All Lights
+    name: All Lights 
     entities:
       - light.bulbspotwhzdesk_rgb
       - light.bulbspotwhzdesk_cwww
@@ -29,6 +29,7 @@ light:
       - light.ledstripwhz2_rgb
       - light.ledstripwhz3_rgb
       - light.ledstripwhz1_w
+      - light.schalter_kueche_light
   - platform: group
     name: Mood Lights RGB
     entities:

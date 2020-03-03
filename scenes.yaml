@@ -4,124 +4,124 @@
 #╚════██║██║     ██╔══╝  ██║╚██╗██║██╔══╝  ╚════██║
 #███████║╚██████╗███████╗██║ ╚████║███████╗███████║
 #╚══════╝ ╚═════╝╚══════╝╚═╝  ╚═══╝╚══════╝╚══════╝
-#                                                  
+#
 - id: mood_lights_cwww_on
   name: Mood Lights CWWW on
   entities:
     light.mood_lights_cwww:
       brightness: 255
       effect: None
-      state: 'on'
+      state: "on"
 - id: mood_lights_cwww_off
   name: Mood Lights CWWW off
   entities:
     light.mood_lights_cwww:
-      state: 'off'
+      state: "off"
 - id: mood_lights_rgb_on
   name: Mood Lights RGB on
   entities:
     light.mood_lights_rgb:
       brightness: 255
-      state: 'on'
+      state: "on"
 - id: mood_lights_rgb_off
   name: Mood Lights RGB off
   entities:
     light.mood_lights_rgb:
-      state: 'off'
+      state: "off"
 - id: mood_lights_off
   name: Mood Lights Off
   entities:
     light.mood_lights_cwww:
-      state: 'off'
+      state: "off"
     light.mood_lights_rgb:
-      state: 'off'
+      state: "off"
 - id: all_lights_off
   name: All Lights off
   entities:
     light.all_lights:
-      state: 'off'
+      state: "off"
 - id: chill_mode_on
   name: Chill Mode On
   entities:
     light.mood_lights_rgb:
       effect: Chill Mode
       brightness: 255
-      state: 'on'
+      state: "on"
     light.mood_lights_cwww:
-      state: 'off'
+      state: "off"
 - id: chill_mode_vibrant_on
   name: Chill Mode Vibrant On
   entities:
     light.mood_lights_rgb:
       effect: Chill Mode (Vibrant)
       brightness: 255
-      state: 'on'
+      state: "on"
     light.mood_lights_cwww:
-      state: 'off'
+      state: "off"
 - id: disco_mode_on
   name: Disco Mode on
   entities:
     light.bulbbad_rgb:
       brightness: 255
       effect: Disco
-      state: 'on'
+      state: "on"
     light.bulbflur_rgb:
       brightness: 255
       effect: Disco
-      state: 'on'
+      state: "on"
     light.bulbkueche_rgb:
       brightness: 255
       effect: Disco
-      state: 'on'
+      state: "on"
     light.mood_lights_rgb:
       brightness: 255
-      state: 'on'
+      state: "on"
       effect: Disco
     light.schalter_bad_light:
-      state: 'on'
+      state: "on"
     light.schalter_flur_whz_light:
-      state: 'on'
+      state: "on"
 - id: normal_mode_on
   name: Normal Mode on
   entities:
     light.bulbbad_rgb:
       brightness: 255
       effect: None
-      state: 'on'
+      state: "on"
       rgb_color:
-      - 0
-      - 0
-      - 0
+        - 0
+        - 0
+        - 0
     light.bulbflur_rgb:
       brightness: 255
       effect: None
-      state: 'on'
+      state: "on"
       rgb_color:
-      - 0
-      - 0
-      - 0
+        - 0
+        - 0
+        - 0
     light.bulbkueche_rgb:
       brightness: 255
       effect: None
-      state: 'on'
+      state: "on"
       rgb_color:
-      - 0
-      - 0
-      - 0
+        - 0
+        - 0
+        - 0
     light.mood_lights_rgb:
       brightness: 255
-      state: 'on'
+      state: "on"
       effect: None
       rgb_color:
-      - 0
-      - 0
-      - 0
+        - 0
+        - 0
+        - 0
     light.schalter_bad_light:
-      state: 'on'
+      state: "on"
     light.schalter_flur_whz_light:
-      state: 'on'
+      state: "on"
     light.schalter_kueche_light:
-      state: 'on'
+      state: "on"
 - id: teal
   name: Teal
   entities:
@@ -129,24 +129,24 @@
       brightness: 255
       effect: None
       effect_list:
-      - Lightning
-      - randomflicker
-      - Chill Mode
-      - WTF
-      - Candle
-      - None
-      - Disco
-      - Chill Mode (Vibrant)
+        - Lightning
+        - randomflicker
+        - Chill Mode
+        - WTF
+        - Candle
+        - None
+        - Disco
+        - Chill Mode (Vibrant)
       friendly_name: Mood Lights RGB
       hs_color:
-      - 184.875
-      - 62.745
+        - 184.875
+        - 62.745
       rgb_color:
-      - 95
-      - 242
-      - 255
-      state: 'on'
+        - 95
+        - 242
+        - 255
+      state: "on"
       supported_features: 61
       xy_color:
-      - 0.179
-      - 0.321
+        - 0.179
+        - 0.321

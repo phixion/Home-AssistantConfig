@@ -1,0 +1,41 @@
+group:
+  wohnzimmer_area:
+    entities:
+      - light.bulbspotwhzdesk_rgb
+      - light.bulbspotwhzdesk_cwww
+      - light.bulbspotwhztv_rgb
+      - light.bulbspotwhztv_cwww
+      - light.bulbwhzlamp_rgb
+      - light.bulbwhzlamp_cwww
+      - light.schalter_whz_light
+      - light.schalter_lavalampe_light
+      - light.ledstripwhz1_rgb
+      - light.ledstripwhz2_rgb
+      - light.ledstripwhz3_rgb
+      - light.ledstripwhz1_w
+  kueche_area:
+    entities:
+      - light.bulbkueche_rgb
+      - light.bulbkueche_cwww
+      - light.schalter_kueche_light
+  flur_area:
+    entities:
+      - light.bulbflur_rgb
+      - light.bulbflur_cwww
+      - light.schalter_flur_whz_light
+  bad_area:
+    entities:
+      - light.bulbbad_rgb
+      - light.bulbbad_cwww
+  devices_martin:
+    entities:
+      - device_tracker.0x3efe_icloud
+      - device_tracker.0x3efe_wifi
+      - device_tracker.cray_lan
+      - device_tracker.macbook_air
+      - device_tracker.nexus_gps
+      - device_tracker.nexus_wifi
+      - device_tracker.pixel_gps
+      - device_tracker.pixel_wifi
+      - device_tracker.google_nexus
+      - device_tracker.google_pixel
