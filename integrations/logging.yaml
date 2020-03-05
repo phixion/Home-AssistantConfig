@@ -148,6 +148,7 @@ history:
       - weather
       - sun
       - image_processing
+      - device_tracker
 logger:
   default: warning
   logs:

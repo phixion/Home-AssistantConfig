@@ -35,8 +35,13 @@ device_tracker:
       nexus_ping: !secret host_nexus_wifi
       cray_ping: !secret host_cray_ethernet
       0x3efe_ping: !secret host_macbook_wifi
-#  - platform: arpscan_tracker
-#    interval_seconds: 15
-#    consider_home: 60
-#    track_new_devices: false
-#    scan_options: " --interface=enp0s31f6 10.10.10.0/24 -g -t1 -q"
+  - platform: arpscan_tracker
+    interval_seconds: 15
+    consider_home: 180
+    track_new_devices: false
+    scan_options: !secret arpscan_options
+  - platform: traccar
+    host: !secret traccar_host
+    port: !secret traccar_port
+    username: !secret traccar_usr
+    password: !secret traccar_pwd

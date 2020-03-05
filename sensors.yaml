@@ -316,7 +316,7 @@
       entity_id: sensor.coinbase_btc_wallet
       friendly_name: Coinbase BTC Wallet (EUR)
       unit_of_measurement: EUR
-      value_template: "state_attr"
+      value_template: "{{ state_attr('sensor.coinbase_btc_wallet','Balance in native currency')|replace('EUR','') }}"
     coinbase_vault_xlm_in_euro:
       entity_id: sensor.coinbase_xlm_vault
       value_template: "{{ state_attr('sensor.coinbase_xlm_vault','Balance in native currency')|replace('EUR','') }}"
@@ -609,93 +609,123 @@
     - network_tx
     - volume_percentage_used
 - platform: history_stats
+  name: Noise Sensor Today
+  entity_id: binary_sensor.noise_sensor
+  state: "on"
+  type: time
+  start: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
+  end: "{{ now() }}"
+- platform: history_stats
+  name: Noise Sensor On Yesterday
+  entity_id: binary_sensor.noise_sensor
+  state: "on"
+  type: time
+  end: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
+  duration:
+    hours: 24
+- platform: history_stats
+  name: Noise Sensor On this Week
+  entity_id: binary_sensor.noise_sensor
+  state: "on"
+  type: time
+  start: "{{ as_timestamp( now().replace(hour=0).replace(minute=0).replace(second=0) ) - now().weekday() * 86400 }}"
+  end: "{{ now() }}"
+- platform: history_stats
+  name: Noise Sensor On past 30 days
+  entity_id: binary_sensor.noise_sensor
+  state: "on"
+  type: time
+  end: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
+  duration:
+    days: 30
+- platform: history_stats
   name: Heating Bad On Today
   entity_id: binary_sensor.heating_bad
-  state: 'on'
+  state: "on"
   type: time
   start: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
   end: "{{ now() }}"
 - platform: history_stats
   name: Heating Flur On Today
   entity_id: binary_sensor.heating_flur
-  state: 'on'
+  state: "on"
   type: time
   start: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
   end: "{{ now() }}"
 - platform: history_stats
   name: Heating Wohnzimmer On Today
   entity_id: binary_sensor.heating_wohnzimmer
-  state: 'on'
+  state: "on"
   type: time
   start: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
   end: "{{ now() }}"
 - platform: history_stats
   name: Heating Bad On Yesterday
   entity_id: binary_sensor.heating_bad
-  state: 'on'
+  state: "on"
   type: time
-  end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+  end: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
   duration:
     hours: 24
 - platform: history_stats
   name: Heating Flur On Yesterday
   entity_id: binary_sensor.heating_flur
-  state: 'on'
+  state: "on"
   type: time
-  end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+  end: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
   duration:
     hours: 24
 - platform: history_stats
   name: Heating Wohnzimmer On Yesterday
   entity_id: binary_sensor.heating_wohnzimmer
-  state: 'on'
+  state: "on"
   type: time
-  end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+  end: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
   duration:
     hours: 24
 - platform: history_stats
   name: Heating Bad On this Week
   entity_id: binary_sensor.heating_bad
-  state: 'on'
+  state: "on"
   type: time
   start: "{{ as_timestamp( now().replace(hour=0).replace(minute=0).replace(second=0) ) - now().weekday() * 86400 }}"
   end: "{{ now() }}"
 - platform: history_stats
   name: Heating Flur On this Week
   entity_id: binary_sensor.heating_flur
-  state: 'on'
+  state: "on"
   type: time
   start: "{{ as_timestamp( now().replace(hour=0).replace(minute=0).replace(second=0) ) - now().weekday() * 86400 }}"
   end: "{{ now() }}"
 - platform: history_stats
   name: Heating Wohnzimmer On this Week
   entity_id: binary_sensor.heating_wohnzimmer
-  state: 'on'
+  state: "on"
   type: time
   start: "{{ as_timestamp( now().replace(hour=0).replace(minute=0).replace(second=0) ) - now().weekday() * 86400 }}"
   end: "{{ now() }}"
 - platform: history_stats
   name: Heating Bad On past 30 days
   entity_id: binary_sensor.heating_bad
-  state: 'on'
+  state: "on"
   type: time
-  end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+  end: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
   duration:
     days: 30
 - platform: history_stats
   name: Heating Flur On past 30 days
   entity_id: binary_sensor.heating_flur
-  state: 'on'
+  state: "on"
   type: time
-  end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+  end: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
   duration:
     days: 30
 - platform: history_stats
   name: Heating Wohnzimmer On past 30 days
   entity_id: binary_sensor.heating_wohnzimmer
-  state: 'on'
+  state: "on"
   type: time
-  end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+  end: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
   duration:
     days: 30
 - platform: scrape
@@ -859,14 +889,14 @@
     {%- set days = '{}d '.format(days) if days > 0 else '' %}
     {{ 'Less than 1 min' if time < 60 else days + hours + minutes }}
 - platform: rest
-  resource: "https://services1.arcgis.com/0MSEUqKaxRlEPj5g/arcgis/rest/services/ncov_cases/FeatureServer/1/query?f=json&where=(Confirmed%20%3E%200)%20AND%20(Country_Region%3D%27Germany%27)&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&orderByFields=Confirmed%20desc%2CCountry_Region%20asc%2CProvince_State%20asc&outSR=102100&resultOffset=0&resultRecordCount=250&cacheHint=true"
+  resource: !secret corona_api
   name: Corona Virus Germany
-  value_template: "{{ value_json.features[0].attributes.Confirmed }}"
+  value_template: "{{ (value_json.features[0].attributes.Last_Update / 1000) | int | timestamp_custom('%d.%m.%Y %H:%M') }}"
   json_attributes_path: "$.features[0].attributes"
   json_attributes:
+    - Confirmed
     - Deaths
     - Recovered
-    - Last_Update
 #- platform: snmp
 #  host: !secret modem_host
 #  name: Modem Uptime

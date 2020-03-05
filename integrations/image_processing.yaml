@@ -1,10 +1,10 @@
-#██╗███╗   ███╗ █████╗  ██████╗ ███████╗    ██████╗ ██████╗  ██████╗  ██████╗███████╗███████╗███████╗██╗███╗   ██╗ ██████╗ 
-#██║████╗ ████║██╔══██╗██╔════╝ ██╔════╝    ██╔══██╗██╔══██╗██╔═══██╗██╔════╝██╔════╝██╔════╝██╔════╝██║████╗  ██║██╔════╝ 
+#██╗███╗   ███╗ █████╗  ██████╗ ███████╗    ██████╗ ██████╗  ██████╗  ██████╗███████╗███████╗███████╗██╗███╗   ██╗ ██████╗
+#██║████╗ ████║██╔══██╗██╔════╝ ██╔════╝    ██╔══██╗██╔══██╗██╔═══██╗██╔════╝██╔════╝██╔════╝██╔════╝██║████╗  ██║██╔════╝
 #██║██╔████╔██║███████║██║  ███╗█████╗      ██████╔╝██████╔╝██║   ██║██║     █████╗  ███████╗███████╗██║██╔██╗ ██║██║  ███╗
 #██║██║╚██╔╝██║██╔══██║██║   ██║██╔══╝      ██╔═══╝ ██╔══██╗██║   ██║██║     ██╔══╝  ╚════██║╚════██║██║██║╚██╗██║██║   ██║
 #██║██║ ╚═╝ ██║██║  ██║╚██████╔╝███████╗    ██║     ██║  ██║╚██████╔╝╚██████╗███████╗███████║███████║██║██║ ╚████║╚██████╔╝
-#╚═╝╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝    ╚═╝     ╚═╝  ╚═╝ ╚═════╝  ╚═════╝╚══════╝╚══════╝╚══════╝╚═╝╚═╝  ╚═══╝ ╚═════╝ 
-#                                                                                                                          
+#╚═╝╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝    ╚═╝     ╚═╝  ╚═╝ ╚═════╝  ╚═════╝╚══════╝╚══════╝╚══════╝╚═╝╚═╝  ╚═══╝ ╚═════╝
+#
 image_processing:
   #  - platform: tensorflow
   #    scan_interval: 10000
@@ -19,17 +19,18 @@ image_processing:
   #      - "/config/tmp/{{ camera_entity.split('.')[1] }}_latest.jpg"
   #    model:
   #      graph: /config/tensorflow/frozen_inference_graph.pb
-  #  - platform: tensorflow
-  #    source:
-  #      - entity_id: camera.wohnzimmer
-  #    file_out:
-  #      - "/config/tmp/{{ camera_entity.split('.')[1] }}_latest.jpg"
-  #      - "/config/tmp/{{ camera_entity.split('.')[1] }}_{{ now().strftime('%Y%m%d_%H%M%S') }}.jpg"
-  #    model:
-  #      graph: /config/tensorflow/frozen_inference_graph.pb
-  - platform: facebox
-    ip_address: !secret local_ip
-    port: !secret facebox_port
+  - platform: tensorflow
+    scan_interval: 10000
     source:
       - entity_id: camera.wohnzimmer
-        name: Facebox
+    file_out:
+      - "/config/tmp/{{ camera_entity.split('.')[1] }}_latest.jpg"
+      - "/config/tmp/{{ camera_entity.split('.')[1] }}_{{ now().strftime('%Y%m%d_%H%M%S') }}.jpg"
+    model:
+      graph: /config/tensorflow/frozen_inference_graph.pb
+#  - platform: facebox
+#    ip_address: !secret local_ip
+#    port: !secret facebox_port
+#    source:
+#      - entity_id: camera.wohnzimmer
+#        name: Facebox

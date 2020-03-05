@@ -1,3 +1,11 @@
+- alias: turn off awaymode when flat is occupied
+  trigger:
+    platform: state
+    entity_id: binary_sensor.presence_martin
+    to: "on"
+  action:
+    service: switch.turn_off
+    entity_id: switch.wiser_away_mode
 - alias: Vacation Mode
   trigger:
     - entity_id: person.martin
@@ -72,8 +80,7 @@
     - service: switch.turn_off
       entity_id: switch.wiser_away_mode
     - service: climate.turn_on
-      data:
-        entity_id: climate.alle_thermostate
+      entity_id: climate.alle_thermostate
     - service: climate.set_hvac_mode
       data:
         entity_id: climate.wiser_wohnzimmer
@@ -104,7 +111,7 @@
     - service: media_player.volume_set
       data:
         entity_id: media_player.google_home
-        volume_level: 0.38
+        volume_level: 0.37
     - delay: 00:00:5
     - service: tts.google_cloud_say
       entity_id: media_player.google_home
@@ -120,7 +127,7 @@
   trigger:
     - entity_id: person.martin
       platform: state
-      from: "not_home"
+      from: "home"
       to: "not_home"
   action:
     - service: notify.pushover

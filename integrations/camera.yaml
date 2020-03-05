@@ -1,18 +1,18 @@
-# ██████╗ █████╗ ███╗   ███╗███████╗██████╗  █████╗ 
+# ██████╗ █████╗ ███╗   ███╗███████╗██████╗  █████╗
 #██╔════╝██╔══██╗████╗ ████║██╔════╝██╔══██╗██╔══██╗
 #██║     ███████║██╔████╔██║█████╗  ██████╔╝███████║
 #██║     ██╔══██║██║╚██╔╝██║██╔══╝  ██╔══██╗██╔══██║
 #╚██████╗██║  ██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║
 # ╚═════╝╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝
-#                                                   
+#
 camera:
   - platform: generic
     still_image_url: https://www.yr.no/place/Germany/Bavaria/Munich/meteogram.svg
     name: Weather
     content_type: "image/svg+xml"
-#  - platform: mjpeg
-#    mjpeg_url: !secret mjpeg_url
-#    name: Wohnzimmer
+  - platform: mjpeg
+    mjpeg_url: !secret mjpeg_url
+    name: Wohnzimmer
   - platform: local_file
     file_path: "/config/tmp/wohnzimmer_latest.jpg"
     name: Tensorflow Wohnzimmer

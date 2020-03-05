@@ -49,13 +49,13 @@ binary_sensor:
   - platform: template
     sensors:
       macbook_battery_level_low:
-        value_template: "{{ (states.sensor.macbook_air_battery_level.state | float) < 25 }}"
+        value_template: "{{ (states.sensor.macbook_air_battery_level | float) < 25 }}"
         friendly_name: "MacBook aufladen"
       nexus_battery_level_low:
-        value_template: "{{ (states.sensor.google_nexus_battery_level.state | float) < 25 }}"
+        value_template: "{{ (states.sensor.google_nexus_battery_level | float) < 25 }}"
         friendly_name: "Nexus aufladen"
       pixel_battery_level_low:
-        value_template: "{{ (states.sensor.google_pixel_battery_level.state | float) < 25 }}"
+        value_template: "{{ (states.sensor.google_pixel_battery_level | float) < 25 }}"
         friendly_name: "Pixel aufladen"
       dark_outside:
         value_template: "{{ is_state('sun.sun', 'below_horizon') }}"
@@ -116,9 +116,9 @@ binary_sensor:
           {% endif %}
   - platform: ffmpeg_noise
     name: Noise Sensor
-    input: -f alsa -ac 1 -i plughw:1 -vn -filter:a silencedetect=n=-10dB:d=1 -f null
-    #    extra_arguments: -filter:a highpass=f=300,lowpass=f=2500,volume=volume=2 -codec:a libmp3lame -ar 16000
-    initial_state: false
+    input: -f alsa -ac 1 -i plughw:1 -vn -filter:a silencedetect=n=-10dB:d=1 -f null -
+    extra_arguments: -filter:a highpass=f=300,lowpass=f=2500,volume=volume=2 -codec:a libmp3lame -ar 16000
+    initial_state: true
     duration: 2
     reset: 60
     peak: -32

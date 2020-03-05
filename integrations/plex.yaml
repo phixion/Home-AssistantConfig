@@ -5,12 +5,12 @@
 #██║     ███████╗███████╗██╔╝ ██╗
 #╚═╝     ╚══════╝╚══════╝╚═╝  ╚═╝
 #                                
-plex:
-  host: !secret plex_hst
-  port: !secret plex_prt
-  token: !secret plex_token
-  ssl: true
-  verify_ssl: true
-  media_player:
-    use_episode_art: true
-    show_all_controls: true
+#plex:
+#  host: !secret plex_hst
+#  port: !secret plex_prt
+#  token: !secret plex_token
+#  ssl: true
+#  verify_ssl: true
+#  media_player:
+#    use_episode_art: true
+#    show_all_controls: true

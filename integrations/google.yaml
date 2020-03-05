@@ -6,5 +6,5 @@
 # ╚═════╝  ╚═════╝  ╚═════╝  ╚═════╝ ╚══════╝╚══════╝    ╚═╝     ╚═╝   ╚═╝   
 #                                                                            
 google:
-  client_id: !secret google_fit_id
-  client_secret: !secret google_fit_secret
+ client_id: !secret google_fit_id
+ client_secret: !secret google_fit_secret

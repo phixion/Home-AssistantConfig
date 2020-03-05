@@ -30,3 +30,4 @@ zones.yaml
 *.db
 *.log
 .ip_authenticated.yaml
+traccar.xml
