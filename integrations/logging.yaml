@@ -101,6 +101,7 @@ logbook:
       - weather
       - sun
       - image_processing
+      - device_tracker
 history:
   exclude:
     entities:

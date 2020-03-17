@@ -10,13 +10,18 @@
 !scripts.yaml
 !sensors.yaml
 !ui-lovelace.yaml
+#integrations directory
 !integrations
 !integrations/*.yaml
+#esphome directory
 !esphome
 !esphome/*.yaml
-#esphome/shared
+#esphome/shared directory
 !shared
 !esphome/shared/*.yaml
+#google-assistant directory
+!google-assistant-entities
+!google-assistant-entities/*.yaml
 #ensure
 esphome/secrets.yaml
 esphome/shared/secrets.yaml
