@@ -2,9 +2,11 @@ language: python
 python:
   - "3.7"
 before_install:
+  - sudo apt-get install -y libudev-dev
   - mv travis_secrets.yaml secrets.yaml
   - mv travis_upnp.yaml upnp.yaml
-  - sudo apt-get install -y libudev-dev
+  - mv travis_zones.yaml zones.yaml
+  - mv travis_panels.yaml panels.yaml
   - mkdir ./custom_components/
   - git clone https://github.com/custom-components/feedparser /tmp/feedparser
   - cp -r /tmp/feedparser/custom_components/feedparser ./custom_components/
