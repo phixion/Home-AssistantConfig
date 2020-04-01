@@ -23,6 +23,7 @@ before_install:
   - wget https://raw.githubusercontent.com/hemantkamalakar/haconfigs/master/custom_components/google_fit/sensor.py
   - wget https://raw.githubusercontent.com/hemantkamalakar/haconfigs/master/custom_components/google_fit/__init__.py
   - cd ../..
+  - mkdir ./tmp
 install:
   - pip3 install homeassistant
 script:
