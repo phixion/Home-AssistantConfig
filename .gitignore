@@ -10,7 +10,7 @@
 !groups.yaml
 !scripts.yaml
 !sensors.yaml
-!travis-secrets.yaml
+!travis_secrets.yaml
 
 #integrations directory
 !integrations
