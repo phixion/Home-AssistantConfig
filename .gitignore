@@ -64,7 +64,6 @@ ip_bans.yaml
 .cloud
 .google.token
 google*.json
-google*.yaml
 *nogit*
 ad_whitelist.txt
 __pycache__/
