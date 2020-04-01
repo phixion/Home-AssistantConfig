@@ -3,7 +3,24 @@ python:
   - "3.7"
 before_install:
   - mv travis_secrets.yaml secrets.yaml
+  - mv travis_upnp.yaml upnp.yaml
   - sudo apt-get install -y libudev-dev
+  - mkdir ./custom_components/
+  - git clone https://github.com/custom-components/feedparser /tmp/feedparser
+  - cp -r /tmp/feedparser/custom_components/feedparser ./custom_components/
+  - git clone https://github.com/custom-components/places /tmp/places
+  - cp -r /tmp/places/custom_components/places ./custom_components/
+  - git clone https://github.com/custom-components/authenticated /tmp/authenticated
+  - cp -r /tmp/authenticated/custom_components/authenticated ./custom_components/
+  - git clone https://github.com/custom-components/sensor.unifigateway /tmp/unifigateway
+  - cp -r /tmp/unifigateway/custom_components/unifigateway ./custom_components/
+  - git clone https://github.com/custom-components/youtube /tmp/youtube
+  - cp -r /tmp/youtube/custom_components/youtube/ ./custom_components/
+  - mkdir ./custom_components/google_fit/
+  - cd ./custom_components/google_fit/
+  - wget https://github.com/hemantkamalakar/haconfigs/blob/master/custom_components/google_fit/sensor.py
+  - wget https://raw.githubusercontent.com/hemantkamalakar/haconfigs/master/custom_components/google_fit/__init__.py
+  - cd ../..
 install:
   - pip3 install homeassistant
 script:

@@ -35,7 +35,6 @@ recorder:
       - sensor.nodemcu_3_accel_x
       - sensor.nodemcu_3_accel_y
       - sensor.nodemcu_3_accel_z
-      - automation.count_warnings
       - sensor.date_time
       - sensor.date_time_iso
       - sensor.date_time_utc
@@ -43,7 +42,6 @@ recorder:
       - sensor.time_date
       - sensor.time_utc
       - sensor.time
-      - automation.count_warnings
       - sensor.influxdb_size_telegraf
       - sensor.influxdb_size_homeassistant
       - sensor.influxdb_size_internal
@@ -120,7 +118,6 @@ logbook:
       - sensor.nas_uptime
       - counter.warning_counter
       - automation.update_morning_commute_sensor
-      - automation.count_warnings
       - sensor.home_assistantconfig
       - sensor.wiser_itrv_wohnzimmer
       - sensor.wiser_itrv_bad
@@ -163,7 +160,6 @@ history:
       - sensor.nodemcu_3_accel_x
       - sensor.nodemcu_3_accel_y
       - sensor.nodemcu_3_accel_z
-      - automation.count_warnings
       - sensor.influxdb_size_telegraf
       - sensor.influxdb_size_homeassistant
       - sensor.influxdb_size_internal

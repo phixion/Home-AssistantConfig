@@ -881,7 +881,6 @@
     - "date_time"
     - "date_time_iso"
     - "date"
-    - "date_time_utc"
     - "time_utc"
 - platform: websocket_api
 - platform: aftership

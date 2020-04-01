@@ -1,0 +1,10 @@
+"sensor.temperatur*":
+  device_class: temperature
+"sensor.*temperatur*":
+  device_class: temperature
+"sensor.*uptime*":
+  icon: mdi:clock
+"sensor.mariadb_*":
+  icon: mdi:database
+"sensor.influx_*":
+  icon: mdi:database

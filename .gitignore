@@ -10,9 +10,11 @@
 !groups.yaml
 !scripts.yaml
 !sensors.yaml
+!customize.yaml
+!customize_glob.yaml
 #travis CI
-!travis_secrets.yaml
-!travis_secret.json
+!travis_*.yaml
+!travis_*.json
 
 #integrations directory
 !integrations
