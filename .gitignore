@@ -16,6 +16,16 @@
 !travis_*.yaml
 !travis_*.json
 
+#custom_components directory
+!custom_components
+!custom_components/**
+
+#www/_static
+!www
+!_static
+!www/_static/**
+
+
 #integrations directory
 !integrations
 !integrations/*.yaml
@@ -44,6 +54,7 @@ secrets.yaml
 zones.yaml
 *.db
 *.log
+*.pyc
 .ip_authenticated.yaml
 traccar.xml
 *.token
@@ -55,3 +66,5 @@ ip_bans.yaml
 google*.json
 google*.yaml
 *nogit*
+ad_whitelist.txt
+__pycache__/

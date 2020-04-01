@@ -1,0 +1,9 @@
+{
+  "domain": "climate_group",
+  "name": "Climate Group",
+  "documentation": "https://github.com/daenny/climate_group",
+  "dependencies": [],
+  "codeowners": ["@daenny"],
+  "requirements": [],
+  "homeassistant": "0.96.0"
+}
