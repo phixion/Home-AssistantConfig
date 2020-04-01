@@ -10,7 +10,9 @@
 !groups.yaml
 !scripts.yaml
 !sensors.yaml
+#travis CI
 !travis_secrets.yaml
+!travis_secret.json
 
 #integrations directory
 !integrations
