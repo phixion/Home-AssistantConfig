@@ -20,7 +20,7 @@ before_install:
   - cp -r /tmp/youtube/custom_components/youtube/ ./custom_components/
   - mkdir ./custom_components/google_fit/
   - cd ./custom_components/google_fit/
-  - wget https://github.com/hemantkamalakar/haconfigs/blob/master/custom_components/google_fit/sensor.py
+  - wget https://raw.githubusercontent.com/hemantkamalakar/haconfigs/master/custom_components/google_fit/sensor.py
   - wget https://raw.githubusercontent.com/hemantkamalakar/haconfigs/master/custom_components/google_fit/__init__.py
   - cd ../..
 install:
