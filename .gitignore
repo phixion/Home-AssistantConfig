@@ -23,7 +23,9 @@
 #www/_static
 !www
 !_static
+!icons
 !www/_static/**
+!www/_static/icons/*
 
 
 #integrations directory
