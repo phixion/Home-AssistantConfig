@@ -1,0 +1,57 @@
+substitutions:
+  devicename: nodemcu1
+  friendly_name: Nodemcu 1
+  update_interval: 10min
+esphome:
+  name: ${devicename}
+  platform: ESP8266
+  board: nodemcuv2
+time: !include shared/time.yaml
+wifi: !include shared/wifi.yaml
+api: !include shared/api.yaml
+ota: !include shared/ota.yaml
+text_sensor: !include shared/textsensors.yaml
+web_server: !include shared/webserver.yaml
+captive_portal:
+logger:
+i2c:
+  sda: D1
+  scl: D2
+  scan: True
+sensor:
+  - platform: homeassistant
+    name: corona_infect
+    entity_id: sensor.germany_coronavirus_confirmed
+    id: corona_infect
+    internal: true
+  - platform: homeassistant
+    name: corona_recovered
+    entity_id: sensor.germany_coronavirus_recovered
+    id: corona_recovered
+    internal: true
+  - platform: homeassistant
+    name: corona_deaths
+    entity_id: sensor.germany_coronavirus_deaths
+    id: corona_deaths
+    internal: true
+  - platform: wifi_signal
+    name: ${friendly_name} WiFi Signal
+    update_interval: ${update_interval}
+    unit_of_measurement: dB
+    icon: mdi:wifi
+    force_update: true
+  - platform: uptime
+    force_update: true
+    name: ${friendly_name} Uptime
+    filters:
+      - lambda: return x / 60.0;
+    unit_of_measurement: minutes
+    icon: mdi:alarm
+display:
+  - platform: lcd_pcf8574
+    dimensions: 16x2
+    address: 0x27
+    lambda: |-
+      it.printf(0, 0, "COVID-19: %.0f", id(corona_infect).state);
+      it.printf(16, 0, "R: %.0f", id(corona_recovered).state);
+      it.printf(24, 0, "D: %.0f", id(corona_deaths).state);

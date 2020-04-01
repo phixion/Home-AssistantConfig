@@ -1,16 +1,25 @@
 input_boolean:
-  frencks_latest_video:
-    name: "Frencks latest video"
+  play_nexpo:
+    name: Play latest nexpo
     initial: off
-  nexpos_latest_video:
-    name: "Nexpos latest video"
+    icon: mdi:skull-outline
+  play_scaretheater:
+    name: Play latest ScareTheater
     initial: off
-  scaretheatres_latest_video:
-    name: "ScareTheatres latest video"
+    icon: mdi:alien-outline
+  play_reignbot:
+    name: Play latest ReignBot
     initial: off
-  reignbots_latest_video:
-    name: "Reignbots latest video"
+    icon: mdi:ufo-outline
+  play_sog:
+    name: Play latest SomeOrdinaryGamers
     initial: off
-  h3h3podcasts_latest_video:
-    name: "h3h3 Podcast latest video"
+    icon: mdi:youtube
+  play_h3:
+    name: Play latest h3 Podcast
     initial: off
+    icon: mdi:cannabis
+  play_frenck:
+    name: Play latest Frenck 
+    initial: off
+    icon: mdi:car-esp

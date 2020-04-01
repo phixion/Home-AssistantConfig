@@ -4,16 +4,16 @@
 #╚════██║██║███╗██║██║   ██║   ██║     ██╔══██║
 #███████║╚███╔███╔╝██║   ██║   ╚██████╗██║  ██║
 #╚══════╝ ╚══╝╚══╝ ╚═╝   ╚═╝    ╚═════╝╚═╝  ╚═╝
-#                                              
+#
 switch:
   - platform: template
     switches:
       chill_mode:
         friendly_name: Chill Mode
-        value_template: "{{ is_state('scene.chill_mode', 'on') }}"
+        value_template: "{{ is_state('scene.chill_mode_on', 'on') }}"
         turn_on:
           service: scene.turn_on
-          entity_id: scene.chill_mode
+          entity_id: scene.chill_mode_on
         turn_off:
           service: scene.turn_on
           entity_id: scene.normal_mode_on
@@ -35,8 +35,15 @@ switch:
       - light.ledstripwhz3_rgb
     min_brightness: 65
   - platform: rest
-    resource: http://127.0.0.1:8126/container/addon_a0d7b954_unifi
+    resource: !secret ha_dockermon_url0
     name: Unifi Controller
     body_on: '{"state": "start"}'
     body_off: '{"state": "stop"}'
     is_on_template: '{{ value_json is not none and value_json.state == "running" }}'
+  - platform: rest
+    resource: !secret ha_dockermon_url1
+    name: Restreamer
+    body_on: '{"state": "start"}'
+    body_off: '{"state": "stop"}'
+    is_on_template: '{{ value_json is not none and value_json.state == "running" }}'
+

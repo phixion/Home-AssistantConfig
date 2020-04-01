@@ -4,16 +4,16 @@
 #██║   ██║██║╚██╗██║██║██╔══╝  ██║
 #╚██████╔╝██║ ╚████║██║██║     ██║
 # ╚═════╝ ╚═╝  ╚═══╝╚═╝╚═╝     ╚═╝
-#                                 
+#
 unifi:
   controllers:
     - host: !secret unifigw_host
       site: !secret unifigw_site
       ssid_filter:
         - !secret ssid_1
-        - !secret ssid_2
-        - !secret ssid_3
-      dont_track_devices: false
+      #        - !secret ssid_2
+      #       - !secret ssid_3
+      dont_track_devices: true
       dont_track_clients: false
       dont_track_wired_clients: false
       detection_time: 300

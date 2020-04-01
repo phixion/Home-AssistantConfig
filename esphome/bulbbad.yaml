@@ -3,8 +3,8 @@ substitutions:
   friendly_name: "Bad"
   update_interval: 10min
   frequency_rgb: 100 Hz
-  frequency_cw: 100 Hz
-  frequency_ww: 100 Hz
+  frequency_cw: 1000 Hz
+  frequency_ww: 1000 Hz
 esphome:
   esp8266_restore_from_flash: true
   name: ${devicename}

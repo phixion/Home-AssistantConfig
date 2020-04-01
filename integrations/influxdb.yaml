@@ -6,9 +6,9 @@
 #╚═╝╚═╝  ╚═══╝╚═╝     ╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚═════╝ ╚═════╝ 
 #                                                              
 influxdb:
-  host: a0d7b954-influxdb
-  port: 8086
-  database: homeassistant
+  host: !secret influx_host
+  port: !secret influx_port
+  database: !secret influx_hassio_db
   username: !secret influx_usr
   password: !secret influx_pwd
   max_retries: 10

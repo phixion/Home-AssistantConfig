@@ -7,169 +7,27 @@
 #
 google_assistant:
   project_id: !secret gproject_id
-  service_account: !include /config/google_assistant_new.json
-  report_state: true
-  expose_by_default: true
+  service_account: !secret google_service_accout_json_file
+  secure_devices_pin: !secret google_assistant_pin
+  report_state: false #causes errors in google home console
+  #expose_by_default: false #setting to true breaks the integration
   exposed_domains:
     - light
     - camera
-    - scene
-    - media_player
-  entity_config:
-    light.schalter_flur_whz_light:
-      name: Flur (Schalter)
-      aliases:
-        - Lampe Flur
-        - Flurlicht
-        - Flur
-      room: Wohnzimmer
-    light.bulbflur_rgb:
-      name: Flur (RGB)
-      aliases:
-        - RGB Flurlampe
-        - RGB Flurlicht
-        - RGB Flur
-    light.bulbflur_cwww:
-      room: Flur
-      name: Flur (Weiss)
-      aliases:
-        - Helle Flurlampe
-        - Weisses Flurlicht
-        - Weisse Flurlampe
-        - Helles FLurlicht
-    light.schalter_bad_light:
-      room: Bad
-      name: Bad (Schalter)
-      aliases:
-        - Lampe Bad
-        - Badlicht
-        - Flur
-        - Klo
-        - Restroom
-    light.bulbbad_rgb:
-      room: Bad
-      name: Bad (RGB)
-      aliases:
-        - RGB Badlampe
-        - RGB Badlicht
-        - RGB Bad
-    light.bulbbad_cwww:
-      room: Bad
-      name: Bad (Weiss)
-      aliases:
-        - Helle Badlampe
-        - Weisses Badlicht
-        - Weisse Badlampe
-        - Helles Badlicht
-    light.schalter_kueche_light:
-      room: Küche
-      name: Küchenschrank
-      aliases:
-        - Lampe Küche
-        - Küchenlicht
-        - Küche
-        - Kitchen
-        - Licht Küche
-    light.bulbkueche_rgb:
-      room: Küche
-      name: Küche (RGB)
-      aliases:
-        - RGB Küchenlampe
-        - RGB Küchenlicht
-        - RGB Küche
-    light.bulbkueche_cwww:
-      room: Küche
-      name: Küche (Weiss)
-      aliases:
-        - Helle Küchenlampe
-        - Weisses Küchenlicht
-        - Weisse Küchenlampe
-        - Helles Küchenlicht
-    light.schalter_whz_light:
-      room: Wohnzimmer
-      name: Wohnzimmer (Schalter)
-      aliases:
-        - Deckenlicht
-        - Deckenlampe
-        - Lampe Wohnzimmer
-        - Wohnzimmerlicht
-        - Wohnzimmer
-        - Living Room
-        - Licht Wohnzimmer
-    climate.wiser_bad:
-      room: Bad
-      name: Bad
-      aliases:
-        - Heizung Bad
-        - Thermostat Bad
-        - Heizung
-    climate.wiser_flur:
-      room: Flur
-      name: Flur
-      aliases:
-        - Heizung Flur
-        - Thermostat Flur
-        - Heizung
-    climate.wiser_wohnzimmer:
-      room: Wohnzimmer
-      name: Wohnzimmer
-      aliases:
-        - Heizung Wohnzimmer
-        - Thermostat Wohnzimmer
-        - Heizung
-    sensor.sonoff_th16_whz_humidity_sensor:
-      room: Wohnzimmer
-      name: Luftfeuchtigkeit
-      aliases:
-        - Luftfeuchtigkeit Wohnzimmer
-    sensor.sonoff_th16_whz_temperatur_sensor:
-      room: Wohnzimmer
-      name: Thermometer
-      aliases:
-        - Thermometer Wohnzimmer
-        - Temperatur Wohnzimmer
-    light.bulbwhzlamp_rgb:
-      room: Wohnzimmer
-      name: Stehlampe (RGB)
-      aliases:
-        - Wohnzimmerlampe
-        - Standlicht
-    light.schalter_lavalampe_light:
-      room: Wohnzimmer
-      name: Lavalampe
-    light.bulbwhzlamp_cwww:
-      room: Wohnzimmer
-      name: Stehlampe (Weiss)
-      aliases:
-        - Wohnzimmerlampe
-        - Standlicht
-    light.mood_lights_rgb:
-      room: Wohnzimmer
-      name: Mood Lights (RGB)
-    light.mood_lights_cwww:
-      name: Mood Lights (CWWW)
-      room: Wohnzimmer
-    #unexposed
-    light.bulbspotwhzdesk_rgb:
-      expose: false
-    light.bulbspotwhzdesk_cwww:
-      expose: false
-    light.bulbspotwhztv_rgb:
-      expose: false
-    light.bulbspotwhztv_cwww:
-      expose: false
-    light.ledstripwhz1_rgb:
-      expose: false
-    light.ledstripwhz2_rgb:
-      expose: false
-    light.ledstripwhz3_rgb:
-      expose: false
-    light.ledstripwhz1_w:
-      expose: false
-    light.bulbtest2:
-      expose: false
-    light.nodemcu1:
-      expose: false
-    light.test_bulb_2_white:
-      expose: false
-    
+    #    - scene
+    #- media_player
+    - sensor
+    #    - switch
+    - binary_sensor
+    - camera
+    #- group
+    - input_boolean
+    #- scene
+    #- script
+    #- switch
+    #- fan
+    #- lock
+    #- cover
+    #- vacuum
+    #- alarm
+  entity_config: !include_dir_merge_named ../google-assistant-entities

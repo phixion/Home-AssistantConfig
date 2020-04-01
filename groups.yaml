@@ -20,8 +20,3 @@
 #  entities:
 #    - sensor.sonoff_pow_r2_tv_voltage
 #    - sensor.sonoff_pow_r2_whz_voltage
-automation_view:
-  name: Automation
-  entities:
-    - group.all_automations
-    - group.all_scripts

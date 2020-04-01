@@ -1,5 +1,6 @@
 #ignore all
 *
+
 #whitelist
 !configuration.yaml
 !.gitignore
@@ -9,19 +10,25 @@
 !groups.yaml
 !scripts.yaml
 !sensors.yaml
-!ui-lovelace.yaml
+!travis-secrets.yaml
+
 #integrations directory
 !integrations
 !integrations/*.yaml
+
 #esphome directory
 !esphome
 !esphome/*.yaml
+!esphome/*.h
+
 #esphome/shared directory
 !shared
 !esphome/shared/*.yaml
+
 #google-assistant directory
 !google-assistant-entities
 !google-assistant-entities/*.yaml
+
 #ensure
 esphome/secrets.yaml
 esphome/shared/secrets.yaml
@@ -36,3 +43,9 @@ zones.yaml
 *.log
 .ip_authenticated.yaml
 traccar.xml
+*.token
+known_devices.yaml
+ip_bans.yaml
+.storage
+.cloud
+.google.token

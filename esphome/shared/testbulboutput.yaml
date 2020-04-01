@@ -1,0 +1,12 @@
+- platform: esp8266_pwm
+  id: output_red
+  pin: GPIO5
+- platform: esp8266_pwm
+  id: output_green
+  pin: GPIO14
+- platform: esp8266_pwm
+  id: output_blue
+  pin: GPIO13
+- platform: esp8266_pwm
+  id: output_white
+  pin: GPIO5

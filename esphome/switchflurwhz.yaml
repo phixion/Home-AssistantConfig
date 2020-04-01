@@ -66,6 +66,10 @@ switch:
       - homeassistant.service:
           service: light.turn_off
           data:
+            entity_id: light.bulbkueche_rgb            
+      - homeassistant.service:
+          service: light.turn_off
+          data:
             entity_id: light.schalter_kueche_light
 binary_sensor:
   - platform: gpio

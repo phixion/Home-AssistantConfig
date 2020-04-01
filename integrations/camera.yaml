@@ -11,12 +11,6 @@ camera:
     name: Weather
     content_type: "image/svg+xml"
   - platform: mjpeg
-    mjpeg_url: !secret mjpeg_url
-    name: Wohnzimmer
-  - platform: local_file
-    file_path: "/config/tmp/wohnzimmer_latest.jpg"
-    name: Tensorflow Wohnzimmer
-  - platform: mjpeg
     mjpeg_url: "https://app.muenchen.de/webcam/marienplatz//marienplatzgross000M.jpg"
     name: Marienplatz
   - platform: mjpeg
@@ -34,3 +28,11 @@ camera:
   - platform: mjpeg
     mjpeg_url: "http://hb-webcam.registrierung.net/biergarten.jpg"
     name: Wiener Platz
+  - platform: generic
+    name: Nest Cam
+    still_image_url: !secret nest_image
+    stream_source: !secret nest_stream
+    verify_ssl: false
+#  - platform: local_file
+#    file_path: tmp/deepstack_object_local_file_latest_person.jpg
+#    name: deepstack_latest_person

@@ -6,7 +6,7 @@
 #╚══════╝╚══════╝╚═╝  ╚═══╝╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝
 - platform: influxdb
   host: localhost
-  port: 8086
+  port: !secret influx_port
   username: !secret influx_usr
   password: !secret influx_pwd
   queries:
@@ -29,7 +29,7 @@
     - name: InfluxDB Size Telegraf
       unit_of_measurement: GB
       group_function: mean
-      value_template: "{{ (value | float / 1024 / 1024 / 1024) | round(1) }}"
+      value_template: "{{ (value | float / 1024 / 1024 / 1024 ) | round(1) }}"
       measurement: '"monitor"."shard"'
       where: '"database"=''telegraf'' AND time > now() - 15m'
       database: _internal
@@ -42,6 +42,24 @@
       where: '"database"=''homeassistant'' AND time > now() - 15m'
       database: _internal
       field: diskBytes
+    - name: Average Power (last hour)
+      database: homeassistant
+      where: '"entity_id" = ''energy_combined_power'' AND time >= now() - 1h'
+      measurement: '"W"'
+      value_template: "{{ value | round(2) }}"
+      unit_of_measurement: W
+    - name: Average Power (last day)
+      database: homeassistant
+      where: '"entity_id" = ''energy_combined_power'' AND time >= now() - 24h'
+      measurement: '"W"'
+      value_template: "{{ value | round(2) }}"
+      unit_of_measurement: W
+    - name: Average Power (last week)
+      database: homeassistant
+      where: '"entity_id" = ''energy_combined_power'' AND time >= now() - 7d'
+      measurement: '"W"'
+      value_template: "{{ value | round(2) }}"
+      unit_of_measurement: W
 - platform: sql
   db_url: !secret dburl
   queries:
@@ -108,19 +126,11 @@
   name: energy_consumption_combined
   unit_prefix: k
   round: 2
-#- platform: github
-#  access_token: !secret github_access_token
-#  repositories:
-#    - path: "home-assistant/home-assistant"
-#    - path: "phixion/sopel-modules"
-#    - path: "phixion/home-assistantconfig"
-#- platform: command_line
-#  name: installed version
-#  command: "cat /config/.HA_VERSION"
-#- platform: command_line
-#  name: pending OS update(s)
-#  unit_of_measurement: pending update(s)
-#  command: "cat /config/ubuntu_updates.log"
+- platform: command_line
+  scan_interval: 300
+  unit_of_measurement: pending update(s)
+  name: System Updates
+  command: "cat /config/sys_updates.log"
 - platform: dnsip
   hostname: !secret home_host
   name: !secret home_host
@@ -144,7 +154,7 @@
     - image
 - platform: feedparser
   name: rss free steam keys
-  feed_url: "https://www.reddit.com/r/GameDeals/search.rss?q=free&sort=new&restrict_sr=on&t=all.rss"
+  feed_url: "https://www.reddit.com/r/GameDeals/search.rss?q=free&[STEAM]sort=new&restrict_sr=on&t=all.rss"
   inclusions:
     - title
     - link
@@ -172,9 +182,10 @@
 - platform: places
   name: Martin
   devicetracker_id: device_tracker.google_pixel
-  options: zone,place,street_number,street,city,state,postal_code
+  #  options: zone,place,street_number,street,city,state,postal_code
+  options: do_not_reorder, place_name, street_number, street, city, postal_code
   map_provider: google
-  map_zoom: 19
+  #  map_zoom: 19
   home_zone: zone.home
   api_key: !secret email_phixion
 - platform: rest
@@ -183,7 +194,6 @@
   value_template: "{{ value_json.ip }}"
 - platform: authenticated
   provider: ipvigilante
-  log_location: /config/auth.log
   enable_notification: true
 - platform: uptime
   unit_of_measurement: days
@@ -227,15 +237,15 @@
     climate_flur_temp:
       friendly_name: Flur
       unit_of_measurement: "°C"
-      value_template: "{{ states.climate.wiser_flur.attributes.current_temperature }}"
+      value_template: "{{ states.climate.flur.attributes.current_temperature }}"
     climate_bad_temp:
       friendly_name: Bad
       unit_of_measurement: "°C"
-      value_template: "{{ states.climate.wiser_bad.attributes.current_temperature }}"
+      value_template: "{{ states.climate.bad.attributes.current_temperature }}"
     climate_wohnzimmer_temp:
       friendly_name: Wohnzimmer
       unit_of_measurement: "°C"
-      value_template: "{{ states.climate.wiser_wohnzimmer.attributes.current_temperature }}"
+      value_template: "{{ states.climate.wohnzimmer.attributes.current_temperature }}"
     climate_wohnung_target_temp:
       friendly_name: Target Temp Wohnung
       unit_of_measurement: "°C"
@@ -243,24 +253,24 @@
     climate_flur_target_temp:
       friendly_name: Target Temp Flur
       unit_of_measurement: "°C"
-      value_template: "{{ states.climate.wiser_flur.attributes.temperature }}"
+      value_template: "{{ states.climate.flur.attributes.temperature }}"
     climate_bad_target_temp:
       friendly_name: Target Temp Bad
       unit_of_measurement: "°C"
-      value_template: "{{ states.climate.wiser_bad.attributes.temperature }}"
+      value_template: "{{ states.climate.bad.attributes.temperature }}"
     climate_wohnzimmer_target_temp:
       friendly_name: Target Temp Wohnzimmer
       unit_of_measurement: "°C"
-      value_template: "{{ states.climate.wiser_wohnzimmer.attributes.temperature }}"
+      value_template: "{{ states.climate.wohnzimmer.attributes.temperature }}"
     climate_bad_preset:
       friendly_name: Bad Modus
-      value_template: "{{ states.climate.wiser_bad.attributes.preset_mode }}"
+      value_template: "{{ states.climate.bad.attributes.preset_mode }}"
     climate_wohnzimmer_preset:
       friendly_name: Wohnzimmer Modus
-      value_template: "{{ states.climate.wiser_wohnzimmer.attributes.preset_mode }}"
+      value_template: "{{ states.climate.wohnzimmer.attributes.preset_mode }}"
     climate_flur_preset:
       friendly_name: Flur Modus
-      value_template: "{{ states.climate.wiser_flur.attributes.preset_mode }}"
+      value_template: "{{ states.climate.flur.attributes.preset_mode }}"
     unifi_speedtest_rx:
       entity_id: sensor.unifi_gateway_www
       friendly_name: Download
@@ -280,17 +290,17 @@
       entity_id: sensor.unifi_gateway_wlan
       friendly_name: WLAN User
       unit_of_measurement: devices
-      value_template: "{{ state_attr('sensor.unifi_gateway_wlan','num_user') }}"
+      value_template: "{{ states.sensor.unifi_gateway_wlan.attributes.num_user | default(0) }}"
     unifi_wlan_guest:
       entity_id: sensor.unifi_gateway_wlan
       friendly_name: WLAN Guests
       unit_of_measurement: devices
-      value_template: "{{ state_attr('sensor.unifi_gateway_wlan','num_guests') }}"
+      value_template: "{{ states.sensor.unifi_gateway_wlan.attributes.num_guest | default(0) }}"
     unifi_wlan_iot:
       entity_id: sensor.unifi_gateway_wlan
       friendly_name: WLAN IoT
       unit_of_measurement: devices
-      value_template: "{{ state_attr('unifi_gateway_wlan','num_iot') }}"
+      value_template: "{{ states.sensor.unifi_gateway_wlan.attributes.num_iot | default(0) }}"
     sun_sunset:
       entity_id: sun.sun
       friendly_name: Sonnenuntergang
@@ -359,44 +369,24 @@
     energy_consumed_yearly_combined:
       unit_of_measurement: kWh
       value_template: "{{ ((states.sensor.energy_consumed_yearly_whz_1.state | float) + (states.sensor.energy_consumed_yearly_whz_2.state | float)) | round(2) }}"
-    thermostat_wohnzimmer_battery_level:
-      friendly_name: Thermostat Wohnzimmer Batterie
-      value_template: "{{ states.sensor.wiser_itrv_wohnzimmer.attributes.battery_percent | default(101) | int if states.sensor.wiser_itrv_wohnzimmer.attributes.battery_percent is not none}}"
-      device_class: battery
-      unit_of_measurement: "%"
-    thermostat_bad_battery_level:
-      friendly_name: Thermostat Bad Batterie
-      value_template: "{{ states.sensor.wiser_itrv_bad.attributes.battery_percent | default(101) | int if states.sensor.wiser_itrv_bad.attributes.battery_percent is not none}}"
-      device_class: battery
-      unit_of_measurement: "%"
-    thermostat_flur_battery_level:
-      friendly_name: Thermostat Flur Batterie
-      value_template: "{{ states.sensor.wiser_itrv_flur.attributes.battery_percent | default(101) | int if states.sensor.wiser_itrv_flur.attributes.battery_percent is not none}}"
-      device_class: battery
-      unit_of_measurement: "%"
-    roomstat_wohnzimmer_battery_level:
-      friendly_name: Raum Thermostat Batterie
-      value_template: "{{ states.sensor.wiser_roomstat_wohnzimmer.attributes.battery_percent | default(101) | int if states.sensor.wiser_roomstat_wohnzimmer.attributes.battery_percent is not none}}"
-      device_class: battery
-      unit_of_measurement: "%"
     thermostat_wohnzimmer_wifi_signal:
       friendly_name: Thermostat Wohnzimmer Signal
-      value_template: "{{ states.sensor.wiser_itrv_wohnzimmer.attributes.controller_reception_RSSI | default(0) | int if states.sensor.wiser_itrv_wohnzimmer.attributes.controller_reception_RSSI is not none}}"
+      value_template: "{{ states.sensor.thermostat_wohnzimmer.attributes.controller_reception_RSSI | default(0) | int if states.sensor.thermostat_wohnzimmer.attributes.controller_reception_RSSI is not none}}"
       device_class: signal_strength
       unit_of_measurement: dB
     thermostat_bad_wifi_signal:
       friendly_name: Thermostat Bad Signal
-      value_template: "{{ states.sensor.wiser_itrv_bad.attributes.controller_reception_RSSI | default(0) | int if states.sensor.wiser_itrv_bad.attributes.controller_reception_RSSI is not none}}"
+      value_template: "{{ states.sensor.thermostat_bad.attributes.controller_reception_RSSI | default(0) | int if states.sensor.thermostat_bad.attributes.controller_reception_RSSI is not none}}"
       device_class: signal_strength
       unit_of_measurement: dB
     thermostat_flur_wifi_signal:
       friendly_name: Thermostat Flur Signal
-      value_template: "{{ states.sensor.wiser_itrv_flur.attributes.controller_reception_RSSI | default(0) | int if states.sensor.wiser_itrv_flur.attributes.controller_reception_RSSI is not none}}"
+      value_template: "{{ states.sensor.thermostat_flur.attributes.controller_reception_RSSI | default(0) | int if states.sensor.thermostat_flur.attributes.controller_reception_RSSI is not none}}"
       device_class: signal_strength
       unit_of_measurement: dB
     roomstat_wohnzimmer_wifi_signal:
       friendly_name: Raum Thermostat Signal
-      value_template: "{{ states.sensor.wiser_roomstat_wohnzimmer.attributes.controller_reception_RSSI | default(0) | int if states.sensor.wiser_roomstat_wohnzimmer.attributes.controller_reception_RSSI is not none}}"
+      value_template: "{{ states.sensor.raumthermostat_wohnzimmer.attributes.controller_reception_RSSI | default(0) | int if states.sensor.raumthermostat_wohnzimmer.attributes.controller_reception_RSSI is not none}}"
       device_class: signal_strength
       unit_of_measurement: dB
     google_pixel_battery_level:
@@ -449,10 +439,14 @@
         {%- set days = '{}d '.format(days) if days > 0 else '' %}
         {{ 'Less than 1 min' if time < 60 else days + hours + minutes }}
     outside_temperature:
-      friendly_name: Aussentemperatur
+      friendly_name: Außentemperatur
       value_template: >
         {{ state_attr('weather.dark_sky', 'temperature') }}
       unit_of_measurement: "°C"
+    internet_uptime:
+      friendly_name: Verbunden
+      value_template: >
+        {{ as_timestamp(states.sensor.home_phixion_org.last_changed)| timestamp_custom('%c') }}
 - platform: filter
   filters:
     - filter: time_throttle
@@ -477,12 +471,6 @@
       window_size: 00:01
   name: InfluxDB UniFi Size
   entity_id: sensor.influxdb_size_unifi
-- platform: filter
-  filters:
-    - filter: time_throttle
-      window_size: 00:01
-  name: MariaDB Homeassistant Size
-  entity_id: sensor.mariadb_homeassistant
 - platform: filter
   filters:
     - filter: time_throttle
@@ -539,7 +527,7 @@
   entity_id: sensor.energy_combined_voltage
 - platform: filter
   name: "Luftfeuchtigkeit Wohnzimmer (Filtered)"
-  entity_id: sensor.sonoff_th16_whz_humidity_sensor
+  entity_id: sensor.sonoff_th16_whz_luftfeuchtigkeit
   filters:
     - filter: outlier
       window_size: 4
@@ -549,7 +537,7 @@
       precision: 2
 - platform: filter
   name: "Temperatur Wohnzimmer Thermometer (Filtered)"
-  entity_id: sensor.sonoff_th16_whz_temperatur_sensor
+  entity_id: sensor.sonoff_th16_whz_temperatur
   filters:
     - filter: outlier
       window_size: 4
@@ -729,44 +717,10 @@
   duration:
     days: 30
 - platform: scrape
-  name: HA upstream
-  resource: https://pypi.org/project/homeassistant/#history
-  select: 'a[href^="/project/homeassistant/0"]'
-- platform: scrape
-  scan_interval: 1800
+  scan_interval: 10000000
   name: wtfisxur
   resource: https://wherethefuckisxur.com/
   select: "h1.page-title"
-- platform: scrape
-  scan_interval: 1800
-  resource: "https://www.youtube.com/feeds/videos.xml?channel_id=UCpFFItkfZz1qz5PpHpqzYBw"
-  name: yt_nexpo
-  value_template: "https://www.youtube.com/watch?v={{ value }}"
-  select: yt\:videoid
-- platform: scrape
-  scan_interval: 1800
-  resource: "https://www.youtube.com/feeds/videos.xml?channel_id=UCZ2Ku6wrhdYDHCaBzLaA3bw"
-  name: yt_frenck
-  value_template: "https://www.youtube.com/watch?v={{ value }}"
-  select: yt\:videoid
-- platform: scrape
-  scan_interval: 1800
-  resource: "https://www.youtube.com/feeds/videos.xml?channel_id=UCaGOgwGKnDVOKY0DrFsBAiA"
-  name: yt_scaretheatre
-  value_template: "https://www.youtube.com/watch?v={{ value }}"
-  select: yt\:videoid
-- platform: scrape
-  scan_interval: 1800
-  resource: "https://www.youtube.com/feeds/videos.xml?channel_id=UCchWU8ta6L-Dy3rGIxPINzw"
-  name: yt_reignbot
-  value_template: "https://www.youtube.com/watch?v={{ value }}"
-  select: yt\:videoid
-- platform: scrape
-  scan_interval: 1800
-  resource: "https://www.youtube.com/feeds/videos.xml?channel_id=UCLtREJY21xRfCuEKvdki1Kw"
-  name: yt_h3h3podcast
-  value_template: "https://www.youtube.com/watch?v={{ value }}"
-  select: yt\:videoid
 - platform: darksky
   api_key: !secret weatherdarkskyapi_pwd
   units: auto
@@ -796,6 +750,7 @@
     - uv_index
     - moon_phase
 - platform: google_fit
+  scan_interval: 120
   name: Google Fit Martin
   client_id: !secret google_fit_id
   client_secret: !secret google_fit_secret
@@ -888,188 +843,47 @@
     {%- set days = (time // 86400) %}
     {%- set days = '{}d '.format(days) if days > 0 else '' %}
     {{ 'Less than 1 min' if time < 60 else days + hours + minutes }}
-- platform: rest
-  resource: !secret corona_api
-  name: Corona Virus Germany
-  value_template: "{{ (value_json.features[0].attributes.Last_Update / 1000) | int | timestamp_custom('%d.%m.%Y %H:%M') }}"
-  json_attributes_path: "$.features[0].attributes"
-  json_attributes:
-    - Confirmed
-    - Deaths
-    - Recovered
-#- platform: snmp
-#  host: !secret modem_host
-#  name: Modem Uptime
-#  baseoid: 1.3.6.1.2.1.1.3.0
-#  value_template: >
-#    {%- set time = value | int // 100 %}
-#    {%- set minutes = ((time % 3600) // 60) %}
-#    {%- set minutes = '{}min'.format(minutes) if minutes > 0 else '' %}
-#    {%- set hours = ((time % 86400) // 3600) %}
-#    {%- set hours = '{}hr '.format(hours) if hours > 0 else '' %}
-#    {%- set days = (time // 86400) %}
-#    {%- set days = '{}d '.format(days) if days > 0 else '' %}
-#    {{ 'Less than 1 min' if time < 60 else days + hours + minutes }}
-#- platform: time_date
-#  display_options:
-#    - 'time'
-#    - 'date_time_iso'
-#- platform: imap
-#  server: imap.gmail.com
-#  port: 993
-#  username: !secret gmail_phixion_user
-#  password: !secret gmail_phixion_pwd
-#- platform: imap
-#  server: imap.gmail.com
-#  port: 993
-#  username: !secret gmail_ridelore_user
-#  password: !secret gmail_ridelore_pwd
-#- platform: imap
-#  server: imap.gmail.com
-#  port: 993
-#  username: !secret gmail_monitoring_user
-#  password: !secret gmail_monitoring_pwd
-#- platform: rest
-#  resource: !secret zerotier_slut
-#  method: GET
-#  name: ZerotierOne SLUT WAN IP
-#  value_template: ‘{{ value_json.physicalAddress }}’
-#  headers:
-#    Authorization: !secret zerotier_token
-#    Content-Type: application/json
-#- platform: rest
-#  resource: !secret zerotier_slut
-#  method: GET
-#  name: ZerotierOne SLUT LAN IP
-#  value_template: ‘{{ value_json.config.ipAssignments[0] }}’
-#  headers:
-#    Authorization: !secret zerotier_token
-#    Content-Type: application/json
-#- platform: rest
-#  resource: !secret zerotier_slut
-#  method: GET
-#  name: ZerotierOne SLUT Status
-#  value_template: ‘{{ value_json.online }}’
-#  headers:
-#    Authorization: !secret zerotier_token
-#    Content-Type: application/json
-#- platform: rest
-#  resource: !secret zerotier_pixel
-#  method: GET
-#  name: ZerotierOne Pixel WAN IP
-#  value_template: ‘{{ value_json.physicalAddress }}’
-#  headers:
-#    Authorization: !secret zerotier_token
-#    Content-Type: application/json
-#- platform: rest
-#  resource: !secret zerotier_pixel
-#  method: GET
-#  name: ZerotierOne Pixel LAN IP
-#  value_template: ‘{{ value_json.config.ipAssignments[0] }}’
-#  headers:
-#    Authorization: !secret zerotier_token
-#    Content-Type: application/json
-#- platform: rest
-#  resource: !secret zerotier_pixel
-#  method: GET
-#  name: ZerotierOne Pixel Status
-#  value_template: ‘{{ value_json.online }}’
-#  headers:
-#    Authorization: !secret zerotier_pixel
-#    Content-Type: application/json
-#- platform: rest
-#  resource: !secret zerotier_pixel
-#  method: GET
-#  name: ZerotierOne Nexus WAN IP
-#  value_template: ‘{{ value_json.physicalAddress }}’
-#  headers:
-#    Authorization: !secret zerotier_token
-#    Content-Type: application/json
-#- platform: rest
-#  resource: !secret zerotier_nexus
-#  method: GET
-#  name: ZerotierOne Nexus LAN IP
-#  value_template: ‘{{ value_json.config.ipAssignments[0] }}’
-#  headers:
-#    Authorization: !secret zerotier_token
-#    Content-Type: application/json
-#- platform: rest
-#  resource: !secret zerotier_nexus
-#  method: GET
-#  name: ZerotierOne Nexus Status
-#  value_template: ‘{{ value_json.online }}’
-#  headers:
-#    Authorization: !secret zerotier_nexus
-#    Content-Type: application/json
-#- platform: rest
-#  resource: !secret zerotier_pixel
-#  method: GET
-#  name: ZerotierOne Alpha WAN IP
-#  value_template: ‘{{ value_json.physicalAddress }}’
-#  headers:
-#    Authorization: !secret zerotier_token
-#    Content-Type: application/json
-#- platform: rest
-#  resource: !secret zerotier_alpha
-#  method: GET
-#  name: ZerotierOne Alpha LAN IP
-#  value_template: ‘{{ value_json.config.ipAssignments[0] }}’
-#  headers:
-#    Authorization: !secret zerotier_token
-#    Content-Type: application/json
-#- platform: rest
-#  resource: !secret zerotier_alpha
-#  method: GET
-#  name: ZerotierOne Alpha Status
-#  value_template: ‘{{ value_json.online }}’
-#  headers:
-#    Authorization: !secret zerotier_alpha
-#    Content-Type: application/json
-#- platform: rest
-#  resource: !secret zerotier_macbook
-#  method: GET
-#  name: ZerotierOne MacBook WAN IP
-#  value_template: ‘{{ value_json.physicalAddress }}’
-#  headers:
-#    Authorization: !secret zerotier_token
-#    Content-Type: application/json
-#- platform: rest
-#  resource: !secret zerotier_macbook
-#  method: GET
-#  name: ZerotierOne MacBook LAN IP
-#  value_template: ‘{{ value_json.config.ipAssignments[0] }}’
-#  headers:
-#    Authorization: !secret zerotier_token
-#    Content-Type: application/json
-#- platform: rest
-#  resource: !secret zerotier_macbook
-#  method: GET
-#  name: ZerotierOne MacBook Status
-#  value_template: ‘{{ value_json.online }}’
-#  headers:
-#    Authorization: !secret zerotier_macbook
-#    Content-Type: application/json
-#- platform: rest
-#  resource: !secret zerotier_pico
-#  method: GET
-#  name: ZerotierOne Pico WAN IP
-#  value_template: ‘{{ value_json.physicalAddress }}’
-#  headers:
-#    Authorization: !secret zerotier_token
-#    Content-Type: application/json
-#- platform: rest
-#  resource: !secret zerotier_pico
-#  method: GET
-#  name: ZerotierOne Pico LAN IP
-#  value_template: ‘{{ value_json.config.ipAssignments[0] }}’
-#  headers:
-#    Authorization: !secret zerotier_token
-#    Content-Type: application/json
-#- platform: rest
-#  resource: !secret zerotier_pico
-#  method: GET
-#  name: ZerotierOne Pico Status
-#  value_template: ‘{{ value_json.online }}’
-#  headers:
-#    Authorization: !secret zerotier_pico
-#    Content-Type: application/json
+- platform: snmp
+  host: !secret hp_switch
+  name: HP Switch Uptime
+  baseoid: 1.3.6.1.2.1.1.3.0
+  value_template: >
+    {%- set time = value | int // 100 %}
+    {%- set minutes = ((time % 3600) // 60) %}
+    {%- set minutes = '{}min'.format(minutes) if minutes > 0 else '' %}
+    {%- set hours = ((time % 86400) // 3600) %}
+    {%- set hours = '{}hr '.format(hours) if hours > 0 else '' %}
+    {%- set days = (time // 86400) %}
+    {%- set days = '{}d '.format(days) if days > 0 else '' %}
+    {{ 'Less than 1 min' if time < 60 else days + hours + minutes }}
+#nexpo
+- platform: youtube
+  channel_id: UCpFFItkfZz1qz5PpHpqzYBw
+#frenck
+- platform: youtube
+  channel_id: UCZ2Ku6wrhdYDHCaBzLaA3bw
+#scaretheatre
+- platform: youtube
+  channel_id: UCaGOgwGKnDVOKY0DrFsBAiA
+#h3h3podcast
+- platform: youtube
+  channel_id: UCLtREJY21xRfCuEKvdki1Kw
+#reignbot
+- platform: youtube
+  channel_id: UCchWU8ta6L-Dy3rGIxPINzw
+#SOG
+- platform: youtube
+  channel_id: UCtMVHI3AJD4Qk4hcbZnI9ZQ
+- platform: time_date
+  display_options:
+    - "time"
+    - "time_date"
+    - "date_time"
+    - "date_time_iso"
+    - "date"
+    - "date_time_utc"
+    - "time_utc"
+- platform: websocket_api
+- platform: aftership
+  name: Paket Verfolgung
+  api_key: !secret aftership_apikey

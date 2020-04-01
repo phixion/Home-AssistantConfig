@@ -1,0 +1,41 @@
+substitutions:
+  devicename: nodemcu3
+  friendly_name: Nodemcu 3
+  update_interval: 10min
+esphome:
+  name: ${devicename}
+  platform: ESP8266
+  board: nodemcuv2
+  includes:
+  - adxl345.h
+  libraries:
+  - "Grove 3-Axis Digital Gyro"
+  - "Adafruit ADXL345"
+  - "Adafruit Unified Sensor"
+time: !include shared/time.yaml
+wifi: !include shared/wifi.yaml
+api: !include shared/api.yaml
+ota: !include shared/ota.yaml
+web_server: !include shared/webserver.yaml
+captive_portal:
+logger:
+sensor:
+  - platform: custom
+    lambda: |-
+        auto adxl345 = new ADXL345Sensor();
+        App.register_component(adxl345);
+        return { adxl345->accel_x_sensor, adxl345->accel_y_sensor, adxl345->accel_z_sensor };
+    sensors:
+    - name: ${friendly_name} Accel X
+      unit_of_measurement: 'm/s²'
+      icon: mdi:axis-x-arrow
+      accuracy_decimals: 4
+    - name: ${friendly_name} Accel Y
+      unit_of_measurement: 'm/s²'
+      icon: mdi:axis-y-arrow
+      accuracy_decimals: 4
+    - name: ${friendly_name} Accel Z
+      icon: mdi:axis-z-arrow
+      unit_of_measurement: 'm/s²'
+      accuracy_decimals: 4
+

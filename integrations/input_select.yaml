@@ -1,0 +1,8 @@
+input_select:
+  home_mode:
+    icon: mdi:home
+    name: Home Mode
+    options:
+      - Home
+      - Away
+      - Vacation

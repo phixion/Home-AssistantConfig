@@ -26,8 +26,8 @@ light:
       - light.schalter_whz_light
       - light.schalter_lavalampe_light
       - light.ledstripwhz1_rgb
-      - light.ledstripwhz2_rgb
-      - light.ledstripwhz3_rgb
+#      - light.ledstripwhz2_rgb
+#      - light.ledstripwhz3_rgb
       - light.ledstripwhz1_w
       - light.schalter_kueche_light
   - platform: group
@@ -37,7 +37,7 @@ light:
       - light.bulbspotwhztv_rgb
       - light.bulbwhzlamp_rgb
       - light.ledstripwhz1_rgb
-      - light.ledstripwhz3_rgb
+#      - light.ledstripwhz3_rgb
       - light.schalter_lavalampe_light
   - platform: group
     name: Mood Lights CWWW

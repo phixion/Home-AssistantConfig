@@ -16,6 +16,7 @@ sensor: !include sensors.yaml
 homeassistant:
   packages: !include_dir_named integrations
   customize: !include customize.yaml
+  customize_glob: !include customize_glob.yaml
   auth_providers:
     - type: homeassistant
     - type: trusted_networks
@@ -25,8 +26,8 @@ homeassistant:
         - !secret trusted_network_2
         - !secret trusted_network_3
         - !secret trusted_network_4
-    - type: legacy_api_password
-      api_password: !secret http_password
+#    - type: legacy_api_password
+#      api_password: !secret http_password
   auth_mfa_modules:
     - type: totp
       name: Authy
@@ -38,3 +39,5 @@ homeassistant:
   latitude: !secret home_lat
   longitude: !secret home_lon
   elevation: !secret home_ela
+  whitelist_external_dirs:
+    - /config/tmp

@@ -1,7 +1,7 @@
   - platform: wifi_signal
     name: ${friendly_name} WiFi Signal
     update_interval: ${update_interval}
-    unit_of_measurement: db
+    unit_of_measurement: dB
     icon: mdi:wifi
     force_update: true
   - platform: uptime

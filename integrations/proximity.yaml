@@ -9,10 +9,10 @@ proximity:
   home:
     devices:
       - person.martin
-    tolerance: 50
+    tolerance: 10
     unit_of_measurement: m
   home_away:
     devices:
       - person.martin
     unit_of_measurement: m
-    tolerance: 50
+    tolerance: 10

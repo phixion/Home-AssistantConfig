@@ -23,6 +23,7 @@ binary_sensor:
       mode: INPUT_PULLUP
       inverted: true
     name: ${friendly_name} Button
+    internal: true
     on_press:
       - switch.toggle: ${devicename}_button
 sensor:
@@ -41,13 +42,13 @@ sensor:
     pin: GPIO14
     model: SI7021
     temperature:
-      name: ${friendly_name} Temperatur Sensor
+      name: ${friendly_name} Temperatur
       unit_of_measurement: "°C"
       icon: "mdi:thermometer-lines"
       accuracy_decimals: 1
       force_update: true
     humidity:
-      name: ${friendly_name} Humidity Sensor
+      name: ${friendly_name} Luftfeuchtigkeit
       accuracy_decimals: 0
       force_update: true
       icon: "mdi:water-percent"

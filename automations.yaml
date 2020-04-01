@@ -1,32 +1,134 @@
-- alias: turn off awaymode when flat is occupied
+- alias: Home Mode Vacation
+  id: "1"
+  trigger:
+    - entity_id: binary_sensor.presence_martin
+      for: "12:00:00"
+      platform: state
+      from: "on"
+      to: "off"
+  action:
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.home_mode
+        option: Vacation
+- alias: Home Mode Away
+  id: "2"
+  trigger:
+    - entity_id: binary_sensor.presence_martin
+      platform: state
+      from: "on"
+      to: "off"
+  action:
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.home_mode
+        option: Away
+- alias: Home Mode Home
+  id: "3"
+  trigger:
+    - entity_id: binary_sensor.presence_martin
+      platform: state
+      from: "off"
+      to: "on"
+  action:
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.home_mode
+        option: Home
+- alias: Set Home Mode Home
+  id: "4"
   trigger:
     platform: state
-    entity_id: binary_sensor.presence_martin
-    to: "on"
+    entity_id: input_select.home_mode
+    to: Home
   action:
-    service: switch.turn_off
-    entity_id: switch.wiser_away_mode
-- alias: Vacation Mode
+    - service: notify.telegram
+      data:
+        message: Home Mode turned ON
+    - service: switch.turn_off
+      entity_id: switch.heating_away_mode
+    - service: switch.turn_on
+      entity_id: switch.schalter_flur_whz_relay
+    #    - service: media_player.volume_set
+    #      data:
+    #        entity_id: media_player.google_nest_hub
+    #        volume_level: 0.01
+    #    - service: media_player.turn_on
+    #      entity_id: media_player.google_nest_hub
+    #    - delay: 00:00:20
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.google_nest_hub
+        volume_level: 0.37
+    - delay: 00:00:05
+    - service: tts.google_cloud_say
+      entity_id: media_player.google_nest_hub
+      data_template:
+        message:
+          Hallo Martin heute ist {{ ['Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag','Sonntag'][now().weekday()]
+          }}. Die Zimmertemperatur betraegt {{states('sensor.climate_wohnung_temp')}}
+          Grad Celsius. Das Wetter ist {{states('sensor.dark_sky_summary')}} bei {{states('sensor.dark_sky_temperature')}}
+          Grad Celsius. Du bist heute bereits {{states('sensor.google_fit_martin_move_time')}}
+          Minuten und {{states('sensor.google_fit_martin_steps')}} Schritte gelaufen,
+          mach weiter so! Ach Ja! in deiner Region sind es mittlerweile {{states('sensor.germany_coronavirus_confirmed')}}
+          Corona infizierte und davon konnten {{states('sensor.germany_coronavirus_recovered')}}
+          geheilt werden, halte dich trotzdem fern! Der naechste Feiertag ist {{(states.calendar.feiertage.attributes.message)}}
+          am  {{ as_timestamp(strptime(state_attr('calendar.feiertage', 'start_time'),
+          '%Y-%m-%d %H:%M:%S')) | timestamp_custom('%Y-%m-%d') }}
+- alias: Set Home Mode Away
+  id: "5"
   trigger:
-    - entity_id: person.martin
-      platform: state
-      from: not_home
-      to: home
-      for:
-        hours: 12
-        minutes: 0
-        seconds: 0
+    platform: state
+    entity_id: input_select.home_mode
+    to: Away
   action:
-    - data:
-        entity_id: input_select.house_mode
-        option: Vacation Mode
-      service: input_select.select_option
-    - data:
-        message: Vacation Mode turned ON
-        title: 🌴 Vacation Mode turned ON
-      service: notify.pushover
-  id: a4476090f8f94f369735125d6506079f
-- alias: Update
+    - service: switch.turn_on
+      entity_id: switch.heating_away_mode
+    - service: switch.turn_on
+      entity_id: switch.restreamer
+    - service: light.turn_off
+      entity_id:
+        - light.all_lights
+    - service: media_player.turn_off
+      entity_id:
+        - media_player.android_tv
+        - media_player.shield
+    - service: notify.telegram
+      data:
+        message: Away Mode turned ON
+    - delay: 00:02:00
+    - service: ffmpeg.restart
+      data:
+        entity_id:
+          - camera.nest_cam
+    - delay: 00:02:00
+    - service: ffmpeg.restart
+      data:
+        entity_id:
+          - binary_sensor.motion_sensor
+- alias: Set Home Mode Vacation
+  id: "6"
+  trigger:
+    platform: state
+    entity_id: input_select.home_mode
+    to: Vacation
+  action:
+    - service: switch.turn_on
+      entity_id: switch.heating_away_mode
+    - service: switch.turn_on
+      entity_id: switch.restreamer
+    - service: light.turn_off
+      entity_id:
+        - light.all_lights
+    - service: media_player.turn_off
+      entity_id:
+        - media_player.android_tv
+        - media_player.shield
+    - service: notify.telegram
+      data:
+        message: Home Mode Vacation ON
+- alias: Notification Update
+  id: "7"
   trigger:
     platform: state
     entity_id: binary_sensor.updater
@@ -35,206 +137,150 @@
     - data:
         message: Update available
         title: Update available
-      service: notify.pushover
-  id: 18b95179215b42b78ee8a1f1cbdf7c1b
-- id: a863cca2442c4de1a9125b19a0dba85f
-  alias: Turn off all lights/heating
+      service: notify.telegram
+- alias: Notification UniFi Alert
+  id: "8"
   trigger:
-    platform: state
-    entity_id: person.martin
-    from: home
-    to: not_home
-    for:
-      hours: 0
-      minutes: 5
-      seconds: 0
+    - platform: state
+      entity_id: sensor.unifi_gateway_alerts
+  condition:
+    - condition: template
+      value_template: "{{ (states.sensor.unifi_gateway_alerts | float) > 0 }}"
   action:
-    - service: switch.turn_on
-      entity_id: switch.wiser_away_mode
-    - service: light.turn_off
-      entity_id:
-        - light.schalter_bad_light
-        - light.schalter_flur_whz_light
-        - light.schalter_whz_light
-        - light.schalter_kueche_light
-    - service: light.turn_off
-      entity_id:
-        - light.all_lights
-    - service: media_player.turn_off
-      entity_id:
-        - media_player.android_tv
-        - media_player.shield
-    - service: notify.pushover
+    - service: notify.telegram
       data_template:
-        message: Temperatur ist {{states('sensor.climate_wohnung_temp')}}
-        title: 🚫 Light's and Heating turned OFF
-- id: df47ca4915274cf494fc429ae46aa3b1
-  alias: Turn on all lights/heating
-  trigger:
-    platform: state
-    entity_id: person.martin
-    to: home
-  action:
-    - service: light.turn_on
-      entity_id: light.schalter_flur_whz_light
-    - service: switch.turn_off
-      entity_id: switch.wiser_away_mode
-    - service: climate.turn_on
-      entity_id: climate.alle_thermostate
-    - service: climate.set_hvac_mode
-      data:
-        entity_id: climate.wiser_wohnzimmer
-        hvac_mode: auto
-    - service: climate.set_hvac_mode
-      data:
-        entity_id: climate.wiser_bad
-        hvac_mode: auto
-    - service: climate.set_hvac_mode
-      data:
-        entity_id: climate.wiser_flur
-        hvac_mode: auto
-    - service: notify.pushover
-      data_template:
-        title: 🚶 Martin got home!
-        message: Temperatur ist {{states('sensor.climate_wohnung_temp')}}
-    - service: notify.pushover
-      data_template:
-        message: Temperatur ist {{states('sensor.climate_wohnung_temp')}}
-        title: ✅ Light's and Heating turned ON
-    - service: media_player.volume_set
-      data:
-        entity_id: media_player.google_home
-        volume_level: 0.01
-    - service: media_player.turn_on
-      entity_id: media_player.google_home
-    - delay: 00:00:20
-    - service: media_player.volume_set
-      data:
-        entity_id: media_player.google_home
-        volume_level: 0.37
-    - delay: 00:00:5
+        title: UniFi Alert
+        message: >
+          {{states('sensor.unifi_gateway_alerts')}}
+          {{states.sensor.unifi_gateway_alerts.attributes}}
     - service: tts.google_cloud_say
-      entity_id: media_player.google_home
+      entity_id: media_player.google_nest_hub
       data_template:
-        message:
-          Hallo Martin heute ist {{ ['Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag','Sonntag'][now().weekday()]
-          }}. Die Zimmertemperatur betraegt {{states('sensor.climate_wohnung_temp')}}
-          Grad Celsius. Das Wetter ist {{states('sensor.dark_sky_summary')}} bei {{states('sensor.dark_sky_temperature')}}
-          Grad Celsius. Du bist heute bereits {{states('sensor.google_fit_martin_move_time')}}
-          Minuten und {{states('sensor.google_fit_martin_steps')}} Schritte gelaufen,
-          mach weiter so!
-- alias: Leave Home notification
-  trigger:
-    - entity_id: person.martin
-      platform: state
-      from: "home"
-      to: "not_home"
-  action:
-    - service: notify.pushover
-      data_template:
-        title: 🚶 Martin left the flat
-        message:
-          "Event triggered: {{ trigger.entity_id }} changed from {{ trigger.from_state.state
-          }} to {{ trigger.to_state.state }}"
-  id: aebd69cf232b488ca078745e1c1bdf4f
-- alias: Badezimmer besetzt
-  trigger:
-    platform: state
-    entity_id: switch.schalter_bad_relay
-    to: "on"
-  action:
-    - service: notify.android
-      data_template:
-        title: 🚽 Badezimmer ist besetzt
-        message: " "
-  id: 2778047bc3fa4a6e9047ab0246961bd6
-- alias: Badezimmer frei
-  trigger:
-    platform: state
-    entity_id: switch.schalter_bad_relay
-    to: "off"
-  action:
-    - service: notify.android
-      data_template:
-        title: 🚽 Badezimmer ist frei
-        message: " "
-  id: 2459b936fc0442459411361ba69453af
-- alias: h3h3 Podcast
+        message: Hey Martin, Es wurde eine Fehler auf deinem router gefunden, schau besser nach!
+- alias: Notification UniFi Guest Logon
+  id: "9"
   trigger:
     - platform: state
-      entity_id: sensor.yt_h3h3podcast
+      entity_id: sensor.unifi_wlan_guest
   condition:
     - condition: template
-      value_template: "{{trigger.from_state.state != trigger.to_state.state}}"
+      value_template: "{{trigger.from_state.state > trigger.to_state.state}}"
   action:
-    - service: notify.pushover
+    - service: notify.telegram
       data_template:
-        title: New h3h3 Podcast
-        message: "Watch: {{states('sensor.yt_h3h3podcast')}}"
-- alias: Nexpo Video
+        title: Ein Gast hat sich in dein Netzwerk eingeloggt.
+        message: >
+          Zur Zeit ist/sind {{states('sensor.unifi_wlan_guest')}} Gaste/Gäste in deinem Netzwerk.
+    - service: tts.google_cloud_say
+      entity_id: media_player.google_nest_hub
+      data_template:
+        message: Hey Martin, Ein Gast hat sich in dein Netzwerk eingeloggt.
+- alias: Notification h3 Podcast
+  id: "10"
   trigger:
     - platform: state
-      entity_id: sensor.yt_nexpo
-  condition:
-    - condition: template
-      value_template: "{{trigger.from_state.state != trigger.to_state.state}}"
+      entity_id: sensor.h3_podcast
   action:
-    - service: notify.pushover
+    - service: notify.telegram
+      data_template:
+        title: New h3 Podcast
+        message: >
+          {{states('sensor.h3_podcast')}}
+           {{state_attr('sensor.h3_podcast', 'url')}}
+        data:
+          inline_keyboard:
+            - "Play Video on TV:/yt_h3"
+- alias: Notification Nexpo Video
+  id: "11"
+  trigger:
+    - platform: state
+      entity_id: sensor.nexpo
+  action:
+    - service: notify.telegram
       data_template:
         title: New Nexpo Video
-        message: "Watch: {{states('sensor.yt_nexpo')}}"
-  id: nexpo video
-- alias: ScareTheatre Video
-  trigger:
-    - platform: state
-      entity_id: sensor.yt_scaretheatre
-  condition:
-    - condition: template
-      value_template: "{{trigger.from_state.state != trigger.to_state.state}}"
-  action:
-    - service: notify.pushover
+        message: >
+          {{states('sensor.nexpo')}}
+           {{state_attr('sensor.nexpo', 'url')}}
+        data:
+          inline_keyboard:
+            - "Play Video on TV:/yt_nexpo"
+    - service: tts.google_cloud_say
+      entity_id: media_player.google_nest_hub
       data_template:
-        title: New ScareTheatre Video
-        message: "Watch: {{states('sensor.yt_scaretheatre')}}"
-  id: scaretheatre video
-- alias: ReignBot Video
+        message: Hey Martin, Nexpo hat ein neues Video auf YouTube hochgeladen.
+- alias: Notification ScareTheater Video
+  id: "12"
   trigger:
     - platform: state
-      entity_id: sensor.yt_reignbot
-  condition:
-    - condition: template
-      value_template: "{{trigger.from_state.state != trigger.to_state.state}}"
+      entity_id: sensor.scaretheater
   action:
-    - service: notify.pushover
+    - service: notify.telegram
+      data_template:
+        title: New ScareTheater Video
+        message: >
+          {{states('sensor.scaretheater')}}
+           {{state_attr('sensor.scaretheater', 'url')}}
+        data:
+          inline_keyboard:
+            - "Play Video on TV:/yt_scaretheater"
+- alias: Notification ReignBot Video
+  id: "13"
+  trigger:
+    - platform: state
+      entity_id: sensor.reignbot
+  action:
+    - service: notify.telegram
       data_template:
         title: New ReignBot Video
-        message: "Watch: {{states('sensor.yt_reignbot')}}"
-  id: reignbot video
-- alias: Frenck Video
+        message: >
+          {{states('sensor.reignbot')}}
+           {{state_attr('sensor.reignbot', 'url')}}
+        data:
+          inline_keyboard:
+            - "Play Video on TV:/yt_reignbot"
+- alias: Notification  Frenck Video
+  id: "14"
   trigger:
     - platform: state
-      entity_id: sensor.yt_frenck
-  condition:
-    - condition: template
-      value_template: "{{trigger.from_state.state != trigger.to_state.state}}"
+      entity_id: sensor.franck_nijhof
   action:
-    - service: notify.pushover
+    - service: notify.telegram
       data_template:
         title: New Frenck Video
-        message: "Watch: {{states('sensor.yt_frenck')}}"
-  id: frenck video
-- id: update_commute_sensors
-  alias: Update commute sensors
+        message: >
+          {{states('sensor.franck_nijhof')}}
+           {{state_attr('sensor.franck_nijhof', 'url')}}
+        data:
+          inline_keyboard:
+            - "Play Video on TV:/yt_frenck"
+- alias: Notification SomeOrdinaryGamers Video
+  id: "15"
+  trigger:
+    - platform: state
+      entity_id: sensor.someordinarygamers
+  action:
+    - service: notify.telegram
+      data_template:
+        title: New SomeOrdinaryGamers Video
+        message: >
+          {{states('sensor.someordinarygamers')}}
+           {{state_attr('sensor.someordinarygamers', 'url')}}
+        data:
+          inline_keyboard:
+            - "Play Video on TV:/yt_sog"
+- alias: Update commute sensors
+  id: "16"
   trigger:
     - platform: time_pattern
-      minutes: /10
-  condition:
-    - condition: time
-      after: 07:00:00
-      before: "11:00:00"
-    - condition: state
-      entity_id: binary_sensor.workday_sensor
-      state: "on"
+      minutes: /60
+  #  condition:
+  #    - condition: time
+  #      after: "07:00:00"
+  #      before: "11:00:00"
+  #    - condition: state
+  #      entity_id: binary_sensor.workday_sensor
+  #      state: "on"
   action:
     - service: homeassistant.update_entity
       entity_id: sensor.morning_commute_trains
@@ -244,39 +290,46 @@
       entity_id: sensor.travel_parents_trains
     - service: homeassistant.update_entity
       entity_id: sensor.travel_parents_bike
-- alias: Coinbase Wallet
+- alias: Update Xur Sensor
+  id: "17"
+  trigger:
+    - platform: time_pattern
+      minutes: /120
+  condition:
+    condition: time
+    after: "19:00:00"
+    weekday:
+      - fri
+      - sat
+      - sun
+      - mon
+  action:
+    - service: homeassistant.update_entity
+      entity_id: sensor.wtfisxur
+- alias: Notification Coinbase Wallet
+  id: "18"
   trigger:
     - platform: state
       entity_id: sensor.coinbase_eur_wallet
-  condition:
-    - condition: template
-      value_template: "{{trigger.from_state.state != trigger.to_state.state}}"
   action:
-    - service: notify.pushover
+    - service: notify.telegram
       data_template:
         title: ₿ Coinbase Wallet Value changed
         message:
           "Event triggered: {{ trigger.entity_id }} changed from {{ trigger.from_state.state
           }} to {{ trigger.to_state.state }}"
-  id: coinbase wallet
-- alias: Xur
+- alias: Notification Xur
+  id: "19"
   trigger:
     - platform: state
       entity_id: sensor.wtfisxur
-  condition:
-    - condition: template
-      value_template: "{{trigger.from_state.state != trigger.to_state.state}}"
   action:
-    - service: notify.pushover
-      data_template:
-        title: Xur changed location
-        message: "Find him at: {{states('sensor.wtfisxur')}}"
     - service: notify.telegram
       data_template:
         title: Xur changed location
-        message: "Find him at: {{states('sensor.wtfisxur')}}"
-  id: wtfiszur
-- alias: somethig has been added to HACS
+        message: "{{states('sensor.wtfisxur')}}"
+- alias: Notification something new in HACS
+  id: "20"
   trigger:
     - platform: event
       event_type: hacs/repository
@@ -289,13 +342,11 @@
     - service: persistent_notification.create
       data_template:
         title: New repository in HACS
-        message: >-
-          {% set repo = trigger.event.data.repository %}
-          {% set id = trigger.event.data.repository_id %}
-           [{{ repo }}](/hacs/repository/{{ id }})
-           was just added to HACS.
-  id: something new in hacs
-- alias: updates pending in HACS
+        message:
+          "{% set repo = trigger.event.data.repository %} {% set id = trigger.event.data.repository_id\
+          \ %}\n [{{ repo }}](/hacs/repository/{{ id }})\n was just added to HACS."
+- alias: Notification updates pending in HACS
+  id: "21"
   trigger:
     - platform: state
       entity_id: sensor.hacs
@@ -308,25 +359,29 @@
     - service: persistent_notification.create
       data_template:
         title: Updates pending in HACS
-        message: >-
-          {% for repo in state_attr(trigger.entity_id, 'repositories') %}
-            **{{ repo.display_name }}** _{{ repo["installed version"] }}_ -> _{{ repo["available version"] }}_
-          {% endfor %}
-- alias: Warn when batteries are below threshold
+        message:
+          "{% for repo in state_attr(trigger.entity_id, 'repositories') %}\n\
+          \  **{{ repo.display_name }}** _{{ repo[\"installed version\"] }}_ -> _{{\
+          \ repo[\"available version\"] }}_\n{% endfor %}"
+- alias: Notification Low batteries
+  id: "22"
   trigger:
     - platform: numeric_state
       entity_id:
         - device_tracker.google_nexus
         - device_tracker.google_pixel
-      value_template: "{{ state.attributes.battery if state.attributes.battery else 101 }}"
+        - device_tracker.macbook_air
+      value_template:
+        "{{ state.attributes.battery if state.attributes.battery else
+        101 }}"
       below: 20
   action:
-    - service: notify.pushover
+    - service: notify.telegram
       data_template:
         title: "{{ trigger.entity_id.name }} Battery Low"
-        message: 'Charge {{ trigger.to_state.name|default("unknown") }} batteries'
-  id: battery threshold reached
-- alias: Low Disk Space
+        message: Charge {{ trigger.to_state.name|default("unknown") }} batteries
+- alias: Notification Low Disk Space
+  id: "23"
   description: Notify me of low disk space
   trigger:
     - platform: state
@@ -335,21 +390,12 @@
     - condition: template
       value_template: "{{ (states(trigger.entity_id) | float) > 70}}"
   action:
-    - service: notify.pushover
+    - service: notify.telegram
       data_template:
         title: Main disk is almost full!
         message: "Diskusage: {{states(trigger.entity_id)}}"
-  id: low diskspace
-- alias: Count warnings
-  trigger:
-    platform: event
-    event_type: system_log_event
-    event_data:
-      level: WARNING
-  action:
-    service: counter.increment
-    entity_id: counter.warning_counter
-- alias: Create notifications for "service" errors
+- alias: Notification for service errors
+  id: "24"
   trigger:
     platform: event
     event_type: system_log_event
@@ -361,84 +407,487 @@
     data_template:
       title: Something bad happened
       message: "{{ trigger.event.data.message }}"
-  id: notification on errors
-- alias: frenck_latest_tv_on
+- alias: Snapshot on Motion Detection
+  id: "25"
   trigger:
     - platform: state
-      entity_id: input_boolean.frencks_latest_video
+      entity_id: binary_sensor.motion_sensor
       to: "on"
+  condition:
+    condition: or
+    conditions:
+      - condition: state
+        entity_id: input_select.home_mode
+        state: Away
+      - condition: state
+        entity_id: input_select.home_mode
+        state: Vacation
   action:
-    - service: script.turn_on
-      entity_id: script.frenck_latest_tv_on
-- alias: frenck_latest_tv_off
+    - service: light.turn_on
+      data_template:
+        entity_id:
+          - light.schalter_whz_light
+          - light.mood_lights_cwww
+    - delay: 00:01:00
+    - service: camera.snapshot
+      data_template:
+        entity_id: camera.nest_cam
+        filename: tmp/motion_{{ now().strftime("%Y%m%d_%H%M") }}.jpg
+    - service: telegram_bot.send_photo
+      data_template:
+        caption: Motion Detected!
+        file: 'tmp/motion_{{ now().strftime("%Y%m%d_%H%M") }}.jpg'
+    - delay: 00:00:01
+    - service: light.turn_off
+      data_template:
+        entity_id:
+          - light.schalter_whz_light
+          - light.mood_lights_cwww
+- alias: Update Google Assistant
+  id: "26"
+  trigger:
+    - platform: homeassistant
+      event: start
+  action:
+    - service: google_assistant.request_sync
+      data:
+        agent_user_id: !secret api_user_id
+- alias: Restart Motion Sensor
+  id: "27"
   trigger:
     - platform: state
-      entity_id: input_boolean.frencks_latest_video
-      to: "off"
+      entity_id: binary_sensor.motion_sensor
+      to: "unavailable"
+      for:
+        seconds: 30
+  condition:
+    condition: or
+    conditions:
+      - condition: state
+        entity_id: input_select.home_mode
+        state: Away
+      - condition: state
+        entity_id: input_select.home_mode
+        state: Vacation
   action:
-    - service: script.turn_on
-      entity_id: script.frenck_latest_tv_off
-- alias: nexpo_latest_tv_on
+    - service: ffmpeg.restart
+      data:
+        entity_id:
+          - binary_sensor.motion_sensor
+- alias: AndroidTV Play Latest Nexpo Video
+  id: "28"
   trigger:
-    - platform: state
-      entity_id: input_boolean.nexpos_latest_video
-      to: "on"
+    platform: state
+    entity_id: input_boolean.play_nexpo
+    to: "on"
   action:
-    - service: script.turn_on
-      entity_id: script.nexpo_latest_tv_on
-- alias: nexpo_latest_tv_off
+    - service: media_extractor.play_media
+      entity_id:
+        - media_player.shield
+      data_template:
+        media_content_id: "{{state_attr('sensor.nexpo', 'url')}}"
+        media_content_type: video/youtube
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.play_nexpo
+- alias: AndroidTV Play Latest ScareTheater Video
+  id: "29"
   trigger:
-    - platform: state
-      entity_id: input_boolean.nexpos_latest_video
-      to: "off"
+    platform: state
+    entity_id: input_boolean.play_scaretheater
+    to: "on"
   action:
-    - service: script.turn_on
-      entity_id: script.nexpo_latest_tv_off
-- alias: scaretheatre_latest_tv_on
+    - service: media_extractor.play_media
+      entity_id:
+        - media_player.shield
+      data_template:
+        media_content_id: "{{state_attr('sensor.scaretheater', 'url')}}"
+        media_content_type: video/youtube
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.play_scaretheater
+- alias: AndroidTV Play Latest h3 Podcast Video
+  id: "30"
   trigger:
-    - platform: state
-      entity_id: input_boolean.scaretheatres_latest_video
-      to: "on"
+    platform: state
+    entity_id: input_boolean.play_h3
+    to: "on"
   action:
-    - service: script.turn_on
-      entity_id: script.scaretheatre_latest_tv_on
-- alias: scaretheatre_latest_tv_off
+    - service: media_extractor.play_media
+      entity_id:
+        - media_player.shield
+      data_template:
+        media_content_id: "{{state_attr('sensor.h3_podcast', 'url')}}"
+        media_content_type: video/youtube
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.play_h3
+- alias: AndroidTV Play Latest reignbot Video
+  id: "31"
   trigger:
-    - platform: state
-      entity_id: input_boolean.scaretheatres_latest_video
-      to: "off"
+    platform: state
+    entity_id: input_boolean.play_reignbot
+    to: "on"
   action:
-    - service: script.turn_on
-      entity_id: script.scaretheatre_latest_tv_off
-- alias: reignbot_latest_tv_on
+    - service: media_extractor.play_media
+      entity_id:
+        - media_player.shield
+      data_template:
+        media_content_id: "{{state_attr('sensor.reignbot', 'url')}}"
+        media_content_type: video/youtube
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.play_reignbot
+- alias: "AndroidTV Play Latest SOG Video"
+  id: "32"
   trigger:
-    - platform: state
-      entity_id: input_boolean.reignbots_latest_video
-      to: "on"
+    platform: state
+    entity_id: input_boolean.play_sog
+    to: "on"
   action:
-    - service: script.turn_on
-      entity_id: script.reignbot_latest_tv_on
-- alias: reignbot_latest_tv_off
+    - service: media_extractor.play_media
+      entity_id:
+        - media_player.shield
+      data_template:
+        media_content_id: "{{state_attr('sensor.someordinarygamers', 'url')}}"
+        media_content_type: video/youtube
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.play_sog
+- alias: "AndroidTV Play Latest Frenck Video"
+  id: "33"
   trigger:
-    - platform: state
-      entity_id: input_boolean.reignbots_latest_video
-      to: "off"
+    platform: state
+    entity_id: input_boolean.play_frenck
+    to: "on"
   action:
-    - service: script.turn_on
-      entity_id: script.reignbot_latest_tv_off
-- alias: h3h3podcast_latest_tv_on
+    - service: media_extractor.play_media
+      entity_id:
+        - media_player.shield
+      data_template:
+        media_content_id: "{{state_attr('sensor.franck_nijhof', 'url')}}"
+        media_content_type: video/youtube
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.play_frenck
+#telegram commands
+- alias: "Telegram weather forecast"
+  id: "34"
   trigger:
-    - platform: state
-      entity_id: input_boolean.h3h3podcasts_latest_video
-      to: "on"
+    platform: event
+    event_type: telegram_callback
+    event_data:
+      command: "/wea"
   action:
-    - service: script.turn_on
-      entity_id: script.h3h3podcast_latest_tv_on
-- alias: h3h3podcast_latest_tv_off
+    - service: telegram_bot.answer_callback_query
+      data_template:
+        callback_query_id: "{{ trigger.event.data.id }}"
+        message: "Weather"
+    - service: telegram_bot.send_photo
+      data_template:
+        target: "{{ trigger.event.data.user_id }}"
+        disable_notification: true
+        file: "www/_static/icons/{{ states.weather.dark_sky.state }}.png"
+    - service: telegram_bot.send_message
+      data_template:
+        target: "{{ trigger.event.data.user_id }}"
+        disable_notification: true
+        message: >
+          {{states('sensor.dark_sky_summary')}} bei {{states('sensor.dark_sky_temperature')}}°C
+           Regenwarscheinlichkeit liegt bei {{states('sensor.dark_sky_precip_probability')}} %
+- alias: "Telegram send camera picture"
+  id: "35"
   trigger:
-    - platform: state
-      entity_id: input_boolean.h3h3podcasts_latest_video
-      to: "off"
+    platform: event
+    event_type: telegram_callback
+    event_data:
+      command: "/status"
   action:
-    - service: script.turn_on
-      entity_id: script.h3h3podcast_latest_tv_off
+    - service: telegram_bot.answer_callback_query
+      data_template:
+        callback_query_id: "{{ trigger.event.data.id }}"
+        message: "Status"
+    - service: light.turn_on
+      entity_id:
+        - light.schalter_whz_light
+        - light.mood_lights_cwww
+    - delay: 00:01:00
+    - service: camera.snapshot
+      data_template:
+        entity_id: camera.nest_cam
+        filename: tmp/motion_{{ now().strftime("%Y%m%d_%H%M") }}.jpg
+    - service: light.turn_off
+      entity_id:
+        - light.schalter_whz_light
+        - light.mood_lights_cwww
+    - service: telegram_bot.send_photo
+      data_template:
+        disable_notification: true
+        target: "{{ trigger.event.data.user_id }}"
+        caption: '{{states("sensor.date_time_iso")}}'
+        file: 'tmp/motion_{{ now().strftime("%Y%m%d_%H%M") }}.jpg'
+    - service: telegram_bot.send_message
+      data_template:
+        target: "{{ trigger.event.data.user_id }}"
+        disable_notification: true
+        message: >
+          🏃‍♂️ {{states('binary_sensor.noise_sensor')}}
+           🔊 {{states('binary_sensor.motion_sensor')}}
+           ☀️ {{states('binary_sensor.nodemcu_2_light_sensor')}}
+           🚪 {{states('binary_sensor.window_wohnzimmer')}}
+           🔥 Wohnzimmer: {{states('binary_sensor.heating_wohnzimmer')}}
+           🔥 Flur: {{states('binary_sensor.heating_flur')}}
+           🔥 Bad: {{states('binary_sensor.heating_bad')}}
+           💡 {{states('light.all_lights')}}
+           🌐 {{states('sensor.external_ip')}}
+           🔐 {{states('sensor.last_successful_authentication')}}
+           🔏 {{states('sensor.ssl_certificate_expiry_home_inferior_dev')}} Tage
+- alias: "Telegram Play SOG on TV"
+  id: "36"
+  trigger:
+    platform: event
+    event_type: telegram_callback
+    event_data:
+      command: "/yt_sog"
+  action:
+    - service: telegram_bot.answer_callback_query
+      data_template:
+        callback_query_id: "{{ trigger.event.data.id }}"
+        message: "Status"
+    - service: homeassistant.toggle
+      entity_id: input_boolean.play_sog
+- alias: "Telegram Play h3 on TV"
+  id: "37"
+  trigger:
+    platform: event
+    event_type: telegram_callback
+    event_data:
+      command: "/yt_h3"
+  action:
+    - service: telegram_bot.answer_callback_query
+      data_template:
+        callback_query_id: "{{ trigger.event.data.id }}"
+        message: "Status"
+    - service: homeassistant.toggle
+      entity_id: input_boolean.play_h3
+- alias: "Telegram Play nexpo on TV"
+  id: "38"
+  trigger:
+    platform: event
+    event_type: telegram_callback
+    event_data:
+      command: "/yt_nexpo"
+  action:
+    - service: telegram_bot.answer_callback_query
+      data_template:
+        callback_query_id: "{{ trigger.event.data.id }}"
+        message: "Status"
+    - service: homeassistant.toggle
+      entity_id: input_boolean.play_nexpo
+- alias: "Telegram Play scaretheater on TV"
+  id: "39"
+  trigger:
+    platform: event
+    event_type: telegram_callback
+    event_data:
+      command: "/yt_scaretheater"
+  action:
+    - service: telegram_bot.answer_callback_query
+      data_template:
+        callback_query_id: "{{ trigger.event.data.id }}"
+        message: "Status"
+    - service: homeassistant.toggle
+      entity_id: input_boolean.play_scaretheater
+- alias: "Telegram Play reignbot on TV"
+  id: "40"
+  trigger:
+    platform: event
+    event_type: telegram_callback
+    event_data:
+      command: "/yt_reignbot"
+  action:
+    - service: telegram_bot.answer_callback_query
+      data_template:
+        callback_query_id: "{{ trigger.event.data.id }}"
+        message: "Status"
+    - service: homeassistant.toggle
+      entity_id: input_boolean.play_reignbot
+- alias: "Telegram Play frenck on TV"
+  id: "41"
+  trigger:
+    platform: event
+    event_type: telegram_callback
+    event_data:
+      command: "/yt_frenck"
+  action:
+    - service: telegram_bot.answer_callback_query
+      data_template:
+        callback_query_id: "{{ trigger.event.data.id }}"
+        message: "Status"
+    - service: homeassistant.toggle
+      entity_id: input_boolean.play_frenck
+- alias: "Telegram Ping Pong"
+  id: "42"
+  trigger:
+    - platform: event
+      event_type: telegram_callback
+      event_data:
+        data: "/ping"
+  action:
+    - service: telegram_bot.answer_callback_query
+      data_template:
+        callback_query_id: "{{ trigger.event.data.id }}"
+        message: >-
+          Callback received from {{ trigger.event.data.from_first }}.
+          Message id: {{ trigger.event.data.message.message_id }}.
+          Data: {{ trigger.event.data.data }}
+          {{now().strftime("%H:%M:%S %Y-%m-%d")}} Pong, Message from {{ trigger.event.data["user_id"] }}.
+        show_alert: true
+- alias: "Telegram startup notification"
+  id: "43"
+  initial_state: "on"
+  trigger:
+    - platform: homeassistant
+      event: start
+  action:
+    - service: notify.telegram
+      data:
+        message: "Homeassistant Bot started"
+        data:
+          keyboard:
+            - "/start"
+    - service: notify.telegram
+      data:
+        message: "Control panel"
+        data:
+          inline_keyboard:
+            - "Weather:/wea, Status:/cam"
+            - "Ping:/ping"
+- alias: "Telegram Start Command"
+  id: "44"
+  initial_state: "on"
+  trigger:
+    platform: event
+    event_type: telegram_command
+    event_data:
+      command: "/start"
+  action:
+    - service: notify.telegram
+      data:
+        message: >
+          {{ [
+          "Hi",
+          "Hello",
+          "Yes Sir!",
+          "it's a pleasure to see you again"
+          ] | random }}
+        data:
+          keyboard:
+            - "/start, /control_panel"
+- alias: "Telegram Control Panel Command"
+  id: "45"
+  initial_state: "on"
+  trigger:
+    platform: event
+    event_type: telegram_command
+    event_data:
+      command: "/control_panel"
+  action:
+    - service: notify.telegram
+      data:
+        message: >
+          {{ [
+          "Home Assistant Status",
+          "Control Panel",
+          "Yes Sir!",
+          "Home Assistant Control Panel"
+          ] | random }}
+        data:
+          inline_keyboard:
+            - "Weather:/wea, Status:/status"
+            - "Ping:/ping"
+- alias: "Telegram Conversation"
+  id: "46"
+  initial_state: "on"
+  trigger:
+    platform: event
+    event_type: telegram_text
+  condition:
+    condition: template
+    value_template: >-
+      {% set device = trigger.event.data.text|lower|replace('turn on ','')|replace('turn off ','') %}
+      {% for entity in states.group.telegram_devices.attributes.entity_id if states[entity.split('.')[0]][entity.split('.')[1]].name|lower == device -%}
+      true
+      {%- else -%}
+      false
+      {%- endfor -%}
+  action:
+    - service: conversation.process
+      data_template:
+        text: "{{ trigger.event.data.text|lower }}"
+    - service: telegram_bot.send_message
+      data_template:
+        message: >-
+          {% set device = trigger.event.data.text|lower|replace('turn on ','')|replace('turn off ','') %}
+          OK, {{ trigger.event.data.text|lower|replace('turn','turning') }}.
+        title: ""
+        target: "{{ trigger.event.data.user_id }}"
+- alias: "Telegram Conversation Device Not Found"
+  id: "47"
+  initial_state: "on"
+  trigger:
+    platform: event
+    event_type: telegram_text
+  condition:
+    condition: template
+    value_template: >-
+      {% set device = trigger.event.data.text|lower|replace('turn on ','')|replace('turn off ','') %}
+      {% for entity in states.group.telegram_devices.attributes.entity_id if states[entity.split('.')[0]][entity.split('.')[1]].name|lower == device -%}
+      false
+      {%- else -%}
+      true
+      {%- endfor -%}
+  action:
+    service: telegram_bot.send_message
+    data_template:
+      message: >-
+        {% set device = trigger.event.data.text|lower|replace('turn on ','')|replace('turn off ','') %}
+        I'm sorry. I cannot find the device named {{device}} in the house.
+      title: ""
+      target: "{{ trigger.event.data.user_id }}"
+- alias: Turn Lights Flur on
+  id: "48"
+  trigger:
+    platform: state
+    entity_id: binary_sensor.wohnzimmertur
+    from: "off"
+    to: "on"
+  action:
+    service: switch.turn_on
+    entity_id: switch.schalter_flur_whz_relay
+- alias: Turn Lights Flur off
+  id: "49"
+  trigger:
+    platform: state
+    entity_id: binary_sensor.wohnzimmertur
+    from: "on"
+    to: "off"
+  action:
+    service: switch.turn_off
+    entity_id: switch.schalter_flur_whz_relay
+- alias: Notification TV Badezimmer besetzt
+  id: "50"
+  trigger:
+    platform: state
+    entity_id: switch.schalter_bad_relay
+    to: "on"
+  action:
+    - service: notify.android
+      data_template:
+        title: 🚽 Badezimmer ist besetzt
+        message: " "
+- alias: Notification TV Badezimmer frei
+  id: "51"
+  trigger:
+    platform: state
+    entity_id: switch.schalter_bad_relay
+    to: "off"
+  action:
+    - service: notify.android
+      data_template:
+        title: 🚽 Badezimmer ist frei
+        message: " "

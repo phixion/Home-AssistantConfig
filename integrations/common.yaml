@@ -4,9 +4,8 @@
 #██║     ██║   ██║██║╚██╔╝██║██║╚██╔╝██║██║   ██║██║╚██╗██║
 #╚██████╗╚██████╔╝██║ ╚═╝ ██║██║ ╚═╝ ██║╚██████╔╝██║ ╚████║
 # ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚═╝     ╚═╝ ╚═════╝ ╚═╝  ╚═══╝
-#                                                          
+#
 default_config:
-wake_on_lan:
 config:
 websocket_api:
 system_health:
@@ -20,5 +19,5 @@ cloud:
 updater:
   reporting: false
 discovery:
-  ignore:
-    - sabnzbd
+#  ignore:
+#    - sabnzbd

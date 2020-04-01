@@ -1,6 +1,6 @@
   - platform: rgb
-    name: ${devicename}_rgb
-    id: ${devicename}_rgb
+    name: $devicename
+    id: $devicename
     red: output_red
     green: output_green
     blue: output_blue

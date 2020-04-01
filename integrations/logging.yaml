@@ -5,12 +5,45 @@
 #███████╗╚██████╔╝╚██████╔╝╚██████╔╝██║██║ ╚████║╚██████╔╝
 #╚══════╝ ╚═════╝  ╚═════╝  ╚═════╝ ╚═╝╚═╝  ╚═══╝ ╚═════╝
 #
+logger:
+  default: info
+  logs:
+    homeassistant.components.http.ban: warning
+    homeassistant.components.google_assistant.http: debug
+    homeassistant.components.google_cloud: debug
+    homeassistant.components.google: debug
+    custom_components.sensor.authenticated: debug
+    aiounifi: info
+    homeassistant.components.unifi: info
+    homeassistant.components.device_tracker.unifi: info
+    homeassistant.components.switch.unifi: info
+    homeassistant.components.automation: debug
+    aioesphomeapi.connection: warn
 recorder:
-  purge_keep_days: 28
+  purge_keep_days: 60
   purge_interval: 1
   db_url: !secret dburl
   exclude:
     entities:
+      - binary_sensor.outside_temperature_falling
+      - binary_sensor.outside_temperature_rising
+      - binary_sensor.inside_temperature_falling
+      - binary_sensor.inside_temperature_rising
+      - sensor.foldingathome_cpu
+      - sensor.foldingathome_gpu
+      - binary_sensor.wohnzimmertur
+      - sensor.nodemcu_3_accel_x
+      - sensor.nodemcu_3_accel_y
+      - sensor.nodemcu_3_accel_z
+      - automation.count_warnings
+      - sensor.date_time
+      - sensor.date_time_iso
+      - sensor.date_time_utc
+      - sensor.date
+      - sensor.time_date
+      - sensor.time_utc
+      - sensor.time
+      - automation.count_warnings
       - sensor.influxdb_size_telegraf
       - sensor.influxdb_size_homeassistant
       - sensor.influxdb_size_internal
@@ -59,6 +92,8 @@ recorder:
       - sensor.memory_free
       - sensor.network_in_bond0
       - sensor.network_out_bond0
+      - sensor.reddit_gamedeals
+      - sensor.nodemcu_2_luxmeter
     domains:
       - updater
       - camera
@@ -67,7 +102,7 @@ recorder:
       - sun
       - image_processing
       - light
-      - automation
+      #      - automation
       - group
       - script
       - switch
@@ -76,8 +111,16 @@ recorder:
 logbook:
   exclude:
     entities:
-      - automation.update_morning_commute_sensor
+      - binary_sensor.outside_temperature_falling
+      - binary_sensor.outside_temperature_rising
+      - binary_sensor.inside_temperature_falling
+      - binary_sensor.inside_temperature_rising
+      - binary_sensor.wohnzimmertur
+      - sensor.hp_switch_uptime
+      - sensor.nas_uptime
       - counter.warning_counter
+      - automation.update_morning_commute_sensor
+      - automation.count_warnings
       - sensor.home_assistantconfig
       - sensor.wiser_itrv_wohnzimmer
       - sensor.wiser_itrv_bad
@@ -94,6 +137,14 @@ logbook:
       - sensor.memory_free
       - sensor.network_in_bond0
       - sensor.network_out_bond0
+      - sensor.nodemcu_2_luxmeter
+      - sensor.date_time
+      - sensor.date_time_iso
+      - sensor.date_time_utc
+      - sensor.date
+      - sensor.time_date
+      - sensor.time_utc
+      - sensor.time
     domains:
       - updater
       - camera
@@ -101,10 +152,18 @@ logbook:
       - weather
       - sun
       - image_processing
-      - device_tracker
 history:
   exclude:
     entities:
+      - binary_sensor.outside_temperature_falling
+      - binary_sensor.outside_temperature_rising
+      - binary_sensor.inside_temperature_falling
+      - binary_sensor.inside_temperature_rising
+      - binary_sensor.wohnzimmertur
+      - sensor.nodemcu_3_accel_x
+      - sensor.nodemcu_3_accel_y
+      - sensor.nodemcu_3_accel_z
+      - automation.count_warnings
       - sensor.influxdb_size_telegraf
       - sensor.influxdb_size_homeassistant
       - sensor.influxdb_size_internal
@@ -134,6 +193,8 @@ history:
       - sensor.unifi_accesspoint_uptime
       - sensor.unifi_switch_uptime
       - sensor.unifi_usg_uptime
+      - sensor.hp_switch_uptime
+      - sensor.nas_uptime
       - sensor.uptime
       - sensor.time
       - sensor.date_time_iso
@@ -142,6 +203,11 @@ history:
       - sensor.memory_free
       - sensor.network_in_bond0
       - sensor.network_out_bond0
+      - sensor.reddit_gamedeals
+      - sensor.rss_coindesk
+      - sensor.rss_darknet
+      - sensor.rss_free_steam_keys
+      - sensor.nodemcu_2_luxmeter
     domains:
       - updater
       - camera
@@ -150,18 +216,6 @@ history:
       - sun
       - image_processing
       - device_tracker
-logger:
-  default: warning
-  logs:
-    homeassistant.components.http.ban: warning
-    homeassistant.components.google_assistant.http: debug
-    homeassistant.components.google_cloud: debug
-    homeassistant.components.google: debug
-    custom_components.sensor.authenticated: debug
-    aiounifi: debug
-    homeassistant.components.unifi: debug
-    homeassistant.components.device_tracker.unifi: debug
-    homeassistant.components.switch.unifi: debug
 system_log:
   fire_event: true
   max_entries: 500

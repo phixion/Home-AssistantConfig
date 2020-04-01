@@ -1,0 +1,134 @@
+light.schalter_flur_whz_light:
+  expose: true
+  name: Flur Schalter
+  room: Flur
+  aliases:
+    - Lampe Flur
+    - Flurlicht
+    - Flur
+light.bulbflur_rgb:
+  expose: true
+  room: Flur
+  name: Flur RGB
+  aliases:
+    - RGB Flurlampe
+    - RGB Flurlicht
+    - RGB Flur
+light.bulbflur_cwww:
+  expose: true
+  room: Flur
+  name: Flur Weiss
+  aliases:
+    - Helle Flurlampe
+    - Weisses Flurlicht
+    - Weisse Flurlampe
+    - Helles FLurlicht
+light.schalter_bad_light:
+  expose: true
+  room: Bad
+  name: Bad Schalter
+  aliases:
+    - Lampe Bad
+    - Badlicht
+    - Flur
+    - Klo
+    - Restroom
+light.bulbbad_rgb:
+  expose: true
+  room: Bad
+  name: Bad RGB
+  aliases:
+    - RGB Badlampe
+    - RGB Badlicht
+    - RGB Bad
+light.bulbbad_cwww:
+  expose: true
+  room: Bad
+  name: Bad Weiss
+  aliases:
+    - Helle Badlampe
+    - Weisses Badlicht
+    - Weisse Badlampe
+    - Helles Badlicht
+light.schalter_kueche_light:
+  expose: true
+  room: Küche
+  name: Küchenschrank
+  aliases:
+    - Lampe Küche
+    - Küchenlicht
+    - Küche
+    - Kitchen
+    - Licht Küche
+light.bulbkueche_rgb:
+  expose: true
+  room: Küche
+  name: Küche RGB
+  aliases:
+    - RGB Küchenlampe
+    - RGB Küchenlicht
+    - RGB Küche
+light.bulbkueche_cwww:
+  expose: true
+  room: Küche
+  name: Küche Weiss
+  aliases:
+    - Helle Küchenlampe
+    - Weisses Küchenlicht
+    - Weisse Küchenlampe
+    - Helles Küchenlicht
+light.schalter_whz_light:
+  expose: true
+  room: Wohnzimmer
+  name: Wohnzimmer Schalter
+  aliases:
+    - Deckenlicht
+    - Deckenlampe
+    - Lampe Wohnzimmer
+    - Wohnzimmerlicht
+    - Wohnzimmer
+    - Living Room
+    - Licht Wohnzimmer
+light.bulbwhzlamp_rgb:
+  expose: true
+  room: Wohnzimmer
+  name: Stehlampe RGB
+  aliases:
+    - Wohnzimmerlampe
+    - Standlicht
+light.schalter_lavalampe_light:
+  expose: true
+  room: Wohnzimmer
+  name: Lavalampe
+light.bulbwhzlamp_cwww:
+  expose: true
+  room: Wohnzimmer
+  name: Stehlampe Weiss
+  aliases:
+    - Wohnzimmerlampe
+    - Standlicht
+light.mood_lights_rgb:
+  expose: true
+  room: Wohnzimmer
+  name: Mood Lights RGB
+light.mood_lights_cwww:
+  expose: true
+  name: Mood Lights CWWW
+  room: Wohnzimmer
+camera.nest_cam:
+  expose: true
+  name: Nest Cam
+  room: Wohnzimmer
+  aliases:
+    - Cam
+    - Nest
+    - Nest Cam
+    - Kamera
+binary_sensor.window_wohnzimmer:
+  expose: true
+  name: Fenster
+  room: Wohnzimmer
+  aliases:
+    - Fenster
+    - Fenster Wohnzimmer
+    - Wohnzimmerfenster

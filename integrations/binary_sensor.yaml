@@ -50,18 +50,19 @@ binary_sensor:
     sensors:
       macbook_battery_level_low:
         value_template: "{{ (states.sensor.macbook_air_battery_level | float) < 25 }}"
-        friendly_name: "MacBook aufladen"
+        friendly_name: "MacBook Akku kritisch"
       nexus_battery_level_low:
         value_template: "{{ (states.sensor.google_nexus_battery_level | float) < 25 }}"
-        friendly_name: "Nexus aufladen"
+        friendly_name: "Nexus Akku kritisch"
       pixel_battery_level_low:
         value_template: "{{ (states.sensor.google_pixel_battery_level | float) < 25 }}"
-        friendly_name: "Pixel aufladen"
+        friendly_name: "Pixel Akku kritisch"
       dark_outside:
         value_template: "{{ is_state('sun.sun', 'below_horizon') }}"
         friendly_name: "Dark Outside"
       window_wohnzimmer:
-        friendly_name: Fenster Wohnzimmer Offen
+        device_class: window
+        friendly_name: Fenster Wohnzimmer
         value_template: '{{state_attr("climate.wiser_wohnzimmer","window_state") == "Open"}}'
         icon_template: >-
           {% if is_state("binary_sensor.window_wohnzimmer", "on") %}
@@ -70,7 +71,8 @@ binary_sensor:
             mdi:window-closed-variant
           {% endif %}
       window_bad:
-        friendly_name: Fenster Bad Offen
+        friendly_name: Fenster Bad
+        device_class: window
         value_template: '{{state_attr("climate.wiser_bad","window_state") == "Open"}}'
         icon_template: >-
           {% if is_state("binary_sensor.window_bad", "on") %}
@@ -79,7 +81,8 @@ binary_sensor:
             mdi:window-closed-variant
           {% endif %}
       window_flur:
-        friendly_name: Fenster Flur Offen
+        device_class: window
+        friendly_name: Fenster Flur
         value_template: '{{state_attr("climate.wiser_flur","window_state") == "Open"}}'
         icon_template: >-
           {% if is_state("binary_sensor.window_flur", "on") %}
@@ -88,40 +91,52 @@ binary_sensor:
             mdi:window-closed-variant
           {% endif %}
       heating_wohnzimmer:
-        friendly_name: Heating Wohnzimmer
+        device_class: heat
+        friendly_name: Heizung Wohnzimmer
         value_template: '{{state_attr("climate.wiser_wohnzimmer","control_output_state") == "On"}}'
-        icon_template: >-
-          {% if is_state("binary_sensor.heating_wohnzimmer", "on") %}
-            mdi:radiator
-          {% else %}
-            mdi:radiator-off
-          {% endif %}
+      #        icon_template: >-
+      #          {% if is_state("binary_sensor.heating_wohnzimmer", "on") %}
+      #            mdi:radiator
+      #          {% else %}
+      #            mdi:radiator-off
+      #          {% endif %}
       heating_bad:
-        friendly_name: Heating Bad
+        device_class: heat
+        friendly_name: Heizung Bad
         value_template: '{{state_attr("climate.wiser_bad","control_output_state") == "On"}}'
-        icon_template: >-
-          {% if is_state("binary_sensor.heating_bad", "on") %}
-            mdi:radiator
-          {% else %}
-            mdi:radiator-off
-          {% endif %}
+      #        icon_template: >-
+      #          {% if is_state("binary_sensor.heating_bad", "on") %}
+      #            mdi:radiator
+      #          {% else %}
+      #            mdi:radiator-off
+      #          {% endif %}
       heating_flur:
-        friendly_name: Heating Flur
+        device_class: heat
+        friendly_name: Heizung Flur
         value_template: '{{state_attr("climate.wiser_flur","control_output_state") == "On"}}'
-        icon_template: >-
-          {% if is_state("binary_sensor.heating_flur", "on") %}
-            mdi:radiator
-          {% else %}
-            mdi:radiator-off
-          {% endif %}
-  - platform: ffmpeg_noise
-    name: Noise Sensor
-    input: -f alsa -ac 1 -i plughw:1 -vn -filter:a silencedetect=n=-10dB:d=1 -f null -
-    extra_arguments: -filter:a highpass=f=300,lowpass=f=2500,volume=volume=2 -codec:a libmp3lame -ar 16000
-    initial_state: true
-    duration: 2
+  #        icon_template: >-
+  #          {% if is_state("binary_sensor.heating_flur", "on") %}
+  #            mdi:radiator
+  #          {% else %}
+  #            mdi:radiator-off
+  #          {% endif %}
+  #  - platform: ffmpeg_noise
+  #    name: Noise Sensor
+  #    input: -f alsa -ac 1 -i plughw:0 -vn -filter:a silencedetect=n=-10dB:d=1 -f null -
+  ##    input: -f pulse -ac 1 -i default -vn -filter:a silencedetect=n=-10dB:d=1 -f null -
+  #    #   input: !secret nest_stream
+  #    #  extra_arguments: -filter:a highpass=f=300,lowpass=f=2500,volume=volume=2 -codec:a libmp3lame -ar 16000
+  #    initial_state: true
+  #    duration: 2
+  #    reset: 60
+  #    peak: -32
+  - platform: ffmpeg_motion
+    input: !secret nest_stream
+    name: Motion Sensor
     reset: 60
-    peak: -32
+    changes: 10
+    initial_state: true
+  #   extra_arguments: -q:v 2
   - platform: trend
     sensors:
       outside_temperature_rising:
@@ -134,3 +149,19 @@ binary_sensor:
         sample_duration: 7200
         min_gradient: -0.0008
         device_class: cold
+      inside_temperature_rising:
+        entity_id: sensor.climate_wohnung_temp
+        sample_duration: 7200
+        min_gradient: 0.0008
+        device_class: heat
+      inside_temperature_falling:
+        entity_id: sensor.climate_wohnung_temp
+        sample_duration: 7200
+        min_gradient: -0.0008
+        device_class: cold
+  - platform: threshold
+    device_class: door
+    name: Wohnzimmertür
+    entity_id: sensor.nodemcu_3_accel_x
+    lower: "0.4"
+

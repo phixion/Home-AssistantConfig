@@ -1,0 +1,82 @@
+substitutions:
+  devicename: nodemcu2
+  friendly_name: Nodemcu 2
+  update_interval: 10min
+esphome:
+  name: ${devicename}
+  platform: ESP8266
+  board: nodemcuv2
+time: !include shared/time.yaml
+wifi: !include shared/wifi.yaml
+api: !include shared/api.yaml
+ota: !include shared/ota.yaml
+text_sensor: !include shared/textsensors.yaml
+web_server: !include shared/webserver.yaml
+captive_portal:
+logger:
+sensor:
+  - platform: adc
+    pin: A0
+#    update_interval: 1s
+    name: ${friendly_name} Light Meter
+    unit_of_measurement: lx
+    filters:
+#      - lambda: |-
+#          return (x / 10000.0) * 2000000.0;
+      - calibrate_linear:
+          #         degree: 2
+          #         datapoints:
+          - 0.73 -> 9
+          - 1.0 -> 0
+          - 0.53 -> 15
+  - platform: wifi_signal
+    name: ${friendly_name} WiFi Signal
+    update_interval: ${update_interval}
+    unit_of_measurement: dB
+    icon: mdi:wifi
+    force_update: true
+  - platform: uptime
+    force_update: true
+    name: ${friendly_name} Uptime
+    filters:
+      - lambda: return x / 60.0;
+    unit_of_measurement: minutes
+    icon: mdi:alarm
+binary_sensor:
+  - platform: gpio
+    pin: D5
+    device_class: sound
+    name: ${friendly_name} Noise Sensor
+    filters:
+      - delayed_off: 1s
+    on_state:
+      then:
+        - script.execute: beep
+  - platform: status
+    device_class: connectivity
+    name: ${friendly_name} Status
+  - platform: gpio
+    pin: D6
+    device_class: light
+    name: ${friendly_name} Light Sensor
+    filters:
+      - invert
+      - delayed_on_off: 60s
+output:
+  - platform: esp8266_pwm
+    pin: D2
+    id: buzzer
+script:
+  - id: beep
+    then:
+      - output.esp8266_pwm.set_frequency:
+          id: buzzer
+          frequency: 900
+      - output.set_level:
+          id: buzzer
+          level: 30%
+      - delay: 90ms
+      - output.turn_off: buzzer
+switch:
+  - platform: restart
+    name: ${friendly_name} Restart

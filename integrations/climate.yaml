@@ -9,6 +9,6 @@ climate:
   - platform: climate_group
     name: "Alle Thermostate"
     entities:
-      - climate.wiser_bad
-      - climate.wiser_flur
-      - climate.wiser_wohnzimmer
+      - climate.thermostat_bad
+      - climate.thermostat_flur
+      - climate.thermostat_wohnzimmer
