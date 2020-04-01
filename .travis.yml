@@ -24,6 +24,8 @@ before_install:
   - wget https://raw.githubusercontent.com/hemantkamalakar/haconfigs/master/custom_components/google_fit/__init__.py
   - cd ../..
   - mkdir ./tmp
+  - sed 's/\/config\/tmp/\/home\/travis\/build\/phixion\/Home\-AssistantConfig\/tmp/g' configuration.yaml > configuration_new.yaml
+  - mv configuration_new.yaml configuration.yaml
 install:
   - pip3 install homeassistant
 script:
