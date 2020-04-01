@@ -15,6 +15,7 @@
 #travis CI
 !travis_*.yaml
 !travis_*.json
+!.travis.yml
 
 #custom_components directory
 !custom_components
