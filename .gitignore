@@ -39,7 +39,6 @@ esphome/*.json
 esphome/shared/*.json
 integrations/*.json
 secrets.yaml
-*.json
 zones.yaml
 *.db
 *.log
@@ -51,3 +50,6 @@ ip_bans.yaml
 .storage
 .cloud
 .google.token
+google*.json
+google*.yaml
+*nogit*
