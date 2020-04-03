@@ -7,7 +7,6 @@ before_install:
   - mv travis_upnp.yaml upnp.yaml
   - mv travis_zones.yaml zones.yaml
   - mv travis_panels.yaml panels.yaml
-  - mkdir ./tmp
   - sed 's/\/config\/tmp/\/home\/travis\/build\/phixion\/Home\-AssistantConfig\/tmp/g' configuration.yaml > configuration_new.yaml
   - mv configuration_new.yaml configuration.yaml
 install:
