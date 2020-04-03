@@ -28,7 +28,6 @@
 !www/_static/**
 !www/_static/icons/*
 
-
 #integrations directory
 !integrations
 !integrations/*.yaml
