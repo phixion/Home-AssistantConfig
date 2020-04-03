@@ -55,7 +55,7 @@ switch:
       - homeassistant.service:
           service: light.turn_on
           data:
-            entity_id: light.schalter_kueche_light
+            entity_id: light.schalter_kuechenschrank_light
     turn_off_action:
       - switch.turn_off: relay
       - light.turn_off: ${devicename}_led
@@ -70,7 +70,7 @@ switch:
       - homeassistant.service:
           service: light.turn_off
           data:
-            entity_id: light.schalter_kueche_light
+            entity_id: light.schalter_kuechenschrank_light
 binary_sensor:
   - platform: gpio
     pin:

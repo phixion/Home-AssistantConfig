@@ -165,6 +165,9 @@
   condition:
     - condition: template
       value_template: "{{trigger.from_state.state > trigger.to_state.state}}"
+  condition:
+    - condition: template
+      value_template: "{{trigger.to_state.state >= 1 }}"
   action:
     - service: notify.telegram
       data_template:

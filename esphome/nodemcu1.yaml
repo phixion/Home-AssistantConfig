@@ -23,16 +23,19 @@ sensor:
     name: corona_infect
     entity_id: sensor.germany_coronavirus_confirmed
     id: corona_infect
+    unit_of_measurement: people
     internal: true
   - platform: homeassistant
     name: corona_recovered
     entity_id: sensor.germany_coronavirus_recovered
     id: corona_recovered
+    unit_of_measurement: people
     internal: true
   - platform: homeassistant
     name: corona_deaths
     entity_id: sensor.germany_coronavirus_deaths
     id: corona_deaths
+    unit_of_measurement: people
     internal: true
   - platform: wifi_signal
     name: ${friendly_name} WiFi Signal
@@ -54,4 +57,4 @@ display:
     lambda: |-
       it.printf(0, 0, "COVID-19: %.0f", id(corona_infect).state);
       it.printf(16, 0, "R: %.0f", id(corona_recovered).state);
-      it.printf(24, 0, "D: %.0f", id(corona_deaths).state);
+      it.printf(25, 0, "D: %.0f", id(corona_deaths).state);

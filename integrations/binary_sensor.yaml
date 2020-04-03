@@ -133,7 +133,7 @@ binary_sensor:
   - platform: ffmpeg_motion
     input: !secret nest_stream
     name: Motion Sensor
-    reset: 60
+    reset: 120
     changes: 10
     initial_state: true
   #   extra_arguments: -q:v 2
@@ -159,9 +159,9 @@ binary_sensor:
         sample_duration: 7200
         min_gradient: -0.0008
         device_class: cold
-  - platform: threshold
-    device_class: door
-    name: Wohnzimmertür
-    entity_id: sensor.nodemcu_3_accel_x
-    lower: "0.4"
+#  - platform: threshold
+#    device_class: door
+#    name: Wohnzimmertür
+#    entity_id: sensor.nodemcu_3_accel_x
+#    lower: "0.4"
 

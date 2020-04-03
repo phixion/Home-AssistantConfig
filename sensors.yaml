@@ -1,11 +1,9 @@
-#███████╗███████╗███╗   ██╗███████╗ ██████╗ ██████╗ ███████╗
-#██╔════╝██╔════╝████╗  ██║██╔════╝██╔═══██╗██╔══██╗██╔════╝
+#
 #███████╗█████╗  ██╔██╗ ██║███████╗██║   ██║██████╔╝███████╗
 #╚════██║██╔══╝  ██║╚██╗██║╚════██║██║   ██║██╔══██╗╚════██║
 #███████║███████╗██║ ╚████║███████║╚██████╔╝██║  ██║███████║
-#╚══════╝╚══════╝╚═╝  ╚═══╝╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝
 - platform: influxdb
-  host: localhost
+  host: !secret influx_host
   port: !secret influx_port
   username: !secret influx_usr
   password: !secret influx_pwd
@@ -755,15 +753,6 @@
   client_id: !secret google_fit_id
   client_secret: !secret google_fit_secret
 - platform: google_travel_time
-  name: Morning Commute (Trains)
-  api_key: !secret google_assistantapikey_pwd
-  origin: device_tracker.google_pixel
-  destination: zone.work
-  options:
-    mode: transit
-    transit_mode: train
-    transit_routing_preference: fewer_transfers
-- platform: google_travel_time
   name: Travel Parents (Trains)
   api_key: !secret google_assistantapikey_pwd
   origin: device_tracker.google_pixel
@@ -777,13 +766,6 @@
   api_key: !secret google_assistantapikey_pwd
   origin: device_tracker.google_pixel
   destination: zone.mum_dad
-  options:
-    mode: bicycling
-- platform: google_travel_time
-  name: Morning Commute (Bike)
-  api_key: !secret google_assistantapikey_pwd
-  origin: device_tracker.google_pixel
-  destination: zone.work
   options:
     mode: bicycling
 - platform: google_travel_time

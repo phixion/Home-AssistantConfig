@@ -2,7 +2,7 @@ language: python
 python:
   - "3.7"
 before_install:
-  - sudo apt-get install -y libudev-dev
+  - sudo apt-get install -y libudev-dev ffmpeg python-dev pkg-config libavformat-dev libavcodec-dev libavdevice-dev libavutil-dev libswscale-dev libavresample-dev libavfilter-dev
   - mv travis_secrets.yaml secrets.yaml
   - mv travis_upnp.yaml upnp.yaml
   - mv travis_zones.yaml zones.yaml

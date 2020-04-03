@@ -1,0 +1,67 @@
+substitutions:
+  devicename: nodemcu4
+  friendly_name: Nodemcu 4
+  update_interval: 60s
+esphome:
+  name: ${devicename}
+  platform: ESP8266
+  board: nodemcuv2
+time: !include shared/time.yaml
+wifi: !include shared/wifi.yaml
+api: !include shared/api.yaml
+ota: !include shared/ota.yaml
+web_server: !include shared/webserver.yaml
+captive_portal:
+logger:
+sun:
+  latitude: !secret home_lat
+  longitude: !secret home_lon
+sensor:
+  - platform: wifi_signal
+    name: ${friendly_name} WiFi Signal
+    update_interval: ${update_interval}
+    unit_of_measurement: dB
+    icon: mdi:wifi
+  - platform: sun
+    name: Elevation
+    type: elevation
+    update_interval: 60s
+  - platform: sun
+    name: Azimuth
+    type: azimuth
+    update_interval: 60s
+binary_sensor:
+  - platform: gpio
+    pin: D0
+    id: ${devicename}_motion
+    name: ${friendly_name} Motion Sensor
+    device_class: motion
+    on_press:
+      - homeassistant.service:
+          service: switch.turn_on
+          data:
+            entity_id: switch.schalter_flur_whz_relay
+  - platform: template
+    id: ${devicename}_templ
+    internal: true
+    lambda: 'return id(${devicename}_motion).state;'
+    filters:
+      - delayed_off: 3min
+    on_release:
+      - homeassistant.service:
+          service: switch.turn_off
+          data:
+            entity_id: switch.schalter_flur_whz_relay
+  - platform: status
+    device_class: connectivity
+    name: ${friendly_name} Status
+switch:
+  - platform: restart
+    name: ${friendly_name} Restart
+text_sensor:
+  - platform: sun
+    name: Sonnenaufgang
+    type: sunrise
+  - platform: sun
+    name: Sonnenuntergang
+    type: sunset

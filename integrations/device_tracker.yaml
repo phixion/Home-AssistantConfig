@@ -12,26 +12,18 @@ device_tracker:
     entity_id:
       - device_tracker.pixel_gps
       - device_tracker.pixel_wifi
-      - device_tracker.pixel_arp
   - platform: composite
     name: "Google Nexus"
     time_as: device_or_local
     entity_id:
       - device_tracker.nexus_gps
       - device_tracker.nexus_wifi
-      - device_tracker.nexus_arp
   - platform: composite
     name: "MacBook Air"
     time_as: device_or_local
     entity_id:
       - device_tracker.0x3efe_icloud
       - device_tracker.0x3efe_wifi
-      - device_tracker.0x3efe_arp
-  - platform: arpscan_tracker
-    interval_seconds: 120
-    consider_home: 300
-    track_new_devices: false
-    scan_options: !secret arpscan_options
   - platform: traccar
     host: !secret traccar_host
     port: !secret traccar_port

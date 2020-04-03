@@ -13,8 +13,22 @@ ota: !include shared/ota.yaml
 text_sensor: !include shared/textsensors.yaml
 web_server: !include shared/webserver.yaml
 captive_portal:
-logger:
+logger: 
+  level: very_verbose
+  logs:
+    i2c: DEBUG
+    spi: DEBUG
+i2c:
+  sda: D2
+  scl: D1
+  scan: True
 sensor:
+  - platform: bh1750
+    name: "${friendly_name} Lichtsensor"
+    address: 0x23
+    resolution: 0.5
+    update_interval: 60s
+    unit_of_measurement: lx
   - platform: adc
     pin: A0
 #    update_interval: 1s
@@ -64,7 +78,7 @@ binary_sensor:
       - delayed_on_off: 60s
 output:
   - platform: esp8266_pwm
-    pin: D2
+    pin: D7
     id: buzzer
 script:
   - id: beep

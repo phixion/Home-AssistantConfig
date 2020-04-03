@@ -6,12 +6,6 @@ esphome:
   name: ${devicename}
   platform: ESP8266
   board: nodemcuv2
-  includes:
-  - adxl345.h
-  libraries:
-  - "Grove 3-Axis Digital Gyro"
-  - "Adafruit ADXL345"
-  - "Adafruit Unified Sensor"
 time: !include shared/time.yaml
 wifi: !include shared/wifi.yaml
 api: !include shared/api.yaml
@@ -19,23 +13,34 @@ ota: !include shared/ota.yaml
 web_server: !include shared/webserver.yaml
 captive_portal:
 logger:
+switch:
+  - platform: restart
+    name: ${friendly_name} Restart
+i2c:
+  sda: D2
+  scl: D1
+  scan: True
 sensor:
-  - platform: custom
-    lambda: |-
-        auto adxl345 = new ADXL345Sensor();
-        App.register_component(adxl345);
-        return { adxl345->accel_x_sensor, adxl345->accel_y_sensor, adxl345->accel_z_sensor };
-    sensors:
-    - name: ${friendly_name} Accel X
-      unit_of_measurement: 'm/s²'
-      icon: mdi:axis-x-arrow
-      accuracy_decimals: 4
-    - name: ${friendly_name} Accel Y
-      unit_of_measurement: 'm/s²'
-      icon: mdi:axis-y-arrow
-      accuracy_decimals: 4
-    - name: ${friendly_name} Accel Z
-      icon: mdi:axis-z-arrow
-      unit_of_measurement: 'm/s²'
-      accuracy_decimals: 4
-
+  - platform: bh1750
+    name: "${friendly_name} Lichtsensor"
+    address: 0x23
+    resolution: 0.5
+    update_interval: 60s
+    unit_of_measurement: lx
+  - platform: wifi_signal
+    name: ${friendly_name} WiFi Signal
+    update_interval: ${update_interval}
+    unit_of_measurement: dB
+    icon: mdi:wifi
+    force_update: true
+  - platform: uptime
+    force_update: true
+    name: ${friendly_name} Uptime
+    filters:
+      - lambda: return x / 60.0;
+    unit_of_measurement: minutes
+    icon: mdi:alarm
+binary_sensor:
+  - platform: status
+    device_class: connectivity
+    name: ${friendly_name} Status
