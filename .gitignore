@@ -12,6 +12,9 @@
 !sensors.yaml
 !customize.yaml
 !customize_glob.yaml
+!README.md
+!LICENSE
+!CODE_OF_CONDUCT.md
 #travis CI
 !travis_*.yaml
 !travis_*.json
