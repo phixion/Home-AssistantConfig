@@ -15,7 +15,7 @@ notify:
     host: !secret host_androidtv
     position: top-right
     fontsize: medium
-  - name: Google Assistant
+  - name: Google Assistant Broadcast
     platform: rest
     resource: !secret google_assistant_webserver_bc
   - name: Google Assistant Command

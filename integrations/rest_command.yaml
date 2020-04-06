@@ -1,0 +1,16 @@
+rest_command:
+  assistant_broadcast:
+    url: !secret google_assistant_relay
+    method: POST
+    content_type: "application/json"
+    payload: '{"command":"{{ command }}", "user":"Home Assistant", "broadcast":true}'
+  assistant_converse:
+    url: !secret google_assistant_relay
+    method: POST
+    content_type: "application/json"
+    payload: '{"command":"{{ command }}", "user":"Home Assistant", "converse":true}'
+  assistant_relay:
+    url: !secret google_assistant_relay
+    method: POST
+    content_type: "application/json"
+    payload: '{"command":"{{ command }}", "user":"Home Assistant"}'

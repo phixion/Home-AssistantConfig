@@ -49,13 +49,14 @@
       entity_id: switch.heating_away_mode
     - service: switch.turn_on
       entity_id: switch.schalter_flur_whz_relay
-    #    - service: media_player.volume_set
-    #      data:
-    #        entity_id: media_player.google_nest_hub
-    #        volume_level: 0.01
-    #    - service: media_player.turn_on
-    #      entity_id: media_player.google_nest_hub
-    #    - delay: 00:00:20
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.google_nest_hub
+        volume_level: 0.01
+    - service: media_player.turn_on
+      data:
+        entity_id: media_player.google_nest_hub
+    - delay: 00:00:20
     - service: media_player.volume_set
       data:
         entity_id: media_player.google_nest_hub
@@ -153,10 +154,9 @@
         message: >
           {{states('sensor.unifi_gateway_alerts')}}
           {{states.sensor.unifi_gateway_alerts.attributes}}
-    - service: tts.google_cloud_say
-      entity_id: media_player.google_nest_hub
+    - service: rest_command.assistant_broadcast
       data_template:
-        message: Hey Martin, Es wurde eine Fehler auf deinem router gefunden, schau besser nach!
+        command: Hey Martin, Es ist ein Fehler auf deinem Router, schau besser nach.
 - alias: Notification UniFi Guest Logon
   id: "9"
   trigger:
@@ -168,22 +168,26 @@
       - condition: template
         value_template: "{{trigger.from_state.state > trigger.to_state.state}}"
       - condition: template
-        value_template: "{{trigger.to_state.state >= 1 }}"
+        value_template: "{{(trigger.to_state.state | default(0) | float) >= 1 }}"
   action:
     - service: notify.telegram
       data_template:
         title: Ein Gast hat sich in dein Netzwerk eingeloggt.
         message: >
           Zur Zeit ist/sind {{states('sensor.unifi_wlan_guest')}} Gaste/Gäste in deinem Netzwerk.
-    - service: tts.google_cloud_say
-      entity_id: media_player.google_nest_hub
+    - service: rest_command.assistant_broadcast
       data_template:
-        message: Hey Martin, Ein Gast hat sich in dein Netzwerk eingeloggt.
+        command: Hey Martin, Ein Gast hat sich in dein Netzwerk eingeloggt.
 - alias: Notification h3 Podcast
   id: "10"
   trigger:
     - platform: state
       entity_id: sensor.h3_podcast
+  condition:
+    - condition: template
+      value_template: "{{ as_timestamp(now()) - as_timestamp(states.automation.notification_h3_podcast.attributes.last_triggered) | int > 300 }}"
+    - condition: template
+      value_template: "{{ states.automation.notification_h3_podcast.attributes.last_triggered == none }}"
   action:
     - service: notify.telegram
       data_template:
@@ -199,6 +203,11 @@
   trigger:
     - platform: state
       entity_id: sensor.nexpo
+  condition:
+    - condition: template
+      value_template: "{{ as_timestamp(now()) - as_timestamp(states.automation.notification_nexpo_video.attributes.last_triggered) | int > 300 }}"
+    - condition: template
+      value_template: "{{ states.automation.notification_nexpo_video.attributes.last_triggered == none }}"
   action:
     - service: notify.telegram
       data_template:
@@ -209,15 +218,19 @@
         data:
           inline_keyboard:
             - "Play Video on TV:/yt_nexpo"
-    - service: tts.google_cloud_say
-      entity_id: media_player.google_nest_hub
+    - service: rest_command.assistant_broadcast
       data_template:
-        message: Hey Martin, Nexpo hat ein neues Video auf YouTube hochgeladen.
+        command: Hey Martin, Nexpo hat ein neues Video auf YouTube hochgeladen.
 - alias: Notification ScareTheater Video
   id: "12"
   trigger:
     - platform: state
       entity_id: sensor.scaretheater
+  condition:
+    - condition: template
+      value_template: "{{ as_timestamp(now()) - as_timestamp(states.automation.notification_scaretheater_video.attributes.last_triggered) | int > 300 }}"
+    - condition: template
+      value_template: "{{ states.automation.notification_scaretheater_video.attributes.last_triggered == none }}"
   action:
     - service: notify.telegram
       data_template:
@@ -233,6 +246,11 @@
   trigger:
     - platform: state
       entity_id: sensor.reignbot
+  condition:
+    - condition: template
+      value_template: "{{ as_timestamp(now()) - as_timestamp(states.automation.notification_reignbot_video.attributes.last_triggered) | int > 300 }}"
+    - condition: template
+      value_template: "{{ states.automation.notification_reignbot_video.attributes.last_triggered == none }}"
   action:
     - service: notify.telegram
       data_template:
@@ -243,11 +261,16 @@
         data:
           inline_keyboard:
             - "Play Video on TV:/yt_reignbot"
-- alias: Notification  Frenck Video
+- alias: Notification Frenck Video
   id: "14"
   trigger:
     - platform: state
       entity_id: sensor.franck_nijhof
+  condition:
+    - condition: template
+      value_template: "{{ as_timestamp(now()) - as_timestamp(states.automation.notification_frenck_video.attributes.last_triggered) | int > 300 }}"
+    - condition: template
+      value_template: "{{ states.automation.notification_frenck_video.attributes.last_triggered == none }}"
   action:
     - service: notify.telegram
       data_template:
@@ -263,6 +286,11 @@
   trigger:
     - platform: state
       entity_id: sensor.someordinarygamers
+  condition:
+    - condition: template
+      value_template: "{{ as_timestamp(now()) - as_timestamp(states.automation.notification_someordinarygamers_video.attributes.last_triggered) | int > 300 }}"
+    - condition: template
+      value_template: "{{ states.automation.notification_someordinarygamers_video.attributes.last_triggered == none }}"
   action:
     - service: notify.telegram
       data_template:
@@ -278,13 +306,10 @@
   trigger:
     - platform: time_pattern
       minutes: /60
-  #  condition:
-  #    - condition: time
-  #      after: "07:00:00"
-  #      before: "11:00:00"
-  #    - condition: state
-  #      entity_id: binary_sensor.workday_sensor
-  #      state: "on"
+  condition:
+    - condition: state
+      entity_id: binary_sensor.workday_sensor
+      state: "on"
   action:
     - service: homeassistant.update_entity
       entity_id: sensor.morning_commute_trains
@@ -489,7 +514,7 @@
       entity_id:
         - media_player.shield
       data_template:
-        media_content_id: "{{state_attr('sensor.nexpo', 'url')}}"
+        media_content_id: "{{state_attr('sensor.nexpo', 'url' | string)}}"
         media_content_type: video/youtube
     - service: homeassistant.turn_off
       entity_id: input_boolean.play_nexpo
@@ -504,7 +529,7 @@
       entity_id:
         - media_player.shield
       data_template:
-        media_content_id: "{{state_attr('sensor.scaretheater', 'url')}}"
+        media_content_id: "{{state_attr('sensor.scaretheater', 'url' | string)}}"
         media_content_type: video/youtube
     - service: homeassistant.turn_off
       entity_id: input_boolean.play_scaretheater
@@ -519,7 +544,7 @@
       entity_id:
         - media_player.shield
       data_template:
-        media_content_id: "{{state_attr('sensor.h3_podcast', 'url')}}"
+        media_content_id: "{{state_attr('sensor.h3_podcast', 'url' | string)}}"
         media_content_type: video/youtube
     - service: homeassistant.turn_off
       entity_id: input_boolean.play_h3
@@ -534,7 +559,7 @@
       entity_id:
         - media_player.shield
       data_template:
-        media_content_id: "{{state_attr('sensor.reignbot', 'url')}}"
+        media_content_id: "{{state_attr('sensor.reignbot', 'url' | string)}}"
         media_content_type: video/youtube
     - service: homeassistant.turn_off
       entity_id: input_boolean.play_reignbot
@@ -549,7 +574,7 @@
       entity_id:
         - media_player.shield
       data_template:
-        media_content_id: "{{state_attr('sensor.someordinarygamers', 'url')}}"
+        media_content_id: "{{state_attr('sensor.someordinarygamers', 'url' | string)}}"
         media_content_type: video/youtube
     - service: homeassistant.turn_off
       entity_id: input_boolean.play_sog
@@ -564,7 +589,7 @@
       entity_id:
         - media_player.shield
       data_template:
-        media_content_id: "{{state_attr('sensor.franck_nijhof', 'url')}}"
+        media_content_id: "{{state_attr('sensor.franck_nijhof', 'url' | string)}}"
         media_content_type: video/youtube
     - service: homeassistant.turn_off
       entity_id: input_boolean.play_frenck
@@ -631,7 +656,7 @@
         message: >
           🏃‍♂️ {{states('binary_sensor.noise_sensor')}}
            🔊 {{states('binary_sensor.motion_sensor')}}
-           ☀️ {{states('binary_sensor.nodemcu_2_light_sensor')}}
+           ☀️ {{states('binary_sensor.nodemcu_2_tv_light_sensor')}}
            🚪 {{states('binary_sensor.window_wohnzimmer')}}
            🔥 Wohnzimmer: {{states('binary_sensor.heating_wohnzimmer')}}
            🔥 Flur: {{states('binary_sensor.heating_flur')}}

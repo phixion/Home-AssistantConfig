@@ -1,6 +1,6 @@
 substitutions:
   devicename: nodemcu5
-  friendly_name: Nodemcu 5
+  friendly_name: Nodemcu 5 (Bad)
   update_interval: 60s
 esphome:
   name: ${devicename}

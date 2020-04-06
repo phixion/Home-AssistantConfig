@@ -7,9 +7,9 @@
 check_config:
   sequence: []
   alias: Check Configuration
-send_broadcast:
+send_google_broadcast:
   sequence:
-    - service: notify.google_assistant
+    - service: notify.google_assistant_broadcast
       data_template:
         message: "{{ states.input_text.broadcast_message.state }}"
     - service: input_text.set_value

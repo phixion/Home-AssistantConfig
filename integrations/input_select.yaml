@@ -6,3 +6,9 @@ input_select:
       - Home
       - Away
       - Vacation
+  alarm_mode:
+    icon: mdi:alarm-light-outline
+    name: Alarm
+    options:
+      - Aktiviert
+      - Deaktiviert

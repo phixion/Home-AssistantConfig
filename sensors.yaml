@@ -231,59 +231,67 @@
     climate_wohnung_temp:
       friendly_name: Wohnung
       unit_of_measurement: "°C"
-      value_template: "{{ states.climate.alle_thermostate.attributes.current_temperature }}"
+      device_class: temperature
+      value_template: "{{ states.climate.alle_thermostate.attributes.current_temperature | default(0) | int if states.climate.alle_thermostate.attributes.current_temperature is not none }}"
     climate_flur_temp:
       friendly_name: Flur
       unit_of_measurement: "°C"
-      value_template: "{{ states.climate.flur.attributes.current_temperature }}"
+      device_class: temperature
+      value_template: "{{ states.climate.flur.attributes.current_temperature | default(0) | int if states.climate.flur.attributes.current_temperature is not none }}"
     climate_bad_temp:
       friendly_name: Bad
       unit_of_measurement: "°C"
-      value_template: "{{ states.climate.bad.attributes.current_temperature }}"
+      device_class: temperature
+      value_template: "{{ states.climate.bad.attributes.current_temperature | default(0) | int if states.climate.bad.attributes.current_temperature is not none }}"
     climate_wohnzimmer_temp:
       friendly_name: Wohnzimmer
       unit_of_measurement: "°C"
-      value_template: "{{ states.climate.wohnzimmer.attributes.current_temperature }}"
+      device_class: temperature
+      value_template: "{{ states.climate.wohnzimmer.attributes.current_temperature | default(0) | int if states.climate.wohnzimmer.attributes.current_temperature is not none }}"
     climate_wohnung_target_temp:
       friendly_name: Target Temp Wohnung
       unit_of_measurement: "°C"
-      value_template: "{{ states.climate.alle_thermostate.attributes.temperature }}"
+      device_class: temperature
+      value_template: "{{ states.climate.alle_thermostate.attributes.temperature | default(0) | int if states.climate.alle_thermostate.attributes.temperature is not none }}"
     climate_flur_target_temp:
       friendly_name: Target Temp Flur
       unit_of_measurement: "°C"
-      value_template: "{{ states.climate.flur.attributes.temperature }}"
+      device_class: temperature
+      value_template: "{{ states.climate.flur.attributes.temperature | default(0) | int if states.climate.flur.attributes.temperature is not none }}"
     climate_bad_target_temp:
       friendly_name: Target Temp Bad
       unit_of_measurement: "°C"
-      value_template: "{{ states.climate.bad.attributes.temperature }}"
+      device_class: temperature
+      value_template: "{{ states.climate.bad.attributes.temperature | default(0) | int if states.climate.bad.attributes.temperature is not none }}"
     climate_wohnzimmer_target_temp:
       friendly_name: Target Temp Wohnzimmer
       unit_of_measurement: "°C"
-      value_template: "{{ states.climate.wohnzimmer.attributes.temperature }}"
+      device_class: temperature
+      value_template: "{{ states.climate.wohnzimmer.attributes.temperature | default(0) | int if states.climate.wohnzimmer.attributes.temperature is not none }}"
     climate_bad_preset:
       friendly_name: Bad Modus
-      value_template: "{{ states.climate.bad.attributes.preset_mode }}"
+      value_template: "{{ states.climate.bad.attributes.preset_mode | string }}"
     climate_wohnzimmer_preset:
       friendly_name: Wohnzimmer Modus
-      value_template: "{{ states.climate.wohnzimmer.attributes.preset_mode }}"
+      value_template: "{{ states.climate.wohnzimmer.attributes.preset_mode | string }}"
     climate_flur_preset:
       friendly_name: Flur Modus
-      value_template: "{{ states.climate.flur.attributes.preset_mode }}"
+      value_template: "{{ states.climate.flur.attributes.preset_mode | string }}"
     unifi_speedtest_rx:
       entity_id: sensor.unifi_gateway_www
       friendly_name: Download
       unit_of_measurement: MB/s
-      value_template: "{{ state_attr('sensor.unifi_gateway_www','xput_down') }}"
+      value_template: "{{ state_attr('sensor.unifi_gateway_www','xput_down') | default(0) }}"
     unifi_speedtest_tx:
       entity_id: sensor.unifi_gateway_www
       friendly_name: Upload
       unit_of_measurement: MB/s
-      value_template: "{{ state_attr('sensor.unifi_gateway_www','xput_up') }}"
+      value_template: "{{ state_attr('sensor.unifi_gateway_www','xput_up') | default(0) }}"
     unifi_speedtest_ping:
       entity_id: sensor.unifi_gateway_www
       friendly_name: Ping
       unit_of_measurement: ms
-      value_template: "{{ state_attr('sensor.unifi_gateway_www','speedtest_ping') }}"
+      value_template: "{{ state_attr('sensor.unifi_gateway_www','speedtest_ping') | default(0) }}"
     unifi_wlan_user:
       entity_id: sensor.unifi_gateway_wlan
       friendly_name: WLAN User
@@ -439,12 +447,13 @@
     outside_temperature:
       friendly_name: Außentemperatur
       value_template: >
-        {{ state_attr('weather.dark_sky', 'temperature') }}
+        {{ state_attr('weather.dark_sky', 'temperature') | default(0) | int if states.weather.dark_sky.attributes.temperature is not none }}
       unit_of_measurement: "°C"
+      device_class: temperature
     internet_uptime:
       friendly_name: Verbunden
       value_template: >
-        {{ as_timestamp(states.sensor.home_phixion_org.last_changed)| timestamp_custom('%c') }}
+        {{ as_timestamp(states.sensor.home_phixion_org.last_changed) | timestamp_custom('%c') }}
 - platform: filter
   filters:
     - filter: time_throttle

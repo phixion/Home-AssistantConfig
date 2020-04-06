@@ -1,6 +1,6 @@
 substitutions:
   devicename: nodemcu4
-  friendly_name: Nodemcu 4
+  friendly_name: Nodemcu 4 (Küche)
   update_interval: 60s
 esphome:
   name: ${devicename}
@@ -23,11 +23,11 @@ sensor:
     unit_of_measurement: dB
     icon: mdi:wifi
   - platform: sun
-    name: Elevation
+    name: ${friendly_name} Sonne Elevation
     type: elevation
     update_interval: 60s
   - platform: sun
-    name: Azimuth
+    name: ${friendly_name} Sonne Azimuth
     type: azimuth
     update_interval: 60s
 binary_sensor:
@@ -60,8 +60,8 @@ switch:
     name: ${friendly_name} Restart
 text_sensor:
   - platform: sun
-    name: Sonnenaufgang
+    name: ${friendly_name} Sonnenaufgang
     type: sunrise
   - platform: sun
-    name: Sonnenuntergang
+    name: ${friendly_name} Sonnenuntergang
     type: sunset

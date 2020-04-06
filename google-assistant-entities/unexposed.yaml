@@ -16,6 +16,15 @@ sensor.luftfeuchtigkeit_wohnzimmer_filtered:
   expose: false
 sensor.temperatur_wohnzimmer_thermometer_filtered:
   expose: false
+sensor.climate_target_temp_wohnzimmer:
+  expose: false
+sensor.climate_target_temp_flur:
+  expose: false
+sensor.climate_target_temp_bad:
+  expose: false
+sensor.climate_target_temp_wohnung:
+  expose: false
+
 light.bulbspotwhzdesk_rgb:
   expose: false
 light.bulbspotwhzdesk_cwww:
@@ -40,39 +49,6 @@ light.test_bulb_2_white:
   expose: false
 light.test_bulb_2_rgb:
   expose: false
-sensor.climate_bad_temp:
-  expose: false
-  name: Temperatur
-  room: Bad
-  aliases:
-    - Temperatur Bad
-    - Temperatur
-    - Thermometer
-sensor.climate_flur_temp:
-  expose: false
-  name: Temperatur
-  room: Flur
-  aliases:
-    - Temperatur Flur
-    - Temperatur
-    - Thermometer
-sensor.climate_wohnzimmer_temp:
-  expose: false
-  name: Temperatur
-  room: Wohnzimmer
-  aliases:
-    - Temperatur Wohnzimmer
-    - Temperatur
-    - Thermometer
-sensor.outside_temperature:
-  expose: false
-  name: Außentemperatur
-  room: Außen
-  aliases:
-    - Temperatur draußen
-    - Außentemperatur
-    - Temperatur
-    - Thermometer
 media_player.android_tv:
   expose: false
   name: Android TV
@@ -168,6 +144,14 @@ switch.chill_mode:
     - Chill Mode
     - chillen
     - relax
+climate.bad_target_temp:
+  expose: false
+climate.flur_target_temp:
+  expose: false
+climate.wohnzimmer_target_temp:
+  expose: false
+climate.wohnung_target_temp:
+  expose: false
 binary_sensor.noise_sensor:
   expose: false
   name: Noise Sensor

@@ -132,3 +132,58 @@ binary_sensor.window_wohnzimmer:
     - Fenster
     - Fenster Wohnzimmer
     - Wohnzimmerfenster
+sensor.climate_bad_temp:
+  expose: true
+  name: Temperatur
+  room: Bad
+  aliases:
+    - Temperatur Bad
+    - Temperatur
+    - Thermometer
+sensor.climate_flur_temp:
+  expose: true
+  name: Temperatur
+  room: Flur
+  aliases:
+    - Temperatur Flur
+    - Temperatur
+    - Thermometer
+sensor.climate_wohnzimmer_temp:
+  expose: true
+  name: Temperatur
+  room: Wohnzimmer
+  aliases:
+    - Temperatur Wohnzimmer
+    - Temperatur
+    - Thermometer
+sensor.climate_wohnung_temp:
+  expose: true
+  name: Temperatur
+  room: Wohnung
+  aliases:
+    - Temperatur Wohnung
+    - Temperatur
+    - Thermometer
+sensor.sonoff_th16_whz_temperatur:
+  expose: true
+  room: Wohnzimmer
+  aliases:
+    - Thermometer
+    - Wohnzimmerthermometer
+    - Thermometer Wohnzimmer
+sensor.sonoff_th16_whz_luftfeuchtigkeit:
+  expose: true
+  room: Wohnzimmer
+  aliases:
+    - Hygrometer
+    - Wohnzimmerhygrometer
+    - Hygrometer Wohnzimmer
+sensor.outside_temperature:
+  expose: true
+  name: Außentemperatur
+  room: Außen
+  aliases:
+    - Temperatur draußen
+    - Außentemperatur
+    - Temperatur
+    - Thermometer

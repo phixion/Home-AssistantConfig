@@ -29,15 +29,9 @@ recorder:
       - binary_sensor.outside_temperature_rising
       - binary_sensor.inside_temperature_falling
       - binary_sensor.inside_temperature_rising
-      - sensor.foldingathome_cpu
       - sensor.foldingathome_gpu
-      - binary_sensor.wohnzimmertur
-      - sensor.nodemcu_3_accel_x
-      - sensor.nodemcu_3_accel_y
-      - sensor.nodemcu_3_accel_z
       - sensor.date_time
       - sensor.date_time_iso
-      - sensor.date_time_utc
       - sensor.date
       - sensor.time_date
       - sensor.time_utc
@@ -156,10 +150,6 @@ history:
       - binary_sensor.outside_temperature_rising
       - binary_sensor.inside_temperature_falling
       - binary_sensor.inside_temperature_rising
-      - binary_sensor.wohnzimmertur
-      - sensor.nodemcu_3_accel_x
-      - sensor.nodemcu_3_accel_y
-      - sensor.nodemcu_3_accel_z
       - sensor.influxdb_size_telegraf
       - sensor.influxdb_size_homeassistant
       - sensor.influxdb_size_internal
@@ -175,7 +165,7 @@ history:
       - sensor.energy_combined_current
       - sensor.energy_combined_voltage
       - sensor.sonoff_th16_whz_temperatur_sensor
-      - sensor.sonoff_th16_whz_humidity_sensor
+      - sensor.sonoff_th16_whz_luftfeuchtigkeit_sensor
       - sensor.climate_flur_temp
       - sensor.climate_bad_temp
       - sensor.climate_wonzimmer_temp
