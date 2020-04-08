@@ -21,7 +21,7 @@ google_assistant:
     - binary_sensor
     - camera
     #- group
-    - input_boolean
+    #- input_boolean
     #- scene
     #- script
     #- switch

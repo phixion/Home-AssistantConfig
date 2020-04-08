@@ -728,6 +728,13 @@
   name: wtfisxur
   resource: https://wherethefuckisxur.com/
   select: "h1.page-title"
+- platform: scrape
+  scan_interval: 120
+  name: munich_airpressure_nn
+  resource: https://www.en.meteo.physik.uni-muenchen.de/wetter/index.html
+  select: "center:nth-child(10) > table > tbody > tr:nth-child(3) > td:nth-child(2)"
+#  value_template: '{{ value.replace(" hPa", "") }}'
+  unit_of_measurement: hPa
 - platform: darksky
   api_key: !secret weatherdarkskyapi_pwd
   units: auto
@@ -757,11 +764,12 @@
     - uv_index
     - moon_phase
 - platform: google_fit
-  scan_interval: 120
+  scan_interval: 1000000
   name: Google Fit Martin
   client_id: !secret google_fit_id
   client_secret: !secret google_fit_secret
 - platform: google_travel_time
+  scan_interval: 1000000
   name: Travel Parents (Trains)
   api_key: !secret google_assistantapikey_pwd
   origin: device_tracker.google_pixel
@@ -771,6 +779,7 @@
     transit_mode: train
     transit_routing_preference: fewer_transfers
 - platform: google_travel_time
+  scan_interval: 1000000
   name: Travel Parents (Bike)
   api_key: !secret google_assistantapikey_pwd
   origin: device_tracker.google_pixel
@@ -778,6 +787,7 @@
   options:
     mode: bicycling
 - platform: google_travel_time
+  scan_interval: 1000000
   name: Commute Home
   api_key: !secret google_assistantapikey_pwd
   origin: device_tracker.google_pixel

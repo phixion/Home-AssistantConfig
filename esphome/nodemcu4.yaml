@@ -1,6 +1,7 @@
 substitutions:
   devicename: nodemcu4
-  friendly_name: Nodemcu 4 (Küche)
+  friendly_name: Nodemcu 4
+  room: Küche
   update_interval: 60s
 esphome:
   name: ${devicename}
@@ -18,23 +19,23 @@ sun:
   longitude: !secret home_lon
 sensor:
   - platform: wifi_signal
-    name: ${friendly_name} WiFi Signal
+    name: ${friendly_name} (${room}) WiFi Signal
     update_interval: ${update_interval}
     unit_of_measurement: dB
     icon: mdi:wifi
   - platform: sun
-    name: ${friendly_name} Sonne Elevation
+    name: ${friendly_name} (${room}) Sonne Elevation
     type: elevation
     update_interval: 60s
   - platform: sun
-    name: ${friendly_name} Sonne Azimuth
+    name: ${friendly_name} (${room}) Sonne Azimuth
     type: azimuth
     update_interval: 60s
 binary_sensor:
   - platform: gpio
     pin: D0
     id: ${devicename}_motion
-    name: ${friendly_name} Motion Sensor
+    name: ${friendly_name} (${room}) Motion Sensor
     device_class: motion
     on_press:
       - homeassistant.service:
@@ -54,14 +55,14 @@ binary_sensor:
             entity_id: switch.schalter_flur_whz_relay
   - platform: status
     device_class: connectivity
-    name: ${friendly_name} Status
+    name: ${friendly_name} (${room}) Status
 switch:
   - platform: restart
-    name: ${friendly_name} Restart
+    name: ${friendly_name} (${room}) Restart
 text_sensor:
   - platform: sun
-    name: ${friendly_name} Sonnenaufgang
+    name: ${friendly_name} (${room}) Sonnenaufgang
     type: sunrise
   - platform: sun
-    name: ${friendly_name} Sonnenuntergang
+    name: ${friendly_name} (${room}) Sonnenuntergang
     type: sunset

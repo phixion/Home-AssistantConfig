@@ -1,7 +1,8 @@
 substitutions:
   devicename: nodemcu1
-  friendly_name: Nodemcu 1 (TV)
+  friendly_name: Nodemcu 1
   update_interval: 10min
+  room: Schreibtisch
 esphome:
   name: ${devicename}
   platform: ESP8266
@@ -38,14 +39,14 @@ sensor:
     unit_of_measurement: people
     internal: true
   - platform: wifi_signal
-    name: ${friendly_name} WiFi Signal
+    name: ${friendly_name} (${room}) WiFi Signal
     update_interval: ${update_interval}
     unit_of_measurement: dB
     icon: mdi:wifi
     force_update: true
   - platform: uptime
     force_update: true
-    name: ${friendly_name} Uptime
+    name: ${friendly_name} (${room}) Uptime
     filters:
       - lambda: return x / 60.0;
     unit_of_measurement: minutes

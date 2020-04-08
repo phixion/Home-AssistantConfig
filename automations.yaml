@@ -488,7 +488,7 @@
       entity_id: binary_sensor.motion_sensor
       to: "unavailable"
       for:
-        seconds: 30
+        minutes: 10
   condition:
     condition: or
     conditions:
@@ -920,3 +920,14 @@
       data_template:
         title: 🚽 Badezimmer ist frei
         message: " "
+- alias: Update Google Fit Sensor
+  id: "52"
+  trigger:
+    - platform: time_pattern
+      hours: /24
+  condition:
+    condition: time
+    after: "19:00:00"
+  action:
+    - service: homeassistant.update_entity
+      entity_id: sensor.google_fit_martin

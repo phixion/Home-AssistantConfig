@@ -16,15 +16,16 @@ sensor.luftfeuchtigkeit_wohnzimmer_filtered:
   expose: false
 sensor.temperatur_wohnzimmer_thermometer_filtered:
   expose: false
-sensor.climate_target_temp_wohnzimmer:
+sensor.climate_wohnzimmer_target_temp:
   expose: false
-sensor.climate_target_temp_flur:
+sensor.climate_flur_target_temp:
   expose: false
-sensor.climate_target_temp_bad:
+sensor.climate_bad_target_temp:
   expose: false
-sensor.climate_target_temp_wohnung:
+sensor.climate_wohnung_target_temp:
   expose: false
-
+sensor.climate_wohnung_temp:
+  expose: false
 light.bulbspotwhzdesk_rgb:
   expose: false
 light.bulbspotwhzdesk_cwww:
@@ -45,10 +46,6 @@ light.ledstripwhz1_w:
 #      expose: false
 #    light.nodemcu1:
 #      expose: false
-light.test_bulb_2_white:
-  expose: false
-light.test_bulb_2_rgb:
-  expose: false
 media_player.android_tv:
   expose: false
   name: Android TV
@@ -66,13 +63,6 @@ media_player.shield:
     - Shield TV
     - NVIDIA Shield
     - TV
-media_player.google_home:
-  expose: false
-  name: Google Home
-  room: Wohnzimmer
-  aliases:
-    - Google Home
-    - Google Home Mini
 media_player.google_nest_hub:
   expose: false
   name: Google Nest Hub
@@ -90,13 +80,13 @@ media_player.spotify:
     - Spotify
     - Musik
     - Musikplayer
-sensor.sonoff_th16_whz_humidity_sensor:
+sensor.sonoff_th16_whz_luftfeuchtigkeit:
   expose: false
   room: Wohnzimmer
   name: Luftfeuchtigkeit
   aliases:
     - Luftfeuchtigkeit Wohnzimmer
-sensor.sonoff_th16_whz_temperatur_sensor:
+sensor.sonoff_th16_whz_temperatur:
   expose: false
   room: Wohnzimmer
   name: Thermometer
@@ -144,14 +134,6 @@ switch.chill_mode:
     - Chill Mode
     - chillen
     - relax
-climate.bad_target_temp:
-  expose: false
-climate.flur_target_temp:
-  expose: false
-climate.wohnzimmer_target_temp:
-  expose: false
-climate.wohnung_target_temp:
-  expose: false
 binary_sensor.noise_sensor:
   expose: false
   name: Noise Sensor
@@ -160,3 +142,17 @@ binary_sensor.motion_sensor:
   expose: false
   name: Motion Sensor
   room: Wohnzimmer
+sensor.nodemcu_2_tv_temperatur:
+  expose: false
+binary_sensor.play_reignbot:
+  expose: false
+binary_sensor.play_nexpo:
+  expose: false
+binary_sensor.play_sog:
+  expose: false
+binary_sensor.play_h3:
+  expose: false
+binary_sensor.play_frenck:
+  expose: false
+camera.camera_proxy_camera_nest_cam:
+  expose: false

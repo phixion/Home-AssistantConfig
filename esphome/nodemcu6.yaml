@@ -2,6 +2,7 @@ substitutions:
   devicename: nodemcu6
   friendly_name: Nodemcu 6
   update_interval: 60s
+  room: Wohnzimmer
 esphome:
   name: ${devicename}
   platform: ESP8266
@@ -12,18 +13,31 @@ api: !include shared/api.yaml
 ota: !include shared/ota.yaml
 text_sensor: !include shared/textsensors.yaml
 web_server: !include shared/webserver.yaml
-captive_portal:
-logger: 
-i2c:
-  sda: D2
-  scl: D1
-  scan: True
+logger:
 sensor:
   - platform: adc
     pin: A0
     update_interval: ${update_interval}
-    name: ${friendly_name} (${room}) Audio Meter
-    unit_of_measurement: dB
+    name: ${friendly_name} (${room}) Air Sensor 1
+    icon: mdi:air-filter
+    unit_of_measurement: ppm
+    filters:
+      lambda: |-
+          return 135.2167 * pow((x / 0.0000015534) / 37835, -2.752747);
+  - platform: adc
+    pin: A0
+    update_interval: ${update_interval}
+    name: ${friendly_name} (${room}) Air Sensor 2
+    icon: mdi:air-filter
+    unit_of_measurement: ppm
+    filters:
+      lambda: |-
+        return (x * 1024/5);
+  - platform: adc
+    pin: A0
+    update_interval: ${update_interval}
+    name: ${friendly_name} (${room}) Air Sensor (unfiltered)
+    icon: mdi:air-filter
   - platform: wifi_signal
     name: ${friendly_name} (${room}) WiFi Signal
     update_interval: ${update_interval}
@@ -32,42 +46,24 @@ sensor:
     force_update: true
   - platform: uptime
     force_update: true
-    name: ${friendly_name} Uptime
+    name: ${friendly_name} (${room}) Uptime
     filters:
       - lambda: return x / 60.0;
     unit_of_measurement: minutes
     icon: mdi:alarm
-binary_sensor:
-  - platform: gpio
-    pin: D4
-    name: ${friendly_name} (${room}) Bluetooth Presence
-    device_class: presence
+  - platform: wifi_signal
+    name: ${friendly_name} (${room}) WiFi Signal
+    update_interval: ${update_interval}
+    unit_of_measurement: dB
+    icon: mdi:wifi
+    force_update: true
+  - platform: uptime
+    force_update: true
+    name: ${friendly_name} (${room}) Uptime
     filters:
-      - delayed_off: 120s
-    on_state:
-      then:
-        - script.execute: beep
-  - platform: status
-    device_class: connectivity
-    name: ${friendly_name} Status
-output:
-  - platform: esp8266_pwm
-    pin: D5
-    id: buzzer
-script:
-  - id: beep
-    then:
-      - output.esp8266_pwm.set_frequency:
-          id: buzzer
-          frequency: 900
-      - output.set_level:
-          id: buzzer
-          level: 30%
-      - delay: 90ms
-      - output.turn_off: buzzer
+      - lambda: return x / 60.0;
+    unit_of_measurement: minutes
+    icon: mdi:alarm
 switch:
   - platform: restart
-    name: ${friendly_name} Restart
-remote_receiver:
-  pin: D6
-  dump: all
+    name: ${friendly_name} (${room}) Restart

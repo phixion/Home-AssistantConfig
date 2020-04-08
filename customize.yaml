@@ -199,3 +199,11 @@ switch.restreamer:
 #    {% else %}
 #      mdi:camcorder-box
 #    {% endif %}
+binary_sensor.nodemcu_6_wohnzimmer_up:
+  icon: mdi:arrow-up-bold-box
+binary_sensor.nodemcu_6_wohnzimmer_down:
+  icon: mdi:arrow-down-bold-box
+binary_sensor.nodemcu_6_wohnzimmer_right:
+  icon: mdi:arrow-right-bold-box
+binary_sensor.nodemcu_6_wohnzimmer_left:
+  icon: mdi:arrow-left-bold-box

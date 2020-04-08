@@ -14,22 +14,18 @@ ota: !include shared/ota.yaml
 text_sensor: !include shared/textsensors.yaml
 web_server: !include shared/webserver.yaml
 captive_portal:
-logger: 
+logger:
 i2c:
-  sda: D2
-  scl: D1
+  sda: D6
+  scl: D7
   scan: True
+apds9960:
+  address: 0x39
+  update_interval: 60s
 sensor:
-  - platform: adc
-    pin: A0
-    update_interval: ${update_interval}
-    name: ${friendly_name} (${room}) Audio Meter
-    unit_of_measurement: dB
   - platform: bh1750
     name: ${friendly_name} (${room}) Lichtsensor
     address: 0x23
-    resolution: 0.5
-    update_interval: ${update_interval}
     unit_of_measurement: lx
   - platform: wifi_signal
     name: ${friendly_name} (${room}) WiFi Signal
@@ -37,13 +33,77 @@ sensor:
     unit_of_measurement: dB
     icon: mdi:wifi
     force_update: true
-  - platform: uptime
+  - platform: apds9960
+    type: CLEAR
+    name: ${friendly_name} (${room}) CLEAR
+  - platform: apds9960
+    type: RED
+    name: ${friendly_name} (${room}) RED
+  - platform: apds9960
+    type: GREEN
+    name: ${friendly_name} (${room}) GREEN
+  - platform: apds9960
+    type: BLUE
+    name: ${friendly_name} (${room}) BLUE
+  - platform: apds9960
+    type: PROXIMITY
+    name: ${friendly_name} (${room}) PROXIMITY
+  - platform: wifi_signal
+    name: ${friendly_name} (${room}) WiFi Signal
+    update_interval: ${update_interval}
+    unit_of_measurement: dB
+    icon: mdi:wifi
     force_update: true
-    name: ${friendly_name} Uptime
+  - platform: bme280
+    temperature:
+      name: ${friendly_name} (${room}) Temperatur
+      id: bme280_temperature
+      unit_of_measurement: "°C"
+      icon: "mdi:thermometer-lines"
+    pressure:
+      name: ${friendly_name} (${room}) Absoluter Luftdruck
+      id: bme280_pressure
+      unit_of_measurement: hPa
+      icon: mdi:gauge
+    humidity:
+      name: ${friendly_name} (${room}) Relative Luftfeuchtigkeit
+      id: bme280_humidity
+      unit_of_measurement: "%"
+      icon: "mdi:water-percent"
+    address: 0x77
+    update_interval: 15s
+  - platform: template
+    name: ${friendly_name} (${room}) Höhe NHN
+    unit_of_measurement: m
+    lambda: |-
+      const float STANDARD_SEA_LEVEL_PRESSURE = 1013.25; //in hPa, see note
+      return ((id(bme280_temperature).state + 273.15) / 0.0065) *
+        (powf((STANDARD_SEA_LEVEL_PRESSURE / id(bme280_pressure).state), 0.190234) - 1); // in meter
+    update_interval: 15s
+  - platform: template
+    name: ${friendly_name} (${room}) Absolute Luftfeuchtigkeit
+    lambda: |-
+      const float mw = 18.01534;    // molar mass of water g/mol
+      const float r = 8.31447215;   // Universal gas constant J/mol/K
+      return (6.112 * powf(2.718281828, (17.67 * id(bme280_temperature).state) /
+        (id(bme280_temperature).state + 243.5)) * id(bme280_humidity).state * mw) /
+        ((273.15 + id(bme280_temperature).state) * r); // in grams/m^3
+    unit_of_measurement: 'g/m³'
+    accuracy_decimals: 2
+    update_interval: 15s
+  - platform: adc
+    pin: A0
+    update_interval: ${update_interval}
+    name: ${friendly_name} (${room}) Audio Meter
     filters:
-      - lambda: return x / 60.0;
-    unit_of_measurement: minutes
-    icon: mdi:alarm
+      - multiply: 3.3
+    unit_of_measurement: dB
+  - platform: wifi_signal
+    name: ${friendly_name} (${room}) WiFi Signal
+    update_interval: ${update_interval}
+    unit_of_measurement: dB
+    icon: mdi:wifi
+    force_update: true
 binary_sensor:
   - platform: gpio
     pin: D3
@@ -54,9 +114,21 @@ binary_sensor:
     on_state:
       then:
         - script.execute: beep
+  - platform: apds9960
+    direction: UP
+    name: ${friendly_name} (${room}) UP
+  - platform: apds9960
+    direction: DOWN
+    name: ${friendly_name} (${room}) DOWN
+  - platform: apds9960
+    direction: LEFT
+    name: ${friendly_name} (${room}) LEFT
+  - platform: apds9960
+    direction: RIGHT
+    name: ${friendly_name} (${room}) RIGHT
   - platform: status
     device_class: connectivity
-    name: ${friendly_name} Status
+    name: ${friendly_name} (${room}) Status
 output:
   - platform: esp8266_pwm
     pin: D5
@@ -74,5 +146,4 @@ script:
       - output.turn_off: buzzer
 switch:
   - platform: restart
-    name: ${friendly_name} Restart
-
+    name: ${friendly_name} (${room}) Restart

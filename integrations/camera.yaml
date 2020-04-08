@@ -36,7 +36,7 @@ camera:
 #  - platform: local_file
 #    file_path: tmp/deepstack_object_local_file_latest_person.jpg
 #    name: deepstack_latest_person
-  - platform: proxy
-    entity_id: camera.nest_cam
-    max_stream_width: 360
-    max_image_width: 720
+#  - platform: proxy
+#    entity_id: camera.nest_cam
+#    max_stream_width: 360
+#    max_image_width: 720
