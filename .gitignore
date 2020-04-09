@@ -16,8 +16,7 @@
 !LICENSE
 !CODE_OF_CONDUCT.md
 #travis CI
-!travis_*.yaml
-!travis_*.json
+!travis_*
 !.travis.yml
 
 #custom_components directory

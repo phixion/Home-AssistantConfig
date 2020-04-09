@@ -10,6 +10,7 @@ before_install:
   - sed 's/\/config\/tmp/\/home\/travis\/build\/phixion\/Home\-AssistantConfig\/tmp/g' configuration.yaml > configuration_new.yaml
   - mv configuration_new.yaml configuration.yaml
   - mkdir -p /home\/travis\/build\/phixion\/Home\-AssistantConfig\/tmp/
+  - mv travis_google_maps_location_sharing.cookies.joedoe_gmail_com .google_maps_location_sharing.cookies.joedoe_gmail_com
 install:
   - pip3 install homeassistant
 script:
