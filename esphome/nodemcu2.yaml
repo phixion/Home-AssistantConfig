@@ -11,7 +11,6 @@ time: !include shared/time.yaml
 wifi: !include shared/wifi.yaml
 api: !include shared/api.yaml
 ota: !include shared/ota.yaml
-text_sensor: !include shared/textsensors.yaml
 web_server: !include shared/webserver.yaml
 captive_portal:
 logger:
@@ -22,7 +21,18 @@ i2c:
 apds9960:
   address: 0x39
   update_interval: 60s
+sun:
+  latitude: !secret home_lat
+  longitude: !secret home_lon
 sensor:
+  - platform: sun
+    name: ${friendly_name} (${room}) Sonne Elevation
+    type: elevation
+    update_interval: 60s
+  - platform: sun
+    name: ${friendly_name} (${room}) Sonne Azimuth
+    type: azimuth
+    update_interval: 60s
   - platform: bh1750
     name: ${friendly_name} (${room}) Lichtsensor
     address: 0x23
@@ -48,12 +58,6 @@ sensor:
   - platform: apds9960
     type: PROXIMITY
     name: ${friendly_name} (${room}) PROXIMITY
-  - platform: wifi_signal
-    name: ${friendly_name} (${room}) WiFi Signal
-    update_interval: ${update_interval}
-    unit_of_measurement: dB
-    icon: mdi:wifi
-    force_update: true
   - platform: bme280
     temperature:
       name: ${friendly_name} (${room}) Temperatur
@@ -98,12 +102,6 @@ sensor:
     filters:
       - multiply: 3.3
     unit_of_measurement: dB
-  - platform: wifi_signal
-    name: ${friendly_name} (${room}) WiFi Signal
-    update_interval: ${update_interval}
-    unit_of_measurement: dB
-    icon: mdi:wifi
-    force_update: true
 binary_sensor:
   - platform: gpio
     pin: D3
@@ -147,3 +145,14 @@ script:
 switch:
   - platform: restart
     name: ${friendly_name} (${room}) Restart
+text_sensor:
+  - platform: sun
+    name: ${friendly_name} (${room}) Sonnenaufgang
+    type: sunrise
+  - platform: sun
+    name: ${friendly_name} (${room}) Sonnenuntergang
+    type: sunset
+  - platform: wifi_info
+    ip_address:
+      name: ${friendly_name} IP Address
+      icon: mdi:wifi

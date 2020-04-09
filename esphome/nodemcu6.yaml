@@ -18,52 +18,18 @@ sensor:
   - platform: adc
     pin: A0
     update_interval: ${update_interval}
-    name: ${friendly_name} (${room}) Air Sensor 1
+    name: ${friendly_name} (${room}) Air Sensor
     icon: mdi:air-filter
     unit_of_measurement: ppm
     filters:
       lambda: |-
-          return 135.2167 * pow((x / 0.0000015534) / 37835, -2.752747);
-  - platform: adc
-    pin: A0
-    update_interval: ${update_interval}
-    name: ${friendly_name} (${room}) Air Sensor 2
-    icon: mdi:air-filter
-    unit_of_measurement: ppm
-    filters:
-      lambda: |-
-        return (x * 1024/5);
-  - platform: adc
-    pin: A0
-    update_interval: ${update_interval}
-    name: ${friendly_name} (${room}) Air Sensor (unfiltered)
-    icon: mdi:air-filter
+        return (x * 1023/5);
   - platform: wifi_signal
     name: ${friendly_name} (${room}) WiFi Signal
     update_interval: ${update_interval}
     unit_of_measurement: dB
     icon: mdi:wifi
     force_update: true
-  - platform: uptime
-    force_update: true
-    name: ${friendly_name} (${room}) Uptime
-    filters:
-      - lambda: return x / 60.0;
-    unit_of_measurement: minutes
-    icon: mdi:alarm
-  - platform: wifi_signal
-    name: ${friendly_name} (${room}) WiFi Signal
-    update_interval: ${update_interval}
-    unit_of_measurement: dB
-    icon: mdi:wifi
-    force_update: true
-  - platform: uptime
-    force_update: true
-    name: ${friendly_name} (${room}) Uptime
-    filters:
-      - lambda: return x / 60.0;
-    unit_of_measurement: minutes
-    icon: mdi:alarm
 switch:
   - platform: restart
     name: ${friendly_name} (${room}) Restart

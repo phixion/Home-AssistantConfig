@@ -1,46 +1,46 @@
 group:
-#  wohnzimmer_area:
-#    name: Wohnzimmer
-#    entities:
-#      - light.bulbspotwhzdesk_rgb
-#      - light.bulbspotwhzdesk_cwww
-#      - light.bulbspotwhztv_rgb
-#      - light.bulbspotwhztv_cwww
-#      - light.bulbwhzlamp_rgb
-#      - light.bulbwhzlamp_cwww
-#      - light.schalter_whz_light
-#      - light.schalter_lavalampe_light
-#      - light.ledstripwhz1_rgb
-#      - light.ledstripwhz2_rgb
-#      - light.ledstripwhz3_rgb
-#      - light.ledstripwhz1_w
-#  kueche_area:
-#    name: Kueche
-#    entities:
-#      - light.bulbkueche_rgb
-#      - light.bulbkueche_cwww
-#      - light.schalter_kueche_light
-#  flur_area:
-#    name: Flur
-#    entities:
-#      - light.bulbflur_rgb
-#      - light.bulbflur_cwww
-#      - light.schalter_flur_whz_light
-#  bad_area:
-#    name: Bad
-#    entities:
-#      - light.schalter_bad_light
-#      - light.bulbbad_rgb
-#      - light.bulbbad_cwww
-#  devices_martin:
-#    name: "Martin's Spielzeuge"
-#    entities:
-#      - device_tracker.cray_lan
-#      - device_tracker.macbook_air
-#      - device_tracker.google_nexus
-#      - device_tracker.google_pixel
+  #  wohnzimmer_area:
+  #    name: Wohnzimmer
+  #    entities:
+  #      - light.bulbspotwhzdesk_rgb
+  #      - light.bulbspotwhzdesk_cwww
+  #      - light.bulbspotwhztv_rgb
+  #      - light.bulbspotwhztv_cwww
+  #      - light.bulbwhzlamp_rgb
+  #      - light.bulbwhzlamp_cwww
+  #      - light.schalter_whz_light
+  #      - light.schalter_lavalampe_light
+  #      - light.ledstripwhz1_rgb
+  #      - light.ledstripwhz2_rgb
+  #      - light.ledstripwhz3_rgb
+  #      - light.ledstripwhz1_w
+  #  kueche_area:
+  #    name: Kueche
+  #    entities:
+  #      - light.bulbkueche_rgb
+  #      - light.bulbkueche_cwww
+  #      - light.schalter_kueche_light
+  #  flur_area:
+  #    name: Flur
+  #    entities:
+  #      - light.bulbflur_rgb
+  #      - light.bulbflur_cwww
+  #      - light.schalter_flur_whz_light
+  #  bad_area:
+  #    name: Bad
+  #    entities:
+  #      - light.schalter_bad_light
+  #      - light.bulbbad_rgb
+  #      - light.bulbbad_cwww
+  #  devices_martin:
+  #    name: "Martin's Spielzeuge"
+  #    entities:
+  #      - device_tracker.cray_lan
+  #      - device_tracker.macbook_air
+  #      - device_tracker.google_nexus
+  #      - device_tracker.google_pixel
 
-#Devices that the Telegram Bot is allowed to use
+  #Devices that the Telegram Bot is allowed to use
   telegram_devices:
     name: Telegram Devices
     entities:

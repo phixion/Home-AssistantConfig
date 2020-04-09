@@ -187,7 +187,7 @@
     - condition: template
       value_template: "{{ as_timestamp(now()) - as_timestamp(states.automation.notification_h3_podcast.attributes.last_triggered) | int > 300 }}"
     - condition: template
-      value_template: "{{ states.automation.notification_h3_podcast.attributes.last_triggered == none }}"
+      value_template: "{{ states.automation.notification_h3_podcast.attributes.last_triggered != none }}"
   action:
     - service: notify.telegram
       data_template:
@@ -207,7 +207,7 @@
     - condition: template
       value_template: "{{ as_timestamp(now()) - as_timestamp(states.automation.notification_nexpo_video.attributes.last_triggered) | int > 300 }}"
     - condition: template
-      value_template: "{{ states.automation.notification_nexpo_video.attributes.last_triggered == none }}"
+      value_template: "{{ states.automation.notification_nexpo_video.attributes.last_triggered != none }}"
   action:
     - service: notify.telegram
       data_template:
@@ -230,7 +230,7 @@
     - condition: template
       value_template: "{{ as_timestamp(now()) - as_timestamp(states.automation.notification_scaretheater_video.attributes.last_triggered) | int > 300 }}"
     - condition: template
-      value_template: "{{ states.automation.notification_scaretheater_video.attributes.last_triggered == none }}"
+      value_template: "{{ states.automation.notification_scaretheater_video.attributes.last_triggered != none }}"
   action:
     - service: notify.telegram
       data_template:
@@ -250,7 +250,7 @@
     - condition: template
       value_template: "{{ as_timestamp(now()) - as_timestamp(states.automation.notification_reignbot_video.attributes.last_triggered) | int > 300 }}"
     - condition: template
-      value_template: "{{ states.automation.notification_reignbot_video.attributes.last_triggered == none }}"
+      value_template: "{{ states.automation.notification_reignbot_video.attributes.last_triggered != none }}"
   action:
     - service: notify.telegram
       data_template:
@@ -270,7 +270,7 @@
     - condition: template
       value_template: "{{ as_timestamp(now()) - as_timestamp(states.automation.notification_frenck_video.attributes.last_triggered) | int > 300 }}"
     - condition: template
-      value_template: "{{ states.automation.notification_frenck_video.attributes.last_triggered == none }}"
+      value_template: "{{ states.automation.notification_frenck_video.attributes.last_triggered != none }}"
   action:
     - service: notify.telegram
       data_template:
@@ -290,7 +290,7 @@
     - condition: template
       value_template: "{{ as_timestamp(now()) - as_timestamp(states.automation.notification_someordinarygamers_video.attributes.last_triggered) | int > 300 }}"
     - condition: template
-      value_template: "{{ states.automation.notification_someordinarygamers_video.attributes.last_triggered == none }}"
+      value_template: "{{ states.automation.notification_someordinarygamers_video.attributes.last_triggered != none }}"
   action:
     - service: notify.telegram
       data_template:

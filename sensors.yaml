@@ -2,6 +2,10 @@
 #███████╗█████╗  ██╔██╗ ██║███████╗██║   ██║██████╔╝███████╗
 #╚════██║██╔══╝  ██║╚██╗██║╚════██║██║   ██║██╔══██╗╚════██║
 #███████║███████╗██║ ╚████║███████║╚██████╔╝██║  ██║███████║
+- platform: travisci
+  api_key: !secret travis_ci_apikey
+  branch: master
+  repository: Home-AssistantConfig
 - platform: influxdb
   host: !secret influx_host
   port: !secret influx_port
@@ -228,6 +232,10 @@
   verify_ssl: false
 - platform: template
   sensors:
+#    airquality_sensor:
+#      friendly_name: Air Quality
+#      unit_of_measurement: ppm
+#      value_template: "{{ states('sensor.serial_sensor').split('|')[1] | float }}"
     climate_wohnung_temp:
       friendly_name: Wohnung
       unit_of_measurement: "°C"
@@ -728,13 +736,13 @@
   name: wtfisxur
   resource: https://wherethefuckisxur.com/
   select: "h1.page-title"
-- platform: scrape
-  scan_interval: 120
-  name: munich_airpressure_nn
-  resource: https://www.en.meteo.physik.uni-muenchen.de/wetter/index.html
-  select: "center:nth-child(10) > table > tbody > tr:nth-child(3) > td:nth-child(2)"
-#  value_template: '{{ value.replace(" hPa", "") }}'
-  unit_of_measurement: hPa
+#- platform: scrape
+#  scan_interval: 120
+#  name: munich_airpressure_nn
+#  resource: https://www.en.meteo.physik.uni-muenchen.de/wetter/index.html
+#  select: "center:nth-child(10) > table > tbody > tr:nth-child(3) > td:nth-child(2)"
+#  #  value_template: '{{ value.replace(" hPa", "") }}'
+#  unit_of_measurement: hPa
 - platform: darksky
   api_key: !secret weatherdarkskyapi_pwd
   units: auto
@@ -887,3 +895,6 @@
 - platform: aftership
   name: Paket Verfolgung
   api_key: !secret aftership_apikey
+#- platform: serial
+#  serial_port: /dev/ttyUSB1
+#  baudrate: 9600
