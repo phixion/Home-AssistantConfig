@@ -941,11 +941,9 @@
   action:
     - service: notify.telegram
       data_template:
-        title: 'Travis build failed {{ "\uD83E\uDD2C" }}'
+        title: 🛑 Travis build failed
         message: >
-          Build ID {{ states('sensor.phixion_home_assistantconfig_last_build_id') }}
-           Finished at {{ states('sensor.phixion_home_assistantconfig_last_build_finished_at') }}
-           "https://travis-ci.org/github/phixion/Home-AssistantConfig/builds/"{{ states('sensor.phixion_home_assistantconfig_last_build_id') }}
+          https://travis-ci.org/github/phixion/Home-AssistantConfig/builds/{{ states('sensor.phixion_home_assistantconfig_last_build_id') }}
 - alias: System Travis Build passed
   id: "54"
   trigger:
@@ -956,8 +954,6 @@
   action:
     - service: notify.telegram
       data_template:
-        title: 'Travis build passed {{ "\uD83D\uDC4D" }}'
+        title: ✔️ Travis build passed
         message: >
-          Build ID {{ states('sensor.phixion_home_assistantconfig_last_build_id') }}
-           Finished at {{ states('sensor.phixion_home_assistantconfig_last_build_finished_at') }}
-           "https://travis-ci.org/github/phixion/Home-AssistantConfig/builds/"{{ states('sensor.phixion_home_assistantconfig_last_build_id') }}
+          https://travis-ci.org/github/phixion/Home-AssistantConfig/builds/{{ states('sensor.phixion_home_assistantconfig_last_build_id') }}
