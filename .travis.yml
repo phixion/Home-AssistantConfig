@@ -11,7 +11,6 @@ python:
 before_install:
   - sudo apt-get -qq update
   - sudo apt-get install -y -o Dpkg::Options::=--force-confnew libudev-dev ffmpeg python-dev pkg-config libavformat-dev libavcodec-dev libavdevice-dev libavutil-dev libswscale-dev libavresample-dev libavfilter-dev
-  #  - rename travis_ '' $(pwd)/travis/*.{yaml,json}
   - rename -v 's/travis_//' $(pwd)/travis/*.{yaml,json}
   - ln -s $(pwd)/travis/*.{yaml,json} .
   - sed -i "s@/config/tmp@$(pwd)/tmp@" configuration.yaml
