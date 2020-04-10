@@ -954,6 +954,7 @@
   action:
     - service: notify.telegram
       data_template:
-        title: ✔️ Travis build passed
+        title: ✔️ Travis build passed - restarting HomeAssistant
         message: >
           https://travis-ci.org/github/phixion/Home-AssistantConfig/builds/{{ states('sensor.phixion_home_assistantconfig_last_build_id') }}
+    - service: homeassistant.restart
