@@ -931,3 +931,33 @@
   action:
     - service: homeassistant.update_entity
       entity_id: sensor.google_fit_martin
+- alias: System Travis Build Failed
+  id: "53"
+  trigger:
+    - platform: state
+      entity_id: sensor.phixion_home_assistantconfig_last_build_state
+      from: "started"
+      to: "failed"
+  action:
+    - service: notify.telegram
+      data_template:
+        title: 'Travis build failed {{ "\uD83E\uDD2C" }}'
+        message: >
+          Build ID {{ states('sensor.phixion_home_assistantconfig_last_build_id') }}
+           Finished at {{ states('sensor.phixion_home_assistantconfig_last_build_finished_at') }}
+           "https://travis-ci.org/github/phixion/Home-AssistantConfig/builds/"{{ states('sensor.phixion_home_assistantconfig_last_build_id') }}
+- alias: System Travis Build passed
+  id: "54"
+  trigger:
+    - platform: state
+      entity_id: sensor.phixion_home_assistantconfig_last_build_state
+      from: "started"
+      to: "passed"
+  action:
+    - service: notify.telegram
+      data_template:
+        title: 'Travis build passed {{ "\uD83D\uDC4D" }}'
+        message: >
+          Build ID {{ states('sensor.phixion_home_assistantconfig_last_build_id') }}
+           Finished at {{ states('sensor.phixion_home_assistantconfig_last_build_finished_at') }}
+           "https://travis-ci.org/github/phixion/Home-AssistantConfig/builds/"{{ states('sensor.phixion_home_assistantconfig_last_build_id') }}

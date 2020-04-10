@@ -232,10 +232,10 @@
   verify_ssl: false
 - platform: template
   sensors:
-#    airquality_sensor:
-#      friendly_name: Air Quality
-#      unit_of_measurement: ppm
-#      value_template: "{{ states('sensor.serial_sensor').split('|')[1] | float }}"
+    #    airquality_sensor:
+    #      friendly_name: Air Quality
+    #      unit_of_measurement: ppm
+    #      value_template: "{{ states('sensor.serial_sensor').split('|')[1] | float }}"
     climate_wohnung_temp:
       friendly_name: Wohnung
       unit_of_measurement: "°C"
@@ -898,3 +898,9 @@
 #- platform: serial
 #  serial_port: /dev/ttyUSB1
 #  baudrate: 9600
+- platform: rest
+  resource: https://api.travis-ci.org/repos/phixion/Home-AssistantConfig/builds
+  headers:
+    Accept: application/vnd.travis-ci.2+json
+  value_template: "{{ value_json.builds[0].state }}"
+  name: Travis Build Status
