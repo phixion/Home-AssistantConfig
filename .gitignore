@@ -1,3 +1,11 @@
+#    ██████╗ ██╗████████╗██╗ ██████╗ ███╗   ██╗ ██████╗ ██████╗ ███████╗
+#   ██╔════╝ ██║╚══██╔══╝██║██╔════╝ ████╗  ██║██╔═══██╗██╔══██╗██╔════╝
+#   ██║  ███╗██║   ██║   ██║██║  ███╗██╔██╗ ██║██║   ██║██████╔╝█████╗
+#   ██║   ██║██║   ██║   ██║██║   ██║██║╚██╗██║██║   ██║██╔══██╗██╔══╝
+#██╗╚██████╔╝██║   ██║   ██║╚██████╔╝██║ ╚████║╚██████╔╝██║  ██║███████╗
+#╚═╝ ╚═════╝ ╚═╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝
+#
+
 #ignore all
 *
 
@@ -15,57 +23,53 @@
 !README.md
 !LICENSE
 !CODE_OF_CONDUCT.md
+
+#HA_version for travis CI
+!.HA_version
+
 #travis CI
-!travis_*
-!.travis.yml
+!travis/
+!travis/travis_*.yaml
+!travis/*.json
 
 #custom_components directory
-!custom_components
+!custom_components/
 !custom_components/**
 
 #www/_static
-!www
-!_static
-!icons
+!www/
+!_static/
+!icons/
 !www/_static/**
 !www/_static/icons/*
 
 #integrations directory
-!integrations
+!integrations/
 !integrations/*.yaml
 
 #esphome directory
-!esphome
+!esphome/
 !esphome/*.yaml
 !esphome/*.h
 
 #esphome/shared directory
-!shared
+!shared/
 !esphome/shared/*.yaml
 
 #google-assistant directory
-!google-assistant-entities
+!google-assistant-entities/
 !google-assistant-entities/*.yaml
 
 #ensure
-esphome/secrets.yaml
-esphome/shared/secrets.yaml
-integrations/secrets.yaml
-esphome/*.json
-esphome/shared/*.json
-integrations/*.json
 secrets.yaml
-zones.yaml
 *.db
 *.log
 *.pyc
-.ip_authenticated.yaml
 traccar.xml
 *.token
-known_devices.yaml
 ip_bans.yaml
-.storage
-.cloud
+.storage/
+.cloud/
 .google.token
 google*.json
 *nogit*

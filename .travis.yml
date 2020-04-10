@@ -1,18 +1,24 @@
+#████████╗██████╗  █████╗ ██╗   ██╗██╗███████╗     ██████╗██╗
+#╚══██╔══╝██╔══██╗██╔══██╗██║   ██║██║██╔════╝    ██╔════╝██║
+#   ██║   ██████╔╝███████║██║   ██║██║███████╗    ██║     ██║
+#   ██║   ██╔══██╗██╔══██║╚██╗ ██╔╝██║╚════██║    ██║     ██║
+#   ██║   ██║  ██║██║  ██║ ╚████╔╝ ██║███████║    ╚██████╗██║
+#   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝  ╚═══╝  ╚═╝╚══════╝     ╚═════╝╚═╝
+#
 language: python
 python:
   - "3.7"
 before_install:
-  - sudo apt-get install -y libudev-dev ffmpeg python-dev pkg-config libavformat-dev libavcodec-dev libavdevice-dev libavutil-dev libswscale-dev libavresample-dev libavfilter-dev
-  - mv travis_secrets.yaml secrets.yaml
-  - mv travis_upnp.yaml upnp.yaml
-  - mv travis_zones.yaml zones.yaml
-  - mv travis_panels.yaml panels.yaml
-  - sed 's/\/config\/tmp/\/home\/travis\/build\/phixion\/Home\-AssistantConfig\/tmp/g' configuration.yaml > configuration_new.yaml
-  - mv configuration_new.yaml configuration.yaml
-  - mkdir -p /home\/travis\/build\/phixion\/Home\-AssistantConfig\/tmp/
-  - echo "# Netscape HTTP Cookie File\n0" > \.google_maps_location_sharing.cookies.joedoe_gmail_com
+  - sudo apt-get -qq update
+  - sudo apt-get install -y -o Dpkg::Options::=--force-confnew libudev-dev ffmpeg python-dev pkg-config libavformat-dev libavcodec-dev libavdevice-dev libavutil-dev libswscale-dev libavresample-dev libavfilter-dev
+  - rename travis_ '' $(pwd)/travis/*.{yaml,json}
+  - ln -s $(pwd)/travis/*.{yaml,json} .
+  - sed -i "s@/config/tmp@$(pwd)/tmp@" configuration.yaml
+  - mkdir $(pwd)/tmp
+  - echo "# Netscape HTTP Cookie File\n0 0\n0 0\n0 0" > $(pwd)/.google_maps_location_sharing.cookies.joedoe_gmail_com
+  - HA_VERSION=$(<.HA_VERSION)
 install:
-  - pip3 install homeassistant
+  - pip3 install homeassistant==${HA_VERSION}
 script:
   - hass -c . --script check_config
 after_success:
