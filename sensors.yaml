@@ -772,7 +772,7 @@
     - uv_index
     - moon_phase
 - platform: google_fit
-  scan_interval: 1000000
+#  scan_interval: 1000000
   name: Google Fit Martin
   client_id: !secret google_fit_id
   client_secret: !secret google_fit_secret

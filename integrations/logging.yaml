@@ -6,7 +6,7 @@
 #╚══════╝ ╚═════╝  ╚═════╝  ╚═════╝ ╚═╝╚═╝  ╚═══╝ ╚═════╝
 #
 logger:
-  default: info
+  default: warning
   logs:
     homeassistant.components.http.ban: warning
     homeassistant.components.google_assistant.http: debug

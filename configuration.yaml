@@ -41,3 +41,6 @@ homeassistant:
   elevation: !secret home_ela
   whitelist_external_dirs:
     - /config/tmp
+discovery:
+  ignore:
+    - sabnzbd

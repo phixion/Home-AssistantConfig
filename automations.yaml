@@ -185,7 +185,7 @@
       entity_id: sensor.h3_podcast
   condition:
     - condition: template
-      value_template: "{{ as_timestamp(now()) - as_timestamp(states.automation.notification_h3_podcast.attributes.last_triggered) | int > 300 }}"
+      value_template: "{{ as_timestamp(now()) - as_timestamp(states.automation.notification_h3_podcast.attributes.last_triggered) | int > 900 }}"
     - condition: template
       value_template: "{{ states.automation.notification_h3_podcast.attributes.last_triggered != none }}"
   action:
@@ -205,7 +205,7 @@
       entity_id: sensor.nexpo
   condition:
     - condition: template
-      value_template: "{{ as_timestamp(now()) - as_timestamp(states.automation.notification_nexpo_video.attributes.last_triggered) | int > 300 }}"
+      value_template: "{{ as_timestamp(now()) - as_timestamp(states.automation.notification_nexpo_video.attributes.last_triggered) | int > 900 }}"
     - condition: template
       value_template: "{{ states.automation.notification_nexpo_video.attributes.last_triggered != none }}"
   action:
@@ -228,7 +228,7 @@
       entity_id: sensor.scaretheater
   condition:
     - condition: template
-      value_template: "{{ as_timestamp(now()) - as_timestamp(states.automation.notification_scaretheater_video.attributes.last_triggered) | int > 300 }}"
+      value_template: "{{ as_timestamp(now()) - as_timestamp(states.automation.notification_scaretheater_video.attributes.last_triggered) | int > 900 }}"
     - condition: template
       value_template: "{{ states.automation.notification_scaretheater_video.attributes.last_triggered != none }}"
   action:
@@ -248,7 +248,7 @@
       entity_id: sensor.reignbot
   condition:
     - condition: template
-      value_template: "{{ as_timestamp(now()) - as_timestamp(states.automation.notification_reignbot_video.attributes.last_triggered) | int > 300 }}"
+      value_template: "{{ as_timestamp(now()) - as_timestamp(states.automation.notification_reignbot_video.attributes.last_triggered) | int > 900 }}"
     - condition: template
       value_template: "{{ states.automation.notification_reignbot_video.attributes.last_triggered != none }}"
   action:
@@ -268,7 +268,7 @@
       entity_id: sensor.franck_nijhof
   condition:
     - condition: template
-      value_template: "{{ as_timestamp(now()) - as_timestamp(states.automation.notification_frenck_video.attributes.last_triggered) | int > 300 }}"
+      value_template: "{{ as_timestamp(now()) - as_timestamp(states.automation.notification_frenck_video.attributes.last_triggered) | int > 900 }}"
     - condition: template
       value_template: "{{ states.automation.notification_frenck_video.attributes.last_triggered != none }}"
   action:
@@ -288,7 +288,7 @@
       entity_id: sensor.someordinarygamers
   condition:
     - condition: template
-      value_template: "{{ as_timestamp(now()) - as_timestamp(states.automation.notification_someordinarygamers_video.attributes.last_triggered) | int > 300 }}"
+      value_template: "{{ as_timestamp(now()) - as_timestamp(states.automation.notification_someordinarygamers_video.attributes.last_triggered) | int > 900 }}"
     - condition: template
       value_template: "{{ states.automation.notification_someordinarygamers_video.attributes.last_triggered != none }}"
   action:
@@ -958,3 +958,4 @@
         message: >
           https://travis-ci.org/github/phixion/Home-AssistantConfig/builds/{{ states('sensor.phixion_home_assistantconfig_last_build_id') }}
     - service: homeassistant.restart
+    

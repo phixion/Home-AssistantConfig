@@ -71,6 +71,7 @@ ip_bans.yaml
 .storage/
 .cloud/
 .google.token
+.google*cookie*
 google*.json
 *nogit*
 ad_whitelist.txt
