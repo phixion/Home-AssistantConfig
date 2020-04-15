@@ -1,13 +1,13 @@
 #██╗     ██╗ ██████╗ ██╗  ██╗████████╗
 #██║     ██║██╔════╝ ██║  ██║╚══██╔══╝
-#██║     ██║██║  ███╗███████║   ██║   
-#██║     ██║██║   ██║██╔══██║   ██║   
-#███████╗██║╚██████╔╝██║  ██║   ██║   
-#╚══════╝╚═╝ ╚═════╝ ╚═╝  ╚═╝   ╚═╝   
-#                                     
+#██║     ██║██║  ███╗███████║   ██║
+#██║     ██║██║   ██║██╔══██║   ██║
+#███████╗██║╚██████╔╝██║  ██║   ██║
+#╚══════╝╚═╝ ╚═════╝ ╚═╝  ╚═╝   ╚═╝
+#
 light:
   - platform: group
-    name: All Lights 
+    name: All Lights
     entities:
       - light.bulbspotwhzdesk_rgb
       - light.bulbspotwhzdesk_cwww
@@ -26,10 +26,10 @@ light:
       - light.schalter_whz_light
       - light.schalter_lavalampe_light
       - light.ledstripwhz1_rgb
-      - light.wled
-      - light.wled_2
+      - light.wled_schrank
+      - light.wled_schreibtisch
       - light.ledstripwhz1_w
-      - light.schalter_kueche_light
+      - light.schalter_kuechenschrank_light
   - platform: group
     name: Mood Lights RGB
     entities:
@@ -37,7 +37,9 @@ light:
       - light.bulbspotwhztv_rgb
       - light.bulbwhzlamp_rgb
       - light.ledstripwhz1_rgb
-#      - light.ledstripwhz3_rgb
+      - light.wled_schrank
+      - light.wled_schreibtisch
+      #      - light.ledstripwhz3_rgb
       - light.schalter_lavalampe_light
   - platform: group
     name: Mood Lights CWWW
@@ -46,4 +48,3 @@ light:
       - light.bulbspotwhztv_cwww
       - light.bulbwhzlamp_cwww
       - light.ledstripwhz1_w
-

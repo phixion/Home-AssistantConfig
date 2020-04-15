@@ -10,16 +10,16 @@ google_assistant:
   service_account: !secret google_service_accout_json_file
   secure_devices_pin: !secret google_assistant_pin
   report_state: false #causes errors in google home console
-  #expose_by_default: false #setting to true breaks the integration
-  exposed_domains:
-    - light
-    - camera
+  expose_by_default: false #setting to true breaks the integration
+  #exposed_domains:
+    #- light
+    #- camera
     #    - scene
     #- media_player
-    - sensor
+    #- sensor
     #    - switch
-    - binary_sensor
-    - camera
+    #- binary_sensor
+    #- camera
     #- group
     #- input_boolean
     #- scene

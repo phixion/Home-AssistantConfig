@@ -7,21 +7,21 @@
 check_config:
   sequence: []
   alias: Check Configuration
-send_google_broadcast:
-  sequence:
-    - service: notify.google_assistant_broadcast
-      data_template:
-        message: "{{ states.input_text.broadcast_message.state }}"
-    - service: input_text.set_value
-      data:
-        entity_id: input_text.broadcast_message
-        value: ""
-send_google_command:
-  sequence:
-    - service: notify.google_assistant_command
-      data_template:
-        message: "{{ states.input_text.google_command.state }}"
-    - service: input_text.set_value
-      data:
-        entity_id: input_text.google_command
-        value: ""
+#send_google_broadcast:
+#  sequence:
+#    - service: notify.google_assistant_broadcast
+#      data_template:
+#        message: "{{ states.input_text.broadcast_message.state }}"
+#    - service: input_text.set_value
+#      data:
+#        entity_id: input_text.broadcast_message
+#        value: ""
+#send_google_command:
+#  sequence:
+#    - service: notify.google_assistant_command
+#      data_template:
+#        message: "{{ states.input_text.google_command.state }}"
+#    - service: input_text.set_value
+#      data:
+#        entity_id: input_text.google_command
+#        value: ""

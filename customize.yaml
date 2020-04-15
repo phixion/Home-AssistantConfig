@@ -8,16 +8,6 @@ device_tracker.macbook_air:
   friendly_name: MacBook Air
   icon: "mdi:laptop-mac"
   entity_picture: /local/_static/mac_book.png
-device_tracker.pixel_wifi:
-  hidden: true
-device_tracker.pixel_gps:
-  hidden: true
-device_tracker.nexus_wifi:
-  hidden: true
-device_tracker.nexus_gps:
-  hidden: true
-device_tracker.0x3efe_icloud:
-  hidden: true
 device_tracker.google_pixel:
   friendly_name: Google Pixel
   icon: "fas:mobile"
@@ -30,15 +20,15 @@ person.martin:
   entity_picture: /local/_static/martin.jfif
 sensor.martin:
   entity_picture: /local/_static/martin.jfif
-climate.wiser_bad:
+climate.bad:
   friendly_name: Bad
   #      entity_picture: /local/_static/thermostat2.png
   icon: mdi:thermostat
-climate.wiser_flur:
+climate.flur:
   friendly_name: Flur
   icon: mdi:thermostat
 #      entity_picture: /local/_static/thermostat2.png
-climate.wiser_wohnzimmer:
+climate.wohnzimmer:
   friendly_name: Wohnzimmer
   icon: mdi:thermostat
 sensor.climate_bad_temp:
@@ -79,19 +69,19 @@ light.schalter_bad_light:
   icon: mdi:gesture-tap-box
 #  entity_picture: /local/_static/sonoff.jpg
 light.schalter_flur_whz_light:
-  name: Bad
+  name: Flur
   icon: mdi:gesture-tap-box
 #  entity_picture: /local/_static/sonoff.jpg
 light.schalter_kuechenschrank_light:
-  name: Bad
+  name: Küchenschrank
   icon: mdi:gesture-tap-box
 #  entity_picture: /local/_static/sonoff.jpg
 light.schalter_lavalampe_light:
-  name: Bad
+  name: Lavalampe
   icon: mdi:gesture-tap-box
 #  entity_picture: /local/_static/sonoff.jpg
 light.schalter_whz_light:
-  name: Bad
+  name: Wohnzimmer
   icon: mdi:gesture-tap-box
 #  entity_picture: /local/_static/sonoff.jpg
 sensor.morning_commute_bike:
@@ -119,9 +109,9 @@ media_player.google_home:
 media_player.shield:
   icon: mdi:television-classic
   device_class: tv
-media_player.wohnzimmer:
-  icon: mdi:sofa
-  device_class: speaker
+#media_player.wohnzimmer:
+#  icon: mdi:sofa
+#  device_class: speaker
 media_player.android_tv:
   icon: mdi:television-classic
   device_class: tv
@@ -161,7 +151,7 @@ sensor.wtfisxur:
   friendly_name: WTF is Xur?
   icon: mdi:gamepad-variant-outline
 sensor.system_updates:
-  icon: mdi:arch
+  icon: mdi:ubuntu
 #group.all_automations:
 #  hidden: false
 #group.all_scripts:

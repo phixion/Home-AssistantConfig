@@ -50,7 +50,7 @@ light.bulbbad_cwww:
     - Weisses Badlicht
     - Weisse Badlampe
     - Helles Badlicht
-light.schalter_kueche_light:
+light.schalter_kuechenschrank_light:
   expose: true
   room: Küche
   name: Küchenschrank
@@ -187,3 +187,11 @@ sensor.outside_temperature:
     - Außentemperatur
     - Temperatur
     - Thermometer
+alarm_control_panel.home_alarm:
+  expose: true
+  name: Alarm
+  room: Wohnung
+  aliases:
+    - Alarm
+    - Sicherheitssystem
+    - Heim Alarm
