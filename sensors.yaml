@@ -904,3 +904,10 @@
     Accept: application/vnd.travis-ci.2+json
   value_template: "{{ value_json.builds[0].state }}"
   name: Travis Build Status
+- platform: rest
+  resource: https://radar.nightfall.ai/api/v1/scans
+  method: GET
+  headers:
+    Accept: application/json
+  value_template: "{{ value_json.status }}"
+  name: Watchtower Scan Status

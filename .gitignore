@@ -36,6 +36,10 @@
 !custom_components/
 !custom_components/**
 
+#doc
+!doc
+!doc/**
+
 #www/_static
 !www/
 !_static/

@@ -1075,3 +1075,12 @@
     - service: rest_command.webhook
       data_template:
         command: "[HASSIO] Homeassistant is restarting"
+- alias: Webhook Endpoint
+  id: "57"
+  trigger:
+    - platform: webhook
+      webhook_id: !secret webhook_id
+  action:
+    - service: notify.google_assistant_broadcast
+      data_template:
+        command: "Watchtower hat ein Sicherheitsproblem gemeldet"

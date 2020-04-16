@@ -1,0 +1,12 @@
+[Unit]
+Description=Boot Up Webhook
+Wants=docker.service
+
+[Service]
+EnvironmentFile=/etc/systemd/system/.env
+ExecStart=-/usr/bin/curl -H "Content-Type: application/json" -X POST -d '{"msg": "${WEBHOOK_ONBOOT_MSG}"}' ${WEBHOOK_URL}
+Type=oneshot
+RemainAfterExit=no
+
+[Install]
+WantedBy=multi-user.target

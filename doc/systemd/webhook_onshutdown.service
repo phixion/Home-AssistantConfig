@@ -1,0 +1,13 @@
+[Unit]
+Description=Shut Down Webhook
+Wants=docker.service
+
+[Service]
+EnvironmentFile=/etc/systemd/system/.env
+ExecStart=/bin/true
+ExecStop=/usr/bin/curl -H "Content-Type: application/json" -X POST -d '{"msg": "${WEBHOOK_ONSHUTDOWN_MSG}"}' ${WEBHOOK_URL}
+Type=oneshot
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

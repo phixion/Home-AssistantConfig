@@ -1,0 +1,12 @@
+[Unit]
+Description=Turn off Webcam LED
+Wants=docker.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/v4l2-ctl --set-ctrl=led1_mode=0
+RemainAfterExit=true
+StandardOutput=journal
+
+[Install]
+WantedBy=multi-user.target
