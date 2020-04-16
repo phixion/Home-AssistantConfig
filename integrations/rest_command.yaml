@@ -14,3 +14,8 @@ rest_command:
     method: POST
     content_type: "application/json"
     payload: '{"command":"{{ command }}", "user":"Home Assistant"}'
+  webhook:
+    url: !secret webhook_url
+    method: POST
+    payload: '{"msg": "{{ command }}"}'
+    content_type: "application/json"

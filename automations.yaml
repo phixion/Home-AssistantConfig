@@ -73,7 +73,7 @@
     - delay: 00:00:01
     - service: rest_command.assistant_broadcast
       data_template:
-        command: 
+        command:
           Ach Ja! in deiner Region sind es mittlerweile {{states('sensor.germany_coronavirus_confirmed')}}
           Corona infizierte und davon konnten {{states('sensor.germany_coronavirus_recovered')}}
           geheilt werden, halte dich trotzdem fern! Der naechste Feiertag ist {{(states.calendar.feiertage.attributes.message)}}
@@ -1046,19 +1046,19 @@
   trigger:
     - platform: state
       entity_id: binary_sensor.motion_sensor
-      to: 'on'
+      to: "on"
     - platform: state
       entity_id: binary_sensor.nodemcu_4_kueche_motion_sensor
-      to: 'on'
+      to: "on"
     - platform: state
       entity_id: sensor.door
-      to: 'on'
+      to: "on"
     - platform: state
       entity_id: binary_sensor.nodemcu_5_bad_motion_sensor
-      to: 'on'
+      to: "on"
     - platform: state
       entity_id: binary_sensor.window_wohnzimmer
-      to: 'on'
+      to: "on"
   condition:
     - condition: state
       entity_id: alarm_control_panel.home_alarm
@@ -1066,3 +1066,12 @@
   action:
     service: alarm_control_panel.alarm_trigger
     entity_id: alarm_control_panel.home_alarm
+- alias: Webhook on shutdown
+  id: "56"
+  trigger:
+    - platform: homeassistant
+      event: shutdown
+  action:
+    - service: rest_command.webhook
+      data_template:
+        command: "[HASSIO] Homeassistant is restarting"
