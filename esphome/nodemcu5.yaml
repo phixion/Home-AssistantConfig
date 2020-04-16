@@ -1,12 +1,12 @@
 substitutions:
   devicename: nodemcu5
-  friendly_name: Nodemcu 5 (Bad)
+  friendly_name: Nodemcu 5
+  room: Bad
   update_interval: 60s
 esphome:
   name: ${devicename}
-  platform: ESP32
-  board: nodemcu-32s
-  board_flash_mode: dout
+  platform: ESP8266
+  board: nodemcuv2
 time: !include shared/time.yaml
 wifi: !include shared/wifi.yaml
 api: !include shared/api.yaml
@@ -14,36 +14,28 @@ ota: !include shared/ota.yaml
 web_server: !include shared/webserver.yaml
 captive_portal:
 logger:
-#esp32_ble_tracker:
-#esp32_ble_beacon:
-#  type: iBeacon
-#  uuid: 8bbe8db6-3b5e-bac3-e6f7-28433bdd3065
+sun:
+  latitude: !secret home_lat
+  longitude: !secret home_lon
 sensor:
-#  - platform: ble_rssi
-#    mac_address: B8:E8:56:00:EA:3F
-#    name: "BLE Macbook Air RSSI"
-#  - platform: ble_rssi
-#    mac_address: 40:4E:36:56:7E:2F
-#    name: "BLE Google Pixel RSSI"
-#  - platform: ble_rssi
-#    mac_address: b4:ce:f6:08:f0:71
-#    name: "BLE Google Nexus RSSI"
   - platform: wifi_signal
-    name: ${friendly_name} WiFi Signal
+    name: ${friendly_name} (${room}) WiFi Signal
     update_interval: ${update_interval}
     unit_of_measurement: dB
     icon: mdi:wifi
-  - platform: uptime
-    name: ${friendly_name} Uptime
-    filters:
-      - lambda: return x / 60.0;
-    unit_of_measurement: minutes
-    icon: mdi:alarm
+  - platform: sun
+    name: ${friendly_name} (${room}) Sonne Elevation
+    type: elevation
+    update_interval: 60s
+  - platform: sun
+    name: ${friendly_name} (${room}) Sonne Azimuth
+    type: azimuth
+    update_interval: 60s
 binary_sensor:
   - platform: gpio
-    pin: GPIO13
+    pin: D0
     id: ${devicename}_motion
-    name: ${friendly_name} Motion Sensor
+    name: ${friendly_name} (${room}) Motion Sensor
     device_class: motion
     on_press:
       - homeassistant.service:
@@ -55,26 +47,22 @@ binary_sensor:
     internal: true
     lambda: 'return id(${devicename}_motion).state;'
     filters:
-      - delayed_off: 2min
+      - delayed_off: 3min
     on_release:
       - homeassistant.service:
           service: switch.turn_off
           data:
             entity_id: switch.schalter_bad_relay
-#  - platform: ble_presence
-#    mac_address: B8:E8:56:00:EA:3F
-#    name: "BLE Macbook Air Presence"
-#  - platform: ble_presence
-#    mac_address: 40:4E:36:56:7E:2F
-#    name: "BLE Google Pixel Presence"
-#    device_class: presence
-#  - platform: ble_presence
-#    mac_address: ac:37:43:e0:ea:d8
-#    name: "BLE Google Nexus Presence"
-#    device_class: presence
   - platform: status
     device_class: connectivity
-    name: ${friendly_name} Status
+    name: ${friendly_name} (${room}) Status
 switch:
   - platform: restart
-    name: ${friendly_name} Restart
+    name: ${friendly_name} (${room}) Restart
+text_sensor:
+  - platform: sun
+    name: ${friendly_name} (${room}) Sonnenaufgang
+    type: sunrise
+  - platform: sun
+    name: ${friendly_name} (${room}) Sonnenuntergang
+    type: sunset
