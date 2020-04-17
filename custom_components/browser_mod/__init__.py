@@ -36,6 +36,3 @@ async def async_setup(hass, config):
     setup_service(hass)
 
     return True
-
-
-

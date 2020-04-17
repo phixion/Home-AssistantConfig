@@ -136,7 +136,7 @@ def update_using_feedservice(urls):
         except Exception as error:  # pylint: disable=broad-except
             _LOGGER.error("Could not update %s - %s", url, error)
             feed = None
-        
+
         if feed is None:
             _LOGGER.info("Feed not updated: %s", url)
             continue

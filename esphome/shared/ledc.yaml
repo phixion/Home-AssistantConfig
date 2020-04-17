@@ -1,7 +1,7 @@
 output:
   - platform: ledc
     pin: GPIO19
-    id: buzzer
+    id: buzzer1
 script:
   - id: ImperialMarch
     then:
@@ -31,7 +31,7 @@ script:
             level: 50%
         - delay: 500ms
         - output.turn_off: buzzer
-        - delay: 20ms        
+        - delay: 20ms
         - output.ledc.set_frequency:
             id: buzzer
             frequency: 349
@@ -89,7 +89,7 @@ script:
     then:
         - output.ledc.set_frequency:
             id: buzzer
-            frequency: 660 
+            frequency: 660
         - output.set_level:
             id: buzzer
             level: 50%
@@ -98,7 +98,7 @@ script:
         - delay: 150ms
         - output.ledc.set_frequency:
             id: buzzer
-            frequency: 660 
+            frequency: 660
         - output.set_level:
             id: buzzer
             level: 50%
@@ -113,7 +113,7 @@ script:
             level: 50%
         - delay: 100ms
         - output.turn_off: buzzer
-        - delay: 300ms        
+        - delay: 300ms
         - output.ledc.set_frequency:
             id: buzzer
             frequency: 510
@@ -149,32 +149,6 @@ script:
             level: 50%
         - delay: 100ms
         - output.turn_off: buzzer
-switch:
-  - platform: template
-    name: Buzz Imperial March
-    icon: "mdi:bell-ring"
-    turn_on_action:
-      - if:
-          condition:
-            - script.is_running: ImperialMarch
-          then:
-            - script.stop: ImperialMarch
-            - script.execute: ImperialMarch
-          else:
-            - script.execute: ImperialMarch    
-  - platform: template
-    name: Buzz Super Mario
-    icon: "mdi:bell-ring"
-    turn_on_action:
-      - if:
-          condition:
-            - script.is_running: SuperMario
-          then:
-            - script.stop: SuperMario
-            - script.execute: SuperMario
-          else:
-            - script.execute: SuperMario
-script:
   - id: ImperialMarch v2
   - output.ledc.song:
       id: buzzer
@@ -195,3 +169,29 @@ script:
         - {note: F, duration: 350ms}
         - {space: 20ms}
         - {note: A, duration: 650ms}
+
+switch:
+  - platform: template
+    name: Buzz Imperial March
+    icon: "mdi:bell-ring"
+    turn_on_action:
+      - if:
+          condition:
+            - script.is_running: ImperialMarch
+          then:
+            - script.stop: ImperialMarch
+            - script.execute: ImperialMarch
+          else:
+            - script.execute: ImperialMarch
+  - platform: template
+    name: Buzz Super Mario
+    icon: "mdi:bell-ring"
+    turn_on_action:
+      - if:
+          condition:
+            - script.is_running: SuperMario
+          then:
+            - script.stop: SuperMario
+            - script.execute: SuperMario
+          else:
+            - script.execute: SuperMario

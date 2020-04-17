@@ -14,11 +14,11 @@ Current Version:  1.2  20180510 - Jim Thompson
            - The state display string begins as a null and appends the following in order:
              - 'zone' - as defined in the device_tracker entity
              - If 'place' is included in the options string, a concatenated string is created with the following attributes
-               - place_name, 
-               - place_category, 
-               - place_type, 
-               - place_neighbourhood, 
-               - street number, 
+               - place_name,
+               - place_category,
+               - place_type,
+               - place_neighbourhood,
+               - street number,
                - street
                - If 'street_number' and 'street' are also in the options string, they are ignored
              - If 'place' is NOT included:
@@ -47,29 +47,29 @@ Current Version:  1.2  20180510 - Jim Thompson
            - longitude
          - Added Map_link option to generate a Google or Apple Maps link to the users current location
 20180509 - Updated to support new option value of "do_not_reorder" to disable the automatic ordered display of any specified options
-         - If "do_not_reorder" appears anywhere in the list of comma delimited options, the state display will be built 
+         - If "do_not_reorder" appears anywhere in the list of comma delimited options, the state display will be built
            using the order of options as they are specified in the options config value.
-           ie:  options: street, street_number, do_not_reorder, postal_code, city, country 
-           will result in a state comprised of: 
-                <street>, <street_number>, <postal_code>, <city>, <country> 
+           ie:  options: street, street_number, do_not_reorder, postal_code, city, country
+           will result in a state comprised of:
+                <street>, <street_number>, <postal_code>, <city>, <country>
            without the "do_not_reorder" option, it would be:
                 <street_number>, <street>, <postal_code>, <city>, <country>
          - The following attributes can be specified in any order for building the display string manually:
             - do_not_reorder
             - place_type, place_name, place_category, place_neighbourhood, street_number, street, city,
             - postal_town, state, region, county, country, postal_code, formatted_address
-            Notes:  All options must be specified in lower case.  
+            Notes:  All options must be specified in lower case.
                     State and Region return the same data (so only use one of them).
          - Also added 'options' to the attribute list that gets populated by this sensor (to make it easier to see why a specific state is being generated)
 20180510 - Fixed stupid bug introduced yesterday.  Converted display options from string to list.
 
-           
+
 Description:
   Provides a sensor with a variable state consisting of reverse geocode (place) details for a linked device_tracker entity that provides GPS co-ordinates (ie owntracks, icloud)
   Optionally allows you to specify a 'home_zone' for each device and calculates distance from home and direction of travel.
   The displayed state adds a time stamp "(since hh:mm)" so you can tell how long a person has been at a location.
   Configuration Instructions are below - as well as sample automations for notifications.
-  
+
   The display options I have set for Sharon are "zone, place" so her state is displayed as:
   - not_home, Richmond Hill GO Station, building, building, Beverley Acres, 6, Newkirk Road (since 18:44)
   There are a lot of additional attributes (beyond state) that are available which can be used in notifications, alerts, etc:
@@ -142,7 +142,7 @@ sensor places_aidan:
     map_zoom: 17
     home_zone: zone.aidan_home
     api_key: !secret email_aidan
-  
+
 Sample generic automations.yaml snippet to send an iOS notify on any device state change:
 (the only difference is the second one uses a condition to only trigger for a specific user)
 
@@ -156,7 +156,7 @@ Sample generic automations.yaml snippet to send an iOS notify on any device stat
     data_template:
       title: 'ReverseLocate: {{ trigger.event.data.entity }} ({{ trigger.event.data.devicetracker_zone }}) {{ trigger.event.data.place_name }}'
       message: |-
-        {{ trigger.event.data.entity }} ({{ trigger.event.data.devicetracker_zone }}) 
+        {{ trigger.event.data.entity }} ({{ trigger.event.data.devicetracker_zone }})
         {{ trigger.event.data.place_name }}
         {{ trigger.event.data.distance_from_home }} from home and traveling {{ trigger.event.data.direction }}
         {{ trigger.event.data.to_state }} ({{ trigger.event.data.mtime }})
@@ -178,7 +178,7 @@ Sample generic automations.yaml snippet to send an iOS notify on any device stat
     data_template:
       title: 'ReverseLocate: {{ trigger.event.data.entity }} ({{ trigger.event.data.devicetracker_zone }}) {{ trigger.event.data.place_name }}'
       message: |-
-        {{ trigger.event.data.entity }} ({{ trigger.event.data.devicetracker_zone }}) 
+        {{ trigger.event.data.entity }} ({{ trigger.event.data.devicetracker_zone }})
         {{ trigger.event.data.place_name }}
         {{ trigger.event.data.distance_from_home }} from home and traveling {{ trigger.event.data.direction }}
         {{ trigger.event.data.to_state }} ({{ trigger.event.data.mtime }})
@@ -206,15 +206,15 @@ Configuration.yaml:
       map_provider: [google|apple]                  (optional)
       map_zoom: <1-20>                              (optional)
       option: <zone, place, street_number, street, city, county, state, postal_code, country, formatted_address>  (optional)
-      
+
 The map link that gets generated for Google maps has a push pin marking the users location.
 The map link for Apple maps is centered on the users location - but without any marker.
-      
+
 To enable detailed logging for this component, add the following to your configuration.yaml file
   logger:
     default: warn
     logs:
-      custom_components.sensor.places: debug  
+      custom_components.sensor.places: debug
 
 """
 
@@ -346,7 +346,7 @@ class Places(Entity):
         self._place_category = None
         self._place_neighbourhood = None
         self._home_latitude = home_latitude
-        self._home_longitude = home_longitude 
+        self._home_longitude = home_longitude
         self._latitude_old = home_latitude
         self._longitude_old = home_longitude
         self._latitude = home_latitude
@@ -437,14 +437,14 @@ class Places(Entity):
         Calculate the great circle distance between two points
         on the earth (specified in decimal degrees)
         """
-        # convert decimal degrees to radians 
+        # convert decimal degrees to radians
         lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
 
-        # haversine formula 
-        dlon = lon2 - lon1 
-        dlat = lat2 - lat1 
+        # haversine formula
+        dlon = lon2 - lon1
+        dlat = lat2 - lat1
         a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
-        c = 2 * asin(sqrt(a)) 
+        c = 2 * asin(sqrt(a))
         r = 6371 # Radius of earth in kilometers. Use 3956 for miles
         return c * r
 
@@ -472,7 +472,7 @@ class Places(Entity):
             current_location  = new_latitude + "," + new_longitude
             previous_location = old_latitude + "," + old_longitude
             home_location     = home_latitude + "," + home_longitude
-            
+
             #maplink_google ='https://www.google.com/maps/@' + current_location+',' + self._map_zoom + 'z'
             maplink_apple  = 'https://maps.apple.com/maps/?ll=' + current_location + '&z=' + self._map_zoom
             #maplink_google = 'https://www.google.com/maps/dir/?api=1&origin=' + current_location + '&destination=' + home_location + '&travelmode=driving&layer=traffic'
@@ -498,7 +498,7 @@ class Places(Entity):
               _LOGGER.debug( "(" + self._name + ") Home Location    : " + home_location)
               _LOGGER.info( "(" + self._name + ") Distance from home : (" + (self._home_zone).split(".")[1] + "): " + distance_from_home )
               _LOGGER.info( "(" + self._name + ") Travel Direction   :(" + direction + ")" )
-           
+
               """Update if location has changed."""
 
               devicetracker_zone = self.hass.states.get(self._devicetracker_id).state
@@ -514,12 +514,12 @@ class Places(Entity):
             proceed_with_update = False
         elif int(distance_traveled) > 0 and self._updateskipped > 3:
             proceed_with_update = True
-            _LOGGER.debug( "(" + self._name + ") Allowing update after 3 skips even with distance traveled < 10m" )            
+            _LOGGER.debug( "(" + self._name + ") Allowing update after 3 skips even with distance traveled < 10m" )
         elif int(distance_traveled) < 10:
             self._updateskipped = self._updateskipped + 1
             _LOGGER.debug( "(" + self._name + ") Skipping update because location changed " + str(distance_traveled) + " < 10m  (" + str(self._updateskipped) + ")" )
             proceed_with_update = False
-        
+
         if previous_state == 'Initializing...':
             _LOGGER.debug( "(" + self._name + ") Peforming Initial Update for user at home..." )
             proceed_with_update = True
@@ -530,7 +530,7 @@ class Places(Entity):
             _LOGGER.info( "(" + self._name + ") DeviceTracker Zone (current) " + self._devicetracker_zone + " Skipped Updates: " + str(self._updateskipped))
 
             self._reset_attributes()
-            
+
             self._latitude = new_latitude
             self._longitude = new_longitude
             self._latitude_old = old_latitude
@@ -548,7 +548,7 @@ class Places(Entity):
             else:
                 _LOGGER.debug( "(" + self._name + ") Apple Map Link requested for: [" + self._map_provider + "]")
                 self._map_link = maplink_apple
-                
+
             _LOGGER.debug( "(" + self._name + ") Map Link generated: " + self._map_link )
 
             if self._api_key == 'no key':
@@ -579,7 +579,7 @@ class Places(Entity):
             country = '-'
             postal_code = ''
             formatted_address = ''
-            
+
             if "place" in self._options:
                 place_type = osm_decoded["type"]
                 if place_type == "yes":
@@ -596,7 +596,7 @@ class Places(Entity):
                     place_neighbourhood = osm_decoded["address"]["neighbourhood"]
                 if self._devicetracker_zone == 'not_home' and place_name != 'house':
                     new_state = place_name
-                    
+
             if "house_number" in osm_decoded["address"]:
                 street_number = osm_decoded["address"]["house_number"]
             if "road" in osm_decoded["address"]:
@@ -622,7 +622,7 @@ class Places(Entity):
             self._place_category = place_category
             self._place_neighbourhood = place_neighbourhood
             self._place_name = place_name
-            
+
             self._street_number = street_number
             self._street = street
             self._city = city
@@ -633,7 +633,7 @@ class Places(Entity):
             self._postal_code = postal_code
             self._formatted_address = formatted_address
             self._mtime = str(datetime.now())
-            
+
             if 'error_message' in osm_decoded:
                 new_state = osm_decoded['error_message']
                 _LOGGER.info( "(" + self._name + ") An error occurred contacting the web service")
@@ -651,7 +651,7 @@ class Places(Entity):
                 options_array = self._options.split(',')
                 for option in options_array:
                     display_options.append(option.strip())
-                    
+
                 user_display = []
 
                 if "zone" in display_options:
@@ -697,7 +697,7 @@ class Places(Entity):
                             target_option = "place_neighbourhood"
                         if option in locals():
                             user_display.append(targetoption)
-                            
+
 
                 if not user_display:
                     user_display = self._devicetracker_zone
@@ -711,7 +711,7 @@ class Places(Entity):
                 _LOGGER.debug( "(" + self._name + ") New State from DeviceTracker set to: " + new_state)
 
             current_time = "%02d:%02d" % (now.hour, now.minute)
-            
+
             if previous_state != new_state:
                 _LOGGER.info( "(" + self._name + ") New state built using options: " + self._options)
                 _LOGGER.debug( "(" + self._name + ") Building EventData for (" + new_state +")")

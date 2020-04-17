@@ -125,7 +125,7 @@ binary_sensor:
   #    reset: 60
   #    peak: -32
   - platform: ffmpeg_motion
-    input: !secret nest_stream
+    input: !secret nest_stream # pragma: allowlist secret
     name: Motion Sensor
     reset: 120
     changes: 10
@@ -158,4 +158,3 @@ binary_sensor:
 #    name: Wohnzimmertür
 #    entity_id: sensor.nodemcu_3_accel_x
 #    lower: "0.4"
-

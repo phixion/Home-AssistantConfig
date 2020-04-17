@@ -1,7 +1,7 @@
 sabnzbd:
-  api_key: !secret sabnzbd_apikey
-  host: !secret sabnzbd_host
-  port: !secret sabnzbd_port
+  api_key: !secret sabnzbd_apikey # pragma: allowlist secret
+  host: !secret sabnzbd_host # pragma: allowlist secret
+  port: !secret sabnzbd_port # pragma: allowlist secret
   ssl: true
   sensors:
     - current_status

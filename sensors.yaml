@@ -3,14 +3,14 @@
 #╚════██║██╔══╝  ██║╚██╗██║╚════██║██║   ██║██╔══██╗╚════██║
 #███████║███████╗██║ ╚████║███████║╚██████╔╝██║  ██║███████║
 - platform: travisci
-  api_key: !secret travis_ci_apikey
+  api_key: !secret travis_ci_apikey # pragma: allowlist secret
   branch: master
   repository: Home-AssistantConfig
 - platform: influxdb
-  host: !secret influx_host
-  port: !secret influx_port
-  username: !secret influx_usr
-  password: !secret influx_pwd
+  host: !secret influx_host # pragma: allowlist secret
+  port: !secret influx_port # pragma: allowlist secret
+  username: !secret influx_usr # pragma: allowlist secret
+  password: !secret influx_pwd # pragma: allowlist secret
   queries:
     - name: InfluxDB Size Internal
       unit_of_measurement: MB
@@ -63,7 +63,7 @@
       value_template: "{{ value | round(2) }}"
       unit_of_measurement: W
 - platform: sql
-  db_url: !secret dburl
+  db_url: !secret dburl # pragma: allowlist secret
   queries:
     - name: MariaDB Homeassistant
       query: 'SELECT table_schema "database", Round(Sum(data_length + index_length) / 1024 / 1024 / 1024, 2) "value" FROM information_schema.tables WHERE table_schema="hassio" GROUP BY table_schema;'
@@ -134,20 +134,20 @@
   name: System Updates
   command: "cat /config/sys_updates.log"
 - platform: dnsip
-  hostname: !secret home_host
-  name: !secret home_host
+  hostname: !secret home_host # pragma: allowlist secret
+  name: !secret home_host # pragma: allowlist secret
   resolver: 1.1.1.1
 - platform: reddit
-  username: !secret reddit_username
-  password: !secret reddit_password
-  client_id: !secret reddit_client_id
-  client_secret: !secret reddit_client_secret
+  username: !secret reddit_username # pragma: allowlist secret
+  password: !secret reddit_password # pragma: allowlist secret
+  client_id: !secret reddit_client_id # pragma: allowlist secret
+  client_secret: !secret reddit_client_secret # pragma: allowlist secret
   subreddits:
     - gamedeals
   sort_by: new
 - platform: feedparser
-  name: !secret feed_1_name
-  feed_url: !secret feed_1_url
+  name: !secret feed_1_name # pragma: allowlist secret
+  feed_url: !secret feed_1_url # pragma: allowlist secret
   inclusions:
     - title
     - link
@@ -189,7 +189,7 @@
   map_provider: google
   #  map_zoom: 19
   home_zone: zone.home
-  api_key: !secret email_phixion
+  api_key: !secret email_phixion # pragma: allowlist secret
 - platform: rest
   resource: https://api.myip.com
   name: External IP
@@ -201,34 +201,34 @@
   unit_of_measurement: days
 - platform: mvglive
   nextdeparture:
-    - station: !secret station_mvg_tram
-      destinations: !secret destination_tram
+    - station: !secret station_mvg_tram # pragma: allowlist secret
+      destinations: !secret destination_tram # pragma: allowlist secret
       name: Tram
-      lines: !secret line_tram
+      lines: !secret line_tram # pragma: allowlist secret
       products: ["Tram", "Nachteule"]
       number: 3
-    - station: !secret station_mvg_bus
-      destinations: !secret destination_bus
+    - station: !secret station_mvg_bus # pragma: allowlist secret
+      destinations: !secret destination_bus # pragma: allowlist secret
       name: Bus
-      lines: !secret line_bus
+      lines: !secret line_bus # pragma: allowlist secret
       products: ["Bus"]
       number: 3
-    - station: !secret station_mvg_u
+    - station: !secret station_mvg_u # pragma: allowlist secret
       name: U-Bahn
       directions: ["2"]
       products: ["U-Bahn"]
       number: 3
 - platform: unifigateway
-  host: !secret unifigw_host
-  port: !secret unifigw_port
-  username: !secret unifigw_user
-  password: !secret unifigw_pwd
+  host: !secret unifigw_host # pragma: allowlist secret
+  port: !secret unifigw_port # pragma: allowlist secret
+  username: !secret unifigw_user # pragma: allowlist secret
+  password: !secret unifigw_pwd # pragma: allowlist secret
   monitored_conditions:
     - www
     - wlan
     - alerts
     - firmware
-  site_id: !secret unifigw_site
+  site_id: !secret unifigw_site # pragma: allowlist secret
   verify_ssl: false
 - platform: template
   sensors:
@@ -599,9 +599,9 @@
       window_size: 00:05
       precision: 2
 - platform: qnap
-  host: !secret qnap_host
-  username: !secret qnap_usr
-  password: !secret qnap_pwd
+  host: !secret qnap_host # pragma: allowlist secret
+  username: !secret qnap_usr # pragma: allowlist secret
+  password: !secret qnap_pwd # pragma: allowlist secret
   ssl: true
   verify_ssl: false
   port: 443
@@ -744,7 +744,7 @@
 #  #  value_template: '{{ value.replace(" hPa", "") }}'
 #  unit_of_measurement: hPa
 - platform: darksky
-  api_key: !secret weatherdarkskyapi_pwd
+  api_key: !secret weatherdarkskyapi_pwd # pragma: allowlist secret
   units: auto
   language: de
   monitored_conditions:
@@ -774,12 +774,12 @@
 - platform: google_fit
 #  scan_interval: 1000000
   name: Google Fit Martin
-  client_id: !secret google_fit_id
-  client_secret: !secret google_fit_secret
+  client_id: !secret google_fit_id # pragma: allowlist secret
+  client_secret: !secret google_fit_secret # pragma: allowlist secret
 - platform: google_travel_time
   scan_interval: 1000000
   name: Travel Parents (Trains)
-  api_key: !secret google_assistantapikey_pwd
+  api_key: !secret google_assistantapikey_pwd # pragma: allowlist secret
   origin: device_tracker.google_pixel
   destination: zone.mum_dad
   options:
@@ -789,7 +789,7 @@
 - platform: google_travel_time
   scan_interval: 1000000
   name: Travel Parents (Bike)
-  api_key: !secret google_assistantapikey_pwd
+  api_key: !secret google_assistantapikey_pwd # pragma: allowlist secret
   origin: device_tracker.google_pixel
   destination: zone.mum_dad
   options:
@@ -797,11 +797,11 @@
 - platform: google_travel_time
   scan_interval: 1000000
   name: Commute Home
-  api_key: !secret google_assistantapikey_pwd
+  api_key: !secret google_assistantapikey_pwd # pragma: allowlist secret
   origin: device_tracker.google_pixel
   destination: zone.home
 - platform: snmp
-  host: !secret unifi_usg
+  host: !secret unifi_usg # pragma: allowlist secret
   name: UniFi USG Uptime
   baseoid: 1.3.6.1.2.1.1.3.0
   value_template: >
@@ -814,7 +814,7 @@
     {%- set days = '{}d '.format(days) if days > 0 else '' %}
     {{ 'Less than 1 min' if time < 60 else days + hours + minutes }}
 - platform: snmp
-  host: !secret unifi_switch
+  host: !secret unifi_switch # pragma: allowlist secret
   name: UniFi Switch Uptime
   baseoid: 1.3.6.1.2.1.1.3.0
   value_template: >
@@ -827,7 +827,7 @@
     {%- set days = '{}d '.format(days) if days > 0 else '' %}
     {{ 'Less than 1 min' if time < 60 else days + hours + minutes }}
 - platform: snmp
-  host: !secret unifi_ap
+  host: !secret unifi_ap # pragma: allowlist secret
   name: UniFi Accesspoint Uptime
   baseoid: 1.3.6.1.2.1.1.3.0
   value_template: >
@@ -840,7 +840,7 @@
     {%- set days = '{}d '.format(days) if days > 0 else '' %}
     {{ 'Less than 1 min' if time < 60 else days + hours + minutes }}
 - platform: snmp
-  host: !secret qnap_host
+  host: !secret qnap_host # pragma: allowlist secret
   name: NAS Uptime
   baseoid: 1.3.6.1.2.1.1.3.0
   value_template: >
@@ -853,7 +853,7 @@
     {%- set days = '{}d '.format(days) if days > 0 else '' %}
     {{ 'Less than 1 min' if time < 60 else days + hours + minutes }}
 - platform: snmp
-  host: !secret hp_switch
+  host: !secret hp_switch # pragma: allowlist secret
   name: HP Switch Uptime
   baseoid: 1.3.6.1.2.1.1.3.0
   value_template: >
@@ -894,7 +894,7 @@
 - platform: websocket_api
 - platform: aftership
   name: Paket Verfolgung
-  api_key: !secret aftership_apikey
+  api_key: !secret aftership_apikey # pragma: allowlist secret
 #- platform: serial
 #  serial_port: /dev/ttyUSB1
 #  baudrate: 9600

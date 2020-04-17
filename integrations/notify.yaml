@@ -1,26 +1,26 @@
 #███╗   ██╗ ██████╗ ████████╗██╗███████╗██╗   ██╗
 #████╗  ██║██╔═══██╗╚══██╔══╝██║██╔════╝╚██╗ ██╔╝
-#██╔██╗ ██║██║   ██║   ██║   ██║█████╗   ╚████╔╝ 
-#██║╚██╗██║██║   ██║   ██║   ██║██╔══╝    ╚██╔╝  
-#██║ ╚████║╚██████╔╝   ██║   ██║██║        ██║   
-#╚═╝  ╚═══╝ ╚═════╝    ╚═╝   ╚═╝╚═╝        ╚═╝   
-#                                                
+#██╔██╗ ██║██║   ██║   ██║   ██║█████╗   ╚████╔╝
+#██║╚██╗██║██║   ██║   ██║   ██║██╔══╝    ╚██╔╝
+#██║ ╚████║╚██████╔╝   ██║   ██║██║        ██║
+#╚═╝  ╚═══╝ ╚═════╝    ╚═╝   ╚═╝╚═╝        ╚═╝
+#
 notify:
   - name: pushover
     platform: pushover
-    api_key: !secret pushover_api_pwd
-    user_key: !secret pushover_user_pwd
+    api_key: !secret pushover_api_pwd # pragma: allowlist secret
+    user_key: !secret pushover_user_pwd # pragma: allowlist secret
   - name: android
     platform: nfandroidtv
-    host: !secret host_androidtv
+    host: !secret host_androidtv # pragma: allowlist secret
     position: top-right
     fontsize: medium
   - name: Google Assistant Broadcast
     platform: rest
-    resource: !secret google_assistant_webserver_bc
+    resource: !secret google_assistant_webserver_bc # pragma: allowlist secret
   - name: Google Assistant Command
     platform: rest
-    resource: !secret google_assistant_webserver_cmd
+    resource: !secret google_assistant_webserver_cmd # pragma: allowlist secret
   - name: Telegram
     platform: telegram
-    chat_id: !secret telegram_chatid1
+    chat_id: !secret telegram_chatid1 # pragma: allowlist secret

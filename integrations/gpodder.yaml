@@ -1,13 +1,13 @@
-# ██████╗ ██████╗  ██████╗ ██████╗ ██████╗ ███████╗██████╗ 
+# ██████╗ ██████╗  ██████╗ ██████╗ ██████╗ ███████╗██████╗
 #██╔════╝ ██╔══██╗██╔═══██╗██╔══██╗██╔══██╗██╔════╝██╔══██╗
 #██║  ███╗██████╔╝██║   ██║██║  ██║██║  ██║█████╗  ██████╔╝
 #██║   ██║██╔═══╝ ██║   ██║██║  ██║██║  ██║██╔══╝  ██╔══██╗
 #╚██████╔╝██║     ╚██████╔╝██████╔╝██████╔╝███████╗██║  ██║
 # ╚═════╝ ╚═╝      ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝╚═╝  ╚═╝
-#                                                          
+#
 gpodder:
-  username: !secret gpodder_user
-  password: !secret gpodder_password
+  username: !secret gpodder_user # pragma: allowlist secret
+  password: !secret gpodder_password # pragma: allowlist secret
   sensor:
     - enabled: true
       name: podcasts

@@ -31,4 +31,3 @@ request_work_server_assignment:
       address:
         description: The IP address or hostname of the client. It can be found as part of the integration name.
         example: 'localhost'
-  

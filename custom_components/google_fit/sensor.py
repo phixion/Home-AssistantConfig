@@ -25,7 +25,7 @@ for Google Calender component:
 https://www.home-assistant.io/components/calendar.google/#prerequisites
 
 To make sensor work you have to enable Fintness API in your project.
-In oder to enable Fitness API open Google cloud console: 
+In oder to enable Fitness API open Google cloud console:
 https://console.cloud.google.com/apis/library/fitness.googleapis.com
 and enable API.
 
@@ -220,7 +220,7 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
     TOKEN_FILE = '.{}_{}.token'.format(name,SENSOR)
     token_file = hass.config.path(TOKEN_FILE)
     client = _get_client(token_file)
-    
+
     add_devices([GoogleFitWeightSensor(client, name),
                  GoogleFitHeightSensor(client, name),
                  GoogleFitStepsSensor(client, name),
@@ -583,7 +583,7 @@ class GoogleFitDistanceSensor(GoogleFitSensor):
         self._attributes = {}
 
 class GoogleFitSleepSensor(GoogleFitSensor):
-    
+
     @property
     def _name_suffix(self):
         """Returns the name suffix of the sensor."""
@@ -620,17 +620,17 @@ class GoogleFitSleepSensor(GoogleFitSensor):
                 starts.append(int(point["startTimeMillis"]))
                 ends.append(int(point["endTimeMillis"]))
                 #print('Calculating total deep and light sleep', point["name"])
-                if  point["name"].startswith('Deep'):   
+                if  point["name"].startswith('Deep'):
                         deep_sleep_start = datetime.fromtimestamp(int(point["startTimeMillis"]) / 1000)
                         deep_sleep_end = datetime.fromtimestamp(int(point["endTimeMillis"]) / 1000)
                         print(deep_sleep_start, deep_sleep_end , point["name"], "Total: ", (deep_sleep_end - deep_sleep_start) )
                         deep_sleep.append(deep_sleep_end - deep_sleep_start)
-                elif  point["name"].startswith('Light'):        
+                elif  point["name"].startswith('Light'):
                         light_sleep_start = datetime.fromtimestamp(int(point["startTimeMillis"]) / 1000)
                         light_sleep_end = datetime.fromtimestamp(int(point["endTimeMillis"]) / 1000)
                         print(light_sleep_start, light_sleep_end , point["name"], "Total: ", (light_sleep_end - light_sleep_start) )
                         light_sleep.append(light_sleep_end - light_sleep_start)
-        
+
         #print("starts", starts, "ends", ends)
         if len(starts) != 0 or len(ends) != 0:
             bed_time = datetime.fromtimestamp(round(min(starts) / 1000))
@@ -643,7 +643,7 @@ class GoogleFitSleepSensor(GoogleFitSensor):
             self._state = str(total_sleep)
             self._attributes = state_dict
             self._last_updated = time.time()
-        else:    
+        else:
             self._state = ""
             self._attributes = {}
             self._last_updated = time.time()

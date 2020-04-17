@@ -49,4 +49,3 @@ switch:
       - light.turn_on: ${devicename}_rgb
     turn_off_action:
       - light.turn_off: ${devicename}_rgb
-

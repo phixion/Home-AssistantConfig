@@ -1,3 +1,0 @@
-#foldingathomecontrol:
-#  - address: !secret foldingathome_host
-#    port: !secret foldingathome_port

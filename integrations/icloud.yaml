@@ -1,3 +1,0 @@
-#icloud:
-#  - username: !secret icloud_usr
-#    password: !secret icloud_pwd

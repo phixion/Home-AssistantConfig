@@ -51,7 +51,7 @@ USG_SENSORS = {
     SENSOR_FIRMWARE:['Firmware Upgradable', '', 'mdi:database-plus']
 }
 
-POSSIBLE_MONITORED = [ SENSOR_VPN, SENSOR_WWW, SENSOR_WAN, SENSOR_LAN, 
+POSSIBLE_MONITORED = [ SENSOR_VPN, SENSOR_WWW, SENSOR_WAN, SENSOR_LAN,
                         SENSOR_WLAN, SENSOR_ALERTS, SENSOR_FIRMWARE ]
 DEFAULT_MONITORED = POSSIBLE_MONITORED
 
@@ -62,7 +62,7 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
     vol.Required(CONF_PASSWORD): cv.string,
     vol.Required(CONF_USERNAME): cv.string,
     vol.Required(CONF_PORT, default=DEFAULT_PORT): cv.port,
-    vol.Optional(CONF_VERIFY_SSL, default=DEFAULT_VERIFY_SSL): 
+    vol.Optional(CONF_VERIFY_SSL, default=DEFAULT_VERIFY_SSL):
         vol.Any(cv.boolean, cv.isfile),
     vol.Optional(CONF_MONITORED_CONDITIONS, default=DEFAULT_MONITORED):
         vol.All(cv.ensure_list, [vol.In(POSSIBLE_MONITORED)])

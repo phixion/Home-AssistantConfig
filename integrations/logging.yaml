@@ -22,7 +22,7 @@ logger:
 recorder:
   purge_keep_days: 60
   purge_interval: 1
-  db_url: !secret dburl
+  db_url: !secret dburl # pragma: allowlist secret
   exclude:
     entities:
       - binary_sensor.outside_temperature_falling

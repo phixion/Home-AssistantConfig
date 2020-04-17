@@ -50,7 +50,7 @@ switch:
     turn_off_action:
       - switch.turn_off: relay
       - light.turn_off: ${devicename}_led
-binary_sensor: 
+binary_sensor:
   - platform: gpio
     internal: true
     pin:

@@ -1,16 +1,16 @@
-#██╗███╗   ██╗███████╗██╗     ██╗   ██╗██╗  ██╗██████╗ ██████╗ 
+#██╗███╗   ██╗███████╗██╗     ██╗   ██╗██╗  ██╗██████╗ ██████╗
 #██║████╗  ██║██╔════╝██║     ██║   ██║╚██╗██╔╝██╔══██╗██╔══██╗
 #██║██╔██╗ ██║█████╗  ██║     ██║   ██║ ╚███╔╝ ██║  ██║██████╔╝
 #██║██║╚██╗██║██╔══╝  ██║     ██║   ██║ ██╔██╗ ██║  ██║██╔══██╗
 #██║██║ ╚████║██║     ███████╗╚██████╔╝██╔╝ ██╗██████╔╝██████╔╝
-#╚═╝╚═╝  ╚═══╝╚═╝     ╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚═════╝ ╚═════╝ 
-#                                                              
+#╚═╝╚═╝  ╚═══╝╚═╝     ╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚═════╝ ╚═════╝
+#
 influxdb:
-  host: !secret influx_host
-  port: !secret influx_port
-  database: !secret influx_hassio_db
-  username: !secret influx_usr
-  password: !secret influx_pwd
+  host: !secret influx_host # pragma: allowlist secret
+  port: !secret influx_port # pragma: allowlist secret
+  database: !secret influx_hassio_db # pragma: allowlist secret
+  username: !secret influx_usr # pragma: allowlist secret
+  password: !secret influx_pwd # pragma: allowlist secret
   max_retries: 10
   tags_attributes:
     - friendly_name
@@ -37,4 +37,3 @@ influxdb:
   #      - sensor.sonoff_th16_whz_temperatur_sensor
   tags:
     source: hass
-

@@ -26,8 +26,6 @@ homeassistant:
         - !secret trusted_network_2
         - !secret trusted_network_3
         - !secret trusted_network_4
-#    - type: legacy_api_password
-#      api_password: !secret http_password
   auth_mfa_modules:
     - type: totp
       name: Authy

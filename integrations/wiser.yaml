@@ -1,13 +1,13 @@
-#██╗    ██╗██╗███████╗███████╗██████╗ 
+#██╗    ██╗██╗███████╗███████╗██████╗
 #██║    ██║██║██╔════╝██╔════╝██╔══██╗
 #██║ █╗ ██║██║███████╗█████╗  ██████╔╝
 #██║███╗██║██║╚════██║██╔══╝  ██╔══██╗
 #╚███╔███╔╝██║███████║███████╗██║  ██║
 # ╚══╝╚══╝ ╚═╝╚══════╝╚══════╝╚═╝  ╚═╝
-#                                     
+#
 wiser:
-  host: !secret wiser_host
-  password: !secret wiserapi_pwd
+  host: !secret wiser_host # pragma: allowlist secret
+  password: !secret wiserapi_pwd # pragma: allowlist secret
   scan_interval: 300
   boost_temp: 4
   boost_time: 1800

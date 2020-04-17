@@ -7,7 +7,7 @@
 #
 media_player:
   - platform: androidtv
-    host: !secret host_androidtv
+    host: !secret host_androidtv # pragma: allowlist secret
     name: Android TV
     device_class: androidtv
     adb_server_ip: localhost

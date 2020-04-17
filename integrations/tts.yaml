@@ -4,13 +4,13 @@
 #   ██║      ██║   ╚════██║
 #   ██║      ██║   ███████║
 #   ╚═╝      ╚═╝   ╚══════╝
-#                          
+#
 tts:
   - platform: google_translate
     cache: true
     cache_dir: /config/tts
   - platform: google_cloud
-    key_file: !secret google_service_accout_json
+    key_file: !secret google_service_accout_json # pragma: allowlist secret
     language: de-DE
     gender: female
     voice: de-DE-Wavenet-C
@@ -18,6 +18,6 @@ tts:
     cache: true
     cache_dir: /config/tts
   - platform: watson_tts
-    watson_apikey: !secret ibm_cloud
-    watson_url: !secret ibm_watson_url
+    watson_apikey: !secret ibm_cloud # pragma: allowlist secret
+    watson_url: !secret ibm_watson_url # pragma: allowlist secret
     voice: "de-DE_BirgitV3Voice"

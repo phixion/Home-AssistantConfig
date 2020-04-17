@@ -347,7 +347,7 @@ class CircadianSwitch(SwitchDevice, RestoreEntity):
                 self.update_switch(self._initial_transition)
         except:
             pass
-    
+
     def disable_state_changed(self, entity_id, from_state, to_state):
         try:
             _LOGGER.debug(entity_id + " change from " + str(from_state) + " to " + str(to_state))

@@ -57,6 +57,3 @@ class ChromecastDevicesSensor(Entity):
         self._attributes['devices'] = chromecasts
         self._attributes['last_update'] = dt.now().isoformat('T')
         self._state = STATE_OK
-
-
-

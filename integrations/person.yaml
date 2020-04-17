@@ -4,9 +4,9 @@
 #██╔═══╝ ██╔══╝  ██╔══██╗╚════██║██║   ██║██║╚██╗██║
 #██║     ███████╗██║  ██║███████║╚██████╔╝██║ ╚████║
 #╚═╝     ╚══════╝╚═╝  ╚═╝╚══════╝ ╚═════╝ ╚═╝  ╚═══╝
-#                                                   
+#
 person:
   - name: Martin
-    id: !secret martin_userid
+    id: !secret martin_userid # pragma: allowlist secret
     device_trackers:
       - device_tracker.google_pixel

@@ -30,8 +30,8 @@ camera:
     name: Wiener Platz
   - platform: generic
     name: Nest Cam
-    still_image_url: !secret nest_image
-    stream_source: !secret nest_stream
+    still_image_url: !secret nest_image # pragma: allowlist secret
+    stream_source: !secret nest_stream # pragma: allowlist secret
     verify_ssl: false
 #  - platform: local_file
 #    file_path: tmp/deepstack_object_local_file_latest_person.jpg

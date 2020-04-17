@@ -3,7 +3,7 @@
     update_interval: 200 ms
     lambda: |-
       auto call = id(${devicename}_rgb).turn_on();
-      float r = random_float() * 2.0f - 1.0f; 
+      float r = random_float() * 2.0f - 1.0f;
       r =  r * r * r;
       call.set_transition_length(r);
       static double br=id(global_brightness);

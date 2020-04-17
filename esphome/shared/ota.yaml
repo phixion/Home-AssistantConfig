@@ -1,2 +1,2 @@
 safe_mode: true
-password: !secret esphome_ota_pwd
+password: !secret esphome_ota_pwd # pragma: allowlist secret

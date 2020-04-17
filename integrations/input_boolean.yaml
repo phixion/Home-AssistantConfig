@@ -20,6 +20,6 @@ input_boolean:
     initial: off
     icon: mdi:cannabis
   play_frenck:
-    name: Play latest Frenck 
+    name: Play latest Frenck
     initial: off
     icon: mdi:car-esp

@@ -1,2 +1,2 @@
-password: !secret esphome_api_pwd
+password: !secret esphome_api_pwd # pragma: allowlist secret
 reboot_timeout: 1h

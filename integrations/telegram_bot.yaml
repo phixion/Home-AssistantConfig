@@ -4,9 +4,9 @@
 #   ██║   ██╔══╝  ██║     ██╔══╝  ██║   ██║██╔══██╗██╔══██║██║╚██╔╝██║
 #   ██║   ███████╗███████╗███████╗╚██████╔╝██║  ██║██║  ██║██║ ╚═╝ ██║
 #   ╚═╝   ╚══════╝╚══════╝╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝
-#                                                                     
+#
 telegram_bot:
   - platform: polling
-    api_key: !secret telegram_apipwd
+    api_key: !secret telegram_apipwd # pragma: allowlist secret
     allowed_chat_ids:
-      - !secret telegram_chatid1
+      - !secret telegram_chatid1 # pragma: allowlist secret

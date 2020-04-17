@@ -45,7 +45,7 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
     vol.Optional(CONF_PORT, default='8126'): cv.string,
     vol.Optional(CONF_STATS, default='False'): cv.string,
     vol.Optional(CONF_PREFIX, default='None'): cv.string,
-    vol.Optional(CONF_EXCLUDE, default=None): 
+    vol.Optional(CONF_EXCLUDE, default=None):
         vol.All(cv.ensure_list, [cv.string]),
 })
 
@@ -158,14 +158,14 @@ class ContainerSwitch(SwitchDevice):
                 ATTR_COMPONENT: self._component,
                 ATTR_COMPONENT_VERSION: self._componentversion
             }
-        else: 
+        else:
             return {
                 ATTR_STATUS: self._status,
                 ATTR_IMAGE: self._image,
                 ATTR_COMPONENT: self._component,
                 ATTR_COMPONENT_VERSION: self._componentversion
             }
-            
+
     @property
     def is_on(self):
         return self._state
@@ -173,7 +173,7 @@ class ContainerSwitch(SwitchDevice):
     def turn_on(self, **kwargs):
         if self._name.startswith("addon_"):
             addon = self._name.replace("addon_", "")
-            self.hass.bus.async_fire(event_type='call_service', 
+            self.hass.bus.async_fire(event_type='call_service',
                 event_data={'domain': 'hassio','service': 'addon_start',
                     'service_data': {'addon': addon}})
         else:
@@ -190,7 +190,7 @@ class ContainerSwitch(SwitchDevice):
     def turn_off(self, **kwargs):
         if self._name.startswith("addon_"):
             addon = self._name.replace("addon_", "")
-            self.hass.bus.async_fire(event_type='call_service', 
+            self.hass.bus.async_fire(event_type='call_service',
                 event_data={'domain': 'hassio','service': 'addon_stop',
                     'service_data': {'addon': addon}})
             self._state = False

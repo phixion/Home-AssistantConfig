@@ -112,4 +112,3 @@ class BrowserModConnection:
                     self)
             if self.camera:
                 self.camera.data = data.get('camera')
-

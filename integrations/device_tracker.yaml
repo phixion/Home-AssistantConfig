@@ -26,10 +26,10 @@ device_tracker:
       - device_tracker.0x3efe_icloud
       - device_tracker.0x3efe_wifi
   - platform: traccar
-    host: !secret traccar_host
-    port: !secret traccar_port
-    username: !secret traccar_usr
-    password: !secret traccar_pwd
+    host: !secret traccar_host # pragma: allowlist secret
+    port: !secret traccar_port # pragma: allowlist secret
+    username: !secret traccar_usr # pragma: allowlist secret
+    password: !secret traccar_pwd # pragma: allowlist secret
   - platform: google_maps
-    username: !secret gmaps_username
+    username: !secret gmaps_username # pragma: allowlist secret
     max_gps_accuracy: 50

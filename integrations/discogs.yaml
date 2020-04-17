@@ -7,7 +7,7 @@
 #
 sensor:
   - platform: discogs
-    token: !secret discogs_token
+    token: !secret discogs_token # pragma: allowlist secret
     name: Plattensammlung
     monitored_conditions:
       - wantlist
