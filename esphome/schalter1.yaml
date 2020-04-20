@@ -1,10 +1,10 @@
 substitutions:
-  devicename: th16whz
-  friendly_name: "Sonoff TH16 (WHZ)"
+  devicename: schalter1
+  friendly_name: Schalter Schrank
+  room: Küche
   update_interval_short: 2s
-  update_interval_long: 2min
+  update_interval_long: 10min
 esphome:
-  esp8266_restore_from_flash: true
   name: ${devicename}
   platform: ESP8266
   board: esp01_1m
@@ -13,75 +13,82 @@ wifi: !include shared/wifi.yaml
 time: !include shared/time.yaml
 api: !include shared/api.yaml
 ota: !include shared/ota.yaml
+text_sensor: !include shared/textsensors.yaml
 web_server: !include shared/webserver.yaml
 captive_portal:
 logger:
 binary_sensor:
   - platform: gpio
+    internal: true
     pin:
       number: GPIO0
       mode: INPUT_PULLUP
       inverted: true
-    name: ${friendly_name} Button
-    internal: true
+    id: button
     on_press:
       - switch.toggle: ${devicename}_button
+  - platform: status
+    name: ${friendly_name} (${room}) Status
 sensor:
   - platform: wifi_signal
-    name: ${friendly_name} WiFi Signal
+    name: ${friendly_name} (${room}) WiFi Signal
     update_interval: ${update_interval_long}
-    unit_of_measurement: db
-    icon: "mdi:wifi"
+    unit_of_measurement: dB
+    icon: mdi:wifi
+    force_update: true
   - platform: uptime
-    name: ${friendly_name} Uptime
+    force_update: true
+    name: ${friendly_name} (${room}) Uptime
     filters:
       - lambda: return x / 60.0;
     unit_of_measurement: minutes
-    icon: "mdi:alarm"
+    icon: mdi:alarm
   - platform: dht
     pin: GPIO14
     model: SI7021
     temperature:
-      name: ${friendly_name} Temperatur
+      name: ${friendly_name} (${room}) Temperatur
       unit_of_measurement: "°C"
       icon: "mdi:thermometer-lines"
-      accuracy_decimals: 1
+      accuracy_decimals: 2
       force_update: true
     humidity:
-      name: ${friendly_name} Luftfeuchtigkeit
-      accuracy_decimals: 0
+      name: ${friendly_name} (${room}) Luftfeuchtigkeit
+      accuracy_decimals: 2
       force_update: true
       icon: "mdi:water-percent"
 switch:
   - platform: restart
-    name: ${friendly_name} Restart
+    name: ${friendly_name} (${room}) Restart
   - platform: template
     restore_state: true
-    name: ${friendly_name} Relay
+    name: ${friendly_name} (${room}) Relay
     optimistic: true
     id: ${devicename}_button
     turn_on_action:
-#      - switch.turn_on: relay
-      - light.turn_on: led
+      - switch.turn_on: relay
+      - light.turn_on: ${devicename}_led
     turn_off_action:
-#      - switch.turn_off: relay
-      - light.turn_off: led
+      - switch.turn_off: relay
+      - light.turn_off: ${devicename}_led
   - platform: gpio
     id: relay
     pin: GPIO12
-    restore_mode: ALWAYS_ON
 output:
-  #  - platform: gpio
-  #    pin: GPIO12
-  #    id: relay_${devicename}
+  - platform: gpio
+    pin: GPIO12
+    id: ${devicename}_relay
   - platform: esp8266_pwm
-    id: th_blue_led
-    pin:
-      number: GPIO13
-      inverted: true
+    id: ${devicename}_light
+    pin: GPIO13
+    inverted: true
 light:
+  - platform: binary
+    name: ${friendly_name} (${room}) Light
+    id: ${devicename}
+    output: ${devicename}_relay
   - platform: monochromatic
     internal: true
-    name: ${friendly_name} Blue LED
-    output: th_blue_led
-    id: led
+    name: ${friendly_name} (${room}) LED
+    output: ${devicename}_light
+    id: ${devicename}_led

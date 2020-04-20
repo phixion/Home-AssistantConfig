@@ -1,5 +1,5 @@
 #- platform: version
-#  name: "${friendly_name} ESPHome Version"
+#  name: "${friendly_name} ${room}  ESPHome Version"
 #  icon: 'mdi:car-esp'
 #  on_value:
 #    then:
@@ -7,11 +7,11 @@
 #          ESP_LOGD("main", "The current version is %s", x.c_str());
 - platform: wifi_info
   ip_address:
-    name: ${friendly_name} IP Address
+    name: ${friendly_name} (${room}) IP Address
     icon: mdi:wifi
 #  ssid:
-#    name: ${friendly_name} SSID
+#    name: ${friendly_name} (${room}) SSID
 #    icon: mdi:wifi
 #  bssid:
-#    name: ${friendly_name} BSSID
+#    name: ${friendly_name} (${room}) BSSID
 #    icon: mdi:wifi

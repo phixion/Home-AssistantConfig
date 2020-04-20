@@ -164,20 +164,20 @@ sensor.climate_wohnung_temp:
     - Temperatur Wohnung
     - Temperatur
     - Thermometer
-sensor.sonoff_th16_whz_temperatur:
+sensor.schalter_schrank_kuche_temperatur:
   expose: true
-  room: Wohnzimmer
+  room: Küche
   aliases:
     - Thermometer
-    - Wohnzimmerthermometer
-    - Thermometer Wohnzimmer
-sensor.sonoff_th16_whz_luftfeuchtigkeit:
+    - Küchenthermometer
+    - Thermometer Küche
+sensor.schalter_schrank_kuche_luftfeuchtigkeit:
   expose: true
-  room: Wohnzimmer
+  room: Küche
   aliases:
     - Hygrometer
-    - Wohnzimmerhygrometer
-    - Hygrometer Wohnzimmer
+    - Küchenhygrometer
+    - Hygrometer Küche
 sensor.outside_temperature:
   expose: true
   name: Außentemperatur

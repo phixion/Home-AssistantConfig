@@ -5,7 +5,7 @@ from .const import _LOGGER, WEEKDAYS, WEEKENDS, SPECIALDAYS
 def convert_from_wiser_schedule(scheduleData: dict, scheduleName=""):
     """
     Description: Converts from wiser format to human readable format
-
+    
     Param: scheduleData
     Param: mode
     """
@@ -53,7 +53,7 @@ def convert_from_wiser_schedule(scheduleData: dict, scheduleName=""):
 def convert_to_wiser_schedule(scheduleData: dict):
     """
     Description: Converts from human readable format to wiser format
-
+    
     Param: scheduleData
     Param: mode
     """

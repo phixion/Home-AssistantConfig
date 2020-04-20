@@ -1,6 +1,7 @@
 substitutions:
   devicename: switchlavalamp
   friendly_name: "Schalter Lavalampe"
+  room: Wohnzimmer
   update_interval: 10min
 esphome:
   esp8266_restore_from_flash: true

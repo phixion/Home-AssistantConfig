@@ -7,6 +7,7 @@ At the moment, provides following measurements:
     - weight
     - height
     - sleep
+    - heartrate
 
 Sensor is designed to be flexible and allow customization to add new Google Fit
 dimensions with minimal effort with relative knowledge of Python and Fitness
@@ -25,7 +26,7 @@ for Google Calender component:
 https://www.home-assistant.io/components/calendar.google/#prerequisites
 
 To make sensor work you have to enable Fintness API in your project.
-In oder to enable Fitness API open Google cloud console:
+In oder to enable Fitness API open Google cloud console: 
 https://console.cloud.google.com/apis/library/fitness.googleapis.com
 and enable API.
 
@@ -220,8 +221,9 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
     TOKEN_FILE = '.{}_{}.token'.format(name,SENSOR)
     token_file = hass.config.path(TOKEN_FILE)
     client = _get_client(token_file)
-
+    
     add_devices([GoogleFitWeightSensor(client, name),
+                 GoogleFitHeartRateSensor(client, name),
                  GoogleFitHeightSensor(client, name),
                  GoogleFitStepsSensor(client, name),
                  GoogleFitSleepSensor(client, name),
@@ -260,7 +262,8 @@ class GoogleFitSensor(entity.Entity):
     @property
     def last_updated(self):
         """Returns date when it was last updated."""
-        return utc_from_timestamp(self._last_updated)
+        if isinstance(self._last_updated, int):
+            return utc_from_timestamp(self._last_updated)
 
     @property
     def name(self):
@@ -444,9 +447,64 @@ class GoogleFitHeightSensor(GoogleFitSensor):
 
             self._last_updated = round(last_time_update / 1000)
             self._state = last_height
-            print(self.name, last_height)
+            #print(self.name, last_height)
 
             self._attributes = {}
+
+
+class GoogleFitHeartRateSensor(GoogleFitSensor):
+    @property
+    def unit_of_measurement(self):
+        """Returns the unit of measurement."""
+        return 'BPM'
+
+    @property
+    def icon(self):
+        """Return the icon."""
+        return 'mdi:heart'
+
+    @property
+    def _name_suffix(self):
+        """Returns the name suffix of the sensor."""
+        return 'HEARTRATE'
+
+    @util.Throttle(MIN_TIME_BETWEEN_SCANS, MIN_TIME_BETWEEN_UPDATES)
+    def update(self):
+        """Extracts the relevant data points for from the Fitness API."""
+        heartrate_datasources = self._get_datasources('com.google.heart_rate.bpm')
+
+        heart_datapoints = {}
+        for datasource in heartrate_datasources:
+            datasource_id = datasource.get('dataStreamId')
+            heart_request = self._client.users().dataSources().\
+                dataPointChanges().list(
+                    userId=API_USER_ID,
+                    dataSourceId=datasource_id,
+                )
+            heart_data = heart_request.execute()
+            heart_inserted_datapoints = heart_data.get('insertedDataPoint')
+            for datapoint in heart_inserted_datapoints:
+                point_value = datapoint.get('value')
+                if not point_value:
+                    continue
+                heartrate = point_value[0].get('fpVal')
+                if not heartrate:
+                    continue
+                last_update_milis = int(datapoint.get('modifiedTimeMillis', 0))
+                if not last_update_milis:
+                    continue
+                heart_datapoints[last_update_milis] = heartrate
+
+        if heart_datapoints:
+            time_updates = list(heart_datapoints.keys())
+            time_updates.sort(reverse=True)
+
+            last_time_update = time_updates[0]
+            last_heartrate = heart_datapoints[last_time_update]
+
+            self._last_updated = round(last_time_update / 1000)
+            self._state = last_heartrate
+        self._attributes = {}
 
 
 class GoogleFitStepsSensor(GoogleFitSensor):
@@ -513,7 +571,7 @@ class GoogleFitMoveTimeSensor(GoogleFitSensor):
 
         self._last_updated = time.time()
         self._state = sum(values)
-        print(self.name, sum(values))
+        #print(self.name, sum(values))
         self._attributes = {}
 
 
@@ -546,7 +604,7 @@ class GoogleFitCaloriesSensor(GoogleFitSensor):
 
         self._last_updated = time.time()
         self._state = round(sum(values))
-        print(self.name, round(sum(values)))
+        #print(self.name, round(sum(values)))
         self._attributes = {}
 
 
@@ -579,11 +637,11 @@ class GoogleFitDistanceSensor(GoogleFitSensor):
 
         self._last_updated = time.time()
         self._state = round(sum(values) / 1000, 2)
-        print(self.name, round(sum(values) / 1000, 2))
+        #print(self.name, round(sum(values) / 1000, 2))
         self._attributes = {}
 
 class GoogleFitSleepSensor(GoogleFitSensor):
-
+    
     @property
     def _name_suffix(self):
         """Returns the name suffix of the sensor."""
@@ -602,36 +660,29 @@ class GoogleFitSleepSensor(GoogleFitSensor):
     @util.Throttle(MIN_TIME_BETWEEN_SCANS, MIN_TIME_BETWEEN_UPDATES)
     def update(self):
         """Extracts the relevant data points for from the Fitness API."""
-
         yesterday = datetime.now().replace(hour=17,minute=0,second=0,microsecond=0)
         yesterday = yesterday - timedelta(days=1)
         starttime = yesterday.isoformat("T") + "Z"
         today = datetime.now().replace(hour=11,minute=0,second=0,microsecond=0)
         endtime = today.isoformat("T") + "Z"
-        print("Starttime: ", starttime , "Endtime: ", endtime)
         sleep_dataset =  self._client.users().sessions().list(userId='me',fields='session',startTime=starttime,endTime=endtime).execute()
         starts = []
         ends = []
         deep_sleep = []
         light_sleep = []
         for point in sleep_dataset["session"]:
-            #print(point)
             if int(point["activityType"]) == 72 :
                 starts.append(int(point["startTimeMillis"]))
                 ends.append(int(point["endTimeMillis"]))
-                #print('Calculating total deep and light sleep', point["name"])
-                if  point["name"].startswith('Deep'):
+                if  point["name"].startswith('Deep'):   
                         deep_sleep_start = datetime.fromtimestamp(int(point["startTimeMillis"]) / 1000)
                         deep_sleep_end = datetime.fromtimestamp(int(point["endTimeMillis"]) / 1000)
-                        print(deep_sleep_start, deep_sleep_end , point["name"], "Total: ", (deep_sleep_end - deep_sleep_start) )
                         deep_sleep.append(deep_sleep_end - deep_sleep_start)
-                elif  point["name"].startswith('Light'):
+                elif  point["name"].startswith('Light'):        
                         light_sleep_start = datetime.fromtimestamp(int(point["startTimeMillis"]) / 1000)
                         light_sleep_end = datetime.fromtimestamp(int(point["endTimeMillis"]) / 1000)
-                        print(light_sleep_start, light_sleep_end , point["name"], "Total: ", (light_sleep_end - light_sleep_start) )
                         light_sleep.append(light_sleep_end - light_sleep_start)
-
-        #print("starts", starts, "ends", ends)
+        
         if len(starts) != 0 or len(ends) != 0:
             bed_time = datetime.fromtimestamp(round(min(starts) / 1000))
             wake_up_time = datetime.fromtimestamp(round(max(ends) / 1000))
@@ -639,11 +690,11 @@ class GoogleFitSleepSensor(GoogleFitSensor):
             total_deep_sleep = sum(deep_sleep,timedelta())
             total_light_sleep = sum(light_sleep, timedelta())
             state_dict = dict({'bed_time': str(bed_time), 'wake_up_time': str(wake_up_time), 'sleep': str(total_sleep), 'deep_sleep': str(total_deep_sleep), 'light_sleep': str(total_light_sleep)})
-            #print(state_dict)
+            print(state_dict)
             self._state = str(total_sleep)
             self._attributes = state_dict
             self._last_updated = time.time()
-        else:
+        else:    
             self._state = ""
             self._attributes = {}
             self._last_updated = time.time()

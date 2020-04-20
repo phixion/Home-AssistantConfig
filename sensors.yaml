@@ -542,7 +542,7 @@
   entity_id: sensor.energy_combined_voltage
 - platform: filter
   name: "Luftfeuchtigkeit Wohnzimmer (Filtered)"
-  entity_id: sensor.sonoff_th16_whz_luftfeuchtigkeit
+  entity_id: sensor.nodemcu_2_tv_relative_luftfeuchtigkeit
   filters:
     - filter: outlier
       window_size: 4
@@ -552,7 +552,7 @@
       precision: 2
 - platform: filter
   name: "Temperatur Wohnzimmer Thermometer (Filtered)"
-  entity_id: sensor.sonoff_th16_whz_temperatur
+  entity_id: sensor.nodemcu_2_tv_temperatur
   filters:
     - filter: outlier
       window_size: 4
@@ -771,8 +771,8 @@
     - precip_intensity_max
     - uv_index
     - moon_phase
-- platform: google_fit
-#  scan_interval: 1000000
+- platform: google_fit_hass
+  scan_interval: 1000000
   name: Google Fit Martin
   client_id: !secret google_fit_id # pragma: allowlist secret
   client_secret: !secret google_fit_secret # pragma: allowlist secret

@@ -2,7 +2,8 @@ substitutions:
   devicename: nodemcu5
   friendly_name: Nodemcu 5
   room: Bad
-  update_interval: 60s
+  update_interval_long: 2min
+  update_interval_short: 5s
 esphome:
   name: ${devicename}
   platform: ESP8266
@@ -14,24 +15,26 @@ ota: !include shared/ota.yaml
 web_server: !include shared/webserver.yaml
 captive_portal:
 logger:
-sun:
-  latitude: !secret home_lat
-  longitude: !secret home_lon
 sensor:
   - platform: wifi_signal
     name: ${friendly_name} (${room}) WiFi Signal
-    update_interval: ${update_interval}
+    update_interval: ${update_interval_long}
     unit_of_measurement: dB
     icon: mdi:wifi
-  - platform: sun
-    name: ${friendly_name} (${room}) Sonne Elevation
-    type: elevation
-    update_interval: 60s
-  - platform: sun
-    name: ${friendly_name} (${room}) Sonne Azimuth
-    type: azimuth
-    update_interval: 60s
+  - platform: adc
+    pin: A0
+    update_interval: ${update_interval_short}
+    name: ${friendly_name} (${room}) Audio Meter
+    filters:
+      - multiply: 3.3
+    unit_of_measurement: dB
 binary_sensor:
+  - platform: gpio
+    pin: D3
+    device_class: sound
+    name: ${friendly_name} (${room}) Noise Sensor
+    filters:
+      - delayed_off: 120s
   - platform: gpio
     pin: D0
     id: ${devicename}_motion
@@ -46,8 +49,9 @@ binary_sensor:
     id: ${devicename}_templ
     internal: true
     lambda: 'return id(${devicename}_motion).state;'
-    filters:
-      - delayed_off: 3min
+# set delay via hardware poti
+#    filters:
+#      - delayed_off: 3min
     on_release:
       - homeassistant.service:
           service: switch.turn_off
@@ -59,10 +63,3 @@ binary_sensor:
 switch:
   - platform: restart
     name: ${friendly_name} (${room}) Restart
-text_sensor:
-  - platform: sun
-    name: ${friendly_name} (${room}) Sonnenaufgang
-    type: sunrise
-  - platform: sun
-    name: ${friendly_name} (${room}) Sonnenuntergang
-    type: sunset
