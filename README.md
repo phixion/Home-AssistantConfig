@@ -4,6 +4,8 @@
 
 [![Pre Commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 
+[![Black Duck Security Risk](https://copilot.blackducksoftware.com/github/repos/phixion/Home-AssistantConfig/branches/master/badge-risk.svg)](https://copilot.blackducksoftware.com/github/repos/phixion/Home-AssistantConfig/branches/master)
+
 ## Hardware
 
 ### Docker Host
