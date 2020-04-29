@@ -24,7 +24,7 @@ switch:
       - light.bulbbad_cwww
       - light.bulbflur_cwww
       - light.mood_lights_cwww
-    min_brightness: 65
+    min_brightness: 15
   - platform: circadian_lighting
     name: Circadian Lighting RGB
     lights_rgb:
