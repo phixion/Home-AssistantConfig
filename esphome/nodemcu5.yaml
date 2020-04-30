@@ -33,8 +33,7 @@ binary_sensor:
     pin: D3
     device_class: sound
     name: ${friendly_name} (${room}) Noise Sensor
-    filters:
-      - delayed_off: 120s
+    id: ${devicename}_sound
   - platform: gpio
     pin: D0
     id: ${devicename}_motion
@@ -46,12 +45,24 @@ binary_sensor:
           data:
             entity_id: switch.schalter_bad_relay
   - platform: template
-    id: ${devicename}_templ
+    id: ${devicename}_templ_motion
     internal: true
     lambda: 'return id(${devicename}_motion).state;'
-# set delay via hardware poti
-#    filters:
-#      - delayed_off: 3min
+# can also set delay via hardware poti
+    filters:
+      - delayed_off: 3min
+    on_release:
+      - homeassistant.service:
+          service: switch.turn_off
+          data:
+            entity_id: switch.schalter_bad_relay
+  - platform: template
+    id: ${devicename}_templ_sound
+    internal: true
+    lambda: 'return id(${devicename}_sound).state;'
+# can also set delay via hardware poti
+    filters:
+      - delayed_off: 3min
     on_release:
       - homeassistant.service:
           service: switch.turn_off
