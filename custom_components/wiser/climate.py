@@ -5,28 +5,27 @@ https://github.com/asantaga/wiserHomeAssistantPlatform
 Angelosantagata@gmail.com
 
 """
-import asyncio
-import logging
+from functools import partial
 
+import homeassistant.helpers.config_validation as cv
 import voluptuous as vol
-
 from homeassistant.components.climate import ClimateDevice
-from homeassistant.core import callback
-
 from homeassistant.components.climate.const import (
+    CURRENT_HVAC_HEAT,
+    CURRENT_HVAC_IDLE,
     HVAC_MODE_AUTO,
-    SUPPORT_TARGET_TEMPERATURE,
-    SUPPORT_PRESET_MODE,
     HVAC_MODE_HEAT,
     HVAC_MODE_OFF,
+    SUPPORT_PRESET_MODE,
+    SUPPORT_TARGET_TEMPERATURE,
 )
 from homeassistant.const import (
-    ATTR_ENTITY_ID,
     ATTR_BATTERY_LEVEL,
+    ATTR_ENTITY_ID,
     ATTR_TEMPERATURE,
     TEMP_CELSIUS,
 )
-import homeassistant.helpers.config_validation as cv
+from homeassistant.core import callback
 from homeassistant.helpers.dispatcher import async_dispatcher_connect
 from homeassistant.helpers.entity import Entity
 from homeassistant.util import ruamel_yaml as yaml
@@ -40,8 +39,7 @@ from .const import (
     ROOM,
     WISER_SERVICES,
 )
-from .util import convert_to_wiser_schedule, convert_from_wiser_schedule
-
+from .util import convert_from_wiser_schedule, convert_to_wiser_schedule
 
 ATTR_TIME_PERIOD = "time_period"
 ATTR_TEMPERATURE_DELTA = "temperature_delta"
@@ -102,7 +100,8 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
     data = hass.data[DOMAIN]
 
     wiser_rooms = [
-        WiserRoom(hass, data, room.get("id")) for room in data.wiserhub.getRooms()
+        WiserRoom(hass, data, room.get("id"))
+        for room in data.wiserhub.getRooms()
     ]
     async_add_entities(wiser_rooms, True)
 
@@ -123,18 +122,22 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
 
         # Find correct room to boost
         for room in wiser_rooms:
-            _LOGGER.debug("*****BOOST for {}".format(room.entity_id))
+            _LOGGER.debug("BOOST for {}".format(room.entity_id))
             if room.entity_id == entity_id:
                 if boost_temp_delta > 0:
-                    boost_temp = ((room.current_temperature)) + boost_temp_delta
-                _LOGGER.debug(
+                    boost_temp = (
+                        (room.current_temperature)
+                    ) + boost_temp_delta
+                _LOGGER.info(
                     "Boost service called for {} to set to {}C for {} mins.".format(
                         room.name, boost_temp, boost_time
                     )
                 )
 
                 hass.async_create_task(
-                    room.set_room_mode(room.room_id, "boost", boost_temp, boost_time)
+                    room.set_room_mode(
+                        room.room_id, "boost", boost_temp, boost_time
+                    )
                 )
                 room.schedule_update_ha_state(True)
                 break
@@ -154,7 +157,9 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
                 scheduleData = room.schedule
                 _LOGGER.debug("Sched Service Data = {}".format(scheduleData))
                 if scheduleData != None:
-                    scheduleData = convert_from_wiser_schedule(scheduleData, room.name)
+                    scheduleData = convert_from_wiser_schedule(
+                        scheduleData, room.name
+                    )
                     yaml.save_yaml(filename, scheduleData)
                 else:
                     raise Exception("No schedule data returned")
@@ -187,7 +192,9 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
                 for to_room in wiser_rooms:
                     if to_room.entity_id == to_entity_id:
                         hass.async_create_task(
-                            room.copy_room_schedule(room.room_id, to_room.room_id)
+                            room.copy_room_schedule(
+                                room.room_id, to_room.room_id
+                            )
                         )
                         room.schedule_update_ha_state(True)
                         break
@@ -265,8 +272,12 @@ class WiserRoom(ClimateDevice):
     @property
     def state(self):
         state = self.data.wiserhub.getRoom(self.room_id).get("Mode")
-        current_temp = self.data.wiserhub.getRoom(self.room_id).get("DisplayedSetPoint")
-        _LOGGER.info("State requested for room %s, state=%s", self.room_id, state)
+        current_temp = self.data.wiserhub.getRoom(self.room_id).get(
+            "DisplayedSetPoint"
+        )
+        _LOGGER.info(
+            "State requested for room %s, state=%s", self.room_id, state
+        )
 
         if state.lower() == "manual":
             if current_temp == -200:
@@ -296,7 +307,10 @@ class WiserRoom(ClimateDevice):
     @property
     def current_temperature(self):
         temp = (
-            self.data.wiserhub.getRoom(self.room_id).get("CalculatedTemperature") / 10
+            self.data.wiserhub.getRoom(self.room_id).get(
+                "CalculatedTemperature"
+            )
+            / 10
         )
         if temp < self.min_temp:
             """ Sometimes we get really low temps (like -3000!),
@@ -309,10 +323,16 @@ class WiserRoom(ClimateDevice):
     @property
     def icon(self):
         # Change icon to show if radiator is heating, not heating or set to off.
-        if self.data.wiserhub.getRoom(self.room_id).get("ControlOutputState") == "On":
+        if (
+            self.data.wiserhub.getRoom(self.room_id).get("ControlOutputState")
+            == "On"
+        ):
             return "mdi:radiator"
         else:
-            if self.data.wiserhub.getRoom(self.room_id).get("CurrentSetPoint") == -200:
+            if (
+                self.data.wiserhub.getRoom(self.room_id).get("CurrentSetPoint")
+                == -200
+            ):
                 return "mdi:radiator-off"
             else:
                 return "mdi:radiator-disabled"
@@ -332,6 +352,16 @@ class WiserRoom(ClimateDevice):
         }
 
     @property
+    def hvac_action(self):
+        if (
+            self.data.wiserhub.getRoom(self.room_id).get("ControlOutputState")
+            == "On"
+        ):
+            return CURRENT_HVAC_HEAT
+        else:
+            return CURRENT_HVAC_IDLE
+
+    @property
     def hvac_mode(self):
         state = self.data.wiserhub.getRoom(self.room_id).get("Mode")
         current_set_point = self.data.wiserhub.getRoom(self.room_id).get(
@@ -348,8 +378,10 @@ class WiserRoom(ClimateDevice):
 
     async def async_set_hvac_mode(self, hvac_mode):
         """Set new operation mode."""
-        _LOGGER.debug(
-            "Setting Device Operation {} for roomId {}".format(hvac_mode, self.room_id)
+        _LOGGER.info(
+            "Setting Device Operation {} for roomId {}".format(
+                hvac_mode, self.room_id
+            )
         )
         # Convert HA heat_cool to manual as required by api
         if hvac_mode == HVAC_MODE_HEAT:
@@ -364,7 +396,9 @@ class WiserRoom(ClimateDevice):
 
     @property
     def preset_mode(self):
-        wiser_preset = self.data.wiserhub.getRoom(self.room_id).get("SetpointOrigin")
+        wiser_preset = self.data.wiserhub.getRoom(self.room_id).get(
+            "SetpointOrigin"
+        )
         mode = self.data.wiserhub.getRoom(self.room_id).get("Mode")
 
         if (
@@ -415,11 +449,15 @@ class WiserRoom(ClimateDevice):
 
             """ Set boost temp to current + boost_temp """
             boost_temp = (
-                self.data.wiserhub.getRoom(self.room_id).get("CalculatedTemperature")
+                self.data.wiserhub.getRoom(self.room_id).get(
+                    "CalculatedTemperature"
+                )
                 / 10
             ) + boost_temp
 
-        await self.set_room_mode(self.room_id, preset_mode, boost_temp, boost_time)
+        await self.set_room_mode(
+            self.room_id, preset_mode, boost_temp, boost_time
+        )
         return True
 
     @property
@@ -429,7 +467,10 @@ class WiserRoom(ClimateDevice):
 
     @property
     def target_temperature(self):
-        target = self.data.wiserhub.getRoom(self.room_id).get("DisplayedSetPoint") / 10
+        target = (
+            self.data.wiserhub.getRoom(self.room_id).get("DisplayedSetPoint")
+            / 10
+        )
 
         state = self.data.wiserhub.getRoom(self.room_id).get("Mode")
         current_set_point = self.data.wiserhub.getRoom(self.room_id).get(
@@ -447,24 +488,24 @@ class WiserRoom(ClimateDevice):
     def state_attributes(self):
         # Generic attributes
         attrs = super().state_attributes
-        attrs["percentage_demand"] = self.data.wiserhub.getRoom(self.room_id).get(
-            "PercentageDemand"
-        )
-        attrs["control_output_state"] = self.data.wiserhub.getRoom(self.room_id).get(
-            "ControlOutputState"
-        )
+        attrs["percentage_demand"] = self.data.wiserhub.getRoom(
+            self.room_id
+        ).get("PercentageDemand")
+        attrs["control_output_state"] = self.data.wiserhub.getRoom(
+            self.room_id
+        ).get("ControlOutputState")
         attrs["heating_rate"] = self.data.wiserhub.getRoom(self.room_id).get(
             "HeatingRate"
         )
         attrs["window_state"] = self.data.wiserhub.getRoom(self.room_id).get(
             "WindowState"
         )
-        attrs["window_detection_active"] = self.data.wiserhub.getRoom(self.room_id).get(
-            "WindowDetectionActive"
-        )
-        attrs["away_mode_supressed"] = self.data.wiserhub.getRoom(self.room_id).get(
-            "AwayModeSuppressed"
-        )
+        attrs["window_detection_active"] = self.data.wiserhub.getRoom(
+            self.room_id
+        ).get("WindowDetectionActive")
+        attrs["away_mode_supressed"] = self.data.wiserhub.getRoom(
+            self.room_id
+        ).get("AwayModeSuppressed")
 
         return attrs
 
@@ -474,23 +515,41 @@ class WiserRoom(ClimateDevice):
         if target_temperature is None:
             return False
 
-        _LOGGER.debug(
-            "Setting temperature for {} to {}".format(self.name, target_temperature)
+        _LOGGER.info(
+            "Setting temperature for {} to {}".format(
+                self.name, target_temperature
+            )
         )
-        self.data.wiserhub.setRoomTemperature(self.room_id, target_temperature)
+        await self.hass.async_add_executor_job(
+            partial(
+                self.data.wiserhub.setRoomTemperature,
+                self.room_id,
+                target_temperature,
+            )
+        )
         self._force_update = True
         await self.async_update_ha_state(True)
 
         return True
 
-    async def set_room_mode(self, room_id, mode, boost_temp=None, boost_time=None):
+    async def set_room_mode(
+        self, room_id, mode, boost_temp=None, boost_time=None
+    ):
         """ Set to default values if not passed in """
         boost_temp = self.data.boost_temp if boost_temp is None else boost_temp
         boost_time = self.data.boost_time if boost_time is None else boost_time
         _LOGGER.debug(
             "Setting Room Mode to {} for roomId {}".format(mode, self.room_id)
         )
-        self.data.wiserhub.setRoomMode(room_id, mode, boost_temp, boost_time)
+        await self.hass.async_add_executor_job(
+            partial(
+                self.data.wiserhub.setRoomMode,
+                room_id,
+                mode,
+                boost_temp,
+                boost_time,
+            )
+        )
         self._force_update = True
         await self.async_update_ha_state(True)
         return True
@@ -498,7 +557,11 @@ class WiserRoom(ClimateDevice):
     async def set_room_schedule(self, room_id, scheduleData):
         if scheduleData != None:
             scheduleData = convert_to_wiser_schedule(scheduleData)
-            self.data.wiserhub.setRoomSchedule(room_id, scheduleData)
+            await self.hass.async_add_executor_job(
+                partial(
+                    self.data.wiserhub.setRoomSchedule, room_id, scheduleData
+                )
+            )
             _LOGGER.debug("Set room schedule for {}".format(self.name))
             self._force_update = True
             await self.async_update_ha_state(True)
@@ -507,7 +570,9 @@ class WiserRoom(ClimateDevice):
             return False
 
     async def copy_room_schedule(self, room_id, to_room_id):
-        self.data.wiserhub.copyRoomSchedule(room_id, to_room_id)
+        await self.hass.async_add_executor_job(
+            partial(self.data.wiserhub.copyRoomSchedule, room_id, to_room_id)
+        )
         _LOGGER.debug(
             "Copied room schedule from {} to {}".format(
                 self.name, self.data.wiserhub.getRoom(to_room_id).get("Name")
@@ -524,4 +589,6 @@ class WiserRoom(ClimateDevice):
             """Update sensor state."""
             await self.async_update_ha_state(True)
 
-        async_dispatcher_connect(self.hass, "WiserHubUpdateMessage", async_update_state)
+        async_dispatcher_connect(
+            self.hass, "WiserHubUpdateMessage", async_update_state
+        )
