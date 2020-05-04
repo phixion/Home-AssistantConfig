@@ -224,6 +224,14 @@
     - service: rest_command.assistant_broadcast
       data_template:
         command: Hey Martin, Nexpo hat ein neues Video auf YouTube hochgeladen.
+    - service: notify.lametric
+      data:
+        message: "New Nexpo Video"
+        data:
+          sound: 'notification'
+          icon: 'i51'
+          cycles: 0
+          priority: 'critical'
 - alias: Notification ScareTheater Video
   id: "12"
   trigger:
@@ -1073,22 +1081,22 @@
     - service: notify.google_assistant_broadcast
       data_template:
         command: "Watchtower hat ein Sicherheitsproblem gemeldet"
-- alias: "LaMetric Nexpo"
-  id: "57"
-  trigger:
-    - platform: state
-      entity_id: sensor.nexpo
-  condition:
-    - condition: template
-      value_template: "{{ as_timestamp(now()) - as_timestamp(states.automation.notification_nexpo_video.attributes.last_triggered) | int > 900 }}"
-    - condition: template
-      value_template: "{{ states.automation.notification_nexpo_video.attributes.last_triggered != none }}"
-  action:
-    service: notify.lametric
-    data:
-      message: "New Nexpo Video"
-      data:
-        sound: 'notification'
-        icon: 'i51'
-        cycles: 0
-        priority: 'critical'
+#- alias: "LaMetric Nexpo"
+#  id: "57"
+#  trigger:
+#    - platform: state
+#      entity_id: sensor.nexpo
+#  condition:
+#    - condition: template
+#      value_template: "{{ as_timestamp(now()) - as_timestamp(states.automation.notification_nexpo_video.attributes.last_triggered) | int > 900 }}"
+#    - condition: template
+#      value_template: "{{ states.automation.notification_nexpo_video.attributes.last_triggered != none }}"
+#  action:
+#    service: notify.lametric
+#    data:
+#      message: "New Nexpo Video"
+#      data:
+#        sound: 'notification'
+#        icon: 'i51'
+#        cycles: 0
+#        priority: 'critical'
