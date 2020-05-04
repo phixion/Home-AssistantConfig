@@ -912,9 +912,6 @@
     - "date"
     - "time_utc"
 - platform: websocket_api
-- platform: aftership
-  name: Paket Verfolgung
-  api_key: !secret aftership_apikey # pragma: allowlist secret
 #- platform: serial
 #  serial_port: /dev/ttyUSB1
 #  baudrate: 9600
