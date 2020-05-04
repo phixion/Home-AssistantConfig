@@ -404,22 +404,22 @@
       device_class: signal_strength
       unit_of_measurement: dB
     climate_thermostat_bad_battery_level:
-      friendly_name: Thermostat Bad Batterie
+      friendly_name: Thermostat Bad
       value_template: "{{ states('sensor.thermostat_bad_battery_level') | default(101) | int if states('sensor.thermostat_bad_battery_level') is not none}}"
       unit_of_measurement: "%"
       device_class: battery
     climate_thermostat_flur_battery_level:
-      friendly_name: Thermostat Flur Batterie
+      friendly_name: Thermostat Flur
       value_template: "{{ states('sensor.thermostat_flur_battery_level') | default(101) | int if states('sensor.thermostat_flur_battery_level') is not none}}"
       unit_of_measurement: "%"
       device_class: battery
     climate_thermostat_wohnzimmer_battery_level:
-      friendly_name: Thermostat Wohnzimmer Batterie
+      friendly_name: Thermostat Wohnzimmer
       value_template: "{{ states('sensor.thermostat_wohnzimmer_battery_level') | default(101) | int if states('sensor.thermostat_wohnzimmer_battery_level') is not none}}"
       unit_of_measurement: "%"
       device_class: battery
     climate_raumthermostat_wohnzimmer_battery_level:
-      friendly_name: Thermostat Theromostat Wohnzimmer Batterie
+      friendly_name: Raumtheromostat Wohnzimmer
       value_template: "{{ states('sensor.thermostat_wohnzimmer_battery_level') | default(101) | int if states('sensor.thermostat_wohnzimmer_battery_level') is not none}}"
       unit_of_measurement: "%"
       device_class: battery
