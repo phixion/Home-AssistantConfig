@@ -21,7 +21,7 @@ logger:
     aioesphomeapi.connection: warn
 recorder:
   purge_keep_days: 60
-  purge_interval: 1
+#  purge_interval: 1
   db_url: !secret dburl # pragma: allowlist secret
   exclude:
     entities:
