@@ -24,3 +24,9 @@ notify:
   - name: Telegram
     platform: telegram
     chat_id: !secret telegram_chatid1 # pragma: allowlist secret
+  - name: LaMetric
+    platform: lametric
+    lifetime: 20
+    icon: a7956
+    cycles: 3
+    priority: info
