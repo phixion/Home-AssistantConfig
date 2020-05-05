@@ -1,13 +1,5 @@
-"""
-General Utilities Wiser Platform
-
-https://github.com/asantaga/wiserHomeAssistantPlatform
-@msp1974
-
-"""
 from datetime import datetime
-
-from .const import _LOGGER, SPECIALDAYS, WEEKDAYS, WEEKENDS
+from .const import _LOGGER, WEEKDAYS, WEEKENDS, SPECIALDAYS
 
 
 def convert_from_wiser_schedule(scheduleData: dict, scheduleName=""):
@@ -43,9 +35,7 @@ def convert_from_wiser_schedule(scheduleData: dict, scheduleName=""):
                             # Convert values and keys to human readable version
                             if key == "Time":
                                 value = (
-                                    datetime.strptime(
-                                        format(value, "04d"), "%H%M"
-                                    )
+                                    datetime.strptime(format(value, "04d"), "%H%M")
                                 ).strftime("%H:%M")
                             if key == "DegreesC":
                                 key = "Temp"

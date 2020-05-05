@@ -1,10 +1,3 @@
-"""
-Constants  for Wiser Platform
-
-https://github.com/asantaga/wiserHomeAssistantPlatform
-Angelosantagata@gmail.com
-
-"""
 import logging
 
 _LOGGER = logging.getLogger(__name__)
