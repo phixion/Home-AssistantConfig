@@ -1,6 +1,7 @@
 substitutions:
   devicename: powwhztv
-  friendly_name: "Sonoff POW R2 (TV)"
+  friendly_name: "Sonoff POW R2"
+  room: TV
   update_interval_short: 2s
   update_interval_long: 2min
 esphome:
@@ -26,15 +27,15 @@ binary_sensor:
       number: GPIO0
       mode: INPUT_PULLUP
       inverted: True
-    name: ${friendly_name} Button
+    name: ${friendly_name} (${room}) Button
     internal: true
     on_press:
       - switch.toggle: ${devicename}_button
 switch:
   - platform: restart
-    name: ${friendly_name} Restart
+    name: ${friendly_name} (${room}) Restart
   - platform: template
-    name: ${friendly_name} Relay
+    name: ${friendly_name} (${room}) Relay
     optimistic: true
     internal: true
     id: ${devicename}_button
@@ -57,12 +58,12 @@ output:
 light:
   - platform: monochromatic
     internal: true
-    name: ${friendly_name} Blue LED
+    name: ${friendly_name} (${room}) Blue LED
     output: pow_blue_led
     id: led
 sensor:
   - platform: wifi_signal
-    name: ${friendly_name} WiFi Signal
+    name: ${friendly_name} (${room}) WiFi Signal
     update_interval: ${update_interval_long}
     unit_of_measurement: db
     icon: mdi:wifi
@@ -78,19 +79,19 @@ sensor:
     update_interval: ${update_interval_short}
     current:
       force_update: true
-      name: ${friendly_name} Current
+      name: ${friendly_name} (${room}) Current
       unit_of_measurement: A
       accuracy_decimals: 3
       icon: mdi:flash-auto
       filters:
         - lambda: if (x < 0.01) return 0; else return x;
     voltage:
-      name: ${friendly_name} Voltage
+      name: ${friendly_name} (${room}) Voltage
       unit_of_measurement: V
       accuracy_decimals: 1
       icon: mdi:flash-circle
     power:
-      name: ${friendly_name} Power
+      name: ${friendly_name} (${room}) Power
       id: power
       on_value_range:
         - above: 14.0
@@ -106,7 +107,7 @@ sensor:
         - lambda: if (x < 2) return 0; else return x;
   - platform: total_daily_energy
     force_update: true
-    name: ${friendly_name} Daily Energy
+    name: ${friendly_name} (${room}) Daily Energy
     power_id: power
     icon: mdi:calendar-month
     filters:
