@@ -56,6 +56,6 @@ display:
     dimensions: 16x2
     address: 0x27
     lambda: |-
-      it.printf(0, 0, "COVID-19: %.0f", id(corona_infect).state);
-      it.printf(16, 0, "R: %.0f", id(corona_recovered).state);
-      it.printf(25, 0, "D: %.0f", id(corona_deaths).state);
+      it.printf(0, 0, "COVID-19:%.0f", id(corona_infect).state);
+      it.printf(16, 0, "R:%.0f", id(corona_recovered).state);
+      it.printf(25, 0, "D:%.0f", id(corona_deaths).state);
