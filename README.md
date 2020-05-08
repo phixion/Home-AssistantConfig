@@ -1,6 +1,9 @@
 # My Home-Assitant Config
 
-[![Build Status](https://travis-ci.org/phixion/Home-AssistantConfig.svg?branch=master)](https://travis-ci.org/phixion/Home-AssistantConfig)  [![Pre Commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)  [![Black Duck Security Risk](https://copilot.blackducksoftware.com/github/repos/phixion/Home-AssistantConfig/branches/master/badge-risk.svg)](https://copilot.blackducksoftware.com/github/repos/phixion/Home-AssistantConfig/branches/master)
+[![Build Status](https://travis-ci.org/phixion/Home-AssistantConfig.svg?branch=master)](https://travis-ci.org/phixion/Home-AssistantConfig)
+[![Pre Commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
+[![Black Duck Security Risk](https://copilot.blackducksoftware.com/github/repos/phixion/Home-AssistantConfig/branches/master/badge-risk.svg)](https://copilot.blackducksoftware.com/github/repos/phixion/Home-AssistantConfig/branches/master)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Hardware
 
