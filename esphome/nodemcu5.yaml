@@ -44,30 +44,30 @@ binary_sensor:
           service: switch.turn_on
           data:
             entity_id: switch.schalter_bad_relay
-  - platform: template
-    id: ${devicename}_templ_motion
-    internal: true
-    lambda: 'return id(${devicename}_motion).state;'
+#  - platform: template
+#    id: ${devicename}_templ_motion
+#    internal: true
+#    lambda: 'return id(${devicename}_motion).state;'
 # can also set delay via hardware poti
-    filters:
-      - delayed_off: 3min
+#    filters:
+#      - delayed_off: 3min
     on_release:
       - homeassistant.service:
           service: switch.turn_off
           data:
             entity_id: switch.schalter_bad_relay
-  - platform: template
-    id: ${devicename}_templ_sound
-    internal: true
-    lambda: 'return id(${devicename}_sound).state;'
+#  - platform: template
+#    id: ${devicename}_templ_sound
+#    internal: true
+#    lambda: 'return id(${devicename}_sound).state;'
 # can also set delay via hardware poti
-    filters:
-      - delayed_off: 3min
-    on_release:
-      - homeassistant.service:
-          service: switch.turn_off
-          data:
-            entity_id: switch.schalter_bad_relay
+#    filters:
+#      - delayed_off: 3min
+#    on_release:
+#      - homeassistant.service:
+#          service: switch.turn_off
+#          data:
+#            entity_id: switch.schalter_bad_relay
   - platform: status
     device_class: connectivity
     name: ${friendly_name} (${room}) Status
