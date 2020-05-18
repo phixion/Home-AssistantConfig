@@ -20,15 +20,15 @@ person.martin:
   entity_picture: /local/_static/martin.jfif
 sensor.martin:
   entity_picture: /local/_static/martin.jfif
-climate.bad:
+climate.wiser_bad:
   friendly_name: Bad
   #      entity_picture: /local/_static/thermostat2.png
   icon: mdi:thermostat
-climate.flur:
+climate.wiser_flur:
   friendly_name: Flur
   icon: mdi:thermostat
 #      entity_picture: /local/_static/thermostat2.png
-climate.wohnzimmer:
+climate.wiser_wohnzimmer:
   friendly_name: Wohnzimmer
   icon: mdi:thermostat
 sensor.climate_bad_temp:

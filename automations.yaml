@@ -41,6 +41,9 @@
     platform: state
     entity_id: input_select.home_mode
     to: Home
+  condition:
+    condition: time
+    before: "22:00:00"
   action:
     - service: notify.telegram
       data:
@@ -51,15 +54,15 @@
       entity_id: switch.schalter_flur_whz_relay
     - service: media_player.volume_set
       data:
-        entity_id: media_player.google_home
+        entity_id: media_player.google_speakers
         volume_level: 0.01
     - service: media_player.turn_on
       data:
-        entity_id: media_player.google_home
+        entity_id: media_player.google_speakers
     - delay: 00:00:20
     - service: media_player.volume_set
       data:
-        entity_id: media_player.google_home
+        entity_id: media_player.google_speakers
         volume_level: 0.37
     - delay: 00:00:05
     - service: rest_command.assistant_broadcast
@@ -312,20 +315,18 @@
         data:
           inline_keyboard:
             - "Play Video on TV:/yt_sog"
-- alias: Update commute sensors
+- alias: Update Travel Sensors
   id: "16"
   trigger:
     - platform: time_pattern
-      minutes: /60
+      hours: /24
   condition:
     - condition: state
       entity_id: binary_sensor.workday_sensor
       state: "on"
   action:
     - service: homeassistant.update_entity
-      entity_id: sensor.morning_commute_trains
-    - service: homeassistant.update_entity
-      entity_id: sensor.morning_commute_bike
+      entity_id: sensor.commute_home
     - service: homeassistant.update_entity
       entity_id: sensor.travel_parents_trains
     - service: homeassistant.update_entity

@@ -14,10 +14,10 @@ esphome:
 conversation:
 map:
 cloud:
-#zeroconf:
-#ssdp:
+zeroconf:
+ssdp:
 updater:
   reporting: false
 discovery:
-#  ignore:
-#    - sabnzbd
+  ignore:
+    - sabnzbd

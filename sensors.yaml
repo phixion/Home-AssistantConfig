@@ -106,13 +106,13 @@
     - type: processor_use
     - type: last_boot
     - type: throughput_network_in
-      arg: bond0
+      arg: ens160
     - type: throughput_network_out
-      arg: bond0
+      arg: ens160
     - type: network_in
-      arg: bond0
+      arg: ens160
     - type: network_out
-      arg: bond0
+      arg: ens160
 - platform: integration
   source: sensor.sonoff_pow_r2_whz_power
   name: energy_consumption_whz_1
@@ -132,7 +132,12 @@
   scan_interval: 300
   unit_of_measurement: pending update(s)
   name: System Updates
-  command: "cat /config/sys_updates.log"
+  command: "/usr/lib/update-notifier/apt-check 2>&1 | cut -d ';' -f 1"
+- platform: command_line
+  scan_interval: 300
+  unit_of_measurement: pending update(s)
+  name: Security Updates
+  command: "/usr/lib/update-notifier/apt-check 2>&1 | cut -d ';' -f 2"
 - platform: dnsip
   hostname: !secret home_host # pragma: allowlist secret
   name: !secret home_host # pragma: allowlist secret
@@ -245,17 +250,17 @@
       friendly_name: Flur
       unit_of_measurement: "°C"
       device_class: temperature
-      value_template: "{{ states.climate.flur.attributes.current_temperature | default(0) | int if states.climate.flur.attributes.current_temperature is not none }}"
+      value_template: "{{ states.climate.wiser_flur.attributes.current_temperature | default(0) | int if states.climate.wiser_flur.attributes.current_temperature is not none }}"
     climate_bad_temp:
       friendly_name: Bad
       unit_of_measurement: "°C"
       device_class: temperature
-      value_template: "{{ states.climate.bad.attributes.current_temperature | default(0) | int if states.climate.bad.attributes.current_temperature is not none }}"
+      value_template: "{{ states.climate.wiser_bad.attributes.current_temperature | default(0) | int if states.climate.wiser_bad.attributes.current_temperature is not none }}"
     climate_wohnzimmer_temp:
       friendly_name: Wohnzimmer
       unit_of_measurement: "°C"
       device_class: temperature
-      value_template: "{{ states.climate.wohnzimmer.attributes.current_temperature | default(0) | int if states.climate.wohnzimmer.attributes.current_temperature is not none }}"
+      value_template: "{{ states.climate.wiser_wohnzimmer.attributes.current_temperature | default(0) | int if states.climate.wiser_wohnzimmer.attributes.current_temperature is not none }}"
     climate_wohnung_target_temp:
       friendly_name: Target Temp Wohnung
       unit_of_measurement: "°C"
@@ -265,26 +270,26 @@
       friendly_name: Target Temp Flur
       unit_of_measurement: "°C"
       device_class: temperature
-      value_template: "{{ states.climate.flur.attributes.temperature | default(0) | int if states.climate.flur.attributes.temperature is not none }}"
+      value_template: "{{ states.climate.wiser_flur.attributes.temperature | default(0) | int if states.climate.wiser_flur.attributes.temperature is not none }}"
     climate_bad_target_temp:
       friendly_name: Target Temp Bad
       unit_of_measurement: "°C"
       device_class: temperature
-      value_template: "{{ states.climate.bad.attributes.temperature | default(0) | int if states.climate.bad.attributes.temperature is not none }}"
+      value_template: "{{ states.climate.wiser_bad.attributes.temperature | default(0) | int if states.climate.wiser_bad.attributes.temperature is not none }}"
     climate_wohnzimmer_target_temp:
       friendly_name: Target Temp Wohnzimmer
       unit_of_measurement: "°C"
       device_class: temperature
-      value_template: "{{ states.climate.wohnzimmer.attributes.temperature | default(0) | int if states.climate.wohnzimmer.attributes.temperature is not none }}"
+      value_template: "{{ states.climate.wiser_wohnzimmer.attributes.temperature | default(0) | int if states.climate.wiser_wohnzimmer.attributes.temperature is not none }}"
     climate_bad_preset:
       friendly_name: Bad Modus
-      value_template: "{{ states.climate.bad.attributes.preset_mode | string }}"
+      value_template: "{{ states.climate.wiser_bad.attributes.preset_mode | string }}"
     climate_wohnzimmer_preset:
       friendly_name: Wohnzimmer Modus
-      value_template: "{{ states.climate.wohnzimmer.attributes.preset_mode | string }}"
+      value_template: "{{ states.climate.wiser_wohnzimmer.attributes.preset_mode | string }}"
     climate_flur_preset:
       friendly_name: Flur Modus
-      value_template: "{{ states.climate.flur.attributes.preset_mode | string }}"
+      value_template: "{{ states.climate.wiser_flur.attributes.preset_mode | string }}"
     unifi_speedtest_rx:
       entity_id: sensor.unifi_gateway_www
       friendly_name: Download

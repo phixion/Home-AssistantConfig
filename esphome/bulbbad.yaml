@@ -1,7 +1,8 @@
 substitutions:
   devicename: bulbbad
-  friendly_name: "Bad"
-  update_interval: 10min
+  friendly_name: Bad
+  room: Bad
+  update_interval_long: 10min
   frequency_rgb: 100 Hz
   frequency_cw: 1000 Hz
   frequency_ww: 1000 Hz

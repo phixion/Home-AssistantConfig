@@ -16,7 +16,3 @@ rclone:
   title: RClone
   icon: mdi:content-copy
   url: https://127.0.0.1:1111/?login_token=1234
-foldingathome:
-  title: Folding@home
-  icon: mdi:bacteria-outline
-  url: https://127.0.0.1

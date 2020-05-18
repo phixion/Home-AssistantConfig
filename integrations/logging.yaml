@@ -29,7 +29,6 @@ recorder:
       - binary_sensor.outside_temperature_rising
       - binary_sensor.inside_temperature_falling
       - binary_sensor.inside_temperature_rising
-      - sensor.foldingathome_gpu
       - sensor.date_time
       - sensor.date_time_iso
       - sensor.date
@@ -78,8 +77,8 @@ recorder:
       - sensor.date_time_iso
       - sensor.circadian_values
       - sensor.memory_free
-      - sensor.network_in_bond0
-      - sensor.network_out_bond0
+      - sensor.network_in_ens160
+      - sensor.network_out_ens160
       - sensor.reddit_gamedeals
       - sensor.nodemcu_2_luxmeter
     domains:
@@ -117,8 +116,8 @@ logbook:
       - sensor.date_time_iso
       - sensor.circadian_values
       - sensor.memory_free
-      - sensor.network_in_bond0
-      - sensor.network_out_bond0
+      - sensor.network_in_ens160
+      - sensor.network_out_ens160
       - sensor.nodemcu_2_luxmeter
       - sensor.date_time
       - sensor.date_time_iso
@@ -173,8 +172,8 @@ history:
       - sensor.date_muellabfuhr
       - sensor.circadian_values
       - sensor.memory_free
-      - sensor.network_in_bond0
-      - sensor.network_out_bond0
+      - sensor.network_in_ens160
+      - sensor.network_out_ens160
       - sensor.reddit_gamedeals
       - sensor.rss_coindesk
       - sensor.rss_darknet
