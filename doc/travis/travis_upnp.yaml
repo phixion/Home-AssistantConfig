@@ -4,11 +4,11 @@
 #██║   ██║██╔═══╝ ██║╚██╗██║██╔═══╝
 #╚██████╔╝██║     ██║ ╚████║██║
 #
-port_mapping: true
-sensors: false
-local_ip: !secret local_ip
-ports:
-  1: 1
-  2: 2
-  3: 3
-  4: 4
+#port_mapping: true
+#sensors: false
+#local_ip: !secret local_ip
+#ports:
+#  1: 1
+#  2: 2
+#  3: 3
+#  4: 4
