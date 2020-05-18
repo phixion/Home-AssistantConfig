@@ -699,9 +699,9 @@
            🔊 {{states('binary_sensor.motion_sensor')}}
            ☀️ {{states('binary_sensor.nodemcu_2_tv_light_sensor')}}
            🚪 {{states('binary_sensor.window_wohnzimmer')}}
-           🔥 Wohnzimmer: {{states('binary_sensor.heating_wohnzimmer')}}
-           🔥 Flur: {{states('binary_sensor.heating_flur')}}
-           🔥 Bad: {{states('binary_sensor.heating_bad')}}
+           🔥 Wohnzimmer: {{states('binary_sensor.wiser_wohnzimmer')}}
+           🔥 Flur: {{states('binary_sensor.wiser_flur')}}
+           🔥 Bad: {{states('binary_sensor.wiser_bad')}}
            💡 {{states('light.all_lights')}}
            🌐 {{states('sensor.external_ip')}}
            🔐 {{states('sensor.last_successful_authentication')}}
@@ -750,9 +750,9 @@
            🔊 {{states('binary_sensor.motion_sensor')}}
            ☀️ {{states('binary_sensor.nodemcu_2_tv_light_sensor')}}
            🚪 {{states('binary_sensor.window_wohnzimmer')}}
-           🔥 Wohnzimmer: {{states('binary_sensor.heating_wohnzimmer')}}
-           🔥 Flur: {{states('binary_sensor.heating_flur')}}
-           🔥 Bad: {{states('binary_sensor.heating_bad')}}
+           🔥 Wohnzimmer: {{states('binary_sensor.wiser_wohnzimmer')}}
+           🔥 Flur: {{states('binary_sensor.wiser_flur')}}
+           🔥 Bad: {{states('binary_sensor.wiser_bad')}}
            💡 {{states('light.all_lights')}}
            🌐 {{states('sensor.external_ip')}}
            🔐 {{states('sensor.last_successful_authentication')}}

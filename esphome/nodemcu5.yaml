@@ -2,8 +2,8 @@ substitutions:
   devicename: nodemcu5
   friendly_name: Nodemcu 5
   room: Bad
-  update_interval_long: 2min
-  update_interval_short: 5s
+  update_interval_short: 2s
+  update_interval_long: 10min
 esphome:
   name: ${devicename}
   platform: ESP8266

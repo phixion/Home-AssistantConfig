@@ -132,12 +132,12 @@
   scan_interval: 300
   unit_of_measurement: pending update(s)
   name: System Updates
-  command: "/usr/lib/update-notifier/apt-check 2>&1 | cut -d ';' -f 1"
+  command: "cat /config/sys_updates.log"
 - platform: command_line
   scan_interval: 300
   unit_of_measurement: pending update(s)
   name: Security Updates
-  command: "/usr/lib/update-notifier/apt-check 2>&1 | cut -d ';' -f 2"
+  command: "cat /config/sec_updates.log"
 - platform: dnsip
   hostname: !secret home_host # pragma: allowlist secret
   name: !secret home_host # pragma: allowlist secret
@@ -452,17 +452,17 @@
     heating_time_bad:
       friendly_name: Heating Time Bad
       icon_template: mdi:radiator
-      value_template: "{{ states('sensor.heating_bad_on_today') | float * 60 }}"
+      value_template: "{{ states('sensor.wiser_bad_on_today') | float * 60 }}"
       unit_of_measurement: min
     heating_time_flur:
       friendly_name: Heating Time Flur
       icon_template: mdi:radiator
-      value_template: "{{ states('sensor.heating_flur_on_today') | float * 60 }}"
+      value_template: "{{ states('sensor.wiser_flur_on_today') | float * 60 }}"
       unit_of_measurement: min
     heating_time_wohnzimmer:
       friendly_name: Heating Time Wohnzimmer
       icon_template: mdi:radiator
-      value_template: "{{ states('sensor.heating_wohnzimmer_on_today') | float * 60 }}"
+      value_template: "{{ states('sensor.wiser_wohnzimmer_on_today') | float * 60 }}"
       unit_of_measurement: min
     hass_uptime:
       entity_id:
@@ -668,28 +668,28 @@
     days: 30
 - platform: history_stats
   name: Heating Bad On Today
-  entity_id: binary_sensor.heating_bad
+  entity_id: binary_sensor.wiser_bad
   state: "on"
   type: time
   start: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
   end: "{{ now() }}"
 - platform: history_stats
   name: Heating Flur On Today
-  entity_id: binary_sensor.heating_flur
+  entity_id: binary_sensor.wiser_flur
   state: "on"
   type: time
   start: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
   end: "{{ now() }}"
 - platform: history_stats
   name: Heating Wohnzimmer On Today
-  entity_id: binary_sensor.heating_wohnzimmer
+  entity_id: binary_sensor.wiser_wohnzimmer
   state: "on"
   type: time
   start: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
   end: "{{ now() }}"
 - platform: history_stats
   name: Heating Bad On Yesterday
-  entity_id: binary_sensor.heating_bad
+  entity_id: binary_sensor.wiser_bad
   state: "on"
   type: time
   end: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
@@ -697,7 +697,7 @@
     hours: 24
 - platform: history_stats
   name: Heating Flur On Yesterday
-  entity_id: binary_sensor.heating_flur
+  entity_id: binary_sensor.wiser_flur
   state: "on"
   type: time
   end: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
@@ -705,7 +705,7 @@
     hours: 24
 - platform: history_stats
   name: Heating Wohnzimmer On Yesterday
-  entity_id: binary_sensor.heating_wohnzimmer
+  entity_id: binary_sensor.wiser_wohnzimmer
   state: "on"
   type: time
   end: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
@@ -713,28 +713,28 @@
     hours: 24
 - platform: history_stats
   name: Heating Bad On this Week
-  entity_id: binary_sensor.heating_bad
+  entity_id: binary_sensor.wiser_bad
   state: "on"
   type: time
   start: "{{ as_timestamp( now().replace(hour=0).replace(minute=0).replace(second=0) ) - now().weekday() * 86400 }}"
   end: "{{ now() }}"
 - platform: history_stats
   name: Heating Flur On this Week
-  entity_id: binary_sensor.heating_flur
+  entity_id: binary_sensor.wiser_flur
   state: "on"
   type: time
   start: "{{ as_timestamp( now().replace(hour=0).replace(minute=0).replace(second=0) ) - now().weekday() * 86400 }}"
   end: "{{ now() }}"
 - platform: history_stats
   name: Heating Wohnzimmer On this Week
-  entity_id: binary_sensor.heating_wohnzimmer
+  entity_id: binary_sensor.wiser_wohnzimmer
   state: "on"
   type: time
   start: "{{ as_timestamp( now().replace(hour=0).replace(minute=0).replace(second=0) ) - now().weekday() * 86400 }}"
   end: "{{ now() }}"
 - platform: history_stats
   name: Heating Bad On past 30 days
-  entity_id: binary_sensor.heating_bad
+  entity_id: binary_sensor.wiser_bad
   state: "on"
   type: time
   end: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
@@ -742,7 +742,7 @@
     days: 30
 - platform: history_stats
   name: Heating Flur On past 30 days
-  entity_id: binary_sensor.heating_flur
+  entity_id: binary_sensor.wiser_flur
   state: "on"
   type: time
   end: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
@@ -750,7 +750,7 @@
     days: 30
 - platform: history_stats
   name: Heating Wohnzimmer On past 30 days
-  entity_id: binary_sensor.heating_wohnzimmer
+  entity_id: binary_sensor.wiser_wohnzimmer
   state: "on"
   type: time
   end: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"

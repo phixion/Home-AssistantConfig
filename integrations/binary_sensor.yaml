@@ -100,7 +100,7 @@ binary_sensor:
         friendly_name: Heizung Wohnzimmer
         value_template: '{{state_attr("climate.wiser_wohnzimmer","control_output_state") == "On"}}'
       #        icon_template: >-
-      #          {% if is_state("binary_sensor.heating_wohnzimmer", "on") %}
+      #          {% if is_state("binary_sensor.wiser_wohnzimmer", "on") %}
       #            mdi:radiator
       #          {% else %}
       #            mdi:radiator-off
@@ -110,7 +110,7 @@ binary_sensor:
         friendly_name: Heizung Bad
         value_template: '{{state_attr("climate.wiser_bad","control_output_state") == "On"}}'
       #        icon_template: >-
-      #          {% if is_state("binary_sensor.heating_bad", "on") %}
+      #          {% if is_state("binary_sensor.wiser_bad", "on") %}
       #            mdi:radiator
       #          {% else %}
       #            mdi:radiator-off

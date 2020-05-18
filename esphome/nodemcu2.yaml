@@ -1,7 +1,8 @@
 substitutions:
   devicename: nodemcu2
   friendly_name: Nodemcu 2
-  update_interval: 60s
+  update_interval_short: 2s
+  update_interval_long: 10min
   room: TV
 esphome:
   name: ${devicename}
