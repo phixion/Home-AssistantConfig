@@ -41,7 +41,7 @@ sensor:
     internal: true
   - platform: wifi_signal
     name: ${friendly_name} (${room}) WiFi Signal
-    update_interval: ${update_interval}
+    update_interval: ${update_interval_long}
     unit_of_measurement: dB
     icon: mdi:wifi
     force_update: true

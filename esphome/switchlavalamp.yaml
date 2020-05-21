@@ -1,7 +1,7 @@
 substitutions:
   devicename: switchlavalamp
-  friendly_name: "Schalter Lavalampe"
-  room: Wohnzimmer
+  friendly_name: Schalter
+  room: Lavalampe
   update_interval_short: 2s
   update_interval_long: 10min
 esphome:
@@ -28,12 +28,12 @@ output:
     inverted: true
 light:
   - platform: binary
-    name: ${friendly_name} Light
+    name: ${friendly_name} (${room}) Light
     id: ${devicename}
     output: ${devicename}_relay
   - platform: monochromatic
     internal: true
-    name: ${friendly_name} LED
+    name: ${friendly_name} (${room}) LED
     output: ${devicename}_light
     id: ${devicename}_led
 switch:
@@ -41,9 +41,9 @@ switch:
     pin: GPIO12
     id: relay
   - platform: restart
-    name: ${friendly_name} Restart
+    name: ${friendly_name} (${room}) Restart
   - platform: template
-    name: ${friendly_name} Relay
+    name: ${friendly_name} (${room}) Relay
     optimistic: true
     id: ${devicename}_button
     turn_on_action:
@@ -63,4 +63,4 @@ binary_sensor:
     on_press:
       - switch.toggle: ${devicename}_button
   - platform: status
-    name: ${friendly_name} Status
+    name: ${friendly_name} (${room}) Status

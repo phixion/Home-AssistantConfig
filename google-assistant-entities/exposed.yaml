@@ -1,4 +1,4 @@
-light.schalter_flur_whz_light:
+light.schalter_1_flur_light:
   expose: true
   name: Flur Schalter
   room: Flur

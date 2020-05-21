@@ -22,7 +22,7 @@ light:
       - light.bulbbad_rgb
       - light.bulbbad_cwww
       - light.schalter_bad_light
-      - light.schalter_flur_whz_light
+      - light.schalter_1_flur_light
       - light.schalter_whz_light
       - light.schalter_lavalampe_light
       - light.ledstripwhz1_rgb

@@ -68,7 +68,7 @@ light.schalter_bad_light:
   name: Bad
   icon: mdi:gesture-tap-box
 #  entity_picture: /local/_static/sonoff.jpg
-light.schalter_flur_whz_light:
+light.schalter_1_flur_light:
   name: Flur
   icon: mdi:gesture-tap-box
 #  entity_picture: /local/_static/sonoff.jpg

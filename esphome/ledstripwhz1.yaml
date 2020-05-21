@@ -2,7 +2,8 @@
 #Plattenschrank Gross
 substitutions:
   devicename: ledstripwhz1
-  friendly_name: "LED Strip Wohnzimmer 1"
+  friendly_name: LED Strip 1
+  room: Wohnzimmer
   update_interval_short: 2s
   update_interval_long: 10min
   frequency_rgb: 100 Hz
@@ -37,12 +38,12 @@ binary_sensor:
     on_press:
       - switch.toggle: ${devicename}_button
   - platform: status
-    name: ${friendly_name} Status
+    name: ${friendly_name} (${room}) Status
 switch:
   - platform: restart
-    name: ${friendly_name} Restart
+    name: ${friendly_name} (${room}) Restart
   - platform: template
-    name: ${friendly_name} Schalter
+    name: ${friendly_name} (${room}) Schalter
     optimistic: true
     internal: true
     restore_state: true

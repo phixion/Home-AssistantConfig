@@ -12,7 +12,7 @@ from time import sleep
 from datetime import timedelta
 from homeassistant.core import ServiceCall
 from homeassistant.util import slugify
-from homeassistant.components.switch import (SwitchDevice,
+from homeassistant.components.switch import (SwitchEntity,
     PLATFORM_SCHEMA, ENTITY_ID_FORMAT)
 
 REQUIREMENTS = ['pydockermon==0.0.1']
@@ -69,7 +69,7 @@ def setup_platform(hass, config, add_devices_callback, discovery_info=None):
     else:
         return False
 
-class ContainerSwitch(SwitchDevice):
+class ContainerSwitch(SwitchEntity):
     def __init__(self, name, state, stats, host, port, dm, prefix):
         _slow_reported = True
         self.entity_id = ENTITY_ID_FORMAT.format(slugify(prefix + name))

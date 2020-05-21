@@ -7,7 +7,10 @@ Angelosantagata@gmail.com
 """
 import homeassistant.helpers.config_validation as cv
 import voluptuous as vol
-from homeassistant.components.switch import SwitchDevice
+try:
+    from homeassistant.components.switch import SwitchEntity
+except ImportError:
+    from homeassistant.components.switch import SwitchDevice as SwitchEntity
 from homeassistant.const import ATTR_ENTITY_ID
 from homeassistant.core import callback
 from homeassistant.helpers.dispatcher import async_dispatcher_connect
@@ -95,7 +98,7 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
     return True
 
 
-class WiserSwitch(SwitchDevice):
+class WiserSwitch(SwitchEntity):
     """
     Switch to set the status of the Wiser Operation Mode (Away/Normal)
     """
@@ -194,7 +197,7 @@ class WiserSwitch(SwitchDevice):
         )
 
 
-class WiserSmartPlug(SwitchDevice):
+class WiserSmartPlug(SwitchEntity):
     def __init__(self, data, plugId, name):
         """Initialize the sensor."""
         _LOGGER.info("Wiser {} SmartPlug Init".format(name))

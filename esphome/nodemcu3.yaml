@@ -1,6 +1,7 @@
 substitutions:
   devicename: nodemcu3
   friendly_name: Nodemcu 3
+  room: Wohnzimmer
   update_interval_short: 2s
   update_interval_long: 10min
 esphome:
@@ -16,21 +17,21 @@ captive_portal:
 logger:
 switch:
   - platform: restart
-    name: ${friendly_name} Restart
+    name: ${friendly_name} (${room}) Restart
 i2c:
   sda: D2
   scl: D1
   scan: True
 sensor:
   - platform: bh1750
-    name: "${friendly_name} Lichtsensor"
+    name: "${friendly_name} (${room}) Lichtsensor"
     address: 0x23
     resolution: 0.5
     update_interval: 60s
     unit_of_measurement: lx
   - platform: wifi_signal
-    name: ${friendly_name} WiFi Signal
-    update_interval: ${update_interval}
+    name: ${friendly_name} (${room}) WiFi Signal
+    update_interval: ${update_interval_long}
     unit_of_measurement: dB
     icon: mdi:wifi
     force_update: true
@@ -44,4 +45,4 @@ sensor:
 binary_sensor:
   - platform: status
     device_class: connectivity
-    name: ${friendly_name} Status
+    name: ${friendly_name} (${room}) Status

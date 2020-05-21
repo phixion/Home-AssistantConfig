@@ -25,7 +25,7 @@ group:
   #    entities:
   #      - light.bulbflur_rgb
   #      - light.bulbflur_cwww
-  #      - light.schalter_flur_whz_light
+  #      - light.schalter_1_flur_light
   #  bad_area:
   #    name: Bad
   #    entities:

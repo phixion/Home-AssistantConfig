@@ -43,7 +43,7 @@ binary_sensor:
       - homeassistant.service:
           service: switch.turn_on
           data:
-            entity_id: switch.schalter_flur_whz_relay
+            entity_id: switch.schalter_1_flur_relay
   - platform: template
     id: ${devicename}_templ_motion
     internal: true
@@ -55,7 +55,7 @@ binary_sensor:
       - homeassistant.service:
           service: switch.turn_off
           data:
-            entity_id: switch.schalter_flur_whz_relay
+            entity_id: switch.schalter_1_flur_relay
 #  - platform: template
 #    id: ${devicename}_templ_sound
 #    internal: true
@@ -67,7 +67,7 @@ binary_sensor:
 #      - homeassistant.service:
 #          service: switch.turn_off
 #          data:
-#            entity_id: switch.schalter_flur_whz_relay
+#            entity_id: switch.schalter_1_flur
   - platform: status
     device_class: connectivity
     name: ${friendly_name} (${room}) Status

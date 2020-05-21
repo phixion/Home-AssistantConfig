@@ -1,7 +1,7 @@
 substitutions:
   devicename: switchwhz
-  friendly_name: "Schalter"
-  room: WHZ
+  friendly_name: Schalter 1
+  room: Wohnzimmer
   update_interval: 2min
   update_interval_long: 10min
 esphome:
@@ -28,12 +28,12 @@ output:
     inverted: true
 light:
   - platform: binary
-    name: ${friendly_name} ${room} Light
+    name: ${friendly_name} (${room}) Light
     id: ${devicename}
     output: ${devicename}_relay
   - platform: monochromatic
     internal: true
-    name: ${friendly_name} ${room} LED
+    name: ${friendly_name} (${room}) LED
     output: ${devicename}_light
     id: ${devicename}_led
 switch:
@@ -41,9 +41,9 @@ switch:
     pin: GPIO12
     id: relay
   - platform: restart
-    name: ${friendly_name} ${room} Restart
+    name: ${friendly_name} (${room}) Restart
   - platform: template
-    name: ${friendly_name} ${room} Relay
+    name: ${friendly_name} (${room}) Relay
     optimistic: true
     restore_state: true
     id: ${devicename}_button
@@ -108,4 +108,4 @@ binary_sensor:
               data:
                 entity_id: light.all_lights
   - platform: status
-    name: ${friendly_name} ${room} Status
+    name: ${friendly_name} (${room}) Status

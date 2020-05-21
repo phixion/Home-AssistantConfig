@@ -1,6 +1,6 @@
 substitutions:
   devicename: powwhztv
-  friendly_name: "Sonoff POW R2"
+  friendly_name: Sonoff POW R2
   room: TV
   update_interval_short: 2s
   update_interval_long: 2min

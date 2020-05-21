@@ -1,6 +1,7 @@
 substitutions:
   devicename: bulbspotwhztv
-  friendly_name: "Spotlight WHZ (TV)"
+  friendly_name: Spotlight WHZ
+  room: TV
   update_interval_short: 2s
   update_interval_long: 10min
   frequency_rgb: 100 Hz
@@ -27,4 +28,4 @@ captive_portal:
 logger:
 switch:
   - platform: restart
-    name: ${friendly_name} Restart
+    name: ${friendly_name} (${room})Restart

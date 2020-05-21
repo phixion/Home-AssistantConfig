@@ -79,7 +79,7 @@
       effect: Disco
     light.schalter_bad_light:
       state: "on"
-    light.schalter_flur_whz_light:
+    light.schalter_1_flur_light:
       state: "on"
 - id: normal_mode_on
   name: Normal Mode on
@@ -118,7 +118,7 @@
         - 0
     light.schalter_bad_light:
       state: "on"
-    light.schalter_flur_whz_light:
+    light.schalter_1_flur_light:
       state: "on"
     light.schalter_kueche_light:
       state: "on"

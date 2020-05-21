@@ -1,6 +1,6 @@
 substitutions:
   devicename: powwhz
-  friendly_name: "Sonoff POW R2"
+  friendly_name: Sonoff POW R2
   room: WHZ
   update_interval_short: 2s
   update_interval_long: 10min
@@ -33,9 +33,9 @@ binary_sensor:
       - switch.toggle: ${devicename}_button
 switch:
   - platform: restart
-    name: ${friendly_name} (${room})  Restart
+    name: ${friendly_name} (${room}) Restart
   - platform: template
-    name: ${friendly_name} (${room})  Relay
+    name: ${friendly_name} (${room}) Relay
     optimistic: true
     internal: true
     id: ${devicename}_button

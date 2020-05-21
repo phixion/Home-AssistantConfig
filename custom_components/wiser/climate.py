@@ -6,10 +6,12 @@ Angelosantagata@gmail.com
 
 """
 from functools import partial
-
 import homeassistant.helpers.config_validation as cv
 import voluptuous as vol
-from homeassistant.components.climate import ClimateDevice
+try:
+    from homeassistant.components.climate import ClimateEntity
+except ImportError:
+    from homeassistant.components.climate import ClimateDevice as ClimateEntity
 from homeassistant.components.climate.const import (
     CURRENT_HVAC_HEAT,
     CURRENT_HVAC_IDLE,
@@ -231,7 +233,7 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
 """ Definition of WiserRoom """
 
 
-class WiserRoom(ClimateDevice):
+class WiserRoom(ClimateEntity):
     def __init__(self, hass, data, room_id):
         """Initialize the sensor."""
         self.data = data

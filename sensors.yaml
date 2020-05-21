@@ -28,14 +28,6 @@
       where: '"database"=''unifi'' AND time > now() - 15m'
       database: _internal
       field: diskBytes
-    - name: InfluxDB Size Telegraf
-      unit_of_measurement: GB
-      group_function: mean
-      value_template: "{{ (value | float / 1024 / 1024 / 1024 ) | round(1) }}"
-      measurement: '"monitor"."shard"'
-      where: '"database"=''telegraf'' AND time > now() - 15m'
-      database: _internal
-      field: diskBytes
     - name: InfluxDB Size Homeassistant
       unit_of_measurement: MB
       group_function: mean
@@ -389,43 +381,48 @@
       unit_of_measurement: kWh
       value_template: "{{ ((states.sensor.energy_consumed_yearly_whz_1.state | float) + (states.sensor.energy_consumed_yearly_whz_2.state | float)) | round(2) }}"
     thermostat_wohnzimmer_wifi_signal:
-      friendly_name: Thermostat Wohnzimmer Signal
-      value_template: "{{ states.sensor.thermostat_wohnzimmer.attributes.controller_reception_RSSI | default(0) | int if states.sensor.thermostat_wohnzimmer.attributes.controller_reception_RSSI is not none}}"
+      friendly_name: Thermostat Wohnzimmer WiFi Signal
+      value_template: "{{ states.sensor.wiser_itrv_wohnzimmer.attributes.controller_reception_RSSI | default(0) | int if states.sensor.wiser_itrv_wohnzimmer.attributes.controller_reception_RSSI is not none}}"
       device_class: signal_strength
       unit_of_measurement: dB
     thermostat_bad_wifi_signal:
-      friendly_name: Thermostat Bad Signal
-      value_template: "{{ states.sensor.thermostat_bad.attributes.controller_reception_RSSI | default(0) | int if states.sensor.thermostat_bad.attributes.controller_reception_RSSI is not none}}"
+      friendly_name: Thermostat Bad WiFi Signal
+      value_template: "{{ states.sensor.wiser_itrv_bad.attributes.controller_reception_RSSI | default(0) | int if states.sensor.wiser_itrv_bad.attributes.controller_reception_RSSI is not none}}"
       device_class: signal_strength
       unit_of_measurement: dB
     thermostat_flur_wifi_signal:
-      friendly_name: Thermostat Flur Signal
-      value_template: "{{ states.sensor.thermostat_flur.attributes.controller_reception_RSSI | default(0) | int if states.sensor.thermostat_flur.attributes.controller_reception_RSSI is not none}}"
+      friendly_name: Thermostat Flur WiFi Signal
+      value_template: "{{ states.sensor.wiser_itrv_flur.attributes.controller_reception_RSSI | default(0) | int if states.sensor.wiser_itrv_flur.attributes.controller_reception_RSSI is not none}}"
       device_class: signal_strength
       unit_of_measurement: dB
     roomstat_wohnzimmer_wifi_signal:
-      friendly_name: Raum Thermostat Signal
-      value_template: "{{ states.sensor.raumthermostat_wohnzimmer.attributes.controller_reception_RSSI | default(0) | int if states.sensor.raumthermostat_wohnzimmer.attributes.controller_reception_RSSI is not none}}"
+      friendly_name: Raum Thermostat WiFi Signal
+      value_template: "{{ states.sensor.wiser_roomstat_wohnzimmer.attributes.controller_reception_RSSI | default(0) | int if states.sensor.wiser_roomstat_wohnzimmer.attributes.controller_reception_RSSI is not none}}"
+      device_class: signal_strength
+      unit_of_measurement: dB
+    heathub_wifi_signal:
+      friendly_name: Heathub WiFi Signal
+      value_template: "{{ states.sensor.wiser_heathub.attributes.controller_reception_RSSI | default(0) | int if states.sensor.wiser_heathub.attributes.controller_reception_RSSI is not none}}"
       device_class: signal_strength
       unit_of_measurement: dB
     climate_thermostat_bad_battery_level:
       friendly_name: Thermostat Bad
-      value_template: "{{ states('sensor.thermostat_bad_battery_level') | default(101) | int if states('sensor.thermostat_bad_battery_level') is not none}}"
+      value_template: "{{ states('sensor.wiser_itrv_bad_battery_level') | default(101) | int if states('sensor.wiser_itrv_bad_battery_level') is not none}}"
       unit_of_measurement: "%"
       device_class: battery
     climate_thermostat_flur_battery_level:
       friendly_name: Thermostat Flur
-      value_template: "{{ states('sensor.thermostat_flur_battery_level') | default(101) | int if states('sensor.thermostat_flur_battery_level') is not none}}"
+      value_template: "{{ states('sensor.wiser_itrv_flur_battery_level') | default(101) | int if states('sensor.wiser_itrv_flur_battery_level') is not none}}"
       unit_of_measurement: "%"
       device_class: battery
     climate_thermostat_wohnzimmer_battery_level:
       friendly_name: Thermostat Wohnzimmer
-      value_template: "{{ states('sensor.thermostat_wohnzimmer_battery_level') | default(101) | int if states('sensor.thermostat_wohnzimmer_battery_level') is not none}}"
+      value_template: "{{ states('sensor.wiser_itrv_wohnzimmer_battery_level') | default(101) | int if states('sensor.wiser_itrv_wohnzimmer_battery_level') is not none}}"
       unit_of_measurement: "%"
       device_class: battery
     climate_raumthermostat_wohnzimmer_battery_level:
-      friendly_name: Raumtheromostat Wohnzimmer
-      value_template: "{{ states('sensor.thermostat_wohnzimmer_battery_level') | default(101) | int if states('sensor.thermostat_wohnzimmer_battery_level') is not none}}"
+      friendly_name: Raum Thermostat Wohnzimmer
+      value_template: "{{ states('sensor.wiser_roomstat_wohnzimmer_battery_level') | default(101) | int if states('sensor.wiser_roomstat_wohnzimmer_battery_level') is not none}}"
       unit_of_measurement: "%"
       device_class: battery
     google_pixel_battery_level:
@@ -452,17 +449,17 @@
     heating_time_bad:
       friendly_name: Heating Time Bad
       icon_template: mdi:radiator
-      value_template: "{{ states('sensor.wiser_bad_on_today') | float * 60 }}"
+      value_template: "{{ states('sensor.heating_bad_on_today') | float * 60 }}"
       unit_of_measurement: min
     heating_time_flur:
       friendly_name: Heating Time Flur
       icon_template: mdi:radiator
-      value_template: "{{ states('sensor.wiser_flur_on_today') | float * 60 }}"
+      value_template: "{{ states('sensor.heating_flur_on_today') | float * 60 }}"
       unit_of_measurement: min
     heating_time_wohnzimmer:
       friendly_name: Heating Time Wohnzimmer
       icon_template: mdi:radiator
-      value_template: "{{ states('sensor.wiser_wohnzimmer_on_today') | float * 60 }}"
+      value_template: "{{ states('sensor.heating_wohnzimmer_on_today') | float * 60 }}"
       unit_of_measurement: min
     hass_uptime:
       entity_id:
@@ -487,12 +484,6 @@
       friendly_name: Verbunden
       value_template: >
         {{ as_timestamp(states.sensor.home_phixion_org.last_changed) | timestamp_custom('%c') }}
-- platform: filter
-  filters:
-    - filter: time_throttle
-      window_size: 00:01
-  name: InfluxDB Telegraf Size
-  entity_id: sensor.influxdb_size_telegraf
 - platform: filter
   filters:
     - filter: time_throttle

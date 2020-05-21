@@ -2,7 +2,8 @@
 #Plattenschrank klein
 substitutions:
   devicename: ledstripwhz3
-  friendly_name: "LED Strip Wohnzimmer 3"
+  friendly_name: LED Strip 3
+  room: Wohnzimmer
   update_interval_short: 2s
   update_interval_long: 10min
   frequency_rgb: 100 Hz
@@ -32,16 +33,16 @@ binary_sensor:
       inverted: true
     internal: true
     id: ${devicename}_binbutton
-    name: ${friendly_name} Button
+    name: ${friendly_name} (${room}) Button
     on_press:
       - switch.toggle: ${devicename}_button
   - platform: status
-    name: ${friendly_name} Status
+    name: ${friendly_name} (${room}) Status
 switch:
   - platform: restart
-    name: ${friendly_name} Restart
+    name: ${friendly_name} (${room}) Restart
   - platform: template
-    name: ${friendly_name} Schalter
+    name: ${friendly_name} (${room}) Schalter
     optimistic: true
     internal: true
     restore_state: true

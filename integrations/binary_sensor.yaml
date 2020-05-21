@@ -129,20 +129,12 @@ binary_sensor:
     duration: 2
     reset: 60
     peak: -32
-  - platform: ffmpeg_noise
-    name: Noise Sensor 2 (Wohnzimmer)
-    input: -f alsa -ac 1 -i plughw:1 -vn -filter:a silencedetect=n=-10dB:d=1 -f null -
-    extra_arguments: -filter:a highpass=f=300,lowpass=f=2500,volume=volume=2 -codec:a libmp3lame -ar 16000
-    initial_state: true
-    duration: 2
-    reset: 60
-    peak: -32
-  - platform: ffmpeg_motion
-    input: !secret nest_stream # pragma: allowlist secret
-    name: Motion Sensor
-    reset: 120
-    changes: 10
-    initial_state: true
+#  - platform: ffmpeg_motion
+#    input: !secret nest_stream # pragma: allowlist secret
+#    name: Motion Sensor
+#    reset: 120
+#    changes: 10
+#    initial_state: true
   #   extra_arguments: -q:v 2
   - platform: trend
     sensors:

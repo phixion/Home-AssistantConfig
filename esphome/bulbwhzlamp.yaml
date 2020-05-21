@@ -1,6 +1,7 @@
 substitutions:
   devicename: bulbwhzlamp
-  friendly_name: "Wohnzimmer Stehlampe"
+  friendly_name: Stehlampe
+  room: Wohnzimmer
   update_interval_short: 2s
   update_interval_long: 10min
   frequency_rgb: 100 Hz
@@ -27,4 +28,4 @@ captive_portal:
 logger:
 switch:
   - platform: restart
-    name: ${friendly_name} Restart
+    name: ${friendly_name} (${room}) Restart
