@@ -33,6 +33,9 @@ async def async_setup(hass, config):
 
     await setup_connection(hass, config)
 
-    setup_service(hass)
+    await setup_service(hass)
 
     return True
+
+
+

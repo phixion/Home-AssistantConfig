@@ -98,7 +98,7 @@ sensor:
     update_interval: 15s
   - platform: adc
     pin: A0
-    update_interval: ${update_interval}
+    update_interval: 1min
     name: ${friendly_name} (${room}) Audio Meter
     filters:
       - multiply: 3.3
@@ -155,5 +155,5 @@ text_sensor:
     type: sunset
   - platform: wifi_info
     ip_address:
-      name: ${friendly_name} IP Address
+      name: ${friendly_name} (${room}) IP Address
       icon: mdi:wifi

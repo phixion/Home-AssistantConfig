@@ -659,28 +659,28 @@
     days: 30
 - platform: history_stats
   name: Heating Bad On Today
-  entity_id: binary_sensor.wiser_bad
+  entity_id: binary_sensor.heating_bad
   state: "on"
   type: time
   start: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
   end: "{{ now() }}"
 - platform: history_stats
   name: Heating Flur On Today
-  entity_id: binary_sensor.wiser_flur
+  entity_id: binary_sensor.heating_flur
   state: "on"
   type: time
   start: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
   end: "{{ now() }}"
 - platform: history_stats
   name: Heating Wohnzimmer On Today
-  entity_id: binary_sensor.wiser_wohnzimmer
+  entity_id: binary_sensor.heating_wohnzimmer
   state: "on"
   type: time
   start: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
   end: "{{ now() }}"
 - platform: history_stats
   name: Heating Bad On Yesterday
-  entity_id: binary_sensor.wiser_bad
+  entity_id: binary_sensor.heating_bad
   state: "on"
   type: time
   end: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
@@ -688,7 +688,7 @@
     hours: 24
 - platform: history_stats
   name: Heating Flur On Yesterday
-  entity_id: binary_sensor.wiser_flur
+  entity_id: binary_sensor.heating_flur
   state: "on"
   type: time
   end: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
@@ -696,7 +696,7 @@
     hours: 24
 - platform: history_stats
   name: Heating Wohnzimmer On Yesterday
-  entity_id: binary_sensor.wiser_wohnzimmer
+  entity_id: binary_sensor.heating_wohnzimmer
   state: "on"
   type: time
   end: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
@@ -704,28 +704,28 @@
     hours: 24
 - platform: history_stats
   name: Heating Bad On this Week
-  entity_id: binary_sensor.wiser_bad
+  entity_id: binary_sensor.heating_bad
   state: "on"
   type: time
   start: "{{ as_timestamp( now().replace(hour=0).replace(minute=0).replace(second=0) ) - now().weekday() * 86400 }}"
   end: "{{ now() }}"
 - platform: history_stats
   name: Heating Flur On this Week
-  entity_id: binary_sensor.wiser_flur
+  entity_id: binary_sensor.heating_flur
   state: "on"
   type: time
   start: "{{ as_timestamp( now().replace(hour=0).replace(minute=0).replace(second=0) ) - now().weekday() * 86400 }}"
   end: "{{ now() }}"
 - platform: history_stats
   name: Heating Wohnzimmer On this Week
-  entity_id: binary_sensor.wiser_wohnzimmer
+  entity_id: binary_sensor.heatingwohnzimmer
   state: "on"
   type: time
   start: "{{ as_timestamp( now().replace(hour=0).replace(minute=0).replace(second=0) ) - now().weekday() * 86400 }}"
   end: "{{ now() }}"
 - platform: history_stats
   name: Heating Bad On past 30 days
-  entity_id: binary_sensor.wiser_bad
+  entity_id: binary_sensor.heating_bad
   state: "on"
   type: time
   end: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
@@ -733,7 +733,7 @@
     days: 30
 - platform: history_stats
   name: Heating Flur On past 30 days
-  entity_id: binary_sensor.wiser_flur
+  entity_id: binary_sensor.heating_flur
   state: "on"
   type: time
   end: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
@@ -741,7 +741,7 @@
     days: 30
 - platform: history_stats
   name: Heating Wohnzimmer On past 30 days
-  entity_id: binary_sensor.wiser_wohnzimmer
+  entity_id: binary_sensor.heating_wohnzimmer
   state: "on"
   type: time
   end: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
@@ -917,10 +917,6 @@
     Accept: application/vnd.travis-ci.2+json
   value_template: "{{ value_json.builds[0].state }}"
   name: Travis Build Status
-- platform: rest
-  resource: https://radar.nightfall.ai/api/v1/scans
-  method: GET
-  headers:
-    Accept: application/json
-  value_template: "{{ value_json.status }}"
-  name: Watchtower Scan Status
+- platform: myjdownloader
+  email: !secret jd_user
+  password: !secret jd_passwd
