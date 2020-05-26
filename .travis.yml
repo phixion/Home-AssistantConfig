@@ -17,6 +17,7 @@ before_install:
   - sudo systemctl daemon-reload
   - sed -i "s@/config/tmp@$(pwd)/tmp@" configuration.yaml
   - mkdir $(pwd)/tmp
+  
   - echo "# Netscape HTTP Cookie File\n0 0\n0 0\n0 0" > $(pwd)/.google_maps_location_sharing.cookies.joedoe_gmail_com
   - HA_VERSION=$(<.HA_VERSION)
 install:
