@@ -77,10 +77,11 @@ recorder:
       - sensor.date_time_iso
       - sensor.circadian_values
       - sensor.memory_free
-      - sensor.network_in_ens160
-      - sensor.network_out_ens160
+      - sensor.network_in_eth0
+      - sensor.network_out_eth0
       - sensor.reddit_gamedeals
       - sensor.nodemcu_2_luxmeter
+      - sensor.nodemcu_2_tv_hohe_nhn
     domains:
       - updater
       - camera
@@ -116,8 +117,8 @@ logbook:
       - sensor.date_time_iso
       - sensor.circadian_values
       - sensor.memory_free
-      - sensor.network_in_ens160
-      - sensor.network_out_ens160
+      - sensor.network_in_eth0
+      - sensor.network_out_eth0
       - sensor.nodemcu_2_luxmeter
       - sensor.date_time
       - sensor.date_time_iso
@@ -172,8 +173,8 @@ history:
       - sensor.date_muellabfuhr
       - sensor.circadian_values
       - sensor.memory_free
-      - sensor.network_in_ens160
-      - sensor.network_out_ens160
+      - sensor.network_in_eth0
+      - sensor.network_out_eth0
       - sensor.reddit_gamedeals
       - sensor.rss_coindesk
       - sensor.rss_darknet

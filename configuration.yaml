@@ -4,7 +4,6 @@
 #██║     ██║   ██║██║╚██╗██║██╔══╝  ██║██║   ██║██║   ██║██╔══██╗██╔══██║   ██║   ██║██║   ██║██║╚██╗██║
 #╚██████╗╚██████╔╝██║ ╚████║██║     ██║╚██████╔╝╚██████╔╝██║  ██║██║  ██║   ██║   ██║╚██████╔╝██║ ╚████║
 # ╚═════╝ ╚═════╝ ╚═╝  ╚═══╝╚═╝     ╚═╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝
-group: !include groups.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml
 upnp: !include upnp.yaml
@@ -39,4 +38,8 @@ homeassistant:
   elevation: !secret home_ela
   whitelist_external_dirs:
     - /config/tmp
+    - /config
+    - /config/integrations
+    - /config/google-assistant-entities
+
 

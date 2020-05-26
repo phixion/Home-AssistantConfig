@@ -204,6 +204,14 @@
         data:
           inline_keyboard:
             - "Play Video on TV:/yt_h3"
+    - service: notify.lametric
+      data:
+        message: "Neuer h3h3 Podcast"
+        data:
+          sound: 'notification'
+          icon: 'a10835'
+          cycles: 10
+          priority: 'critical'
 - alias: Notification Nexpo Video
   id: "11"
   trigger:
@@ -229,11 +237,11 @@
         command: Hey Martin, Nexpo hat ein neues Video auf YouTube hochgeladen.
     - service: notify.lametric
       data:
-        message: "New Nexpo Video"
+        message: "Neues Nexpo Video"
         data:
           sound: 'notification'
-          icon: 'i51'
-          cycles: 0
+          icon: 'a10835'
+          cycles: 10
           priority: 'critical'
 - alias: Notification ScareTheater Video
   id: "12"
@@ -255,6 +263,14 @@
         data:
           inline_keyboard:
             - "Play Video on TV:/yt_scaretheater"
+    - service: notify.lametric
+      data:
+        message: "Neues ScareTheater Video"
+        data:
+          sound: 'notification'
+          icon: 'a10835'
+          cycles: 10
+          priority: 'critical'
 - alias: Notification ReignBot Video
   id: "13"
   trigger:
@@ -275,6 +291,14 @@
         data:
           inline_keyboard:
             - "Play Video on TV:/yt_reignbot"
+    - service: notify.lametric
+      data:
+        message: "Neues ReignBot Video"
+        data:
+          sound: 'notification'
+          icon: 'a10835'
+          cycles: 10
+          priority: 'critical'
 - alias: Notification Frenck Video
   id: "14"
   trigger:
@@ -295,6 +319,14 @@
         data:
           inline_keyboard:
             - "Play Video on TV:/yt_frenck"
+    - service: notify.lametric
+      data:
+        message: "Neues Frenck Video"
+        data:
+          sound: 'notification'
+          icon: 'a10835'
+          cycles: 10
+          priority: 'critical'
 - alias: Notification SomeOrdinaryGamers Video
   id: "15"
   trigger:
@@ -315,6 +347,14 @@
         data:
           inline_keyboard:
             - "Play Video on TV:/yt_sog"
+    - service: notify.lametric
+      data:
+        message: "Neues S.O.G. Video"
+        data:
+          sound: 'notification'
+          icon: 'a10835'
+          cycles: 10
+          priority: 'critical'
 - alias: Update Travel Sensors
   id: "16"
   trigger:
@@ -1001,6 +1041,14 @@
       data_template:
         title: 🚽 Badezimmer ist besetzt
         message: " "
+    - service: notify.lametric
+      data:
+        message: "Badezimmer ist besetzt"
+        data:
+#          sound: 'notification'
+          icon: 'i8176'
+          cycles: 3
+          priority: 'critical'
 - alias: Notification TV Badezimmer frei
   id: "51"
   trigger:
@@ -1012,6 +1060,14 @@
       data_template:
         title: 🚽 Badezimmer ist frei
         message: " "
+    - service: notify.lametric
+      data:
+        message: "Badezimmer ist frei"
+        data:
+#          sound: 'notification'
+          icon: 'i8176'
+          cycles: 3
+          priority: 'critical'
 - alias: System Travis Build Failed
   id: "53"
   trigger:
@@ -1072,16 +1128,16 @@
   action:
     - service: rest_command.webhook
       data_template:
-        command: "[HASSIO] Homeassistant is restarting"
-- alias: Webhook Endpoint
-  id: "57"
-  trigger:
-    - platform: webhook
-      webhook_id: !secret webhook_id
-  action:
-    - service: notify.google_assistant_broadcast
-      data_template:
-        command: "Watchtower hat ein Sicherheitsproblem gemeldet"
+        command: "[HASSIO] Homeassistant is shutting down"
+#- alias: Webhook Endpoint
+#  id: "57"
+#  trigger:
+#    - platform: webhook
+#      webhook_id: !secret webhook_id
+#  action:
+#    - service: notify.google_assistant_broadcast
+#      data_template:
+#        command: "Watchtower hat ein Sicherheitsproblem gemeldet"
 #- alias: "LaMetric Nexpo"
 #  id: "57"
 #  trigger:

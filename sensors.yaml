@@ -98,13 +98,13 @@
     - type: processor_use
     - type: last_boot
     - type: throughput_network_in
-      arg: ens160
+      arg: eth0
     - type: throughput_network_out
-      arg: ens160
+      arg: eth0
     - type: network_in
-      arg: ens160
+      arg: eth0
     - type: network_out
-      arg: ens160
+      arg: eth0
 - platform: integration
   source: sensor.sonoff_pow_r2_whz_power
   name: energy_consumption_whz_1
@@ -718,7 +718,7 @@
   end: "{{ now() }}"
 - platform: history_stats
   name: Heating Wohnzimmer On this Week
-  entity_id: binary_sensor.heatingwohnzimmer
+  entity_id: binary_sensor.heating_wohnzimmer
   state: "on"
   type: time
   start: "{{ as_timestamp( now().replace(hour=0).replace(minute=0).replace(second=0) ) - now().weekday() * 86400 }}"

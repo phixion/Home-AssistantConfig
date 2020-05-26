@@ -14,6 +14,18 @@ URL = ""
 TEST_CASES = OrderedDict(
     [
         (
+            "Dortmund, Dudenstr. 5",
+            {
+                "url": "https://www.edg.de/ical/kalender.ics?Strasse=Dudenstr.&Hausnummer=5&Erinnerung=-1&Abfallart=1,2,3,4"
+            },
+        ),
+        (
+            "Leipzig, Sandgrubenweg 27",
+            {
+                "url": "https://www.stadtreinigung-leipzig.de/leistungen/abfallentsorgung/abfallkalender-entsorgungstermine.html&ical=true&loc=Sandgrubenweg%20%2027&lid=x38296"
+            },
+        ),
+        (
             "Ludwigsburg",
             {
                 "url": "https://www.avl-ludwigsburg.de/fileadmin/Files/Abfallkalender/ICS/Privat/Privat_{%Y}_Ossweil.ics"
@@ -106,13 +118,10 @@ class Source:
         # parse ics file
         calendar = icalendar.Calendar.from_ical(data)
 
-        start_date = datetime.datetime.now()
+        start_date = datetime.datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
         end_date = start_date.replace(year=start_date.year + 1)
 
-        try:
-            events = recurring_ical_events.of(calendar).between(start_date, end_date)
-        except Exception:
-            events = calendar.walk()
+        events = recurring_ical_events.of(calendar).between(start_date, end_date)
 
         entries = []
 
