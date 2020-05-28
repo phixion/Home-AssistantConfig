@@ -7,7 +7,8 @@
 #
 google_assistant:
   project_id: !secret gproject_id # pragma: allowlist secret
-  service_account: !include /config/google_assistant.json # pragma: allowlist secret
+#  service_account: !include ../google_assistant.json # pragma: allowlist secret
+  service_account: !secret google_service_accout_json_file
   secure_devices_pin: !secret google_assistant_pin # pragma: allowlist secret
   report_state: false #causes errors in google home console
   expose_by_default: false #setting to true breaks the integration
