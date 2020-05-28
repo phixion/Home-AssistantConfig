@@ -11,8 +11,8 @@ input_boolean:
     name: Play latest ReignBot
     initial: off
     icon: mdi:ufo-outline
-  play_sog:
-    name: Play latest SomeOrdinaryGamers
+  play_ih:
+    name: Play latest InternetHistorian
     initial: off
     icon: mdi:youtube
   play_h3:

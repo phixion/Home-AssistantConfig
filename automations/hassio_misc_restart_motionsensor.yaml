@@ -1,0 +1,22 @@
+- alias: Restart Motion Sensor
+  id: "27"
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.motion_sensor
+      to: "unavailable"
+      for:
+        minutes: 10
+  condition:
+    condition: or
+    conditions:
+      - condition: state
+        entity_id: input_select.home_mode
+        state: Away
+      - condition: state
+        entity_id: input_select.home_mode
+        state: Vacation
+  action:
+    - service: ffmpeg.restart
+      data:
+        entity_id:
+          - binary_sensor.motion_sensor

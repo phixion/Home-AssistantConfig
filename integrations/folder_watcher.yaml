@@ -5,14 +5,14 @@
 #██║     ╚██████╔╝███████╗██████╔╝███████╗██║  ██║    ╚███╔███╔╝██║  ██║   ██║   ╚██████╗██║  ██║███████╗██║  ██║
 #╚═╝      ╚═════╝ ╚══════╝╚═════╝ ╚══════╝╚═╝  ╚═╝     ╚══╝╚══╝ ╚═╝  ╚═╝   ╚═╝    ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝
 #                                                                                                                
-folder_watcher:
-  - folder: /config
-    patterns:
-      - '*.yaml'
-  - folder: /config/google-assistant-entities
-    patterns:
-      - '*.yaml'
-  - folder: /config/integrations
-    patterns:
-      - '*.yaml'
+#folder_watcher:
+#  - folder: /config
+#    patterns:
+#      - '*.yaml'
+#  - folder: /config/google-assistant-entities
+#    patterns:
+#      - '*.yaml'
+#  - folder: /config/integrations
+#    patterns:
+#      - '*.yaml'
 

@@ -1,0 +1,11 @@
+- alias: Notification Update
+  id: "7"
+  trigger:
+    platform: state
+    entity_id: binary_sensor.updater
+    to: "on"
+  action:
+    - data:
+        message: Update available
+        title: Update available
+      service: notify.telegram

@@ -1,0 +1,22 @@
+- alias: "Telegram Control Panel Command"
+  id: "45"
+  initial_state: "on"
+  trigger:
+    platform: event
+    event_type: telegram_command
+    event_data:
+      command: "/control_panel"
+  action:
+    - service: notify.telegram
+      data:
+        message: >
+          {{ [
+          "Home Assistant Status",
+          "Control Panel",
+          "Yes Sir!",
+          "Home Assistant Control Panel"
+          ] | random }}
+        data:
+          inline_keyboard:
+            - "Weather:/wea, Status:/status"
+            - "Ping:/ping"

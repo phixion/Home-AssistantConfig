@@ -1,0 +1,85 @@
+- alias: "Telegram Play reignbot on TV"
+  id: "40"
+  trigger:
+    platform: event
+    event_type: telegram_callback
+    event_data:
+      command: "/yt_reignbot"
+  action:
+    - service: telegram_bot.answer_callback_query
+      data_template:
+        callback_query_id: "{{ trigger.event.data.id }}"
+        message: "Status"
+    - service: homeassistant.toggle
+      entity_id: input_boolean.play_reignbot
+- alias: Notification ReignBot Video
+  id: "13"
+  trigger:
+    - platform: state
+      entity_id: sensor.reignbot
+  condition:
+    - condition: template
+      value_template: "{{ as_timestamp(now()) - as_timestamp(states.automation.notification_reignbot_video.attributes.last_triggered) | int > 900 }}"
+    - condition: template
+      value_template: "{{ states.automation.notification_reignbot_video.attributes.last_triggered != none }}"
+  action:
+    - service: notify.telegram
+      data_template:
+        title: New ReignBot Video
+        message: >
+          {{states('sensor.reignbot')}}
+           {{state_attr('sensor.reignbot', 'url')}}
+        data:
+          inline_keyboard:
+            - "Play Video on TV:/yt_reignbot"
+    - service: notify.lametric
+      data:
+        message: "Neues ReignBot Video"
+        data:
+          sound: 'notification'
+          icon: 'a10835'
+          cycles: 10
+          priority: 'critical'
+- alias: AndroidTV Play Latest reignbot Video
+  id: "31"
+  trigger:
+    platform: state
+    entity_id: input_boolean.play_reignbot
+    to: "on"
+  action:
+    - service: media_extractor.play_media
+      entity_id:
+        - media_player.shield
+      data_template:
+        media_content_id: "{{state_attr('sensor.reignbot', 'url' | string)}}"
+        media_content_type: video/youtube
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.play_reignbot
+- alias: Notification ReignBot Video
+  id: "13"
+  trigger:
+    - platform: state
+      entity_id: sensor.reignbot
+  condition:
+    - condition: template
+      value_template: "{{ as_timestamp(now()) - as_timestamp(states.automation.notification_reignbot_video.attributes.last_triggered) | int > 900 }}"
+    - condition: template
+      value_template: "{{ states.automation.notification_reignbot_video.attributes.last_triggered != none }}"
+  action:
+    - service: notify.telegram
+      data_template:
+        title: New ReignBot Video
+        message: >
+          {{states('sensor.reignbot')}}
+           {{state_attr('sensor.reignbot', 'url')}}
+        data:
+          inline_keyboard:
+            - "Play Video on TV:/yt_reignbot"
+    - service: notify.lametric
+      data:
+        message: "Neues ReignBot Video"
+        data:
+          sound: 'notification'
+          icon: 'a10835'
+          cycles: 10
+          priority: 'critical'

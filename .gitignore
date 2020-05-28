@@ -64,6 +64,16 @@
 !google-assistant-entities/
 !google-assistant-entities/*.yaml
 
+#appdaemin directory
+!appdaemon/
+!appdaemon/apps
+!appdaemon/**/*.yaml
+!appdaemon/**/*.py
+
+#automations directory
+!automations/
+!automations/*.yaml
+
 #ensure
 secrets.yaml
 *.db

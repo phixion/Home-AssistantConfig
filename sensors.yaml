@@ -896,9 +896,9 @@
 #reignbot
 - platform: youtube
   channel_id: UCchWU8ta6L-Dy3rGIxPINzw
-#SOG
+#internet historian
 - platform: youtube
-  channel_id: UCtMVHI3AJD4Qk4hcbZnI9ZQ
+  channel_id: UCR1D15p_vdP3HkrH8wgjQRw
 - platform: time_date
   display_options:
     - "time"

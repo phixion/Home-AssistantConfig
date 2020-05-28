@@ -1,0 +1,38 @@
+- alias: Notification TV Badezimmer frei
+  id: "51"
+  trigger:
+    platform: state
+    entity_id: switch.schalter_bad_relay
+    to: "off"
+  action:
+    - service: notify.android
+      data_template:
+        title: 🚽 Badezimmer ist frei
+        message: " "
+    - service: notify.lametric
+      data:
+        message: "Badezimmer ist frei"
+        data:
+#          sound: 'notification'
+          icon: 'i8176'
+          cycles: 3
+          priority: 'critical'
+- alias: Notification TV Badezimmer besetzt
+  id: "50"
+  trigger:
+    platform: state
+    entity_id: switch.schalter_bad_relay
+    to: "on"
+  action:
+    - service: notify.android
+      data_template:
+        title: 🚽 Badezimmer ist besetzt
+        message: " "
+    - service: notify.lametric
+      data:
+        message: "Badezimmer ist besetzt"
+        data:
+#          sound: 'notification'
+          icon: 'i8176'
+          cycles: 3
+          priority: 'critical'

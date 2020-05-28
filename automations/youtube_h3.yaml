@@ -1,0 +1,85 @@
+- alias: "Telegram Play h3 on TV"
+  id: "37"
+  trigger:
+    platform: event
+    event_type: telegram_callback
+    event_data:
+      command: "/yt_h3"
+  action:
+    - service: telegram_bot.answer_callback_query
+      data_template:
+        callback_query_id: "{{ trigger.event.data.id }}"
+        message: "Status"
+    - service: homeassistant.toggle
+      entity_id: input_boolean.play_h3
+- alias: Notification h3 Podcast
+  id: "10"
+  trigger:
+    - platform: state
+      entity_id: sensor.h3_podcast
+  condition:
+    - condition: template
+      value_template: "{{ as_timestamp(now()) - as_timestamp(states.automation.notification_h3_podcast.attributes.last_triggered) | int > 900 }}"
+    - condition: template
+      value_template: "{{ states.automation.notification_h3_podcast.attributes.last_triggered != none }}"
+  action:
+    - service: notify.telegram
+      data_template:
+        title: New h3 Podcast
+        message: >
+          {{states('sensor.h3_podcast')}}
+           {{state_attr('sensor.h3_podcast', 'url')}}
+        data:
+          inline_keyboard:
+            - "Play Video on TV:/yt_h3"
+    - service: notify.lametric
+      data:
+        message: "Neuer h3h3 Podcast"
+        data:
+          sound: 'notification'
+          icon: 'a10835'
+          cycles: 10
+          priority: 'critical'
+- alias: AndroidTV Play Latest h3 Podcast Video
+  id: "30"
+  trigger:
+    platform: state
+    entity_id: input_boolean.play_h3
+    to: "on"
+  action:
+    - service: media_extractor.play_media
+      entity_id:
+        - media_player.shield
+      data_template:
+        media_content_id: "{{state_attr('sensor.h3_podcast', 'url' | string)}}"
+        media_content_type: video/youtube
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.play_h3
+- alias: Notification h3 Podcast
+  id: "10"
+  trigger:
+    - platform: state
+      entity_id: sensor.h3_podcast
+  condition:
+    - condition: template
+      value_template: "{{ as_timestamp(now()) - as_timestamp(states.automation.notification_h3_podcast.attributes.last_triggered) | int > 900 }}"
+    - condition: template
+      value_template: "{{ states.automation.notification_h3_podcast.attributes.last_triggered != none }}"
+  action:
+    - service: notify.telegram
+      data_template:
+        title: New h3 Podcast
+        message: >
+          {{states('sensor.h3_podcast')}}
+           {{state_attr('sensor.h3_podcast', 'url')}}
+        data:
+          inline_keyboard:
+            - "Play Video on TV:/yt_h3"
+    - service: notify.lametric
+      data:
+        message: "Neuer h3h3 Podcast"
+        data:
+          sound: 'notification'
+          icon: 'a10835'
+          cycles: 10
+          priority: 'critical'

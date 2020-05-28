@@ -1,0 +1,85 @@
+- alias: "Telegram Play scaretheater on TV"
+  id: "39"
+  trigger:
+    platform: event
+    event_type: telegram_callback
+    event_data:
+      command: "/yt_scaretheater"
+  action:
+    - service: telegram_bot.answer_callback_query
+      data_template:
+        callback_query_id: "{{ trigger.event.data.id }}"
+        message: "Status"
+    - service: homeassistant.toggle
+      entity_id: input_boolean.play_scaretheater
+- alias: Notification ScareTheater Video
+  id: "12"
+  trigger:
+    - platform: state
+      entity_id: sensor.scaretheater
+  condition:
+    - condition: template
+      value_template: "{{ as_timestamp(now()) - as_timestamp(states.automation.notification_scaretheater_video.attributes.last_triggered) | int > 900 }}"
+    - condition: template
+      value_template: "{{ states.automation.notification_scaretheater_video.attributes.last_triggered != none }}"
+  action:
+    - service: notify.telegram
+      data_template:
+        title: New ScareTheater Video
+        message: >
+          {{states('sensor.scaretheater')}}
+           {{state_attr('sensor.scaretheater', 'url')}}
+        data:
+          inline_keyboard:
+            - "Play Video on TV:/yt_scaretheater"
+    - service: notify.lametric
+      data:
+        message: "Neues ScareTheater Video"
+        data:
+          sound: 'notification'
+          icon: 'a10835'
+          cycles: 10
+          priority: 'critical'
+- alias: AndroidTV Play Latest ScareTheater Video
+  id: "29"
+  trigger:
+    platform: state
+    entity_id: input_boolean.play_scaretheater
+    to: "on"
+  action:
+    - service: media_extractor.play_media
+      entity_id:
+        - media_player.shield
+      data_template:
+        media_content_id: "{{state_attr('sensor.scaretheater', 'url' | string)}}"
+        media_content_type: video/youtube
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.play_scaretheater
+- alias: Notification ScareTheater Video
+  id: "12"
+  trigger:
+    - platform: state
+      entity_id: sensor.scaretheater
+  condition:
+    - condition: template
+      value_template: "{{ as_timestamp(now()) - as_timestamp(states.automation.notification_scaretheater_video.attributes.last_triggered) | int > 900 }}"
+    - condition: template
+      value_template: "{{ states.automation.notification_scaretheater_video.attributes.last_triggered != none }}"
+  action:
+    - service: notify.telegram
+      data_template:
+        title: New ScareTheater Video
+        message: >
+          {{states('sensor.scaretheater')}}
+           {{state_attr('sensor.scaretheater', 'url')}}
+        data:
+          inline_keyboard:
+            - "Play Video on TV:/yt_scaretheater"
+    - service: notify.lametric
+      data:
+        message: "Neues ScareTheater Video"
+        data:
+          sound: 'notification'
+          icon: 'a10835'
+          cycles: 10
+          priority: 'critical'

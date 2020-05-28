@@ -1,0 +1,16 @@
+- alias: Update Travel Sensors
+  id: "16"
+  trigger:
+    - platform: time_pattern
+      hours: /24
+  condition:
+    - condition: state
+      entity_id: binary_sensor.workday_sensor
+      state: "on"
+  action:
+    - service: homeassistant.update_entity
+      entity_id: sensor.commute_home
+    - service: homeassistant.update_entity
+      entity_id: sensor.travel_parents_trains
+    - service: homeassistant.update_entity
+      entity_id: sensor.travel_parents_bike

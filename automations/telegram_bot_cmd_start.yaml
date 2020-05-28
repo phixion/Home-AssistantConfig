@@ -1,0 +1,21 @@
+- alias: "Telegram Start Command"
+  id: "44"
+  initial_state: "on"
+  trigger:
+    platform: event
+    event_type: telegram_command
+    event_data:
+      command: "/start"
+  action:
+    - service: notify.telegram
+      data:
+        message: >
+          {{ [
+          "Hi",
+          "Hello",
+          "Yes Sir!",
+          "it's a pleasure to see you again"
+          ] | random }}
+        data:
+          keyboard:
+            - "/start, /control_panel"

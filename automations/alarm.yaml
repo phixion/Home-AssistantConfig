@@ -1,0 +1,25 @@
+- alias: Trigger alarm while armed away
+  id: "55"
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.motion_sensor
+      to: "on"
+    - platform: state
+      entity_id: binary_sensor.nodemcu_4_kueche_motion_sensor
+      to: "on"
+    - platform: state
+      entity_id: sensor.door
+      to: "on"
+    - platform: state
+      entity_id: binary_sensor.nodemcu_5_bad_motion_sensor
+      to: "on"
+    - platform: state
+      entity_id: binary_sensor.window_wohnzimmer
+      to: "on"
+  condition:
+    - condition: state
+      entity_id: alarm_control_panel.home_alarm
+      state: armed_away
+  action:
+    service: alarm_control_panel.alarm_trigger
+    entity_id: alarm_control_panel.home_alarm

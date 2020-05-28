@@ -1,0 +1,9 @@
+- alias: Update Google Assistant
+  id: "26"
+  trigger:
+    - platform: homeassistant
+      event: start
+  action:
+    - service: google_assistant.request_sync
+      data:
+        agent_user_id: !secret api_user_id

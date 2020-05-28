@@ -1,0 +1,9 @@
+- alias: Webhook on shutdown
+  id: "56"
+  trigger:
+    - platform: homeassistant
+      event: shutdown
+  action:
+    - service: rest_command.webhook
+      data_template:
+        command: "[HASSIO] Homeassistant is shutting down"

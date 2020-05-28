@@ -1,0 +1,18 @@
+- alias: Notification updates pending in HACS
+  id: "21"
+  trigger:
+    - platform: state
+      entity_id: sensor.hacs
+  condition:
+    - condition: template
+      value_template: "{{ states(trigger.entity_id) != 'unknown'}}"
+    - condition: template
+      value_template: "{{ (states(trigger.entity_id) | float) != 0}}"
+  action:
+    - service: persistent_notification.create
+      data_template:
+        title: Updates pending in HACS
+        message:
+          "{% for repo in state_attr(trigger.entity_id, 'repositories') %}\n\
+          \  **{{ repo.display_name }}** _{{ repo[\"installed version\"] }}_ -> _{{\
+          \ repo[\"available version\"] }}_\n{% endfor %}"

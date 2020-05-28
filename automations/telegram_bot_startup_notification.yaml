@@ -1,0 +1,22 @@
+- alias: "Telegram startup notification"
+  id: "43"
+  initial_state: "on"
+  trigger:
+    - platform: homeassistant
+      event: start
+  action:
+    - service: notify.telegram
+      data:
+        message: "Homeassistant Bot started"
+        data:
+          keyboard:
+            - "/start"
+    - service: notify.telegram
+      data:
+        message: "Control panel"
+        data:
+          inline_keyboard:
+            - "Weather:/wea, Status:/cam"
+            - "Ping:/ping"
+
+

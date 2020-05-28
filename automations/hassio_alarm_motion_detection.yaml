@@ -1,0 +1,70 @@
+- alias: Snapshot on Motion Detection (Bright)
+  id: "25a"
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.motion_sensor
+      to: "on"
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: binary_sensor.dark_outside
+        state: "off"
+      - condition: or
+        conditions:
+          - condition: state
+            entity_id: input_select.home_mode
+            state: Away
+          - condition: state
+            entity_id: input_select.home_mode
+            state: Vacation
+  action:
+    - service: camera.snapshot
+      data_template:
+        entity_id: camera.nest_cam
+        filename: tmp/motion_{{ now().strftime("%Y%m%d_%H%M") }}.jpg
+    - service: telegram_bot.send_photo
+      data_template:
+        caption: Motion Detected!
+        file: 'tmp/motion_{{ now().strftime("%Y%m%d_%H%M") }}.jpg'
+- alias: Snapshot on Motion Detection (Dark)
+  id: "25"
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.motion_sensor
+      to: "on"
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: binary_sensor.dark_outside
+        state: "on"
+      - condition: or
+        conditions:
+          - condition: state
+            entity_id: input_select.home_mode
+            state: Away
+          - condition: state
+            entity_id: input_select.home_mode
+            state: Vacation
+  action:
+    - service: light.turn_on
+      data_template:
+        entity_id:
+          - light.schalter_whz_light
+          - light.mood_lights_cwww
+    - delay: 00:01:00
+    - service: camera.snapshot
+      data_template:
+        entity_id: camera.nest_cam
+        filename: tmp/motion_{{ now().strftime("%Y%m%d_%H%M") }}.jpg
+    - service: telegram_bot.send_photo
+      data_template:
+        caption: Motion Detected!
+        file: 'tmp/motion_{{ now().strftime("%Y%m%d_%H%M") }}.jpg'
+    - delay: 00:00:01
+    - service: light.turn_off
+      data_template:
+        entity_id:
+          - light.schalter_whz_light
+          - light.mood_lights_cwww

@@ -1,0 +1,24 @@
+- alias: "Telegram weather forecast"
+  id: "34"
+  trigger:
+    platform: event
+    event_type: telegram_callback
+    event_data:
+      command: "/wea"
+  action:
+    - service: telegram_bot.answer_callback_query
+      data_template:
+        callback_query_id: "{{ trigger.event.data.id }}"
+        message: "Weather"
+    - service: telegram_bot.send_photo
+      data_template:
+        target: "{{ trigger.event.data.user_id }}"
+        disable_notification: true
+        file: "www/_static/icons/{{ states.weather.dark_sky.state }}.png"
+    - service: telegram_bot.send_message
+      data_template:
+        target: "{{ trigger.event.data.user_id }}"
+        disable_notification: true
+        message: >
+          {{states('sensor.dark_sky_summary')}} bei {{states('sensor.dark_sky_temperature')}}°C
+           Regenwarscheinlichkeit liegt bei {{states('sensor.dark_sky_precip_probability')}} %

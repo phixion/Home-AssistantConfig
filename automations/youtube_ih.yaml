@@ -1,0 +1,57 @@
+- alias: "Telegram Play Internet Historian on TV"
+  id: "36"
+  trigger:
+    platform: event
+    event_type: telegram_callback
+    event_data:
+      command: "/yt_ih"
+  action:
+    - service: telegram_bot.answer_callback_query
+      data_template:
+        callback_query_id: "{{ trigger.event.data.id }}"
+        message: "Status"
+    - service: homeassistant.toggle
+      entity_id: input_boolean.play_ih
+- alias: Notification InternetHistorian Video
+  id: "15"
+  trigger:
+    - platform: state
+      entity_id: sensor.internethistorian
+  condition:
+    - condition: template
+      value_template: "{{ as_timestamp(now()) - as_timestamp(states.automation.notification_internethistorian_video.attributes.last_triggered) | int > 900 }}"
+    - condition: template
+      value_template: "{{ states.automation.notification_internethistorian_video.attributes.last_triggered != none }}"
+  action:
+    - service: notify.telegram
+      data_template:
+        title: New InternetHistorian Video
+        message: >
+          {{states('sensor.internethistorian')}}
+           {{state_attr('sensor.internethistorian', 'url')}}
+        data:
+          inline_keyboard:
+            - "Play Video on TV:/yt_ih"
+    - service: notify.lametric
+      data:
+        message: "Neues Internet Historian Video"
+        data:
+          sound: 'notification'
+          icon: 'a10835'
+          cycles: 10
+          priority: 'critical'
+- alias: "AndroidTV Play Latest Internet Historian Video"
+  id: "32"
+  trigger:
+    platform: state
+    entity_id: input_boolean.play_ih
+    to: "on"
+  action:
+    - service: media_extractor.play_media
+      entity_id:
+        - media_player.shield
+      data_template:
+        media_content_id: "{{state_attr('sensor.internethistorian', 'url' | string)}}"
+        media_content_type: video/youtube
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.play_ih

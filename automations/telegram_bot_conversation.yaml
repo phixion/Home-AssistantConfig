@@ -1,0 +1,49 @@
+- alias: "Telegram Conversation"
+  id: "46"
+  initial_state: "on"
+  trigger:
+    platform: event
+    event_type: telegram_text
+  condition:
+    condition: template
+    value_template: >-
+      {% set device = trigger.event.data.text|lower|replace('turn on ','')|replace('turn off ','') %}
+      {% for entity in states.group.telegram_devices.attributes.entity_id if states[entity.split('.')[0]][entity.split('.')[1]].name|lower == device -%}
+      true
+      {%- else -%}
+      false
+      {%- endfor -%}
+  action:
+    - service: conversation.process
+      data_template:
+        text: "{{ trigger.event.data.text|lower }}"
+    - service: telegram_bot.send_message
+      data_template:
+        message: >-
+          {% set device = trigger.event.data.text|lower|replace('turn on ','')|replace('turn off ','') %}
+          OK, {{ trigger.event.data.text|lower|replace('turn','turning') }}.
+        title: ""
+        target: "{{ trigger.event.data.user_id }}"
+- alias: "Telegram Conversation Device Not Found"
+  id: "47"
+  initial_state: "on"
+  trigger:
+    platform: event
+    event_type: telegram_text
+  condition:
+    condition: template
+    value_template: >-
+      {% set device = trigger.event.data.text|lower|replace('turn on ','')|replace('turn off ','') %}
+      {% for entity in states.group.telegram_devices.attributes.entity_id if states[entity.split('.')[0]][entity.split('.')[1]].name|lower == device -%}
+      false
+      {%- else -%}
+      true
+      {%- endfor -%}
+  action:
+    service: telegram_bot.send_message
+    data_template:
+      message: >-
+        {% set device = trigger.event.data.text|lower|replace('turn on ','')|replace('turn off ','') %}
+        I'm sorry. I cannot find the device named {{device}} in the house.
+      title: ""
+      target: "{{ trigger.event.data.user_id }}"
