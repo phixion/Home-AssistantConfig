@@ -18,7 +18,6 @@ logger:
 i2c:
   sda: D6
   scl: D7
-  scan: True
 apds9960:
   address: 0x39
   update_interval: 60s
@@ -26,6 +25,21 @@ sun:
   latitude: !secret home_lat
   longitude: !secret home_lon
 sensor:
+  - platform: ccs811
+    eco2:
+      name: ${friendly_name} (${room}) eCO2 Wert
+    tvoc:
+      name: ${friendly_name} (${room}) tVOC Wert
+    address: 0x5A
+    update_interval: 60s
+    baseline: 0xA483
+    temperature: bme280_temperature
+    humidity: bme280_humidity
+  - platform: wifi_signal
+    name: ${friendly_name} (${room}) WiFi Signal
+    update_interval: ${update_interval_long}
+    unit_of_measurement: dB
+    icon: mdi:wifi
   - platform: sun
     name: ${friendly_name} (${room}) Sonne Elevation
     type: elevation
@@ -34,10 +48,7 @@ sensor:
     name: ${friendly_name} (${room}) Sonne Azimuth
     type: azimuth
     update_interval: 60s
-  - platform: bh1750
-    name: ${friendly_name} (${room}) Lichtsensor
-    address: 0x23
-    unit_of_measurement: lx
+
   - platform: wifi_signal
     name: ${friendly_name} (${room}) WiFi Signal
     update_interval: ${update_interval_long}
@@ -103,6 +114,10 @@ sensor:
     filters:
       - multiply: 3.3
     unit_of_measurement: dB
+#  - platform: bh1750
+#    name: ${friendly_name} (${room}) Lichtsensor
+#    address: 0x23
+#    unit_of_measurement: lx
 binary_sensor:
   - platform: gpio
     pin: D3
@@ -113,6 +128,7 @@ binary_sensor:
     on_state:
       then:
         - script.execute: beep
+
   - platform: apds9960
     direction: UP
     name: ${friendly_name} (${room}) UP

@@ -51,7 +51,7 @@
     - service: light.turn_on
       data_template:
         entity_id:
-          - light.schalter_whz_light
+          - light.schalter_1_wohnzimmer_light
           - light.mood_lights_cwww
     - delay: 00:01:00
     - service: camera.snapshot
@@ -66,5 +66,5 @@
     - service: light.turn_off
       data_template:
         entity_id:
-          - light.schalter_whz_light
+          - light.schalter_1_wohnzimmer_light
           - light.mood_lights_cwww

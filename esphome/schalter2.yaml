@@ -5,7 +5,10 @@ substitutions:
   update_interval_long: 10min
   update_interval_short: 2s
 esphome:
-  esp8266_restore_from_flash: true
+  on_boot:
+    priority: -10
+    then:
+      - switch.turn_on: relay
   name: ${devicename}
   platform: ESP8266
   board: esp01_1m

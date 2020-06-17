@@ -10,4 +10,7 @@ waste_collection_schedule:
     - name: ics
       args:
         url: !secret wastecol
-        offset: 2
+  fetch_time: '01:00'
+  random_fetch_time_offset: '45'
+  day_switch_time: '16:00'
+

@@ -64,7 +64,7 @@ sensor.energy_combined_power:
 sensor.date_muellabfuhr:
   device_class: timestamp
   icon: mdi:dump-truck
-light.schalter_bad_light:
+light.schalter_1_bad_light:
   name: Bad
   icon: mdi:gesture-tap-box
 #  entity_picture: /local/_static/sonoff.jpg
@@ -72,7 +72,7 @@ light.schalter_1_flur_light:
   name: Flur
   icon: mdi:gesture-tap-box
 #  entity_picture: /local/_static/sonoff.jpg
-light.schalter_kuechenschrank_light:
+light.schalter_schrank_kuche_light:
   name: Küchenschrank
   icon: mdi:gesture-tap-box
 #  entity_picture: /local/_static/sonoff.jpg
@@ -80,7 +80,7 @@ light.schalter_lavalampe_light:
   name: Lavalampe
   icon: mdi:gesture-tap-box
 #  entity_picture: /local/_static/sonoff.jpg
-light.schalter_whz_light:
+light.schalter_1_wohnzimmer_light:
   name: Wohnzimmer
   icon: mdi:gesture-tap-box
 #  entity_picture: /local/_static/sonoff.jpg
@@ -181,8 +181,8 @@ sensor.motion_sensor:
   device_class: motion
 sensor.noise_sensor:
   device_class: sound
-switch.restreamer:
-  icon: mdi:camcorder-box
+#switch.restreamer:
+#  icon: mdi:camcorder-box
 #  icon_template: >-
 #    {% if is_state("switch.restreamer", "off") %}
 #      mdi:camcorder-box-off

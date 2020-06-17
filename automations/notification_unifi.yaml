@@ -4,8 +4,12 @@
     - platform: state
       entity_id: sensor.unifi_gateway_alerts
   condition:
-    - condition: template
-      value_template: "{{ (states.sensor.unifi_gateway_alerts | float) > 0 }}"
+    condition: and
+    conditions:
+      - condition: template
+        value_template: "{{trigger.from_state.state > trigger.to_state.state}}"
+      - condition: template
+        value_template: "{{(trigger.to_state.state | default(0) | float) >= 1 }}"
   action:
     - service: notify.telegram
       data_template:
@@ -13,9 +17,9 @@
         message: >
           {{states('sensor.unifi_gateway_alerts')}}
           {{states.sensor.unifi_gateway_alerts.attributes}}
-    - service: rest_command.assistant_broadcast
-      data_template:
-        command: Hey Martin, Es ist ein Fehler auf deinem Router, schau besser nach.
+#    - service: rest_command.assistant_broadcast
+#      data_template:
+#        command: Hey Martin, Es ist ein Fehler auf deinem Router, schau besser nach.
 
 - alias: Notification UniFi Guest Logon
   id: "9"
@@ -35,6 +39,6 @@
         title: Ein Gast hat sich in dein Netzwerk eingeloggt.
         message: >
           Zur Zeit ist/sind {{states('sensor.unifi_wlan_guest')}} Gaste/Gäste in deinem Netzwerk.
-    - service: rest_command.assistant_broadcast
-      data_template:
-        command: Hey Martin, Ein Gast hat sich in dein Netzwerk eingeloggt.
+#    - service: rest_command.assistant_broadcast
+#      data_template:
+#        command: Hey Martin, Ein Gast hat sich in dein Netzwerk eingeloggt.

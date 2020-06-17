@@ -17,7 +17,12 @@ from homeassistant.helpers.restore_state import RestoreEntity
 from homeassistant.components.light import (
     is_on, ATTR_BRIGHTNESS, ATTR_COLOR_TEMP, ATTR_RGB_COLOR, ATTR_TRANSITION,
     VALID_TRANSITION, ATTR_WHITE_VALUE, ATTR_XY_COLOR, DOMAIN as LIGHT_DOMAIN)
-from homeassistant.components.switch import SwitchEntity
+    
+try:
+    from homeassistant.components.switch import SwitchEntity
+except ImportError:
+    from homeassistant.components.switch import SwitchDevice as SwitchEntity
+ 
 from homeassistant.const import (
     ATTR_ENTITY_ID, CONF_NAME, CONF_PLATFORM, STATE_ON,
     SERVICE_TURN_ON)
@@ -347,7 +352,7 @@ class CircadianSwitch(SwitchEntity, RestoreEntity):
                 self.update_switch(self._initial_transition)
         except:
             pass
-
+    
     def disable_state_changed(self, entity_id, from_state, to_state):
         try:
             _LOGGER.debug(entity_id + " change from " + str(from_state) + " to " + str(to_state))

@@ -1,0 +1,41 @@
+substitutions:
+  devicename: nodemcu7
+  friendly_name: Nodemcu 7
+  room: Wohnzimmer
+  update_interval_short: 2min
+  update_interval_long: 10min
+esphome:
+  name: ${devicename}
+  platform: ESP8266
+  board: nodemcuv2
+time: !include shared/time.yaml
+wifi: !include shared/wifi.yaml
+api: !include shared/api.yaml
+ota: !include shared/ota.yaml
+web_server: !include shared/webserver.yaml
+captive_portal:
+i2c:
+  sda: D5
+  scl: D6
+logger:
+sensor:
+  - platform: wifi_signal
+    name: ${friendly_name} (${room}) WiFi Signal
+    update_interval: ${update_interval_long}
+    unit_of_measurement: dB
+    icon: mdi:wifi
+  - platform: bh1750
+    name: ${friendly_name} (${room}) Lichtsensor
+    address: 0x23
+    unit_of_measurement: lx
+switch:
+  - platform: restart
+    name: ${friendly_name} (${room}) Restart
+binary_sensor:
+  - platform: gpio
+    pin: D3
+    device_class: motion
+    name: ${friendly_name} (${room}) Doppler Sensor
+    id: ${devicename}_doppler
+    filters:
+      - delayed_off: 60s

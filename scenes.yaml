@@ -1,152 +1,1150 @@
-#███████╗ ██████╗███████╗███╗   ██╗███████╗███████╗
-#██╔════╝██╔════╝██╔════╝████╗  ██║██╔════╝██╔════╝
-#███████╗██║     █████╗  ██╔██╗ ██║█████╗  ███████╗
-#╚════██║██║     ██╔══╝  ██║╚██╗██║██╔══╝  ╚════██║
-#███████║╚██████╗███████╗██║ ╚████║███████╗███████║
-#╚══════╝ ╚═════╝╚══════╝╚═╝  ╚═══╝╚══════╝╚══════╝
-#
 - id: mood_lights_cwww_on
   name: Mood Lights CWWW on
   entities:
-    light.mood_lights_cwww:
+    light.ledstripwhz2_rgb:
       brightness: 255
       effect: None
-      state: "on"
+      effect_list:
+      - None
+      - randomflicker
+      - Chill Mode
+      - Chill Mode (Vibrant)
+      - Disco
+      - WTF
+      - Lightning
+      - Candle
+      friendly_name: ledstripwhz2_rgb
+      hs_color:
+      - 31.343
+      - 52.549
+      rgb_color:
+      - 255
+      - 190
+      - 121
+      state: 'on'
+      supported_features: 61
+      xy_color:
+      - 0.473
+      - 0.389
+    light.mood_lights_cwww:
+      brightness: 254
+      color_temp: 394
+      friendly_name: Mood Lights CWWW
+      max_mireds: 357.1428527832031
+      min_mireds: 161.2903289794922
+      state: 'on'
+      supported_features: 43
+    light.wled_schrank:
+      brightness: 255
+      effect: Solid
+      effect_list:
+      - Android
+      - Blink
+      - Blink Rainbow
+      - Bouncing Balls
+      - Bpm
+      - Breathe
+      - Candle
+      - Candle Multi
+      - Chase
+      - Chase Flash
+      - Chase Flash Rnd
+      - Chase Rainbow
+      - Chase Random
+      - Circus
+      - Colorful
+      - Colorloop
+      - Colortwinkles
+      - Colorwaves
+      - Dissolve
+      - Dissolve Rnd
+      - Drip
+      - Dynamic
+      - Fade
+      - Fill Noise
+      - Fire 2012
+      - Fire Flicker
+      - Fireworks
+      - Fireworks 1D
+      - Fireworks Starburst
+      - Glitter
+      - Gradient
+      - Halloween
+      - Halloween Eyes
+      - Heartbeat
+      - ICU
+      - Juggle
+      - Lake
+      - Lighthouse
+      - Lightning
+      - Loading
+      - Merry Christmas
+      - Meteor
+      - Meteor Smooth
+      - Multi Comet
+      - Noise 1
+      - Noise 2
+      - Noise 3
+      - Noise 4
+      - Oscillate
+      - Pacifica
+      - Palette
+      - Percent
+      - Plasma
+      - Police
+      - Police All
+      - Popcorn
+      - Pride 2015
+      - Railway
+      - Rain
+      - Rainbow
+      - Rainbow Runner
+      - Random Colors
+      - Red & Blue
+      - Ripple
+      - Ripple Rainbow
+      - Running
+      - Running 2
+      - Saw
+      - Scan
+      - Scan Dual
+      - Scanner
+      - Scanner Dual
+      - Sinelon
+      - Sinelon Dual
+      - Sinelon Rainbow
+      - Solid
+      - Solid Pattern
+      - Solid Pattern Tri
+      - Sparkle
+      - Sparkle Dark
+      - Sparkle+
+      - Spots
+      - Spots Fade
+      - Stream
+      - Stream 2
+      - Strobe
+      - Strobe Mega
+      - Strobe Rainbow
+      - Sweep
+      - Sweep Random
+      - Theater
+      - Theater Rainbow
+      - Traffic Light
+      - Tri Chase
+      - Tri Fade
+      - Tri Wipe
+      - Twinkle
+      - Twinklecat
+      - Twinklefox
+      - Two Areas
+      - Two Dots
+      - Wipe
+      - Wipe Random
+      friendly_name: WLED Schrank
+      hs_color:
+      - 0
+      - 0
+      icon: mdi:led-strip-variant
+      intensity: 128
+      max_mireds: 500
+      min_mireds: 153
+      palette: Default
+      playlist:
+      preset:
+      reverse: false
+      rgb_color:
+      - 255
+      - 255
+      - 255
+      speed: 128
+      state: 'on'
+      supported_features: 55
+      xy_color:
+      - 0.323
+      - 0.329
+    light.wled_schreibtisch:
+      brightness: 255
+      effect: Solid
+      effect_list:
+      - Android
+      - Blink
+      - Blink Rainbow
+      - Bouncing Balls
+      - Bpm
+      - Breathe
+      - Candle
+      - Candle Multi
+      - Chase
+      - Chase Flash
+      - Chase Flash Rnd
+      - Chase Rainbow
+      - Chase Random
+      - Circus
+      - Colorful
+      - Colorloop
+      - Colortwinkles
+      - Colorwaves
+      - Dissolve
+      - Dissolve Rnd
+      - Drip
+      - Dynamic
+      - Fade
+      - Fill Noise
+      - Fire 2012
+      - Fire Flicker
+      - Fireworks
+      - Fireworks 1D
+      - Fireworks Starburst
+      - Glitter
+      - Gradient
+      - Halloween
+      - Halloween Eyes
+      - Heartbeat
+      - ICU
+      - Juggle
+      - Lake
+      - Lighthouse
+      - Lightning
+      - Loading
+      - Merry Christmas
+      - Meteor
+      - Meteor Smooth
+      - Multi Comet
+      - Noise 1
+      - Noise 2
+      - Noise 3
+      - Noise 4
+      - Oscillate
+      - Pacifica
+      - Palette
+      - Percent
+      - Plasma
+      - Police
+      - Police All
+      - Popcorn
+      - Pride 2015
+      - Railway
+      - Rain
+      - Rainbow
+      - Rainbow Runner
+      - Random Colors
+      - Red & Blue
+      - Ripple
+      - Ripple Rainbow
+      - Running
+      - Running 2
+      - Saw
+      - Scan
+      - Scan Dual
+      - Scanner
+      - Scanner Dual
+      - Sinelon
+      - Sinelon Dual
+      - Sinelon Rainbow
+      - Solid
+      - Solid Pattern
+      - Solid Pattern Tri
+      - Sparkle
+      - Sparkle Dark
+      - Sparkle+
+      - Spots
+      - Spots Fade
+      - Stream
+      - Stream 2
+      - Strobe
+      - Strobe Mega
+      - Strobe Rainbow
+      - Sweep
+      - Sweep Random
+      - Theater
+      - Theater Rainbow
+      - Traffic Light
+      - Tri Chase
+      - Tri Fade
+      - Tri Wipe
+      - Twinkle
+      - Twinklecat
+      - Twinklefox
+      - Two Areas
+      - Two Dots
+      - Wipe
+      - Wipe Random
+      friendly_name: WLED Schreibtisch
+      hs_color:
+      - 0
+      - 0
+      icon: mdi:led-strip-variant
+      intensity: 128
+      max_mireds: 500
+      min_mireds: 153
+      palette: Default
+      playlist:
+      preset:
+      reverse: false
+      rgb_color:
+      - 255
+      - 255
+      - 255
+      speed: 128
+      state: 'on'
+      supported_features: 55
+      xy_color:
+      - 0.323
+      - 0.329
 - id: mood_lights_cwww_off
   name: Mood Lights CWWW off
   entities:
+    light.ledstripwhz2_rgb:
+      effect_list:
+      - None
+      - randomflicker
+      - Chill Mode
+      - Chill Mode (Vibrant)
+      - Disco
+      - WTF
+      - Lightning
+      - Candle
+      friendly_name: ledstripwhz2_rgb
+      state: 'off'
+      supported_features: 61
     light.mood_lights_cwww:
-      state: "off"
+      friendly_name: Mood Lights CWWW
+      max_mireds: 357.1428527832031
+      min_mireds: 161.2903289794922
+      state: 'off'
+      supported_features: 43
+    light.wled_schrank:
+      effect_list:
+      - Android
+      - Blink
+      - Blink Rainbow
+      - Bouncing Balls
+      - Bpm
+      - Breathe
+      - Candle
+      - Candle Multi
+      - Chase
+      - Chase Flash
+      - Chase Flash Rnd
+      - Chase Rainbow
+      - Chase Random
+      - Circus
+      - Colorful
+      - Colorloop
+      - Colortwinkles
+      - Colorwaves
+      - Dissolve
+      - Dissolve Rnd
+      - Drip
+      - Dynamic
+      - Fade
+      - Fill Noise
+      - Fire 2012
+      - Fire Flicker
+      - Fireworks
+      - Fireworks 1D
+      - Fireworks Starburst
+      - Glitter
+      - Gradient
+      - Halloween
+      - Halloween Eyes
+      - Heartbeat
+      - ICU
+      - Juggle
+      - Lake
+      - Lighthouse
+      - Lightning
+      - Loading
+      - Merry Christmas
+      - Meteor
+      - Meteor Smooth
+      - Multi Comet
+      - Noise 1
+      - Noise 2
+      - Noise 3
+      - Noise 4
+      - Oscillate
+      - Pacifica
+      - Palette
+      - Percent
+      - Plasma
+      - Police
+      - Police All
+      - Popcorn
+      - Pride 2015
+      - Railway
+      - Rain
+      - Rainbow
+      - Rainbow Runner
+      - Random Colors
+      - Red & Blue
+      - Ripple
+      - Ripple Rainbow
+      - Running
+      - Running 2
+      - Saw
+      - Scan
+      - Scan Dual
+      - Scanner
+      - Scanner Dual
+      - Sinelon
+      - Sinelon Dual
+      - Sinelon Rainbow
+      - Solid
+      - Solid Pattern
+      - Solid Pattern Tri
+      - Sparkle
+      - Sparkle Dark
+      - Sparkle+
+      - Spots
+      - Spots Fade
+      - Stream
+      - Stream 2
+      - Strobe
+      - Strobe Mega
+      - Strobe Rainbow
+      - Sweep
+      - Sweep Random
+      - Theater
+      - Theater Rainbow
+      - Traffic Light
+      - Tri Chase
+      - Tri Fade
+      - Tri Wipe
+      - Twinkle
+      - Twinklecat
+      - Twinklefox
+      - Two Areas
+      - Two Dots
+      - Wipe
+      - Wipe Random
+      friendly_name: WLED Schrank
+      icon: mdi:led-strip-variant
+      intensity: 128
+      max_mireds: 500
+      min_mireds: 153
+      palette: Default
+      playlist:
+      preset:
+      reverse: false
+      speed: 128
+      state: 'off'
+      supported_features: 55
+    light.wled_schreibtisch:
+      effect_list:
+      - Android
+      - Blink
+      - Blink Rainbow
+      - Bouncing Balls
+      - Bpm
+      - Breathe
+      - Candle
+      - Candle Multi
+      - Chase
+      - Chase Flash
+      - Chase Flash Rnd
+      - Chase Rainbow
+      - Chase Random
+      - Circus
+      - Colorful
+      - Colorloop
+      - Colortwinkles
+      - Colorwaves
+      - Dissolve
+      - Dissolve Rnd
+      - Drip
+      - Dynamic
+      - Fade
+      - Fill Noise
+      - Fire 2012
+      - Fire Flicker
+      - Fireworks
+      - Fireworks 1D
+      - Fireworks Starburst
+      - Glitter
+      - Gradient
+      - Halloween
+      - Halloween Eyes
+      - Heartbeat
+      - ICU
+      - Juggle
+      - Lake
+      - Lighthouse
+      - Lightning
+      - Loading
+      - Merry Christmas
+      - Meteor
+      - Meteor Smooth
+      - Multi Comet
+      - Noise 1
+      - Noise 2
+      - Noise 3
+      - Noise 4
+      - Oscillate
+      - Pacifica
+      - Palette
+      - Percent
+      - Plasma
+      - Police
+      - Police All
+      - Popcorn
+      - Pride 2015
+      - Railway
+      - Rain
+      - Rainbow
+      - Rainbow Runner
+      - Random Colors
+      - Red & Blue
+      - Ripple
+      - Ripple Rainbow
+      - Running
+      - Running 2
+      - Saw
+      - Scan
+      - Scan Dual
+      - Scanner
+      - Scanner Dual
+      - Sinelon
+      - Sinelon Dual
+      - Sinelon Rainbow
+      - Solid
+      - Solid Pattern
+      - Solid Pattern Tri
+      - Sparkle
+      - Sparkle Dark
+      - Sparkle+
+      - Spots
+      - Spots Fade
+      - Stream
+      - Stream 2
+      - Strobe
+      - Strobe Mega
+      - Strobe Rainbow
+      - Sweep
+      - Sweep Random
+      - Theater
+      - Theater Rainbow
+      - Traffic Light
+      - Tri Chase
+      - Tri Fade
+      - Tri Wipe
+      - Twinkle
+      - Twinklecat
+      - Twinklefox
+      - Two Areas
+      - Two Dots
+      - Wipe
+      - Wipe Random
+      friendly_name: WLED Schreibtisch
+      icon: mdi:led-strip-variant
+      intensity: 128
+      max_mireds: 500
+      min_mireds: 153
+      palette: Default
+      playlist:
+      preset:
+      reverse: false
+      speed: 128
+      state: 'off'
+      supported_features: 55
+    switch.led_strip_2_wohnzimmer_restart:
+      friendly_name: LED Strip 2 (Wohnzimmer) Restart
+      icon: mdi:restart
+      state: 'off'
 - id: mood_lights_rgb_on
   name: Mood Lights RGB on
   entities:
     light.mood_lights_rgb:
       brightness: 255
-      state: "on"
+      state: 'on'
 - id: mood_lights_rgb_off
   name: Mood Lights RGB off
   entities:
     light.mood_lights_rgb:
-      state: "off"
+      state: 'off'
 - id: mood_lights_off
   name: Mood Lights Off
   entities:
     light.mood_lights_cwww:
-      state: "off"
+      state: 'off'
     light.mood_lights_rgb:
-      state: "off"
+      state: 'off'
 - id: all_lights_off
   name: All Lights off
   entities:
     light.all_lights:
-      state: "off"
+      state: 'off'
 - id: chill_mode_on
   name: Chill Mode On
   entities:
     light.mood_lights_rgb:
       effect: Chill Mode
       brightness: 255
-      state: "on"
+      state: 'on'
     light.mood_lights_cwww:
-      state: "off"
+      state: 'off'
+    light.wled_schrank:
+      state: 'on'
+      brightness: 255
+      effect: Wipe Random
+    light.wled_schreibtisch:
+      state: 'on'
+      brightness: 255
+      effect: Wipe Random
 - id: chill_mode_vibrant_on
   name: Chill Mode Vibrant On
   entities:
     light.mood_lights_rgb:
       effect: Chill Mode (Vibrant)
       brightness: 255
-      state: "on"
+      state: 'on'
     light.mood_lights_cwww:
-      state: "off"
+      state: 'off'
+    light.wled_schrank:
+      state: 'on'
+      brightness: 255
+      effect: Wipe Random
+    light.wled_schreibtisch:
+      state: 'on'
+      brightness: 255
+      effect: Wipe Random
 - id: disco_mode_on
   name: Disco Mode on
   entities:
     light.bulbbad_rgb:
       brightness: 255
       effect: Disco
-      state: "on"
+      state: 'on'
     light.bulbflur_rgb:
       brightness: 255
       effect: Disco
-      state: "on"
+      state: 'on'
     light.bulbkueche_rgb:
       brightness: 255
       effect: Disco
-      state: "on"
+      state: 'on'
     light.mood_lights_rgb:
       brightness: 255
-      state: "on"
+      state: 'on'
       effect: Disco
-    light.schalter_bad_light:
-      state: "on"
+    light.schalter_1_bad_light:
+      state: 'on'
     light.schalter_1_flur_light:
-      state: "on"
+      state: 'on'
+    light.wled_schrank:
+      state: 'on'
+      brightness: 255
+      effect: Wipe Random
+    light.wled_schreibtisch:
+      state: 'on'
+      brightness: 255
+      effect: Wipe Random
+    light.mood_lights_cwww:
+      state: 'off'
 - id: normal_mode_on
   name: Normal Mode on
   entities:
     light.bulbbad_rgb:
       brightness: 255
       effect: None
-      state: "on"
+      state: 'on'
       rgb_color:
-        - 0
-        - 0
-        - 0
+      - 255
+      - 255
+      - 255
     light.bulbflur_rgb:
       brightness: 255
       effect: None
-      state: "on"
+      state: 'on'
       rgb_color:
-        - 0
-        - 0
-        - 0
+      - 255
+      - 255
+      - 255
     light.bulbkueche_rgb:
       brightness: 255
       effect: None
-      state: "on"
+      state: 'on'
       rgb_color:
-        - 0
-        - 0
-        - 0
+      - 255
+      - 255
+      - 255
     light.mood_lights_rgb:
       brightness: 255
-      state: "on"
+      state: 'on'
       effect: None
       rgb_color:
-        - 0
-        - 0
-        - 0
-    light.schalter_bad_light:
-      state: "on"
+      - 255
+      - 255
+      - 255
+    light.schalter_1_bad_light:
+      state: 'on'
     light.schalter_1_flur_light:
-      state: "on"
-    light.schalter_kueche_light:
-      state: "on"
+      state: 'on'
+    light.schalter_schrank_kuche_light:
+      state: 'on'
+    light.wled_schrank:
+      state: 'on'
+      brightness: 255
+      effect: Solid - 0 - 0 - 0
+    light.wled_schreibtisch:
+      state: 'on'
+      brightness: 255
+      effect: Solid - 0 - 0 - 0
 - id: teal
   name: Teal
   entities:
     light.mood_lights_rgb:
       brightness: 255
+      hs_color:
+      - 184.875
+      - 62.745
+      rgb_color:
+      - 95
+      - 242
+      - 255
+      state: 'on'
+      xy_color:
+      - 0.179
+      - 0.321
+- id: '1591816228949'
+  name: chilly
+  entities:
+    light.bulbspotwhztv_cwww:
+      friendly_name: bulbspotwhztv_cwww
+      max_mireds: 357.1428527832031
+      min_mireds: 161.2903289794922
+      state: 'off'
+      supported_features: 43
+    light.bulbspotwhztv_rgb:
+      brightness: 255
       effect: None
       effect_list:
-        - Lightning
-        - randomflicker
-        - Chill Mode
-        - WTF
-        - Candle
-        - None
-        - Disco
-        - Chill Mode (Vibrant)
-      friendly_name: Mood Lights RGB
+      - None
+      - randomflicker
+      - Chill Mode
+      - Chill Mode (Vibrant)
+      - Disco
+      - WTF
+      - Lightning
+      - Candle
+      friendly_name: bulbspotwhztv_rgb
       hs_color:
-        - 184.875
-        - 62.745
+      - 30
+      - 43.137
       rgb_color:
-        - 95
-        - 242
-        - 255
-      state: "on"
+      - 255
+      - 200
+      - 145
+      state: 'on'
       supported_features: 61
       xy_color:
-        - 0.179
-        - 0.321
+      - 0.443
+      - 0.379
+    light.bulbwhzlamp_cwww:
+      friendly_name: bulbwhzlamp_cwww
+      max_mireds: 357.1428527832031
+      min_mireds: 161.2903289794922
+      state: 'off'
+      supported_features: 43
+    light.bulbwhzlamp_rgb:
+      brightness: 255
+      effect: None
+      effect_list:
+      - None
+      - randomflicker
+      - Chill Mode
+      - Chill Mode (Vibrant)
+      - Disco
+      - WTF
+      - Lightning
+      - Candle
+      friendly_name: bulbwhzlamp_rgb
+      hs_color:
+      - 30
+      - 43.137
+      rgb_color:
+      - 255
+      - 200
+      - 145
+      state: 'on'
+      supported_features: 61
+      xy_color:
+      - 0.443
+      - 0.379
+    light.ledstripwhz1_rgb:
+      brightness: 255
+      effect: None
+      effect_list:
+      - None
+      - randomflicker
+      - Chill Mode
+      - Chill Mode (Vibrant)
+      - Disco
+      - WTF
+      - Lightning
+      - Candle
+      friendly_name: ledstripwhz1_rgb
+      hs_color:
+      - 30
+      - 43.137
+      rgb_color:
+      - 255
+      - 200
+      - 145
+      state: 'on'
+      supported_features: 61
+      xy_color:
+      - 0.443
+      - 0.379
+    light.ledstripwhz1_w:
+      friendly_name: ledstripwhz1_w
+      state: 'off'
+      supported_features: 41
+    light.ledstripwhz2_rgb:
+      brightness: 255
+      effect: None
+      effect_list:
+      - None
+      - randomflicker
+      - Chill Mode
+      - Chill Mode (Vibrant)
+      - Disco
+      - WTF
+      - Lightning
+      - Candle
+      friendly_name: ledstripwhz2_rgb
+      hs_color:
+      - 30
+      - 43.137
+      rgb_color:
+      - 255
+      - 200
+      - 145
+      state: 'on'
+      supported_features: 61
+      xy_color:
+      - 0.443
+      - 0.379
+    light.schalter_lavalampe_light:
+      friendly_name: Lavalampe
+      icon: mdi:gesture-tap-box
+      name: Lavalampe
+      state: 'on'
+      supported_features: 8
+    light.wled_schrank:
+      brightness: 255
+      effect: Solid
+      effect_list:
+      - Android
+      - Blink
+      - Blink Rainbow
+      - Bouncing Balls
+      - Bpm
+      - Breathe
+      - Candle
+      - Candle Multi
+      - Chase
+      - Chase Flash
+      - Chase Flash Rnd
+      - Chase Rainbow
+      - Chase Random
+      - Circus
+      - Colorful
+      - Colorloop
+      - Colortwinkles
+      - Colorwaves
+      - Dissolve
+      - Dissolve Rnd
+      - Drip
+      - Dynamic
+      - Fade
+      - Fill Noise
+      - Fire 2012
+      - Fire Flicker
+      - Fireworks
+      - Fireworks 1D
+      - Fireworks Starburst
+      - Glitter
+      - Gradient
+      - Halloween
+      - Halloween Eyes
+      - Heartbeat
+      - ICU
+      - Juggle
+      - Lake
+      - Lighthouse
+      - Lightning
+      - Loading
+      - Merry Christmas
+      - Meteor
+      - Meteor Smooth
+      - Multi Comet
+      - Noise 1
+      - Noise 2
+      - Noise 3
+      - Noise 4
+      - Oscillate
+      - Pacifica
+      - Palette
+      - Percent
+      - Plasma
+      - Police
+      - Police All
+      - Popcorn
+      - Pride 2015
+      - Railway
+      - Rain
+      - Rainbow
+      - Rainbow Runner
+      - Random Colors
+      - Red & Blue
+      - Ripple
+      - Ripple Rainbow
+      - Running
+      - Running 2
+      - Saw
+      - Scan
+      - Scan Dual
+      - Scanner
+      - Scanner Dual
+      - Sinelon
+      - Sinelon Dual
+      - Sinelon Rainbow
+      - Solid
+      - Solid Pattern
+      - Solid Pattern Tri
+      - Sparkle
+      - Sparkle Dark
+      - Sparkle+
+      - Spots
+      - Spots Fade
+      - Stream
+      - Stream 2
+      - Strobe
+      - Strobe Mega
+      - Strobe Rainbow
+      - Sweep
+      - Sweep Random
+      - Theater
+      - Theater Rainbow
+      - Traffic Light
+      - Tri Chase
+      - Tri Fade
+      - Tri Wipe
+      - Twinkle
+      - Twinklecat
+      - Twinklefox
+      - Two Areas
+      - Two Dots
+      - Wipe
+      - Wipe Random
+      friendly_name: WLED Schrank
+      hs_color:
+      - 30
+      - 43.137
+      icon: mdi:led-strip-variant
+      intensity: 128
+      max_mireds: 500
+      min_mireds: 153
+      palette: Default
+      playlist:
+      preset:
+      reverse: false
+      rgb_color:
+      - 255
+      - 200
+      - 145
+      speed: 128
+      state: 'on'
+      supported_features: 55
+      xy_color:
+      - 0.443
+      - 0.379
+    light.wled_schreibtisch:
+      brightness: 255
+      effect: Solid
+      effect_list:
+      - Android
+      - Blink
+      - Blink Rainbow
+      - Bouncing Balls
+      - Bpm
+      - Breathe
+      - Candle
+      - Candle Multi
+      - Chase
+      - Chase Flash
+      - Chase Flash Rnd
+      - Chase Rainbow
+      - Chase Random
+      - Circus
+      - Colorful
+      - Colorloop
+      - Colortwinkles
+      - Colorwaves
+      - Dissolve
+      - Dissolve Rnd
+      - Drip
+      - Dynamic
+      - Fade
+      - Fill Noise
+      - Fire 2012
+      - Fire Flicker
+      - Fireworks
+      - Fireworks 1D
+      - Fireworks Starburst
+      - Glitter
+      - Gradient
+      - Halloween
+      - Halloween Eyes
+      - Heartbeat
+      - ICU
+      - Juggle
+      - Lake
+      - Lighthouse
+      - Lightning
+      - Loading
+      - Merry Christmas
+      - Meteor
+      - Meteor Smooth
+      - Multi Comet
+      - Noise 1
+      - Noise 2
+      - Noise 3
+      - Noise 4
+      - Oscillate
+      - Pacifica
+      - Palette
+      - Percent
+      - Plasma
+      - Police
+      - Police All
+      - Popcorn
+      - Pride 2015
+      - Railway
+      - Rain
+      - Rainbow
+      - Rainbow Runner
+      - Random Colors
+      - Red & Blue
+      - Ripple
+      - Ripple Rainbow
+      - Running
+      - Running 2
+      - Saw
+      - Scan
+      - Scan Dual
+      - Scanner
+      - Scanner Dual
+      - Sinelon
+      - Sinelon Dual
+      - Sinelon Rainbow
+      - Solid
+      - Solid Pattern
+      - Solid Pattern Tri
+      - Sparkle
+      - Sparkle Dark
+      - Sparkle+
+      - Spots
+      - Spots Fade
+      - Stream
+      - Stream 2
+      - Strobe
+      - Strobe Mega
+      - Strobe Rainbow
+      - Sweep
+      - Sweep Random
+      - Theater
+      - Theater Rainbow
+      - Traffic Light
+      - Tri Chase
+      - Tri Fade
+      - Tri Wipe
+      - Twinkle
+      - Twinklecat
+      - Twinklefox
+      - Two Areas
+      - Two Dots
+      - Wipe
+      - Wipe Random
+      friendly_name: WLED Schreibtisch
+      hs_color:
+      - 30
+      - 43.137
+      icon: mdi:led-strip-variant
+      intensity: 128
+      max_mireds: 500
+      min_mireds: 153
+      palette: Default
+      playlist:
+      preset:
+      reverse: false
+      rgb_color:
+      - 255
+      - 200
+      - 145
+      speed: 128
+      state: 'on'
+      supported_features: 55
+      xy_color:
+      - 0.443
+      - 0.379
+    switch.led_strip_1_wohnzimmer_restart:
+      friendly_name: LED Strip 1 (Wohnzimmer) Restart
+      icon: mdi:restart
+      state: 'off'
+    switch.led_strip_2_wohnzimmer_restart:
+      friendly_name: LED Strip 2 (Wohnzimmer) Restart
+      icon: mdi:restart
+      state: 'off'
+    switch.schalter_lavalampe_relay:
+      friendly_name: Schalter (Lavalampe) Relay
+      icon: ''
+      state: 'off'
+    switch.schalter_lavalampe_restart:
+      friendly_name: Schalter (Lavalampe) Restart
+      icon: mdi:restart
+      state: 'off'
+    switch.spotlight_1_wohnzimmer_restart:
+      friendly_name: Spotlight 1 (Wohnzimmer) Restart
+      icon: mdi:restart
+      state: 'off'
+    switch.stehlampe_wohnzimmer_restart:
+      friendly_name: Stehlampe (Wohnzimmer) Restart
+      icon: mdi:restart
+      state: 'off'
+    switch.wled_schrank_nightlight:
+      duration: 60
+      fade: true
+      friendly_name: WLED Schrank Nightlight
+      icon: mdi:weather-night
+      state: 'off'
+      target_brightness: 0
+    switch.wled_schrank_sync_receive:
+      friendly_name: WLED Schrank Sync Receive
+      icon: mdi:download-network-outline
+      state: 'on'
+      udp_port: 21324
+    switch.wled_schrank_sync_send:
+      friendly_name: WLED Schrank Sync Send
+      icon: mdi:upload-network-outline
+      state: 'off'
+      udp_port: 21324
+    switch.wled_schreibtisch_nightlight:
+      duration: 60
+      fade: true
+      friendly_name: WLED Schreibtisch Nightlight
+      icon: mdi:weather-night
+      state: 'off'
+      target_brightness: 0
+    switch.wled_schreibtisch_sync_receive:
+      friendly_name: WLED Schreibtisch Sync Receive
+      icon: mdi:download-network-outline
+      state: 'off'
+      udp_port: 21324
+    switch.wled_schreibtisch_sync_send:
+      friendly_name: WLED Schreibtisch Sync Send
+      icon: mdi:upload-network-outline
+      state: 'on'
+      udp_port: 21324

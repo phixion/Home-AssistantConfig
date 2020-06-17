@@ -21,53 +21,49 @@ sensor:
     update_interval: ${update_interval_long}
     unit_of_measurement: dB
     icon: mdi:wifi
-  - platform: adc
-    pin: A0
-    update_interval: ${update_interval_short}
-    name: ${friendly_name} (${room}) Audio Meter
-    filters:
-      - multiply: 3.3
-    unit_of_measurement: dB
 binary_sensor:
   - platform: gpio
-    pin: D3
-    device_class: sound
-    name: ${friendly_name} (${room}) Noise Sensor
-    id: ${devicename}_sound
+    pin: D1
+    device_class: motion
+    name: ${friendly_name} (${room}) Doppler Sensor
+    id: ${devicename}_doppler
   - platform: gpio
     pin: D0
     id: ${devicename}_motion
     name: ${friendly_name} (${room}) Motion Sensor
     device_class: motion
+  - platform: template
+    id: ${devicename}_templ_motion
+    internal: true
+    lambda: 'return id(${devicename}_motion).state;'
+    filters:
+      - delayed_off: 10min
     on_press:
       - homeassistant.service:
           service: switch.turn_on
           data:
-            entity_id: switch.schalter_bad_relay
-#  - platform: template
-#    id: ${devicename}_templ_motion
-#    internal: true
-#    lambda: 'return id(${devicename}_motion).state;'
-# can also set delay via hardware poti
-#    filters:
-#      - delayed_off: 3min
+            entity_id: switch.schalter_1_bad_relay
     on_release:
       - homeassistant.service:
           service: switch.turn_off
           data:
-            entity_id: switch.schalter_bad_relay
-#  - platform: template
-#    id: ${devicename}_templ_sound
-#    internal: true
-#    lambda: 'return id(${devicename}_sound).state;'
-# can also set delay via hardware poti
-#    filters:
-#      - delayed_off: 3min
-#    on_release:
+            entity_id: switch.schalter_1_bad_relay
+  - platform: template
+    id: ${devicename}_templ_doppler
+    internal: true
+    lambda: 'return id(${devicename}_doppler).state;'
+    filters:
+      - delayed_off: 10min
+#    on_press:
 #      - homeassistant.service:
-#          service: switch.turn_off
+#          service: switch.turn_on
 #          data:
-#            entity_id: switch.schalter_bad_relay
+#            entity_id: switch.schalter_1_bad_relay
+    on_release:
+      - homeassistant.service:
+          service: switch.turn_off
+          data:
+            entity_id: switch.schalter_1_bad_relay
   - platform: status
     device_class: connectivity
     name: ${friendly_name} (${room}) Status

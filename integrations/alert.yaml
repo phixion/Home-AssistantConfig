@@ -1,0 +1,19 @@
+# █████╗ ██╗     ███████╗██████╗ ████████╗
+#██╔══██╗██║     ██╔════╝██╔══██╗╚══██╔══╝
+#███████║██║     █████╗  ██████╔╝   ██║   
+#██╔══██║██║     ██╔══╝  ██╔══██╗   ██║   
+#██║  ██║███████╗███████╗██║  ██║   ██║   
+#╚═╝  ╚═╝╚══════╝╚══════╝╚═╝  ╚═╝   ╚═╝   
+#https://www.home-assistant.io/integrations/alert/
+
+#alert:
+#  batteries:
+#    name: Batteries are Low
+#    entity_id: binary_sensor.macbook_battery_level_low
+##      - binary_sensor.nexus_battery_level_low
+##      - binary_sensor.pixel_battery_level_low
+#
+#    repeat: 30
+#    notifiers:
+#      - ryans_phone
+#      - kristens_phone

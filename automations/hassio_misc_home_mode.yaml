@@ -91,8 +91,8 @@
   action:
     - service: switch.turn_on
       entity_id: switch.wiser_away_mode
-    - service: switch.turn_on
-      entity_id: switch.restreamer
+#    - service: switch.turn_on
+#      entity_id: switch.restreamer
     - service: light.turn_off
       entity_id:
         - light.all_lights

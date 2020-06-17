@@ -23,7 +23,7 @@ light.bulbflur_cwww:
     - Weisses Flurlicht
     - Weisse Flurlampe
     - Helles FLurlicht
-light.schalter_bad_light:
+light.schalter_1_bad_light:
   expose: true
   room: Bad
   name: Bad Schalter
@@ -50,7 +50,7 @@ light.bulbbad_cwww:
     - Weisses Badlicht
     - Weisse Badlampe
     - Helles Badlicht
-light.schalter_kuechenschrank_light:
+light.schalter_schrank_kuche_light:
   expose: true
   room: Küche
   name: Küchenschrank
@@ -77,7 +77,7 @@ light.bulbkueche_cwww:
     - Weisses Küchenlicht
     - Weisse Küchenlampe
     - Helles Küchenlicht
-light.schalter_whz_light:
+light.schalter_1_wohnzimmer_light:
   expose: true
   room: Wohnzimmer
   name: Wohnzimmer Schalter

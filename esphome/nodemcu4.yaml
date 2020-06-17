@@ -30,10 +30,19 @@ sensor:
     unit_of_measurement: dB
 binary_sensor:
   - platform: gpio
+    pin: D4
+    device_class: motion
+    name: ${friendly_name} (${room}) Doppler Sensor
+    id: ${devicename}_doppler
+    filters:
+      - delayed_off: 60s
+  - platform: gpio
     pin: D3
     device_class: sound
     name: ${friendly_name} (${room}) Noise Sensor
     id: ${devicename}_sound
+    filters:
+      - delayed_off: 120s
   - platform: gpio
     pin: D0
     id: ${devicename}_motion

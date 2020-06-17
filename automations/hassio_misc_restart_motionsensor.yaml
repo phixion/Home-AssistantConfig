@@ -20,3 +20,16 @@
       data:
         entity_id:
           - binary_sensor.motion_sensor
+- alias: Restart Nodemcu 4 and 5
+  id: 27a
+  trigger:
+    - platform: time_pattern
+      hours: /24
+  condition:
+    condition: time
+    after: "00:05:00"
+  action:
+    - service: switch.toggle
+      entity_id:
+        - switch.nodemcu_4_kueche_restart
+        - switch.nodemcu_5_bad_restart

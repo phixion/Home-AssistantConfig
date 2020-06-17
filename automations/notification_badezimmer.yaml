@@ -2,7 +2,7 @@
   id: "51"
   trigger:
     platform: state
-    entity_id: switch.schalter_bad_relay
+    entity_id: switch.schalter_1_bad_relay
     to: "off"
   action:
     - service: notify.android
@@ -11,7 +11,7 @@
         message: " "
     - service: notify.lametric
       data:
-        message: "Badezimmer ist frei"
+        message: "Frei!"
         data:
 #          sound: 'notification'
           icon: 'i8176'
@@ -21,7 +21,7 @@
   id: "50"
   trigger:
     platform: state
-    entity_id: switch.schalter_bad_relay
+    entity_id: switch.schalter_1_bad_relay
     to: "on"
   action:
     - service: notify.android
@@ -30,7 +30,7 @@
         message: " "
     - service: notify.lametric
       data:
-        message: "Badezimmer ist besetzt"
+        message: "Besetzt!"
         data:
 #          sound: 'notification'
           icon: 'i8176'

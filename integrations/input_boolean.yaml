@@ -2,15 +2,15 @@ input_boolean:
   play_nexpo:
     name: Play latest nexpo
     initial: off
-    icon: mdi:skull-outline
+    icon: mdi:youtube
   play_scaretheater:
     name: Play latest ScareTheater
     initial: off
-    icon: mdi:alien-outline
+    icon: mdi:youtube
   play_reignbot:
     name: Play latest ReignBot
     initial: off
-    icon: mdi:ufo-outline
+    icon: mdi:youtube
   play_ih:
     name: Play latest InternetHistorian
     initial: off
@@ -18,8 +18,8 @@ input_boolean:
   play_h3:
     name: Play latest h3 Podcast
     initial: off
-    icon: mdi:cannabis
+    icon: mdi:youtube
   play_frenck:
     name: Play latest Frenck
     initial: off
-    icon: mdi:car-esp
+    icon: mdi:youtube

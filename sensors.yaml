@@ -55,6 +55,7 @@
       value_template: "{{ value | round(2) }}"
       unit_of_measurement: W
 - platform: sql
+  scan_interval: 86400 # 24h
   db_url: !secret dburl # pragma: allowlist secret
   queries:
     - name: MariaDB Homeassistant
@@ -461,6 +462,16 @@
       icon_template: mdi:radiator
       value_template: "{{ states('sensor.heating_wohnzimmer_on_today') | float * 60 }}"
       unit_of_measurement: min
+#    low_battery:
+#      friendly_name: "Low Battery"
+#      value_template: >
+#        {%- set threshold = 40 -%}
+#        {%- set domains = ['light', 'switch', 'sensor', 'climate', 'lock'] -%}
+#        {%- for domain in domains -%}
+#        {%- for item in states[domain] if ((item.attributes.battery_level is defined and item.attributes['battery_level'] | int < threshold) or ("battery" in item.name | lower and ((item.state | int < threshold and item.state|int != 0) or item.state | lower == "low" or item.state | lower == "unknown"))) -%}
+#            {{ item.attributes.friendly_name }}{%- if not loop.last %}, {% endif -%}
+#        {%- endfor -%}
+#        {%- endfor -%}
     hass_uptime:
       entity_id:
         - sensor.time
@@ -754,11 +765,9 @@
   select: "h1.page-title"
 #- platform: scrape
 #  scan_interval: 120
-#  name: munich_airpressure_nn
-#  resource: https://www.en.meteo.physik.uni-muenchen.de/wetter/index.html
-#  select: "center:nth-child(10) > table > tbody > tr:nth-child(3) > td:nth-child(2)"
-#  #  value_template: '{{ value.replace(" hPa", "") }}'
-#  unit_of_measurement: hPa
+#  name: div2dailies
+#  resource: https://division.zone/the-division-2/reset-timers/
+#  select: 'div.inner h2'
 - platform: darksky
   api_key: !secret weatherdarkskyapi_pwd # pragma: allowlist secret
   units: auto
@@ -920,3 +929,19 @@
 - platform: myjdownloader
   email: !secret jd_user
   password: !secret jd_passwd
+- platform: waste_collection_schedule
+  source_index: 0
+  name: Müllabfuhr
+  details_format: upcoming
+  count: 10
+  leadtime: 10
+  value_template: '{{value.types|join(", ")}} am {{value.date.strftime("%a, %d.%m.%Y")}}'
+#- platform: email
+#  email: !secret gmail_phixion_user
+#  password: !secret gmail_phixion_pwd
+#- platform: email
+#  email: !secret gmail_ridelore_user
+#  password: !secret gmail_ridelore_pwd
+#- platform: email
+#  email: !secret gmail_monitoring_user
+#  password: !secret gmail_monitoring_pwd

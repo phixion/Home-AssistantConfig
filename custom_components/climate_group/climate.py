@@ -61,8 +61,10 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
         ),
     }
 )
-
-SUPPORT_FLAGS = SUPPORT_TARGET_TEMPERATURE
+# edit the supported_flags
+SUPPORT_FLAGS = (
+    SUPPORT_TARGET_TEMPERATURE | SUPPORT_TARGET_TEMPERATURE_RANGE | SUPPORT_PRESET_MODE
+)
 
 
 # HVAC Action priority
@@ -110,6 +112,9 @@ class ClimateGroup(ClimateEntity):
         self._max_temp = 0
         self._current_temp = 0
         self._target_temp = 0
+        # added the temp_low and temp_high
+        self._target_temp_high = None
+        self._target_temp_low = None
         self._mode = None
         self._action = None
         self._mode_list = None
@@ -186,6 +191,15 @@ class ClimateGroup(ClimateEntity):
     def target_temperature(self):
         return self._target_temp
 
+    # added the target_temperature_low and target_temperature_high
+    @property
+    def target_temperature_low(self):
+        return self._target_temp_low
+
+    @property
+    def target_temperature_high(self):
+        return self._target_temp_high
+
     @property
     def temperature_unit(self):
         """Return the unit of measurement that is used."""
@@ -202,9 +216,21 @@ class ClimateGroup(ClimateEntity):
         if ATTR_HVAC_MODE in kwargs:
             hvac_mode = kwargs.get(ATTR_HVAC_MODE)
             await self.async_set_hvac_mode(hvac_mode)
-        elif ATTR_TEMPERATURE in kwargs:
-            temperature = kwargs.get(ATTR_TEMPERATURE)
-            data[ATTR_TEMPERATURE] = temperature
+        # start add
+        elif (
+            ATTR_TEMPERATURE in kwargs
+            or ATTR_TARGET_TEMP_LOW in kwargs
+            or ATTR_TARGET_TEMP_HIGH in kwargs
+        ):
+            if ATTR_TEMPERATURE in kwargs:
+                temperature = kwargs.get(ATTR_TEMPERATURE)
+                data[ATTR_TEMPERATURE] = temperature
+            elif ATTR_TARGET_TEMP_LOW in kwargs or ATTR_TARGET_TEMP_HIGH in kwargs:
+                temperature_low = kwargs.get(ATTR_TARGET_TEMP_LOW)
+                temperature_high = kwargs.get(ATTR_TARGET_TEMP_HIGH)
+                data[climate.ATTR_TARGET_TEMP_LOW] = temperature_low
+                data[climate.ATTR_TARGET_TEMP_HIGH] = temperature_high
+            # end add
             await self.hass.services.async_call(
                 climate.DOMAIN, climate.SERVICE_SET_TEMPERATURE, data, blocking=True
             )
@@ -244,7 +270,8 @@ class ClimateGroup(ClimateEntity):
         # if nothing is in excluded everything will be in 'filtered states'
         filtered_states = list(
             filter(
-                lambda x: x.attributes.get("preset_mode", None) not in self._excluded,
+                lambda x: x.attributes.get(ATTR_PRESET_MODE, None)
+                not in self._excluded,
                 states,
             )
         )
@@ -257,9 +284,9 @@ class ClimateGroup(ClimateEntity):
 
         all_modes = [x.state for x in filtered_states]
         # return the Mode (what the thermostat is set to do) in priority order (heat, cool, ...)
-        self._mode = HVAC_MODE_OFF
+        self._mode = None
         # iterate through all hvac modes (skip first, as its off)
-        for hvac_mode in HVAC_MODES[1:]:
+        for hvac_mode in HVAC_MODES[1:] + [HVAC_MODE_OFF]:
             # if any thermostat is in the given mode return it
             if any([mode == hvac_mode for mode in all_modes]):
                 self._mode = hvac_mode
@@ -278,19 +305,27 @@ class ClimateGroup(ClimateEntity):
         all_presets = [
             state.attributes.get(ATTR_PRESET_MODE, None) for state in filtered_states
         ]
+        self._preset = None
         if all_presets:
             # Report the most common preset_mode.
             self._preset = Counter(itertools.chain(all_presets)).most_common(1)[0][0]
 
         self._target_temp = _reduce_attribute(filtered_states, ATTR_TEMPERATURE)
+
+        # start add
+        self._target_temp_low = _reduce_attribute(filtered_states, ATTR_TARGET_TEMP_LOW)
+        self._target_temp_high = _reduce_attribute(
+            filtered_states, ATTR_TARGET_TEMP_HIGH
+        )
+        # end add
+
         self._current_temp = _reduce_attribute(
             filtered_states, ATTR_CURRENT_TEMPERATURE
         )
 
         _LOGGER.debug(
-            f"Target temp: {self._target_temp}; Current temp: {self._current_temp}"
+            f"Target temp: {self._target_temp}; Target temp low: {self._target_temp_low}; Target temp high: {self._target_temp_high}; Current temp: {self._current_temp}"
         )
-
         self._min_temp = _reduce_attribute(states, ATTR_MIN_TEMP, reduce=max)
         self._max_temp = _reduce_attribute(states, ATTR_MAX_TEMP, reduce=min)
 
@@ -306,15 +341,20 @@ class ClimateGroup(ClimateEntity):
             # Merge supported features by emulating support for every feature
             # we find.
             self._supported_features |= support
+        # Bitwise-and the supported features with the Grouped climate's features
+        # so that we don't break in the future when a new feature is added.
+        self._supported_features &= SUPPORT_FLAGS
 
+        self._preset_modes = None
         presets = []
         for preset in _find_state_attributes(states, ATTR_PRESET_MODES):
             presets.extend(preset)
 
         if len(presets):
             self._preset_modes = set(presets)
-        else:
-            self._preset_modes = None
+        _LOGGER.debug(
+            f"State update complete. Supported: {self._supported_features}, mode: {self._mode}"
+        )
 
     async def async_set_preset_mode(self, preset_mode: str):
         """Forward the preset_mode to all climate in the climate group."""

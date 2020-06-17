@@ -8,6 +8,7 @@
 logger:
   default: warning
   logs:
+    homeassistant.components.scrape.sensor: debug
     homeassistant.components.http.ban: warning
     homeassistant.components.google_assistant.http: debug
     homeassistant.components.google_cloud: debug
@@ -187,7 +188,7 @@ history:
       - weather
       - sun
       - image_processing
-      - device_tracker
+#      - device_tracker
 system_log:
   fire_event: true
   max_entries: 500

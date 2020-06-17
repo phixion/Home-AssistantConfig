@@ -1,6 +1,6 @@
 substitutions:
   devicename: switchbad
-  friendly_name: Schalter
+  friendly_name: Schalter 1
   room: Bad
   update_interval_short: 2s
   update_interval_long: 10min
@@ -33,7 +33,7 @@ light:
     output: ${devicename}_relay
   - platform: monochromatic
     internal: true
-    name: ${friendly_name} LED
+    name: ${friendly_name} (${room}) LED
     output: ${devicename}_light
     id: ${devicename}_led
 switch:

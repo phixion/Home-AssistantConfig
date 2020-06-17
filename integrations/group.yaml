@@ -8,7 +8,7 @@ group:
   #      - light.bulbspotwhztv_cwww
   #      - light.bulbwhzlamp_rgb
   #      - light.bulbwhzlamp_cwww
-  #      - light.schalter_whz_light
+  #      - light.schalter_1_wohnzimmer_light
   #      - light.schalter_lavalampe_light
   #      - light.ledstripwhz1_rgb
   #      - light.ledstripwhz2_rgb
@@ -29,7 +29,7 @@ group:
   #  bad_area:
   #    name: Bad
   #    entities:
-  #      - light.schalter_bad_light
+  #      - light.schalter_1_bad_light
   #      - light.bulbbad_rgb
   #      - light.bulbbad_cwww
   #  devices_martin:
@@ -50,13 +50,13 @@ group:
       - light.bulbspotwhztv_cwww
       - light.bulbwhzlamp_rgb
       - light.bulbwhzlamp_cwww
-      - light.schalter_whz_light
+      - light.schalter_1_wohnzimmer_light
       - light.schalter_lavalampe_light
       - light.ledstripwhz1_rgb
       - light.ledstripwhz1_w
       - light.bulbkueche_rgb
       - light.bulbkueche_cwww
       - light.schalter_kueche_light
-      - light.schalter_bad_light
+      - light.schalter_1_bad_light
       - light.bulbbad_rgb
       - light.bulbbad_cwww

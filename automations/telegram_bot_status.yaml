@@ -16,7 +16,7 @@
         message: "Status"
     - service: light.turn_on
       entity_id:
-        - light.schalter_whz_light
+        - light.schalter_1_wohnzimmer_light
         - light.mood_lights_cwww
     - delay: 00:01:00
     - service: camera.snapshot
@@ -25,7 +25,7 @@
         filename: tmp/motion_{{ now().strftime("%Y%m%d_%H%M") }}.jpg
     - service: light.turn_off
       entity_id:
-        - light.schalter_whz_light
+        - light.schalter_1_wohnzimmer_light
         - light.mood_lights_cwww
     - service: telegram_bot.send_photo
       data_template:

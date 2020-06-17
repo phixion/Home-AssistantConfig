@@ -32,3 +32,6 @@ notify:
     icon: 'a35325'
     cycles: 3
     priority: info
+  - name: Discord
+    platform: discord
+    token: !secret discord_bot_token # pragma: allowlist secret

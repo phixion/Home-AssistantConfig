@@ -21,15 +21,17 @@ light:
       - light.bulbkueche_cwww
       - light.bulbbad_rgb
       - light.bulbbad_cwww
-      - light.schalter_bad_light
+      - light.schalter_1_bad_light
       - light.schalter_1_flur_light
-      - light.schalter_whz_light
+      - light.schalter_1_wohnzimmer_light
       - light.schalter_lavalampe_light
       - light.ledstripwhz1_rgb
+      - light.ledstripwhz1_w
+      - light.ledstripwhz2_rgb
       - light.wled_schrank
       - light.wled_schreibtisch
       - light.ledstripwhz1_w
-      - light.schalter_kuechenschrank_light
+      - light.schalter_schrank_kuche_light
   - platform: group
     name: Mood Lights RGB
     entities:
@@ -37,10 +39,12 @@ light:
       - light.bulbspotwhztv_rgb
       - light.bulbwhzlamp_rgb
       - light.ledstripwhz1_rgb
+      - light.ledstripwhz2_rgb
       - light.wled_schrank
       - light.wled_schreibtisch
-      #      - light.ledstripwhz3_rgb
       - light.schalter_lavalampe_light
+      - light.wled_schrank
+      - light.wled_schreibtisch
   - platform: group
     name: Mood Lights CWWW
     entities:
@@ -48,3 +52,19 @@ light:
       - light.bulbspotwhztv_cwww
       - light.bulbwhzlamp_cwww
       - light.ledstripwhz1_w
+  - platform: group
+    name: LED Strips RGB
+    entities:
+      - light.ledstripwhz1_rgb
+      - light.ledstripwhz2_rgb
+  - platform: group
+    name: LED Strips CWWW
+    entities:
+      - light.ledstripwhz1_w
+  - platform: group
+    name: LED WHZ
+    entities:
+      - light.ledstripwhz1_rgb
+      - light.ledstripwhz2_rgb
+      - light.wled_schrank
+      - light.wled_schreibtisch
