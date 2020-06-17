@@ -7,17 +7,16 @@
 #
 language: python
 python:
-  - "3.8"
+  - "3.7"
 before_install:
   - sudo apt-get -qq update
-  - sudo apt-get install -y -o Dpkg::Options::=--force-confnew libudev-dev ffmpeg python-dev pkg-config libavformat-dev libavcodec-dev libavdevice-dev libavutil-dev libswscale-dev libavresample-dev libavfilter-dev
+  - sudo apt-get install -y -o Dpkg::Options::=--force-confnew libudev-dev ffmpeg python-dev pkg-config libavformat-dev libavcodec-dev libavdevice-dev libavutil-dev libswscale-dev libavresample-dev libavfilter-dev libprotobuf-dev protobuf-compiler
   - rename -v 's/travis_//' $(pwd)/doc/travis/*.{yaml,json}
   - ln -s $(pwd)/doc/travis/*.{yaml,json} .
   - sudo ln -s $(pwd)/doc/systemd/* /etc/systemd/system/
   - sudo systemctl daemon-reload
   - sed -i "s@/config/tmp@$(pwd)/tmp@" configuration.yaml
   - mkdir $(pwd)/tmp
-  
   - echo "# Netscape HTTP Cookie File\n0 0\n0 0\n0 0" > $(pwd)/.google_maps_location_sharing.cookies.joedoe_gmail_com
   - HA_VERSION=$(<.HA_VERSION)
 install:
