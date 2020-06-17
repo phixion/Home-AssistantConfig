@@ -11,7 +11,7 @@ python:
   - "3.7"
 before_install:
   - sudo apt-get -qq update
-  - sudo apt-get install -y -o Dpkg::Options::=--force-confnew libudev-dev ffmpeg python-dev pkg-config libavformat-dev libavcodec-dev libavdevice-dev libavutil-dev libswscale-dev libavresample-dev libavfilter-dev libprotobuf-dev protobuf-compiler
+  - sudo apt-get install -y -o Dpkg::Options::=--force-confnew rename libudev-dev ffmpeg python-dev pkg-config libavformat-dev libavcodec-dev libavdevice-dev libavutil-dev libswscale-dev libavresample-dev libavfilter-dev libprotobuf-dev protobuf-compiler
   - rename -v 's/travis_//' $(pwd)/doc/travis/*.{yaml,json}
   - ln -s $(pwd)/doc/travis/*.{yaml,json} .
   - sudo ln -s $(pwd)/doc/systemd/* /etc/systemd/system/
