@@ -31,7 +31,7 @@ sensor:
     tvoc:
       name: ${friendly_name} (${room}) tVOC Wert
     address: 0x5A
-    update_interval: 60s
+    update_interval: ${update_interval_long}
     baseline: 0xA483
     temperature: bme280_temperature
     humidity: bme280_humidity
@@ -43,12 +43,11 @@ sensor:
   - platform: sun
     name: ${friendly_name} (${room}) Sonne Elevation
     type: elevation
-    update_interval: 60s
+    update_interval: ${update_interval_long}
   - platform: sun
     name: ${friendly_name} (${room}) Sonne Azimuth
     type: azimuth
-    update_interval: 60s
-
+    update_interval: ${update_interval_long}
   - platform: wifi_signal
     name: ${friendly_name} (${room}) WiFi Signal
     update_interval: ${update_interval_long}
@@ -128,7 +127,6 @@ binary_sensor:
     on_state:
       then:
         - script.execute: beep
-
   - platform: apds9960
     direction: UP
     name: ${friendly_name} (${room}) UP
