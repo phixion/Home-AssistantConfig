@@ -10,7 +10,7 @@ tts:
     cache: true
     cache_dir: /config/tts
   - platform: google_cloud
-    key_file: !secret google_service_accout_json # pragma: allowlist secret
+    key_file: ../google_assistant.json
     language: de-DE
     gender: female
     voice: de-DE-Wavenet-C
