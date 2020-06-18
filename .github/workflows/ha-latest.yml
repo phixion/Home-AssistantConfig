@@ -12,10 +12,11 @@ jobs:
     steps:
       - name: Getting your configuration from GitHub
         uses: actions/checkout@v1
-      - name: Running YAMLlint
-        uses: "docker://pipelinecomponents/yamllint:latest"
-        with:
-          args: yamllint .
+      - name: Super Lint
+        uses: github/super-linter@v2.0.0
+        env:
+          VALIDATE_ALL_CODEBASE: false
+          VALIDATE_YAML: true
   remarklint:
     runs-on: ubuntu-latest
     steps:
@@ -37,8 +38,6 @@ jobs:
         run: rename -v 's/travis_//' $(pwd)/doc/travis/*.{yaml,json}
       - name: copy critical yamls
         run: cp $(pwd)/doc/travis/*.{yaml,json} .
-      - name: fix path
-        run: sed -i "s@/config/tmp@$(pwd)/tmp@" configuration.yaml
       - name: create tmp/
         run: mkdir $(pwd)/tmp
       - name: create gmaps cookie

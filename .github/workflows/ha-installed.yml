@@ -37,13 +37,13 @@ jobs:
         run: rename -v 's/travis_//' $(pwd)/doc/travis/*.{yaml,json}
       - name: copy critical yamls
         run: cp $(pwd)/doc/travis/*.{yaml,json} .
-      - name: fix path
-        run: sed -i "s@/config/tmp@$(pwd)/tmp@" configuration.yaml
-      - name: create tmp/
+      - name: create /config/tmp/
         run: mkdir $(pwd)/tmp
       - name: create gmaps cookie
         run: echo "# Netscape HTTP Cookie File\n0 0\n0 0\n0 0" > $(pwd)/.google_maps_location_sharing.cookies.joedoe_gmail_com
+      - name: determine HA version
+        run: HA_VERSION=$(<.HA_VERSION)
       - name: Home Assistant Check Latest
-        uses: "docker://homeassistant/home-assistant:0.111.3"
+        uses: "docker://homeassistant/home-assistant:${HA_VERSION}"
         with:
           args: python -m homeassistant --config . --script check_config --info all --secrets
