@@ -26,8 +26,8 @@
 
 #GH Workflows
 !.github/
-!.github/workflows
-!.github/workflows/*.yml
+!.github/**
+!.github/**/*.yml
 
 #HA_version for travis CI
 !.HA_version
@@ -92,6 +92,6 @@ ip_bans.yaml
 .google.token
 .google*cookie*
 google*.json
-*nogit*
+nogit_*
 ad_whitelist.txt
 __pycache__/
