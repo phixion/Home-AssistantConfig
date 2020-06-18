@@ -40,3 +40,11 @@ camera:
 #    entity_id: camera.nest_cam
 #    max_stream_width: 360
 #    max_image_width: 720
+  - platform: generic
+    name: Street View
+    still_image_url: !secret still_image_url_streetview
+    limit_refetch_to_url_change: true
+  - platform: generic
+    name: Destination
+    still_image_url: !secret still_image_url_destination
+    limit_refetch_to_url_change: true

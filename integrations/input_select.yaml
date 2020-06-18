@@ -10,5 +10,11 @@ input_select:
     icon: mdi:alarm-light-outline
     name: Alarm
     options:
-      - Aktiviert
       - Deaktiviert
+      - Aktiviert
+  guest_mode:
+    icon: mdi:home
+    name: Gast Modus
+    options:
+      - Deaktiviert
+      - Aktiviert

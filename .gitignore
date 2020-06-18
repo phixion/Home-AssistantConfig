@@ -24,6 +24,11 @@
 !LICENSE
 !CODE_OF_CONDUCT.md
 
+#GH Workflows
+!.github/
+!.github/workflows
+!.github/workflows/*.yml
+
 #HA_version for travis CI
 !.HA_version
 
@@ -37,7 +42,7 @@
 !custom_components/**
 
 #doc
-!doc
+!doc/
 !doc/**
 
 #www/_static
