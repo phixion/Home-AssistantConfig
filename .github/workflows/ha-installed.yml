@@ -37,7 +37,6 @@ jobs:
       - name: Home Assistant Check installed
         env:
           VERSION: $(<$(pwd).HA_VERSION)
-        run: echo $VERSION
         uses: "docker://homeassistant/home-assistant:0.111.3"
         with:
           args: python -m homeassistant --config . --script check_config --info all --secrets
