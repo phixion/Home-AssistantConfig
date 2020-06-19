@@ -42,11 +42,9 @@ jobs:
         run: mkdir $(pwd)/tmp
       - name: create gmaps cookie
         run: echo "# Netscape HTTP Cookie File\n0 0\n0 0\n0 0" > $(pwd)/.google_maps_location_sharing.cookies.joedoe_gmail_com
-      - name: Define variables
-        run: |
-          export INSTALLED_VERSION="$(<$(pwd).HA_VERSION)"
-          echo "::set-env name=VERSION::$INSTALLED_VERSION"
       - name: Home Assistant Check installed
-        uses: "docker://homeassistant/home-assistant:${{ env.VERSION }}"
+        env:
+          VERSION: $(<$(pwd).HA_VERSION)
+        uses: "docker://homeassistant/home-assistant:${VERSION}"
         with:
           args: python -m homeassistant --config . --script check_config --info all --secrets
