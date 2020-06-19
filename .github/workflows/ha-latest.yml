@@ -7,26 +7,18 @@ on:
   pull_request:
 
 jobs:
-  yamllint:
+  super-linter:
     runs-on: ubuntu-latest
     steps:
       - name: Getting your configuration from GitHub
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
       - name: Super Lint
         uses: github/super-linter@v2.0.0
         env:
-          VALIDATE_ALL_CODEBASE: false
+          VALIDATE_ALL_CODEBASE: true
           VALIDATE_YAML: true
-  remarklint:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Getting your configuration from GitHub
-        uses: actions/checkout@v1
-      - name: Running Remark lint
-        uses: "docker://pipelinecomponents/remark-lint:latest"
-        continue-on-error: true
-        with:
-          args: "remark --no-stdout --color --frail --use preset-lint-recommended ."
+          VALIDATE_MD: true
+          VALIDATE_SHELL: true
   home_assistant_ci:
     runs-on: ubuntu-latest
     steps:
