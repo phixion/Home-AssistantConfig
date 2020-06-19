@@ -12,10 +12,11 @@ jobs:
     steps:
       - name: Getting your configuration from GitHub
         uses: actions/checkout@v1
-      - name: Running YAMLlint
-        uses: "docker://pipelinecomponents/yamllint:latest"
-        with:
-          args: yamllint .
+      - name: Super Lint
+        uses: github/super-linter@v2.0.0
+        env:
+          VALIDATE_ALL_CODEBASE: false
+          VALIDATE_YAML: true
   remarklint:
     runs-on: ubuntu-latest
     steps:
@@ -41,9 +42,11 @@ jobs:
         run: mkdir $(pwd)/tmp
       - name: create gmaps cookie
         run: echo "# Netscape HTTP Cookie File\n0 0\n0 0\n0 0" > $(pwd)/.google_maps_location_sharing.cookies.joedoe_gmail_com
-      - name: determine HA version
-        run: HA_VERSION=$(<.HA_VERSION)
-      - name: Home Assistant Check Latest
-        uses: "docker://homeassistant/home-assistant:${HA_VERSION}"
+      - name: Define variables
+        run: |
+          export INSTALLED_VERSION="$(<$(pwd).HA_VERSION)"
+          echo "::set-env name=VERSION::$INSTALLED_VERSION"
+      - name: Home Assistant Check installed
+        uses: "docker://homeassistant/home-assistant:${{ env.VERSION }}"
         with:
           args: python -m homeassistant --config . --script check_config --info all --secrets
