@@ -6,8 +6,6 @@
     force_update: true
   - platform: uptime
     force_update: true
-    name: ${friendly_name} (${room}) Uptime
-    filters:
-      - lambda: return x / 60.0;
-    unit_of_measurement: minutes
-    icon: mdi:alarm
+    id: ${devicename}_uptime
+    internal: true
+    update_interval: ${update_interval_short}

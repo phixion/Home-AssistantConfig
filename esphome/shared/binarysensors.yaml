@@ -1,2 +1,3 @@
   - platform: status
     name: ${friendly_name} (${room}) Status
+    device_class: connectivity

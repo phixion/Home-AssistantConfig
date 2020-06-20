@@ -6,36 +6,45 @@ substitutions:
   update_interval_long: 10min
 esphome:
   name: ${devicename}
-  platform: ESP8266
-  board: nodemcuv2
+  platform: ESP32
+  board: nodemcu-32s
 time: !include shared/time.yaml
 wifi: !include shared/wifi.yaml
 api: !include shared/api.yaml
 ota: !include shared/ota.yaml
 web_server: !include shared/webserver.yaml
 captive_portal:
-i2c:
-  sda: D5
-  scl: D6
 logger:
+esp32_ble_tracker:
+  id: ble_hub
+i2c:
+ - id: bus_a
+   sda: 13
+   scl: 16
+   scan: True
+ - id: bus_b
+   sda: 14
+   scl: 15
+   scan: True
 sensor:
-  - platform: wifi_signal
-    name: ${friendly_name} (${room}) WiFi Signal
-    update_interval: ${update_interval_long}
-    unit_of_measurement: dB
-    icon: mdi:wifi
-  - platform: bh1750
-    name: ${friendly_name} (${room}) Lichtsensor
-    address: 0x23
-    unit_of_measurement: lx
-switch:
-  - platform: restart
-    name: ${friendly_name} (${room}) Restart
+ - platform: bh1750
+   i2c_id: bus_a
+   name: ${friendly_name} (${room}) Lichtsensor
+   address: 0x23
+   unit_of_measurement: lx
 binary_sensor:
-  - platform: gpio
-    pin: D3
-    device_class: motion
-    name: ${friendly_name} (${room}) Doppler Sensor
-    id: ${devicename}_doppler
-    filters:
-      - delayed_off: 60s
+ - platform: gpio
+   pin: 26
+   device_class: motion
+   name: ${friendly_name} (${room}) Doppler Sensor
+   id: ${devicename}_doppler
+   filters:
+    - delayed_off: 2s
+    - delayed_on: 200ms
+display:
+  - platform: lcd_pcf8574
+    dimensions: 18x2
+    i2c_id: bus_a
+    address: 0x27
+    lambda: |-
+      it.print("hallo");

@@ -16,5 +16,5 @@
   - platform: esp8266_pwm
     id: output_white
     pin: GPIO5
-    max_power: 60%
+    max_power: 80%
     frequency: ${frequency_w}

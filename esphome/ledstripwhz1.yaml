@@ -34,7 +34,7 @@ binary_sensor:
       inverted: true
     internal: true
     id: ${devicename}_binbutton
-    name: ${friendly_name} Button
+    name: ${friendly_name} (${room}) Button
     on_press:
       - switch.toggle: ${devicename}_button
   - platform: status

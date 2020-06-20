@@ -27,6 +27,9 @@ binary_sensor:
     device_class: motion
     name: ${friendly_name} (${room}) Doppler Sensor
     id: ${devicename}_doppler
+    filters:
+      - delayed_off: 2s
+      - delayed_on: 200ms
   - platform: gpio
     pin: D0
     id: ${devicename}_motion
@@ -36,29 +39,29 @@ binary_sensor:
     id: ${devicename}_templ_motion
     internal: true
     lambda: 'return id(${devicename}_motion).state;'
-    filters:
-      - delayed_off: 10min
-    on_press:
-      - homeassistant.service:
-          service: switch.turn_on
-          data:
-            entity_id: switch.schalter_1_bad_relay
-    on_release:
-      - homeassistant.service:
-          service: switch.turn_off
-          data:
-            entity_id: switch.schalter_1_bad_relay
-  - platform: template
-    id: ${devicename}_templ_doppler
-    internal: true
-    lambda: 'return id(${devicename}_doppler).state;'
-    filters:
-      - delayed_off: 10min
+#    filters:
+#      - delayed_off: 10min
 #    on_press:
 #      - homeassistant.service:
 #          service: switch.turn_on
 #          data:
 #            entity_id: switch.schalter_1_bad_relay
+#    on_release:
+#      - homeassistant.service:
+#          service: switch.turn_off
+#          data:
+#            entity_id: switch.schalter_1_bad_relay
+  - platform: template
+    id: ${devicename}_templ_doppler
+    internal: true
+    lambda: 'return id(${devicename}_doppler).state;'
+    filters:
+      - delayed_off: 3min
+    on_press:
+      - homeassistant.service:
+          service: switch.turn_on
+          data:
+            entity_id: switch.schalter_1_bad_relay
     on_release:
       - homeassistant.service:
           service: switch.turn_off

@@ -1,12 +1,12 @@
 networks:
   - ssid: !secret iot_ssid # pragma: allowlist secret
+    bssid: !secret iot_bssid # pragma: allowlist secret
     password: !secret phixnet_wifi_iot_pwd # pragma: allowlist secret
     hidden: true
-    priority: 10
   - ssid: !secret iot_ssid_alt # pragma: allowlist secret
+    bssid: !secret iot_bssid_alt # pragma: allowlist secret
     password: !secret phixnet_wifi_iot_pwd # pragma: allowlist secret
     hidden: true
-    priority: 10
 #fast_connect: true
 domain: !secret domain # pragma: allowlist secret
 power_save_mode: none

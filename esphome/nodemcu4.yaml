@@ -35,7 +35,8 @@ binary_sensor:
     name: ${friendly_name} (${room}) Doppler Sensor
     id: ${devicename}_doppler
     filters:
-      - delayed_off: 60s
+      - delayed_off: 2s
+      - delayed_on: 200ms
   - platform: gpio
     pin: D3
     device_class: sound
@@ -48,35 +49,38 @@ binary_sensor:
     id: ${devicename}_motion
     name: ${friendly_name} (${room}) Motion Sensor
     device_class: motion
+  - platform: template
+    id: ${devicename}_templ_motion
+    internal: true
+    lambda: 'return id(${devicename}_motion).state;'
+#    filters:
+#      - delayed_off: 3min
+#    on_press:
+#      - homeassistant.service:
+#          service: switch.turn_on
+#          data:
+#            entity_id: switch.schalter_1_flur_relay
+#    on_release:
+#      - homeassistant.service:
+#          service: switch.turn_off
+#          data:
+#            entity_id: switch.schalter_1_flur_relay
+  - platform: template
+    id: ${devicename}_templ_doppler
+    internal: true
+    lambda: 'return id(${devicename}_doppler).state;'
+    filters:
+      - delayed_off: 3min
     on_press:
       - homeassistant.service:
           service: switch.turn_on
           data:
             entity_id: switch.schalter_1_flur_relay
-  - platform: template
-    id: ${devicename}_templ_motion
-    internal: true
-    lambda: 'return id(${devicename}_motion).state;'
-# can set delay via hardware poti
-#    filters:
-#      - delayed_off: 3min
     on_release:
       - homeassistant.service:
           service: switch.turn_off
           data:
             entity_id: switch.schalter_1_flur_relay
-#  - platform: template
-#    id: ${devicename}_templ_sound
-#    internal: true
-#    lambda: 'return id(${devicename}_sound).state;'
-# can set delay via hardware poti
-#    filters:
-#      - delayed_off: 3min
-#    on_release:
-#      - homeassistant.service:
-#          service: switch.turn_off
-#          data:
-#            entity_id: switch.schalter_1_flur
   - platform: status
     device_class: connectivity
     name: ${friendly_name} (${room}) Status

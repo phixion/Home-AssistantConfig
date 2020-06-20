@@ -1,5 +1,5 @@
 - platform: version
-  name: "${friendly_name} ${room}  ESPHome Version"
+  name: ${friendly_name} (${room}) Version
   icon: 'mdi:car-esp'
   on_value:
     then:
@@ -12,6 +12,30 @@
   ssid:
     name: ${friendly_name} (${room}) SSID
     icon: mdi:wifi
-#  bssid:
-#    name: ${friendly_name} (${room}) BSSID
-#    icon: mdi:wifi
+  bssid:
+    name: ${friendly_name} (${room}) BSSID
+    icon: mdi:wifi
+- platform: template
+  name: ${friendly_name} (${room}) Uptime
+  lambda: |-
+    uint32_t dur = id(${devicename}_uptime).state;
+    int dys = 0;
+    int hrs = 0;
+    int mnts = 0;
+    if (dur > 86399) {
+      dys = trunc(dur / 86400);
+      dur = dur - (dys * 86400);
+    }
+    if (dur > 3599) {
+      hrs = trunc(dur / 3600);
+      dur = dur - (hrs * 3600);
+    }
+    if (dur > 59) {
+      mnts = trunc(dur / 60);
+      dur = dur - (mnts * 60);
+    }
+    char buffer[17];
+    sprintf(buffer, "%ud %02uh %02um %02us", dys, hrs, mnts, dur);
+    return {buffer};
+  icon: mdi:clock-start
+  update_interval: ${update_interval_long}

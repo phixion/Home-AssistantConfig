@@ -2,14 +2,15 @@ substitutions:
   devicename: switchwhz
   friendly_name: Schalter 1
   room: Wohnzimmer
-  update_interval: 2min
+  update_interval_short: 2min
   update_interval_long: 10min
+  icon: mdi:gesture-tap-box
 esphome:
   esp8266_restore_from_flash: true
   name: ${devicename}
   platform: ESP8266
   board: esp01_1m
-  board_flash_mode: dout
+  board_flash_mode: dout # https://github.com/arendst/Tasmota/blob/66d9ff14ac804ea6f63fe6e2f371357a138d3bba/README.md#attention-all-versions
 logger:
 wifi: !include shared/wifi.yaml
 web_server: !include shared/webserver.yaml
