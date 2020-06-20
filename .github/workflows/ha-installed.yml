@@ -19,6 +19,7 @@ jobs:
           VALIDATE_YAML: true
           VALIDATE_MD: true
           VALIDATE_SHELL: true
+          DISABLE_ERRORS: true
   home_assistant_ci:
     runs-on: ubuntu-latest
     steps:
