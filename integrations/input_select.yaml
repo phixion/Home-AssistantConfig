@@ -18,3 +18,4 @@ input_select:
     options:
       - Deaktiviert
       - Aktiviert
+    initial: Deaktiviert

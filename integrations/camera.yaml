@@ -42,9 +42,11 @@ camera:
 #    max_image_width: 720
   - platform: generic
     name: Street View
+    content_type: image/png
     still_image_url: !secret still_image_url_streetview
     limit_refetch_to_url_change: true
   - platform: generic
+    content_type: image/png
     name: Destination
     still_image_url: !secret still_image_url_destination
     limit_refetch_to_url_change: true

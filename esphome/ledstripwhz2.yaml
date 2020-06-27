@@ -4,7 +4,7 @@ substitutions:
   devicename: ledstripwhz2
   friendly_name: LED Strip 2
   room: Wohnzimmer
-  update_interval_short: 2s
+  update_interval_short: 2min
   update_interval_long: 10min
   frequency_rgb: 1000 Hz
 esphome:
@@ -48,6 +48,11 @@ switch:
     restore_state: true
     id: ${devicename}_button
     turn_on_action:
-      - light.turn_on: ${devicename}_rgb
+      - light.turn_on:
+          id: ${devicename}_rgb
+          brightness: 100%
+          red: 100%
+          green: 60%
+          blue: 22%
     turn_off_action:
       - light.turn_off: ${devicename}_rgb

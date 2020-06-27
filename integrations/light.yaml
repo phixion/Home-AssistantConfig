@@ -9,8 +9,8 @@ light:
   - platform: group
     name: All Lights
     entities:
-      - light.bulbspotwhzdesk_rgb
-      - light.bulbspotwhzdesk_cwww
+#      - light.bulbspotwhzdesk_rgb
+#      - light.bulbspotwhzdesk_cwww
       - light.bulbspotwhztv_rgb
       - light.bulbspotwhztv_cwww
       - light.bulbwhzlamp_rgb
@@ -28,27 +28,25 @@ light:
       - light.ledstripwhz1_rgb
       - light.ledstripwhz1_w
       - light.ledstripwhz2_rgb
-      - light.wled_schrank
-      - light.wled_schreibtisch
+      - light.wled1
+      - light.wled2
       - light.ledstripwhz1_w
       - light.schalter_schrank_kuche_light
   - platform: group
     name: Mood Lights RGB
     entities:
-      - light.bulbspotwhzdesk_rgb
+#      - light.bulbspotwhzdesk_rgb
       - light.bulbspotwhztv_rgb
       - light.bulbwhzlamp_rgb
       - light.ledstripwhz1_rgb
       - light.ledstripwhz2_rgb
-      - light.wled_schrank
-      - light.wled_schreibtisch
+      - light.wled1
+      - light.wled2
       - light.schalter_lavalampe_light
-      - light.wled_schrank
-      - light.wled_schreibtisch
   - platform: group
     name: Mood Lights CWWW
     entities:
-      - light.bulbspotwhzdesk_cwww
+#      - light.bulbspotwhzdesk_cwww
       - light.bulbspotwhztv_cwww
       - light.bulbwhzlamp_cwww
       - light.ledstripwhz1_w
@@ -65,5 +63,5 @@ light:
     name: LED WHZ
     entities:
       - light.ledstripwhz2_rgb
-      - light.wled_schrank
-      - light.wled_schreibtisch
+      - light.wled1
+      - light.wled2

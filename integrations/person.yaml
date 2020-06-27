@@ -9,4 +9,7 @@ person:
   - name: Martin
     id: !secret martin_userid # pragma: allowlist secret
     device_trackers:
-      - device_tracker.google_pixel
+#      - device_tracker.google_pixel
+       - device_tracker.google_maps_103287020705128769285
+       - device_tracker.pixel_gps
+       - device_tracker.pixel_wifi

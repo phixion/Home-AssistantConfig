@@ -17,7 +17,7 @@ esphome:
     priority: 100
     then:
       - light.turn_on:
-          state: True
+          state: true
           id: ${devicename}_cwww
           transition_length: 3s
           white: 100%

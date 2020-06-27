@@ -21,7 +21,7 @@ logger:
     homeassistant.components.automation: debug
     aioesphomeapi.connection: warn
 recorder:
-  purge_keep_days: 60
+  purge_keep_days: 30
 #  purge_interval: 1
   db_url: !secret dburl # pragma: allowlist secret
   exclude:
@@ -36,6 +36,9 @@ recorder:
       - sensor.time_date
       - sensor.time_utc
       - sensor.time
+      - sensor.load_1m
+      - sensor.load_5m
+      - sensor.load_15m
 #      - sensor.influxdb_size_telegraf
 #      - sensor.influxdb_size_homeassistant
 #      - sensor.influxdb_size_internal
@@ -81,8 +84,19 @@ recorder:
       - sensor.network_in_eth0
       - sensor.network_out_eth0
       - sensor.reddit_gamedeals
-      - sensor.nodemcu_2_luxmeter
       - sensor.nodemcu_2_tv_hohe_nhn
+      - sensor.nodemcu_2_tv_uptime
+      - sensor.schalter_1_bad_uptime
+      - sensor.schalter_1_flur_uptime
+      - sensor.schalter_1_wohnzimmer_uptime
+      - sensor.schalter_lavalampe_uptime
+      - sensor.schalter_schrank_kuche_uptime
+      - sensor.schalter_schrank_wohnzimmer_uptime
+      - sensor.sonoff_pow_r2_tv_uptime
+      - sensor.sonoff_pow_r2_whz_uptime
+      - sensor.spotlight_1_wohnzimmer_uptime
+      - sensor.stehlampe_wohnzimmer_uptime
+      - sensor.network_throughput_in_eth0
     domains:
       - updater
       - camera
@@ -120,13 +134,27 @@ logbook:
       - sensor.memory_free
       - sensor.network_in_eth0
       - sensor.network_out_eth0
-      - sensor.nodemcu_2_luxmeter
       - sensor.date_time
       - sensor.date_time_iso
       - sensor.date
       - sensor.time_date
       - sensor.time_utc
       - sensor.time
+      - sensor.nodemcu_2_tv_uptime
+      - sensor.schalter_1_bad_uptime
+      - sensor.schalter_1_flur_uptime
+      - sensor.schalter_1_wohnzimmer_uptime
+      - sensor.schalter_lavalampe_uptime
+      - sensor.schalter_schrank_kuche_uptime
+      - sensor.schalter_schrank_wohnzimmer_uptime
+      - sensor.sonoff_pow_r2_tv_uptime
+      - sensor.sonoff_pow_r2_whz_uptime
+      - sensor.spotlight_1_wohnzimmer_uptime
+      - sensor.stehlampe_wohnzimmer_uptime
+      - sensor.load_1m
+      - sensor.load_5m
+      - sensor.load_15m
+      - sensor.network_throughput_in_eth0
     domains:
       - updater
       - camera
@@ -145,7 +173,6 @@ history:
       - sensor.influxdb_size_homeassistant
       - sensor.influxdb_size_internal
       - sensor.influxdb_size_unifi
-      - sensor.mariadb_homeassistant
       - sensor.sonoff_pow_r2_whz_power
       - sensor.sonoff_pow_r2_whz_current
       - sensor.sonoff_pow_r2_whz_voltage
@@ -180,7 +207,30 @@ history:
       - sensor.rss_coindesk
       - sensor.rss_darknet
       - sensor.rss_free_steam_keys
-      - sensor.nodemcu_2_luxmeter
+      - sensor.hass_uptime
+      - sensor.hp_switch_uptime
+      - sensor.internet_uptime
+      - sensor.lampe_bad_uptime
+      - sensor.lampe_flur_uptime
+      - sensor.lampe_kuche_uptime
+      - sensor.led_strip_1_wohnzimmer_uptime
+      - sensor.led_strip_2_wohnzimmer_uptime
+      - sensor.nas_uptime
+      - sensor.nodemcu_2_tv_uptime
+      - sensor.schalter_1_bad_uptime
+      - sensor.schalter_1_flur_uptime
+      - sensor.schalter_1_wohnzimmer_uptime
+      - sensor.schalter_lavalampe_uptime
+      - sensor.schalter_schrank_kuche_uptime
+      - sensor.schalter_schrank_wohnzimmer_uptime
+      - sensor.sonoff_pow_r2_tv_uptime
+      - sensor.sonoff_pow_r2_whz_uptime
+      - sensor.spotlight_1_wohnzimmer_uptime
+      - sensor.stehlampe_wohnzimmer_uptime
+      - sensor.load_1m
+      - sensor.load_5m
+      - sensor.load_15m
+      - sensor.network_throughput_in_eth0
     domains:
       - updater
       - camera

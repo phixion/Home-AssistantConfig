@@ -15,12 +15,8 @@ ota: !include shared/ota.yaml
 web_server: !include shared/webserver.yaml
 captive_portal:
 logger:
-sensor:
-  - platform: wifi_signal
-    name: ${friendly_name} (${room}) WiFi Signal
-    update_interval: ${update_interval_long}
-    unit_of_measurement: dB
-    icon: mdi:wifi
+sensor: !include shared/sensors.yaml
+text_sensor: !include shared/textsensors.yaml
 binary_sensor:
   - platform: gpio
     pin: D1
@@ -28,29 +24,8 @@ binary_sensor:
     name: ${friendly_name} (${room}) Doppler Sensor
     id: ${devicename}_doppler
     filters:
-      - delayed_off: 2s
+      - delayed_off: 10ms
       - delayed_on: 200ms
-  - platform: gpio
-    pin: D0
-    id: ${devicename}_motion
-    name: ${friendly_name} (${room}) Motion Sensor
-    device_class: motion
-  - platform: template
-    id: ${devicename}_templ_motion
-    internal: true
-    lambda: 'return id(${devicename}_motion).state;'
-#    filters:
-#      - delayed_off: 10min
-#    on_press:
-#      - homeassistant.service:
-#          service: switch.turn_on
-#          data:
-#            entity_id: switch.schalter_1_bad_relay
-#    on_release:
-#      - homeassistant.service:
-#          service: switch.turn_off
-#          data:
-#            entity_id: switch.schalter_1_bad_relay
   - platform: template
     id: ${devicename}_templ_doppler
     internal: true

@@ -170,7 +170,7 @@ script:
         - {space: 20ms}
         - {note: A, duration: 650ms}
 
-switch:
+
   - platform: template
     name: Buzz Imperial March
     icon: "mdi:bell-ring"
@@ -183,8 +183,9 @@ switch:
             - script.execute: ImperialMarch
           else:
             - script.execute: ImperialMarch
+switch:
   - platform: template
-    name: Buzz Super Mario
+    name: mario
     icon: "mdi:bell-ring"
     turn_on_action:
       - if:

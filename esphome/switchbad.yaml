@@ -30,7 +30,7 @@ output:
 light:
   - platform: binary
     name: ${friendly_name} (${room}) Light
-    id: ${devicename}_rgb
+    id: ${devicename}
     output: ${devicename}_relay
   - platform: monochromatic
     internal: true

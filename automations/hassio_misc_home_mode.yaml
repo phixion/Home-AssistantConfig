@@ -43,7 +43,7 @@
     to: Home
   condition:
     condition: time
-    before: "22:00:00"
+    before: "18:00:00"
   action:
     - service: notify.telegram
       data:
@@ -51,20 +51,17 @@
     - service: switch.turn_off
       entity_id: switch.wiser_away_mode
     - service: switch.turn_on
-      entity_id: switch.schalter_1_flur
+      entity_id: switch.schalter_1_flur_relay
     - service: media_player.volume_set
       data:
-        entity_id: media_player.google_speakers
+        entity_id: media_player.google_nest_hub
         volume_level: 0.01
-    - service: media_player.turn_on
-      data:
-        entity_id: media_player.google_speakers
     - delay: 00:00:20
     - service: media_player.volume_set
       data:
-        entity_id: media_player.google_speakers
+        entity_id: media_player.google_nest_hub
         volume_level: 0.37
-    - delay: 00:00:05
+    - delay: 00:01:05
     - service: rest_command.assistant_broadcast
       data_template:
         command:
@@ -103,16 +100,16 @@
     - service: notify.telegram
       data:
         message: Away Mode turned ON
-    - delay: 00:02:00
-    - service: ffmpeg.restart
-      data:
-        entity_id:
-          - camera.nest_cam
-    - delay: 00:02:00
-    - service: ffmpeg.restart
-      data:
-        entity_id:
-          - binary_sensor.motion_sensor
+#    - delay: 00:02:00
+#    - service: ffmpeg.restart
+#      data:
+#        entity_id:
+#          - camera.nest_cam
+#    - delay: 00:02:00
+#    - service: ffmpeg.restart
+#      data:
+#        entity_id:
+#          - binary_sensor.motion_sensor
 - alias: Set Home Mode Vacation
   id: "6"
   trigger:

@@ -5,13 +5,13 @@
       entity_id: binary_sensor.motion_sensor
       to: "on"
     - platform: state
-      entity_id: binary_sensor.nodemcu_4_kueche_motion_sensor
+      entity_id: binary_sensor.nodemcu_4_kuche_doppler_sensor
       to: "on"
     - platform: state
       entity_id: sensor.door
       to: "on"
     - platform: state
-      entity_id: binary_sensor.nodemcu_5_bad_motion_sensor
+      entity_id: binary_sensor.nodemcu_5_bad_doppler_sensor
       to: "on"
     - platform: state
       entity_id: binary_sensor.window_wohnzimmer

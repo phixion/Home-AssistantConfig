@@ -1,22 +1,30 @@
 - alias: Notification Guest Password
   id: "18a"
   trigger:
-    - platform: state
+    - platform: time_pattern
+      minutes: /15
+  condition:
+    condition: and
+    conditions:
+    - condition: state
       entity_id: input_select.guest_mode
-      to: Aktiviert
+      state: Aktiviert
+    - condition: state
+      entity_id: input_select.home_mode
+      state: Home
   action:
     - service: notify.lametric
       data:
         message: 'SSID: phixnet_guest PSK: lassmichrein'
         data:
-          sound: 'notification'
+#          sound: 'notification'
           icon: 'a4714'
           cycles: 15
           priority: 'critical'
-    - service: rest_command.assistant_broadcast
-      data_template:
-        command:
-          Das Gaeste WiFi Passwort lautet lass mich rein
+#    - service: rest_command.assistant_broadcast
+#      data_template:
+#        command:
+#          Das Gaeste WiFi Passwort lautet lass mich rein
 #    - service: tts.google_cloud_say
 #      data_template:
 #        entity_id: media_player.google_nest_hub

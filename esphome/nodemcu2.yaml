@@ -1,7 +1,7 @@
 substitutions:
   devicename: nodemcu2
   friendly_name: Nodemcu 2
-  update_interval_short: 2s
+  update_interval_short: 2min
   update_interval_long: 10min
   room: TV
 esphome:
@@ -12,15 +12,17 @@ time: !include shared/time.yaml
 wifi: !include shared/wifi.yaml
 api: !include shared/api.yaml
 ota: !include shared/ota.yaml
+text_sensor: !include shared/textsensors.yaml
 web_server: !include shared/webserver.yaml
 captive_portal:
 logger:
 i2c:
   sda: D6
   scl: D7
-apds9960:
-  address: 0x39
-  update_interval: 60s
+  scan: true
+#apds9960:
+#  address: 0x39
+#  update_interval: 60s
 sun:
   latitude: !secret home_lat
   longitude: !secret home_lon
@@ -31,15 +33,18 @@ sensor:
     tvoc:
       name: ${friendly_name} (${room}) tVOC Wert
     address: 0x5A
-    update_interval: ${update_interval_long}
-    baseline: 0xA483
-    temperature: bme280_temperature
-    humidity: bme280_humidity
-  - platform: wifi_signal
-    name: ${friendly_name} (${room}) WiFi Signal
-    update_interval: ${update_interval_long}
-    unit_of_measurement: dB
-    icon: mdi:wifi
+    update_interval: ${update_interval_short}
+    baseline: 0xE482 #calibrated 22.06.2020
+    temperature: hassio_temp
+    humidity: hassio_humidity
+  - platform: homeassistant
+    id: hassio_temp
+    internal: true
+    entity_id: sensor.schalter_schrank_wohnzimmer_temperatur
+  - platform: homeassistant
+    id: hassio_humidity
+    internal: true
+    entity_id: sensor.schalter_schrank_wohnzimmer_luftfeuchtigkeit
   - platform: sun
     name: ${friendly_name} (${room}) Sonne Elevation
     type: elevation
@@ -54,58 +59,63 @@ sensor:
     unit_of_measurement: dB
     icon: mdi:wifi
     force_update: true
-  - platform: apds9960
-    type: CLEAR
-    name: ${friendly_name} (${room}) CLEAR
-  - platform: apds9960
-    type: RED
-    name: ${friendly_name} (${room}) RED
-  - platform: apds9960
-    type: GREEN
-    name: ${friendly_name} (${room}) GREEN
-  - platform: apds9960
-    type: BLUE
-    name: ${friendly_name} (${room}) BLUE
-  - platform: apds9960
-    type: PROXIMITY
-    name: ${friendly_name} (${room}) PROXIMITY
-  - platform: bme280
-    update_interval: ${update_interval_long}
-    temperature:
-      name: ${friendly_name} (${room}) Temperatur
-      id: bme280_temperature
-      unit_of_measurement: "°C"
-      icon: "mdi:thermometer-lines"
-    pressure:
-      name: ${friendly_name} (${room}) Absoluter Luftdruck
-      id: bme280_pressure
-      unit_of_measurement: hPa
-      icon: mdi:gauge
-    humidity:
-      name: ${friendly_name} (${room}) Relative Luftfeuchtigkeit
-      id: bme280_humidity
-      unit_of_measurement: "%"
-      icon: "mdi:water-percent"
-    address: 0x77
-  - platform: template
-    name: ${friendly_name} (${room}) Höhe NHN
-    unit_of_measurement: m
-    lambda: |-
-      const float STANDARD_SEA_LEVEL_PRESSURE = 1013.25; //in hPa, see note
-      return ((id(bme280_temperature).state + 273.15) / 0.0065) *
-        (powf((STANDARD_SEA_LEVEL_PRESSURE / id(bme280_pressure).state), 0.190234) - 1); // in meter
-    update_interval: ${update_interval_long}
-  - platform: template
-    name: ${friendly_name} (${room}) Absolute Luftfeuchtigkeit
-    lambda: |-
-      const float mw = 18.01534;    // molar mass of water g/mol
-      const float r = 8.31447215;   // Universal gas constant J/mol/K
-      return (6.112 * powf(2.718281828, (17.67 * id(bme280_temperature).state) /
-        (id(bme280_temperature).state + 243.5)) * id(bme280_humidity).state * mw) /
-        ((273.15 + id(bme280_temperature).state) * r); // in grams/m^3
-    unit_of_measurement: 'g/m³'
-    accuracy_decimals: 2
-    update_interval: ${update_interval_long}
+  - platform: uptime
+    force_update: true
+    id: ${devicename}_uptime
+    internal: true
+    update_interval: ${update_interval_short}
+#  - platform: apds9960
+#    type: CLEAR
+#    name: ${friendly_name} (${room}) CLEAR
+#  - platform: apds9960
+#    type: RED
+#    name: ${friendly_name} (${room}) RED
+#  - platform: apds9960
+#    type: GREEN
+#    name: ${friendly_name} (${room}) GREEN
+#  - platform: apds9960
+#    type: BLUE
+#    name: ${friendly_name} (${room}) BLUE
+#  - platform: apds9960
+#    type: PROXIMITY
+#    name: ${friendly_name} (${room}) PROXIMITY
+#  - platform: bme280
+#    update_interval: ${update_interval_long}
+#    temperature:
+#      name: ${friendly_name} (${room}) Temperatur
+#      id: bme280_temperature
+#      unit_of_measurement: "°C"
+#      icon: "mdi:thermometer-lines"
+#    pressure:
+#      name: ${friendly_name} (${room}) Absoluter Luftdruck
+#      id: bme280_pressure
+#      unit_of_measurement: hPa
+#      icon: mdi:gauge
+#    humidity:
+#      name: ${friendly_name} (${room}) Relative Luftfeuchtigkeit
+#      id: bme280_humidity
+#      unit_of_measurement: "%"
+#      icon: "mdi:water-percent"
+#    address: 0x77
+#  - platform: template
+#    name: ${friendly_name} (${room}) Höhe NHN
+#    unit_of_measurement: m
+#    lambda: |-
+#      const float STANDARD_SEA_LEVEL_PRESSURE = 1013.25; //in hPa, see note
+#      return ((id(bme280_temperature).state + 273.15) / 0.0065) *
+#        (powf((STANDARD_SEA_LEVEL_PRESSURE / id(bme280_pressure).state), 0.190234) - 1); // in meter
+#    update_interval: ${update_interval_long}
+#  - platform: template
+#    name: ${friendly_name} (${room}) Absolute Luftfeuchtigkeit
+#    lambda: |-
+#      const float mw = 18.01534;    // molar mass of water g/mol
+#      const float r = 8.31447215;   // Universal gas constant J/mol/K
+#      return (6.112 * powf(2.718281828, (17.67 * id(bme280_temperature).state) /
+#        (id(bme280_temperature).state + 243.5)) * id(bme280_humidity).state * mw) /
+#        ((273.15 + id(bme280_temperature).state) * r); // in grams/m^3
+#    unit_of_measurement: 'g/m³'
+#    accuracy_decimals: 2
+#    update_interval: ${update_interval_long}
   - platform: adc
     pin: A0
     update_interval: ${update_interval_long}
@@ -126,22 +136,39 @@ binary_sensor:
       - delayed_off: 120s
     on_state:
       then:
-        - script.execute: beep
-  - platform: apds9960
-    direction: UP
-    name: ${friendly_name} (${room}) UP
-  - platform: apds9960
-    direction: DOWN
-    name: ${friendly_name} (${room}) DOWN
-  - platform: apds9960
-    direction: LEFT
-    name: ${friendly_name} (${room}) LEFT
-  - platform: apds9960
-    direction: RIGHT
-    name: ${friendly_name} (${room}) RIGHT
-  - platform: status
-    device_class: connectivity
-    name: ${friendly_name} (${room}) Status
+        - script.execute: imperial
+#  - platform: apds9960
+#    direction: UP
+#    name: ${friendly_name} (${room}) UP
+#  - platform: apds9960
+#    direction: DOWN
+#    name: ${friendly_name} (${room}) DOWN
+#  - platform: apds9960
+#    direction: LEFT
+#    name: ${friendly_name} (${room}) LEFT
+#  - platform: apds9960
+#    direction: RIGHT
+#    name: ${friendly_name} (${room}) RIGHT
+#  - platform: status
+#    device_class: connectivity
+#    name: ${friendly_name} (${room}) Status
+  - platform: gpio
+    pin: D2
+    device_class: motion
+    name: ${friendly_name} (${room}) Doppler Sensor
+    id: ${devicename}_doppler
+    filters:
+      - delayed_off: 2min
+      - delayed_on: 200ms
+  - platform: template
+    id: ${devicename}_templ_doppler
+    internal: true
+    lambda: 'return id(${devicename}_doppler).state;'
+    filters:
+      - delayed_off: 3min
+    on_press:
+      then:
+        - script.execute: mario
 output:
   - platform: esp8266_pwm
     pin: D5
@@ -157,17 +184,153 @@ script:
           level: 30%
       - delay: 90ms
       - output.turn_off: buzzer
+  - id: imperial
+    then:
+        - output.esp8266_pwm.set_frequency:
+            id: buzzer
+            frequency: 440
+        - output.set_level:
+            id: buzzer
+            level: 50%
+        - delay: 500ms
+        - output.turn_off: buzzer
+        - delay: 20ms
+        - output.esp8266_pwm.set_frequency:
+            id: buzzer
+            frequency: 440
+        - output.set_level:
+            id: buzzer
+            level: 50%
+        - delay: 500ms
+        - output.turn_off: buzzer
+        - delay: 20ms
+        - output.esp8266_pwm.set_frequency:
+            id: buzzer
+            frequency: 440
+        - output.set_level:
+            id: buzzer
+            level: 50%
+        - delay: 500ms
+        - output.turn_off: buzzer
+        - delay: 20ms
+        - output.esp8266_pwm.set_frequency:
+            id: buzzer
+            frequency: 349
+        - output.set_level:
+            id: buzzer
+            level: 50%
+        - delay: 350ms
+        - output.turn_off: buzzer
+        - delay: 20ms
+        - output.esp8266_pwm.set_frequency:
+            id: buzzer
+            frequency: 523
+        - output.set_level:
+            id: buzzer
+            level: 50%
+        - delay: 150ms
+        - output.turn_off: buzzer
+        - delay: 20ms
+        - output.esp8266_pwm.set_frequency:
+            id: buzzer
+            frequency: 440
+        - output.set_level:
+            id: buzzer
+            level: 50%
+        - delay: 500ms
+        - output.turn_off: buzzer
+        - delay: 20ms
+        - output.esp8266_pwm.set_frequency:
+            id: buzzer
+            frequency: 349
+        - output.set_level:
+            id: buzzer
+            level: 50%
+        - delay: 350ms
+        - output.turn_off: buzzer
+        - delay: 20ms
+        - output.esp8266_pwm.set_frequency:
+            id: buzzer
+            frequency: 523
+        - output.set_level:
+            id: buzzer
+            level: 50%
+        - delay: 150ms
+        - output.turn_off: buzzer
+        - delay: 20ms
+        - output.esp8266_pwm.set_frequency:
+            id: buzzer
+            frequency: 440
+        - output.set_level:
+            id: buzzer
+            level: 50%
+        - delay: 650ms
+        - output.turn_off: buzzer
+  - id: mario
+    then:
+        - output.esp8266_pwm.set_frequency:
+            id: buzzer
+            frequency: 660
+        - output.set_level:
+            id: buzzer
+            level: 50%
+        - delay: 100ms
+        - output.turn_off: buzzer
+        - delay: 150ms
+        - output.esp8266_pwm.set_frequency:
+            id: buzzer
+            frequency: 660
+        - output.set_level:
+            id: buzzer
+            level: 50%
+        - delay: 100ms
+        - output.turn_off: buzzer
+        - delay: 300ms
+        - output.esp8266_pwm.set_frequency:
+            id: buzzer
+            frequency: 660
+        - output.set_level:
+            id: buzzer
+            level: 50%
+        - delay: 100ms
+        - output.turn_off: buzzer
+        - delay: 300ms
+        - output.esp8266_pwm.set_frequency:
+            id: buzzer
+            frequency: 510
+        - output.set_level:
+            id: buzzer
+            level: 50%
+        - delay: 100ms
+        - output.turn_off: buzzer
+        - delay: 100ms
+        - output.esp8266_pwm.set_frequency:
+            id: buzzer
+            frequency: 660
+        - output.set_level:
+            id: buzzer
+            level: 50%
+        - delay: 100ms
+        - output.turn_off: buzzer
+        - delay: 300ms
+        - output.esp8266_pwm.set_frequency:
+            id: buzzer
+            frequency: 770
+        - output.set_level:
+            id: buzzer
+            level: 50%
+        - delay: 100ms
+        - output.turn_off: buzzer
+        - delay: 550ms
+        - output.esp8266_pwm.set_frequency:
+            id: buzzer
+            frequency: 380
+        - output.set_level:
+            id: buzzer
+            level: 50%
+        - delay: 100ms
+        - output.turn_off: buzzer
 switch:
   - platform: restart
     name: ${friendly_name} (${room}) Restart
-text_sensor:
-  - platform: sun
-    name: ${friendly_name} (${room}) Sonnenaufgang
-    type: sunrise
-  - platform: sun
-    name: ${friendly_name} (${room}) Sonnenuntergang
-    type: sunset
-  - platform: wifi_info
-    ip_address:
-      name: ${friendly_name} (${room}) IP Address
-      icon: mdi:wifi
+

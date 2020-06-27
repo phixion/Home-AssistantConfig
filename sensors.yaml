@@ -2,10 +2,6 @@
 #███████╗█████╗  ██╔██╗ ██║███████╗██║   ██║██████╔╝███████╗
 #╚════██║██╔══╝  ██║╚██╗██║╚════██║██║   ██║██╔══██╗╚════██║
 #███████║███████╗██║ ╚████║███████║╚██████╔╝██║  ██║███████║
-- platform: travisci
-  api_key: !secret travis_ci_apikey # pragma: allowlist secret
-  branch: master
-  repository: Home-AssistantConfig
 - platform: influxdb
   host: !secret influx_host # pragma: allowlist secret
   port: !secret influx_port # pragma: allowlist secret
@@ -568,28 +564,6 @@
   name: Sonoff POW Combined Voltage
   entity_id: sensor.energy_combined_voltage
 - platform: filter
-  name: "Luftfeuchtigkeit Wohnzimmer (Filtered)"
-  entity_id: sensor.nodemcu_2_tv_relative_luftfeuchtigkeit
-  filters:
-    - filter: outlier
-      window_size: 4
-      radius: 4.0
-    - filter: lowpass
-      time_constant: 10
-      precision: 2
-- platform: filter
-  name: "Temperatur Wohnzimmer Thermometer (Filtered)"
-  entity_id: sensor.nodemcu_2_tv_temperatur
-  filters:
-    - filter: outlier
-      window_size: 4
-      radius: 2.0
-    - filter: lowpass
-      time_constant: 10
-    - filter: time_simple_moving_average
-      window_size: 00:05
-      precision: 2
-- platform: filter
   name: "Temperatur Wohnzimmer Thermostat (Filtered)"
   entity_id: sensor.climate_wohnzimmer_temp
   filters:
@@ -638,36 +612,6 @@
     - memory_percent_used
     - network_tx
     - volume_percentage_used
-- platform: history_stats
-  name: Noise Sensor Today
-  entity_id: binary_sensor.nodemcu_2_tv_noise_sensor
-  state: "on"
-  type: time
-  start: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
-  end: "{{ now() }}"
-- platform: history_stats
-  name: Noise Sensor On Yesterday
-  entity_id: binary_sensor.nodemcu_2_tv_noise_sensor
-  state: "on"
-  type: time
-  end: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
-  duration:
-    hours: 24
-- platform: history_stats
-  name: Noise Sensor On this Week
-  entity_id: binary_sensor.nodemcu_2_tv_noise_sensor
-  state: "on"
-  type: time
-  start: "{{ as_timestamp( now().replace(hour=0).replace(minute=0).replace(second=0) ) - now().weekday() * 86400 }}"
-  end: "{{ now() }}"
-- platform: history_stats
-  name: Noise Sensor On past 30 days
-  entity_id: binary_sensor.nodemcu_2_tv_noise_sensor
-  state: "on"
-  type: time
-  end: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
-  duration:
-    days: 30
 - platform: history_stats
   name: Heating Bad On Today
   entity_id: binary_sensor.heating_bad
@@ -920,12 +864,6 @@
 #- platform: serial
 #  serial_port: /dev/ttyUSB1
 #  baudrate: 9600
-- platform: rest
-  resource: https://api.travis-ci.org/repos/phixion/Home-AssistantConfig/builds
-  headers:
-    Accept: application/vnd.travis-ci.2+json
-  value_template: "{{ value_json.builds[0].state }}"
-  name: Travis Build Status
 - platform: myjdownloader
   email: !secret jd_user
   password: !secret jd_passwd

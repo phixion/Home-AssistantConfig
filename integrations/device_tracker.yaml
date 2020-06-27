@@ -13,6 +13,7 @@ device_tracker:
       - device_tracker.pixel_gps
       - device_tracker.pixel_wifi
       - device_tracker.pixel_gmaps
+#      - device_tracker.google_maps_103287020705128769285
   - platform: composite
     name: "Google Nexus"
     time_as: device_or_local
@@ -30,6 +31,8 @@ device_tracker:
     port: !secret traccar_port # pragma: allowlist secret
     username: !secret traccar_usr # pragma: allowlist secret
     password: !secret traccar_pwd # pragma: allowlist secret
+    consider_home: 180
   - platform: google_maps
     username: !secret gmaps_username # pragma: allowlist secret
     max_gps_accuracy: 50
+    consider_home: 180

@@ -2,26 +2,26 @@ substitutions:
   devicename: schalter2
   friendly_name: Schalter Schrank
   room: Wohnzimmer
+  update_interval_short: 2min
   update_interval_long: 10min
-  update_interval_short: 2s
   icon: mdi:power-standby
 esphome:
-  on_boot:
-    priority: -10
-    then:
-      - switch.turn_on: relay
   name: ${devicename}
   platform: ESP8266
   board: esp01_1m
   board_flash_mode: dout # https://github.com/arendst/Tasmota/blob/66d9ff14ac804ea6f63fe6e2f371357a138d3bba/README.md#attention-all-versions
-logger:
+  on_boot:
+    priority: -10
+    then:
+      - switch.turn_on: relay
 wifi: !include shared/wifi.yaml
-sensor: !include shared/sensors.yaml
-web_server: !include shared/webserver.yaml
 time: !include shared/time.yaml
-text_sensor: !include shared/textsensors.yaml
 api: !include shared/api.yaml
 ota: !include shared/ota.yaml
+text_sensor: !include shared/textsensors.yaml
+web_server: !include shared/webserver.yaml
+captive_portal:
+logger:
 output:
   - platform: gpio
     pin: GPIO12
@@ -36,25 +36,9 @@ light:
     name: ${friendly_name} (${room}) LED
     output: ${devicename}_light
     id: ${devicename}_led
-switch:
-  - platform: gpio
-    pin: GPIO12
-    id: relay
-    restore_mode: ALWAYS_ON
-  - platform: restart
-    name: ${friendly_name} (${room}) Restart
-  - platform: template
-    name: ${friendly_name} (${room}) Relay
-    optimistic: true
-    id: ${devicename}_button
-    turn_on_action:
-      - switch.turn_on: relay
-      - light.turn_on: ${devicename}_led
-    turn_off_action:
-      - switch.turn_off: relay
-      - light.turn_off: ${devicename}_led
 binary_sensor:
   - platform: gpio
+    internal: true
     pin:
       number: GPIO0
       mode: INPUT_PULLUP
@@ -64,3 +48,46 @@ binary_sensor:
       - switch.toggle: ${devicename}_button
   - platform: status
     name: ${friendly_name} (${room}) Status
+sensor:
+  - platform: dht
+    pin: GPIO14
+    model: SI7021
+    temperature:
+      name: ${friendly_name} (${room}) Temperatur
+      unit_of_measurement: "°C"
+      icon: "mdi:thermometer-lines"
+      accuracy_decimals: 2
+      force_update: true
+    humidity:
+      name: ${friendly_name} (${room}) Luftfeuchtigkeit
+      accuracy_decimals: 2
+      force_update: true
+      icon: "mdi:water-percent"
+  - platform: wifi_signal
+    name: ${friendly_name} (${room}) WiFi Signal
+    update_interval: ${update_interval_long}
+    unit_of_measurement: dB
+    icon: mdi:wifi
+    force_update: true
+  - platform: uptime
+    force_update: true
+    id: ${devicename}_uptime
+    internal: true
+    update_interval: ${update_interval_short}
+switch:
+  - platform: restart
+    name: ${friendly_name} (${room}) Restart
+  - platform: template
+    restore_state: true
+    name: ${friendly_name} (${room}) Relay
+    optimistic: true
+    id: ${devicename}_button
+    turn_on_action:
+      - switch.turn_on: relay
+      - light.turn_on: ${devicename}_led
+    turn_off_action:
+      - switch.turn_off: relay
+      - light.turn_off: ${devicename}_led
+  - platform: gpio
+    id: relay
+    pin: GPIO12

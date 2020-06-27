@@ -8,4 +8,4 @@
     force_update: true
     id: ${devicename}_uptime
     internal: true
-    update_interval: ${update_interval_short}
+    update_interval: ${update_interval_long}

@@ -6,23 +6,23 @@ light.schalter_1_flur_light:
     - Lampe Flur
     - Flurlicht
     - Flur
-light.bulbflur_rgb:
-  expose: true
-  room: Flur
-  name: Flur RGB
-  aliases:
-    - RGB Flurlampe
-    - RGB Flurlicht
-    - RGB Flur
-light.bulbflur_cwww:
-  expose: true
-  room: Flur
-  name: Flur Weiss
-  aliases:
-    - Helle Flurlampe
-    - Weisses Flurlicht
-    - Weisse Flurlampe
-    - Helles FLurlicht
+#light.bulbflur_rgb:
+#  expose: true
+#  room: Flur
+#  name: Flur RGB
+#  aliases:
+#    - RGB Flurlampe
+#    - RGB Flurlicht
+#    - RGB Flur
+#light.bulbflur_cwww:
+#  expose: true
+#  room: Flur
+#  name: Flur Weiss
+#  aliases:
+#    - Helle Flurlampe
+#    - Weisses Flurlicht
+#    - Weisse Flurlampe
+#    - Helles FLurlicht
 light.schalter_1_bad_light:
   expose: true
   room: Bad
@@ -33,23 +33,23 @@ light.schalter_1_bad_light:
     - Flur
     - Klo
     - Restroom
-light.bulbbad_rgb:
-  expose: true
-  room: Bad
-  name: Bad RGB
-  aliases:
-    - RGB Badlampe
-    - RGB Badlicht
-    - RGB Bad
-light.bulbbad_cwww:
-  expose: true
-  room: Bad
-  name: Bad Weiss
-  aliases:
-    - Helle Badlampe
-    - Weisses Badlicht
-    - Weisse Badlampe
-    - Helles Badlicht
+#light.bulbbad_rgb:
+#  expose: true
+#  room: Bad
+#  name: Bad RGB
+#  aliases:
+#    - RGB Badlampe
+#    - RGB Badlicht
+#    - RGB Bad
+#light.bulbbad_cwww:
+#  expose: true
+#  room: Bad
+#  name: Bad Weiss
+#  aliases:
+#    - Helle Badlampe
+#    - Weisses Badlicht
+#    - Weisse Badlampe
+#    - Helles Badlicht
 light.schalter_schrank_kuche_light:
   expose: true
   room: Küche

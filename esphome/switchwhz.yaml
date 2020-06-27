@@ -56,10 +56,14 @@ switch:
          data:
             entity_id: light.mood_lights_cwww
       - homeassistant.service:
-         service: light.turn_on
-         data:
-            entity_id: light.led_whz
-            brightness: "255"
+          service: scene.create
+          data:
+            scene_id: wohnzimmer_on_the_fly
+            snapshot_entities: 'light.mood_lights_rgb'
+      - homeassistant.service:
+          service: light.turn_off
+          data:
+            entity_id: light.mood_lights_rgb
     turn_off_action:
       - switch.turn_off: relay
       - light.turn_off: ${devicename}_led
@@ -68,9 +72,10 @@ switch:
           data:
             entity_id: light.mood_lights_cwww
       - homeassistant.service:
-          service: light.turn_off
+          service: scene.turn_on
           data:
-            entity_id: light.led_whz
+            entity_id: scene.wohnzimmer_on_the_fly
+            transition: '3'
 binary_sensor:
   - platform: gpio
     pin:
