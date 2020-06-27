@@ -8,11 +8,11 @@
 logger:
   default: warning
   logs:
-    homeassistant.components.scrape.sensor: debug
-    homeassistant.components.http.ban: warning
     homeassistant.components.google_assistant.http: debug
     homeassistant.components.google_cloud: debug
     homeassistant.components.google: debug
+    homeassistant.components.scrape.sensor: debug
+    homeassistant.components.http.ban: warning
     custom_components.sensor.authenticated: debug
     aiounifi: info
     homeassistant.components.unifi: info
