@@ -31,10 +31,10 @@ jobs:
         run: rename -v 's/travis_//' $(pwd)/doc/travis/*.{yaml,json}
       - name: copy critical yamls
         run: cp $(pwd)/doc/travis/*.{yaml,json} .
-      - name: create tmp/
-        run: mkdir $(pwd)/tmp
+      - name: create /config/tmp/
+        run: mkdir $GITHUB_WORKSPACE/tmp
       - name: fix path in configuration.yaml
-        run: sed -i "s@/config/tmp@$(pwd)/tmp@" configuration.yaml
+        run: sed -i "s@/config/tmp@$GITHUB_WORKSPACE/tmp@" configuration.yaml
       - name: create gmaps cookie
         run: echo "# Netscape HTTP Cookie File\n0 0\n0 0\n0 0" > $(pwd)/.google_maps_location_sharing.cookies.joedoe_gmail_com
       - name: Home Assistant Check Latest
