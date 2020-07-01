@@ -1,7 +1,6 @@
 # My Home-Assitant Config
 
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/phixion/Home-AssistantConfig/Home%20Assistant%20Installed?label=installed)](https://github.com/phixion/Home-AssistantConfig/actions?query=workflow%3A%22Home+Assistant+Installed%22)
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/phixion/Home-AssistantConfig/Home%20Assistant%20Latest?label=latest)](https://github.com/phixion/Home-AssistantConfig/actions?query=workflow%3A%22Home+Assistant+Latest%22)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/phixion/Home-AssistantConfig/Home%20Assistant%20CI?label=build)](https://github.com/phixion/Home-AssistantConfig/actions?query=workflow%3A%22Home+Assistant+CI%22)
 [![Pre Commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 [![Black Duck Security Risk](https://copilot.blackducksoftware.com/github/repos/phixion/Home-AssistantConfig/branches/master/badge-risk.svg)](https://copilot.blackducksoftware.com/github/repos/phixion/Home-AssistantConfig/branches/master)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
