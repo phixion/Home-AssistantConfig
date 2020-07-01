@@ -1,6 +1,5 @@
 networks:
   - ssid: !secret iot_ssid # pragma: allowlist secret
-    bssid: !secret iot_bssid # pragma: allowlist secret
     password: !secret phixnet_wifi_iot_pwd # pragma: allowlist secret
     hidden: true
 fast_connect: true
