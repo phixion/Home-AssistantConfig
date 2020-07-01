@@ -17,8 +17,8 @@ camera:
     mjpeg_url: "http://ftp.kaufhaus.ludwigbeck.de/webcam/webcam.jpg"
     name: Marienplatz Beck
   - platform: mjpeg
-    mjpeg_url: "https://images-webcams.windy.com/10/1512053210/current/full/1512053210.jpg"
-    name: Westin Grand
+    mjpeg_url: "https://www.foto-webcam.eu/webcam/tum-olympiapark/current/1200.jpg"
+    name: Olympiapark
   - platform: mjpeg
     mjpeg_url: "https://www.foto-webcam.eu/webcam/freimann/current/1200.jpg"
     name: Freimann
@@ -28,11 +28,17 @@ camera:
   - platform: mjpeg
     mjpeg_url: "http://hb-webcam.registrierung.net/biergarten.jpg"
     name: Wiener Platz
+  - platform: mjpeg
+    mjpeg_url: "https://www.foto-webcam.eu/webcam/sonnenbichl/current/1200.jpg"
+    name: Mum / Dad
   - platform: generic
     name: Nest Cam
     still_image_url: !secret nest_image # pragma: allowlist secret
     stream_source: !secret nest_stream # pragma: allowlist secret
     verify_ssl: false
+  - platform: mjpeg
+    mjpeg_url: !secret nest_image # pragma: allowlist secret
+    name: Nest Cam File
 #  - platform: local_file
 #    file_path: tmp/deepstack_object_local_file_latest_person.jpg
 #    name: deepstack_latest_person

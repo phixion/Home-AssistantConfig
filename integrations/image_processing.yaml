@@ -1,0 +1,26 @@
+#██╗███╗   ███╗ █████╗  ██████╗ ███████╗    ██████╗ ██████╗  ██████╗  ██████╗███████╗███████╗███████╗██╗███╗   ██╗ ██████╗ 
+#██║████╗ ████║██╔══██╗██╔════╝ ██╔════╝    ██╔══██╗██╔══██╗██╔═══██╗██╔════╝██╔════╝██╔════╝██╔════╝██║████╗  ██║██╔════╝ 
+#██║██╔████╔██║███████║██║  ███╗█████╗      ██████╔╝██████╔╝██║   ██║██║     █████╗  ███████╗███████╗██║██╔██╗ ██║██║  ███╗
+#██║██║╚██╔╝██║██╔══██║██║   ██║██╔══╝      ██╔═══╝ ██╔══██╗██║   ██║██║     ██╔══╝  ╚════██║╚════██║██║██║╚██╗██║██║   ██║
+#██║██║ ╚═╝ ██║██║  ██║╚██████╔╝███████╗    ██║     ██║  ██║╚██████╔╝╚██████╗███████╗███████║███████║██║██║ ╚████║╚██████╔╝
+#╚═╝╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝    ╚═╝     ╚═╝  ╚═╝ ╚═════╝  ╚═════╝╚══════╝╚══════╝╚══════╝╚═╝╚═╝  ╚═══╝ ╚═════╝ 
+#                                                                                                                          
+image_processing:
+#  - platform: deepstack_face
+#    ip_address: !secret facebox_host
+#    port: !secret facebox_port
+#    source:
+#      - entity_id: camera.nest_cam_file
+#        name: Facebox
+  - platform: deepstack_face
+    ip_address: !secret local_ip
+    port: 5000
+    api_key: !secret deepstack_api
+    timeout: 5
+    detect_only: False
+    save_file_folder: /config/tmp/
+    save_timestamped_file: True
+    show_boxes: True
+    source:
+      - entity_id: camera.nest_cam_file
+        name: face_counter

@@ -32,18 +32,18 @@
 #HA_version for travis CI
 !.HA_version
 
-#travis CI
-!travis/
-!travis/travis_*.yaml
-!travis/*.json
+#Stub files
+!.doc/
+!.doc/CI/*.yaml
+!.doc/CI/*.json
 
 #custom_components directory
 !custom_components/
 !custom_components/**
 
 #doc
-!doc/
-!doc/**
+!.doc/
+!.doc/**
 
 #www/_static
 !www/

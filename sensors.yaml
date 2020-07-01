@@ -440,9 +440,9 @@
       entity_id: device_tracker.macbook_air
       unit_of_measurement: "%"
       device_class: battery
-    date_muellabfuhr:
-      friendly_name: Müllabfuhr
-      value_template: "{{ states.calendar.mullabfuhr.attributes.start_time }}"
+#    date_muellabfuhr:
+#      friendly_name: Müllabfuhr
+#      value_template: "{{ states.calendar.mullabfuhr.attributes.start_time }}"
     heating_time_bad:
       friendly_name: Heating Time Bad
       icon_template: mdi:radiator

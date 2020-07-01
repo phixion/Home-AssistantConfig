@@ -1,0 +1,78 @@
+---
+name: Home Assistant CI
+
+# yamllint disable-line rule:truthy
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: 0 12 * * *
+
+jobs:
+  super-linter:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Getting your configuration from GitHub
+        uses: actions/checkout@v2
+      - name: Super Lint
+        uses: github/super-linter@v2.1.0
+        env:
+          VALIDATE_ALL_CODEBASE: false
+          VALIDATE_YAML: true
+          VALIDATE_MD: true
+          VALIDATE_SHELL: true
+          DISABLE_ERRORS: true
+  home_assistant_stable:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Getting your configuration from GitHub
+        uses: actions/checkout@v1
+      - name: Install dependencies
+        run: sudo apt-get -qq update && sed 's/#.*//' $(pwd)/.doc/CI/ubuntu_deps.lst | xargs sudo apt-get install -y -o Dpkg::Options::=--force-confnew
+      - name: Copy stub files into configuration folder
+        run: cp -R ./.doc/CI/* ./config
+      - name: Home Assistant Version
+        uses: "docker://homeassistant/home-assistant:stable"
+        with:
+          args: |
+            python -m homeassistant --version
+      - name: Home Assistant Check
+        uses: "docker://homeassistant/home-assistant:stable"
+        with:
+          args: python -m homeassistant --config ./config/ --script check_config --info all
+  home_assistant_beta:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Getting your configuration from GitHub
+        uses: actions/checkout@v1
+      - name: Install dependencies
+        run: sudo apt-get -qq update && sed 's/#.*//' $(pwd)/.doc/CI/ubuntu_deps.lst | xargs sudo apt-get install -y -o Dpkg::Options::=--force-confnew
+      - name: Copy stub files into configuration folder
+        run: cp -R ./.doc/CI/* ./config
+      - name: Home Assistant Version
+        uses: "docker://homeassistant/home-assistant:beta"
+        with:
+          args: |
+            python -m homeassistant --version
+      - name: Home Assistant Check
+        uses: "docker://homeassistant/home-assistant:beta"
+        with:
+          args: python -m homeassistant --config ./config/ --script check_config --info all
+  home_assistant_dev:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Getting your configuration from GitHub
+        uses: actions/checkout@v1
+      - name: Install dependencies
+        run: sudo apt-get -qq update && sed 's/#.*//' $(pwd)/.doc/CI/ubuntu_deps.lst | xargs sudo apt-get install -y -o Dpkg::Options::=--force-confnew
+      - name: Copy stub files into configuration folder
+        run: cp -R ./.doc/CI/* ./config
+      - name: Home Assistant Version
+        uses: "docker://homeassistant/home-assistant:dev"
+        with:
+          args: |
+            python -m homeassistant --version
+      - name: Home Assistant Check
+        uses: "docker://homeassistant/home-assistant:dev"
+        with:
+          args: python -m homeassistant --config ./config/ --script check_config --info all

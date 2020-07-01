@@ -88,8 +88,8 @@
   action:
     - service: switch.turn_on
       entity_id: switch.wiser_away_mode
-#    - service: switch.turn_on
-#      entity_id: switch.restreamer
+    - service: switch.turn_on
+      entity_id: switch.restreamer
     - service: light.turn_off
       entity_id:
         - light.all_lights
@@ -105,11 +105,11 @@
 #      data:
 #        entity_id:
 #          - camera.nest_cam
-#    - delay: 00:02:00
-#    - service: ffmpeg.restart
-#      data:
-#        entity_id:
-#          - binary_sensor.motion_sensor
+    - delay: 00:02:00
+    - service: ffmpeg.restart
+      data:
+        entity_id:
+          - binary_sensor.motion_sensor
 - alias: Set Home Mode Vacation
   id: "6"
   trigger:

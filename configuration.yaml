@@ -37,4 +37,5 @@ homeassistant:
   latitude: !secret home_lat
   longitude: !secret home_lon
   elevation: !secret home_ela
-
+  whitelist_external_dirs:
+    - /config/tmp/

@@ -20,16 +20,49 @@
 #      data:
 #        entity_id:
 #          - binary_sensor.motion_sensor
-- alias: Restart Nodemcu 4 and 5
+- alias: Restart Motion Sensor Kueche
   id: 27a
   trigger:
-    - platform: time_pattern
-      hours: /24
-  condition:
-    condition: time
-    after: "00:05:00"
+    - platform: state
+      entity_id: binary_sensor.nodemcu_4_kuche_doppler_sensor
+      to: "unavailable"
+      for:
+        minutes: 2
   action:
     - service: switch.toggle
       entity_id:
         - switch.nodemcu_4_kuche_restart
+- alias: Restart Motion Sensor Bad
+  id: 27b
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.nodemcu_5_bad_doppler_sensor
+      to: "unavailable"
+      for:
+        minutes: 2
+  action:
+    - service: switch.toggle
+      entity_id:
         - switch.nodemcu_5_bad_restart
+- alias: Restart Motion Sensor Wohnzimmer
+  id: "27c"
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.motion_sensor
+      to: "unavailable"
+      for:
+        minutes: 10
+#  condition:
+#    condition: or
+#    conditions:
+#      - condition: state
+#        entity_id: input_select.home_mode
+#        state: Away
+#      - condition: state
+#        entity_id: input_select.home_mode
+#        state: Vacation
+  action:
+    - service: ffmpeg.restart
+      data:
+        entity_id:
+          - binary_sensor.motion_sensor

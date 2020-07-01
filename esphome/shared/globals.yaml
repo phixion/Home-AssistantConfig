@@ -2,3 +2,7 @@
     type: double
     restore_value: no
     initial_value: "0.7"
+  - id: iaq_index
+    type: int
+    restore_value: no
+    initial_value: "0"
