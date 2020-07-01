@@ -80,7 +80,6 @@
 !automations/*.yaml
 
 #ensure
-secrets.yaml
 *.db
 *.log
 *.pyc
@@ -91,7 +90,6 @@ ip_bans.yaml
 .cloud/
 .google.token
 .google*cookie*
-google*.json
 nogit_*
 ad_whitelist.txt
 __pycache__/

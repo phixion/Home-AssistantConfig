@@ -6,7 +6,6 @@
 # ╚═════╝ ╚═════╝ ╚═╝  ╚═══╝╚═╝     ╚═╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝
 automation: !include_dir_merge_list automations/
 script: !include scripts.yaml
-upnp: !include upnp.yaml
 scene: !include scenes.yaml
 zone: !include zones.yaml
 panel_iframe: !include panels.yaml
