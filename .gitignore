@@ -45,12 +45,14 @@
 !.doc/
 !.doc/**
 
-#www/_static
+#www/_static + motion
 !www/
 !_static/
 !icons/
 !www/_static/**
 !www/_static/icons/*
+!motion/
+!www/motion/**
 
 #integrations directory
 !integrations/

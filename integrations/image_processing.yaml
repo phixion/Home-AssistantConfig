@@ -18,7 +18,7 @@ image_processing:
     api_key: !secret deepstack_api
     timeout: 5
     detect_only: False
-    save_file_folder: /config/tmp/
+    save_file_folder: /config/www/motion
     save_timestamped_file: True
     show_boxes: True
     source:
