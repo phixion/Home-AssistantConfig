@@ -30,7 +30,7 @@ jobs:
       - name: Install dependencies
         run: sudo apt-get -qq update && sed 's/#.*//' $(pwd)/.doc/CI/ubuntu_deps.lst | xargs sudo apt-get install -y -o Dpkg::Options::=--force-confnew
       - name: Copy stub files into configuration folder
-        run: cp -R ./.doc/CI/* ./config
+        run: cp -R ./.doc/CI/* .
       - name: Home Assistant Version
         uses: "docker://homeassistant/home-assistant:stable"
         with:
@@ -39,7 +39,7 @@ jobs:
       - name: Home Assistant Check
         uses: "docker://homeassistant/home-assistant:stable"
         with:
-          args: python -m homeassistant --config ./config/ --script check_config --info all
+          args: python -m homeassistant --config . --script check_config --info all
   home_assistant_beta:
     runs-on: ubuntu-latest
     steps:
@@ -48,7 +48,7 @@ jobs:
       - name: Install dependencies
         run: sudo apt-get -qq update && sed 's/#.*//' $(pwd)/.doc/CI/ubuntu_deps.lst | xargs sudo apt-get install -y -o Dpkg::Options::=--force-confnew
       - name: Copy stub files into configuration folder
-        run: cp -R ./.doc/CI/* ./config
+        run: cp -R ./.doc/CI/* .
       - name: Home Assistant Version
         uses: "docker://homeassistant/home-assistant:beta"
         with:
@@ -57,7 +57,7 @@ jobs:
       - name: Home Assistant Check
         uses: "docker://homeassistant/home-assistant:beta"
         with:
-          args: python -m homeassistant --config ./config/ --script check_config --info all
+          args: python -m homeassistant --config . --script check_config --info all
   home_assistant_dev:
     runs-on: ubuntu-latest
     steps:
@@ -66,7 +66,7 @@ jobs:
       - name: Install dependencies
         run: sudo apt-get -qq update && sed 's/#.*//' $(pwd)/.doc/CI/ubuntu_deps.lst | xargs sudo apt-get install -y -o Dpkg::Options::=--force-confnew
       - name: Copy stub files into configuration folder
-        run: cp -R ./.doc/CI/* ./config
+        run: cp -R ./.doc/CI/* .
       - name: Home Assistant Version
         uses: "docker://homeassistant/home-assistant:dev"
         with:
@@ -75,4 +75,4 @@ jobs:
       - name: Home Assistant Check
         uses: "docker://homeassistant/home-assistant:dev"
         with:
-          args: python -m homeassistant --config ./config/ --script check_config --info all
+          args: python -m homeassistant --config . --script check_config --info all
