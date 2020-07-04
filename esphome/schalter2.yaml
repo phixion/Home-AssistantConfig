@@ -56,11 +56,11 @@ sensor:
       name: ${friendly_name} (${room}) Temperatur
       unit_of_measurement: "°C"
       icon: "mdi:thermometer-lines"
-      accuracy_decimals: 2
+      accuracy_decimals: 1
       force_update: true
     humidity:
       name: ${friendly_name} (${room}) Luftfeuchtigkeit
-      accuracy_decimals: 2
+      accuracy_decimals: 1
       force_update: true
       icon: "mdi:water-percent"
       unit_of_measurement: "%"
