@@ -42,7 +42,7 @@ sensor:
         - filter_out: 65021
     address: 0x5A
     update_interval: ${update_interval_short}
-    baseline: 0x947C
+    baseline: 0x8477
     temperature: hassio_temp
     humidity: hassio_humidity
   - platform: homeassistant
@@ -59,7 +59,7 @@ sensor:
     id: hassio_pressure
     internal: true
     entity_id: sensor.dark_sky_pressure 
-    unit_of_measurement: mbar
+    unit_of_measurement: hpa
   - platform: sun
     name: ${friendly_name} (${room}) Sonne Elevation
     type: elevation
