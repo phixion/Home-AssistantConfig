@@ -111,6 +111,14 @@ light.mood_lights_rgb:
   expose: true
   room: Wohnzimmer
   name: Mood Lights RGB
+light.wled_schrank:
+  expose: true
+  room: Wohnzimmer
+  name: LED-Strip Schrank
+light.wled_schreibtisch:
+  expose: true
+  room: Wohnzimmer
+  name: LED-Strip Schreibtisch
 light.mood_lights_cwww:
   expose: true
   name: Mood Lights CWWW
@@ -148,14 +156,14 @@ sensor.climate_flur_temp:
     - Temperatur Flur
     - Temperatur
     - Thermometer
-sensor.climate_wohnzimmer_temp:
-  expose: true
-  name: Temperatur
-  room: Wohnzimmer
-  aliases:
-    - Temperatur Wohnzimmer
-    - Temperatur
-    - Thermometer
+#sensor.climate_wohnzimmer_temp:
+#  expose: true
+#  name: Temperatur
+#  room: Wohnzimmer
+#  aliases:
+#    - Temperatur Wohnzimmer
+#    - Temperatur
+#    - Thermometer
 sensor.climate_wohnung_temp:
   expose: true
   name: Temperatur
@@ -203,3 +211,12 @@ media_player.android_tv:
     - Fernseher
     - TV
     - Android TV
+scene.chilly:
+  expose: true
+  name: Chill
+  room: Wohnzimmer
+  aliases:
+    - Chill
+    - Chill Out
+    - Chill Out Scene
+    - Chill Out Szene

@@ -137,7 +137,7 @@
   client_id: !secret reddit_client_id # pragma: allowlist secret
   client_secret: !secret reddit_client_secret # pragma: allowlist secret
   subreddits:
-    - gamedeals
+    - gamedealsfree
   sort_by: new
 - platform: feedparser
   name: !secret feed_1_name # pragma: allowlist secret
@@ -150,7 +150,7 @@
     - image
 - platform: feedparser
   name: rss free steam keys
-  feed_url: "https://www.reddit.com/r/GameDeals/search.rss?q=free&[STEAM]sort=new&restrict_sr=on&t=all.rss"
+  feed_url: 'https://www.reddit.com/r/GameDeals/search.rss?q=subreddit%3AGameDeals+AND+title%3A("free"+OR+"100%25"+OR+"%240.00"+OR+"Giveaway")&restrict_sr=&include_over_18=on&sort=new&t=all.rss'
   inclusions:
     - title
     - link
@@ -707,6 +707,11 @@
   name: wtfisxur
   resource: https://wherethefuckisxur.com/
   select: "h1.page-title"
+#- platform: scrape
+#  scan_interval: 10000000
+#  name: wtfnf
+#  resource: https://wherethefuckisxur.com/data/currentcycles
+#  select: "ul.nightfalls"
 #- platform: scrape
 #  scan_interval: 120
 #  name: div2dailies

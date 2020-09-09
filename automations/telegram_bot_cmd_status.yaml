@@ -1,0 +1,93 @@
+- alias: "Telegram send camera picture"
+  id: "35a"
+  trigger:
+    platform: event
+    event_type: telegram_callback
+    event_data:
+      command: "/status"
+#  condition:
+#    - condition: state
+#      entity_id: binary_sensor.dark_outside
+#      state: "on"
+  action:
+    - service: telegram_bot.answer_callback_query
+      data_template:
+        callback_query_id: "{{ trigger.event.data.id }}"
+        message: "Status"
+#    - service: light.turn_on
+#      entity_id:
+#        - light.schalter_1_wohnzimmer_light
+#        - light.mood_lights_cwww
+    - delay: 00:01:00
+    - service: camera.snapshot
+      data_template:
+        entity_id: camera.nest_cam
+        filename: tmp/motion_{{ now().strftime("%Y%m%d_%H%M") }}.jpg
+#    - service: light.turn_off
+#      entity_id:
+#        - light.schalter_1_wohnzimmer_light
+#        - light.mood_lights_cwww
+    - service: telegram_bot.send_photo
+      data_template:
+        disable_notification: true
+        target: "{{ trigger.event.data.user_id }}"
+        caption: '{{states("sensor.date_time_iso")}}'
+        file: 'tmp/motion_{{ now().strftime("%Y%m%d_%H%M") }}.jpg'
+    - service: telegram_bot.send_message
+      data_template:
+        target: "{{ trigger.event.data.user_id }}"
+        disable_notification: true
+        message: >
+          🏃‍♂️ {{states('binary_sensor.noise_sensor')}}
+           🔊 {{states('binary_sensor.motion_sensor')}}
+           ☀️ {{states('binary_sensor.nodemcu_2_wohnzimmer_light_sensor')}}
+           🚪 {{states('binary_sensor.window_wohnzimmer')}}
+           🔥 Wohnzimmer: {{states('binary_sensor.wiser_wohnzimmer')}}
+           🔥 Flur: {{states('binary_sensor.wiser_flur')}}
+           🔥 Bad: {{states('binary_sensor.wiser_bad')}}
+           💡 {{states('light.all_lights')}}
+           🌐 {{states('sensor.external_ip')}}
+           🔐 {{states('sensor.last_successful_authentication')}}
+           🔏 {{states('sensor.ssl_certificate_expiry_home_inferior_dev')}} Tage
+#- alias: "Telegram send camera picture (Bright)"
+#  id: "35"
+#  trigger:
+#    platform: event
+#    event_type: telegram_callback
+#    event_data:
+#      command: "/status"
+#  condition:
+#    - condition: state
+#      entity_id: binary_sensor.dark_outside
+#      state: "off"
+#  action:
+#    - service: telegram_bot.answer_callback_query
+#      data_template:
+#        callback_query_id: "{{ trigger.event.data.id }}"
+#        message: "Status"
+#    - service: camera.snapshot
+#      data_template:
+#        entity_id: camera.nest_cam
+#        filename: tmp/motion_{{ now().strftime("%Y%m%d_%H%M") }}.jpg
+#    - service: telegram_bot.send_photo
+#      data_template:
+#        disable_notification: true
+#        target: "{{ trigger.event.data.user_id }}"
+#        caption: '{{states("sensor.date_time_iso")}}'
+#        file: 'tmp/motion_{{ now().strftime("%Y%m%d_%H%M") }}.jpg'
+#    - service: telegram_bot.send_message
+#      data_template:
+#        target: "{{ trigger.event.data.user_id }}"
+#        disable_notification: true
+#        message: >
+#          🏃‍♂️ {{states('binary_sensor.noise_sensor')}}
+#           🔊 {{states('binary_sensor.motion_sensor')}}
+#           ☀️ {{states('binary_sensor.nodemcu_2_wohnzimmer_light_sensor')}}
+#           🚪 {{states('binary_sensor.window_wohnzimmer')}}
+#           🔥 Wohnzimmer: {{states('binary_sensor.wiser_wohnzimmer')}}
+#           🔥 Flur: {{states('binary_sensor.wiser_flur')}}
+#           🔥 Bad: {{states('binary_sensor.wiser_bad')}}
+#           💡 {{states('light.all_lights')}}
+#           🌐 {{states('sensor.external_ip')}}
+#           🔐 {{states('sensor.last_successful_authentication')}}
+#           🔏 {{states('sensor.ssl_certificate_expiry_home_inferior_dev')}} Tage

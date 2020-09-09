@@ -9,8 +9,8 @@ light:
   - platform: group
     name: All Lights
     entities:
-#      - light.bulbspotwhzdesk_rgb
-#      - light.bulbspotwhzdesk_cwww
+      #      - light.bulbspotwhzdesk_rgb
+      #      - light.bulbspotwhzdesk_cwww
       - light.bulbspotwhztv_rgb
       - light.bulbspotwhztv_cwww
       - light.bulbwhzlamp_rgb
@@ -35,7 +35,7 @@ light:
   - platform: group
     name: Mood Lights RGB
     entities:
-#      - light.bulbspotwhzdesk_rgb
+      #      - light.bulbspotwhzdesk_rgb
       - light.bulbspotwhztv_rgb
       - light.bulbwhzlamp_rgb
       - light.ledstripwhz1_rgb
@@ -46,10 +46,11 @@ light:
   - platform: group
     name: Mood Lights CWWW
     entities:
-#      - light.bulbspotwhzdesk_cwww
+      #      - light.bulbspotwhzdesk_cwww
       - light.bulbspotwhztv_cwww
       - light.bulbwhzlamp_cwww
       - light.ledstripwhz1_w
+      - light.ledstripwhz2_rgb
   - platform: group
     name: LED Strips RGB
     entities:

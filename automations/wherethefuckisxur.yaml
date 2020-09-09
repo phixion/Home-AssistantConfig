@@ -12,9 +12,9 @@
       data:
         message: "{{states('sensor.wtfisxur')}}"
         target: !secret discord_channel_id0
-        data:
-          images:
-            - http://localhost
+#        data:
+#          images:
+#            - http://localhost
 - alias: Update Xur Sensor
   id: "17"
   trigger:

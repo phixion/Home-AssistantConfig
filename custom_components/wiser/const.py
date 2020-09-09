@@ -1,5 +1,5 @@
 """
-Constants  for Wiser Platform
+Constants  for Wiser Platform.
 
 https://github.com/asantaga/wiserHomeAssistantPlatform
 Angelosantagata@gmail.com
@@ -13,9 +13,11 @@ DOMAIN = "wiser"
 DATA_WISER_CONFIG = "wiser_config"
 VERSION = "1.3.1"
 WISER_PLATFORMS = ["climate", "sensor", "switch"]
+DATA = "data"
+UPDATE_TRACK = "update_track"
+UPDATE_LISTENER = "update_listener"
 
 # Battery Constants
-
 TRV_FULL_BATTERY_LEVEL = 30
 TRV_MIN_BATTERY_LEVEL = 25
 ROOMSTAT_MIN_BATTERY_LEVEL = 17
@@ -37,7 +39,7 @@ DEFAULT_BOOST_TEMP_TIME = 60
 DEFAULT_SCAN_INTERVAL = 30
 
 # Custom Configs
-CONF_BOOST_TEMP = "boost_temp"
+CONF_BOOST_TEMP: str = "boost_temp"
 CONF_BOOST_TEMP_TIME = "boost_time"
 
 

@@ -41,9 +41,9 @@
     platform: state
     entity_id: input_select.home_mode
     to: Home
-  condition:
-    condition: time
-    before: "18:00:00"
+#  condition:
+#    condition: time
+#    before: "18:00:00"
   action:
     - service: notify.telegram
       data:
@@ -52,33 +52,33 @@
       entity_id: switch.wiser_away_mode
     - service: switch.turn_on
       entity_id: switch.schalter_1_flur_relay
-    - service: media_player.volume_set
-      data:
-        entity_id: media_player.google_nest_hub
-        volume_level: 0.01
-    - delay: 00:00:20
-    - service: media_player.volume_set
-      data:
-        entity_id: media_player.google_nest_hub
-        volume_level: 0.37
-    - delay: 00:01:05
-    - service: rest_command.assistant_broadcast
-      data_template:
-        command:
-          Hallo Martin heute ist {{ ['Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag','Sonntag'][now().weekday()]
-          }}. Die Zimmertemperatur betraegt {{states('sensor.climate_wohnung_temp')}}
-          Grad Celsius. Das Wetter ist {{states('sensor.dark_sky_summary')}} bei {{states('sensor.dark_sky_temperature')}}
-          Grad Celsius. Du bist heute bereits {{states('sensor.google_fit_martin_move_time')}}
-          Minuten und {{states('sensor.google_fit_martin_steps')}} Schritte gelaufen, mach weiter so!
-    - delay: 00:00:01
-    - service: rest_command.assistant_broadcast
-      data_template:
-        command:
-          Ach Ja! in deiner Region sind es mittlerweile {{states('sensor.germany_coronavirus_confirmed')}}
-          Corona infizierte und davon konnten {{states('sensor.germany_coronavirus_recovered')}}
-          geheilt werden, halte dich trotzdem fern! Der naechste Feiertag ist {{(states.calendar.feiertage.attributes.message)}}
-          am  {{ as_timestamp(strptime(state_attr('calendar.feiertage', 'start_time'),
-          '%Y-%m-%d %H:%M:%S')) | timestamp_custom('%Y-%m-%d') }}
+#    - service: media_player.volume_set
+#      data:
+#        entity_id: media_player.google_nest_hub
+#        volume_level: 0.01
+#    - delay: 00:00:20
+#    - service: media_player.volume_set
+#      data:
+#        entity_id: media_player.google_nest_hub
+#        volume_level: 0.37
+#    - delay: 00:01:05
+#    - service: rest_command.assistant_broadcast
+#      data_template:
+#        command:
+#          Hallo Martin heute ist {{ ['Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag','Sonntag'][now().weekday()]
+#          }}. Die Zimmertemperatur betraegt {{states('sensor.climate_wohnung_temp')}}
+#          Grad Celsius. Das Wetter ist {{states('sensor.dark_sky_summary')}} bei {{states('sensor.dark_sky_temperature')}}
+#          Grad Celsius. Du bist heute bereits {{states('sensor.google_fit_martin_move_time')}}
+#          Minuten und {{states('sensor.google_fit_martin_steps')}} Schritte gelaufen, mach weiter so!
+#    - delay: 00:00:01
+#    - service: rest_command.assistant_broadcast
+#      data_template:
+#        command:
+#          Ach Ja! in deiner Region sind es mittlerweile {{states('sensor.germany_coronavirus_confirmed')}}
+#          Corona infizierte und davon konnten {{states('sensor.germany_coronavirus_recovered')}}
+#          geheilt werden, halte dich trotzdem fern! Der naechste Feiertag ist {{(states.calendar.feiertage.attributes.message)}}
+#          am  {{ as_timestamp(strptime(state_attr('calendar.feiertage', 'start_time'),
+#          '%Y-%m-%d %H:%M:%S')) | timestamp_custom('%Y-%m-%d') }}
 - alias: Set Home Mode Away
   id: "5"
   trigger:

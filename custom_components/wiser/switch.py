@@ -1,31 +1,25 @@
 """
-Switch  Platform Device for Wiser Rooms
+Switch  Platform Device for Wiser Rooms.
 
 https://github.com/asantaga/wiserHomeAssistantPlatform
 Angelosantagata@gmail.com
-
 """
-import homeassistant.helpers.config_validation as cv
 import voluptuous as vol
+
+from homeassistant.const import ATTR_ENTITY_ID
+from homeassistant.core import callback
+import homeassistant.helpers.config_validation as cv
+from homeassistant.helpers.dispatcher import async_dispatcher_connect
+
+from .const import _LOGGER, DATA, DOMAIN, MANUFACTURER, WISER_SERVICES, WISER_SWITCHES
+
 try:
     from homeassistant.components.switch import SwitchEntity
 except ImportError:
     from homeassistant.components.switch import SwitchDevice as SwitchEntity
-from homeassistant.const import ATTR_ENTITY_ID
-from homeassistant.core import callback
-from homeassistant.helpers.dispatcher import async_dispatcher_connect
-
-from .const import (
-    _LOGGER,
-    DOMAIN,
-    MANUFACTURER,
-    WISER_SERVICES,
-    WISER_SWITCHES,
-)
 
 ATTR_PLUG_MODE = "plug_mode"
 ATTR_HOTWATER_MODE = "hotwater_mode"
-
 
 SET_PLUG_MODE_SCHEMA = vol.Schema(
     {
@@ -35,13 +29,13 @@ SET_PLUG_MODE_SCHEMA = vol.Schema(
 )
 
 SET_HOTWATER_MODE_SCHEMA = vol.Schema(
-    {vol.Required(ATTR_HOTWATER_MODE, default="auto"): vol.Coerce(str),}
+    {vol.Required(ATTR_HOTWATER_MODE, default="auto"): vol.Coerce(str)}
 )
 
 
 async def async_setup_entry(hass, config_entry, async_add_entities):
-    """Add the Wiser System Switch entities"""
-    data = hass.data[DOMAIN]
+    """Add the Wiser System Switch entities."""
+    data = hass.data[DOMAIN][config_entry.entry_id][DATA]  # Get Handler
 
     # Add System Switches
     wiser_switches = []
@@ -55,9 +49,7 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
     # Add SmartPlugs (if any)
     if data.wiserhub.getSmartPlugs() is not None:
         wiser_smart_plugs = [
-            WiserSmartPlug(
-                data, plug.get("id"), "Wiser {}".format(plug.get("Name"))
-            )
+            WiserSmartPlug(data, plug.get("id"), "Wiser {}".format(plug.get("Name")))
             for plug in data.wiserhub.getSmartPlugs()
         ]
         async_add_entities(wiser_smart_plugs)
@@ -66,14 +58,15 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
     def set_smartplug_mode(service):
         entity_id = service.data[ATTR_ENTITY_ID]
         smart_plug_mode = service.data[ATTR_PLUG_MODE]
-        print("data = {} {}".format(entity_id, smart_plug_mode))
+
+        _LOGGER.debug(
+            "Set Smartplub called - entity %s mode %s ", entity_id, smart_plug_mode,
+        )
 
         for smart_plug in wiser_smart_plugs:
 
             if smart_plug.entity_id == entity_id:
-                hass.async_create_task(
-                    smart_plug.set_smartplug_mode(smart_plug_mode)
-                )
+                hass.async_create_task(smart_plug.set_smartplug_mode(smart_plug_mode))
             smart_plug.schedule_update_ha_state(True)
             break
 
@@ -82,7 +75,7 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
         hotwater_mode = service.data[ATTR_HOTWATER_MODE]
         hass.async_create_task(data.set_hotwater_mode(hotwater_mode))
 
-    """ Register Services """
+    # Register Services
     hass.services.async_register(
         DOMAIN,
         WISER_SERVICES["SERVICE_SET_SMARTPLUG_MODE"],
@@ -99,42 +92,39 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
 
 
 class WiserSwitch(SwitchEntity):
-    """
-    Switch to set the status of the Wiser Operation Mode (Away/Normal)
-    """
+    """Switch to set the status of the Wiser Operation Mode (Away/Normal)."""
 
     def __init__(self, data, switchType, hubKey, icon):
         """Initialize the sensor."""
-        _LOGGER.info("Wiser {} Switch Init".format(switchType))
+        _LOGGER.info("Wiser %s Switch Init", switchType)
         self.data = data
         self._hub_key = hubKey
         self._icon = icon
         self._switch_type = switchType
-        self._awayTemperature = None
+        self._away_temperature = None
 
     async def async_update(self):
-        _LOGGER.debug(
-            "Wiser {} Switch Update requested".format(self._switch_type)
-        )
+        """Async Update to HA."""
+        _LOGGER.debug("Wiser %s Switch Update requested", self._switch_type)
         if self._switch_type == "Away Mode":
-            self._awayTemperature = round(
-                self.data.wiserhub.getSystem().get("AwayModeSetPointLimit")
-                / 10,
-                1,
+            self._away_temperature = round(
+                self.data.wiserhub.getSystem().get("AwayModeSetPointLimit") / 10, 1,
             )
 
     @property
     def name(self):
-        """Return the name of the Device """
+        """Return the name of the Device."""
         return "Wiser " + self._switch_type
 
     @property
     def icon(self):
+        """Return icon."""
         return self._icon
 
     @property
     def unique_id(self):
-        return "{}-{}".format(self._switch_type, self.name)
+        """Return uniqueId."""
+        return f"{self._switch_type}-{self.name}"
 
     @property
     def device_info(self):
@@ -152,10 +142,11 @@ class WiserSwitch(SwitchEntity):
 
     @property
     def device_state_attributes(self):
+        """Return the device state attributes for the attribute card."""
         attrs = {}
 
         if self._switch_type == "Away Mode":
-            attrs["AwayModeTemperature"] = self._awayTemperature
+            attrs["AwayModeTemperature"] = self._away_temperature
 
         return attrs
 
@@ -163,16 +154,15 @@ class WiserSwitch(SwitchEntity):
     def is_on(self):
         """Return true if device is on."""
         status = self.data.wiserhub.getSystem().get(self._hub_key)
-        _LOGGER.debug("{}: {}".format(self._switch_type, status))
+        _LOGGER.debug("%s: %s", self._switch_type, status)
         if self._switch_type == "Away Mode":
             return status and status.lower() == "away"
-        else:
-            return status
+        return status
 
     async def async_turn_on(self, **kwargs):
         """Turn the device on."""
         if self._switch_type == "Away Mode":
-            await self.data.set_away_mode(True, self._awayTemperature)
+            await self.data.set_away_mode(True, self._away_temperature)
         else:
             await self.data.set_system_switch(self._hub_key, True)
         return True
@@ -180,27 +170,31 @@ class WiserSwitch(SwitchEntity):
     async def async_turn_off(self, **kwargs):
         """Turn the device off."""
         if self._switch_type == "Away Mode":
-            await self.data.set_away_mode(False, self._awayTemperature)
+            await self.data.set_away_mode(False, self._away_temperature)
         else:
             await self.data.set_system_switch(self._hub_key, False)
         return True
 
     async def async_added_to_hass(self):
-        """Subscribe for update from the hub"""
+        """Subscribe for update from the hub."""
 
         async def async_update_state():
             """Update sensor state."""
             await self.async_update_ha_state(True)
 
-        async_dispatcher_connect(
-            self.hass, "WiserHubUpdateMessage", async_update_state
+        self.async_on_remove(
+            async_dispatcher_connect(
+                self.hass, "WiserHubUpdateMessage", async_update_state
+            )
         )
 
 
 class WiserSmartPlug(SwitchEntity):
+    """Plug SwitchEntity Class."""
+
     def __init__(self, data, plugId, name):
         """Initialize the sensor."""
-        _LOGGER.info("Wiser {} SmartPlug Init".format(name))
+        _LOGGER.info("Wiser %s SmartPlug Init", name)
         self.plug_name = name
         self.smart_plug_id = plugId
         self.data = data
@@ -208,10 +202,12 @@ class WiserSmartPlug(SwitchEntity):
 
     @property
     def unique_id(self):
-        return "{}-{}".format(self.plug_name, self.smart_plug_id)
+        """Return unique ID for the plug."""
+        return f"{self.plug_name}-{self.smart_plug_id}"
 
     @property
     def icon(self):
+        """Return icon for the plug."""
         return "mdi:power-socket-uk"
 
     @property
@@ -221,9 +217,7 @@ class WiserSmartPlug(SwitchEntity):
         model = None
 
         identifier = self.unique_id
-        model = self.data.wiserhub.getDevice(self.smart_plug_id).get(
-            "ModelIdentifier"
-        )
+        model = self.data.wiserhub.getDevice(self.smart_plug_id).get("ModelIdentifier")
 
         return {
             "name": self.plug_name,
@@ -234,7 +228,7 @@ class WiserSmartPlug(SwitchEntity):
 
     @property
     def name(self):
-        """Return the name of the SmartPlug """
+        """Return the name of the SmartPlug."""
         return self.plug_name
 
     @property
@@ -245,23 +239,19 @@ class WiserSmartPlug(SwitchEntity):
     @property
     def is_on(self):
         """Return true if device is on."""
-        self._is_on = (
-            True
-            if self.data.wiserhub.getSmartPlug(self.smart_plug_id).get(
-                "OutputState"
-            )
-            == "On"
-            else False
+        self._is_on = self.data.wiserhub.getSmartPlug(self.smart_plug_id).get(
+            "OutputState"
         )
-        _LOGGER.debug(
-            "Smartplug {} is currently {}".format(
-                self.smart_plug_id, self._is_on
-            )
-        )
-        return self._is_on
+
+        _LOGGER.debug("Smartplug %s is currently %s", self.smart_plug_id, self._is_on)
+
+        if self._is_on == "On":
+            return True
+        return False
 
     @property
     def device_state_attributes(self):
+        """Return set of device state attributes."""
         attrs = {}
         device_data = self.data.wiserhub.getSmartPlug(self.smart_plug_id)
         attrs["ManualState"] = device_data.get("ManualState")
@@ -284,21 +274,19 @@ class WiserSmartPlug(SwitchEntity):
         return True
 
     async def set_smartplug_mode(self, plug_mode):
-        _LOGGER.debug(
-            "Setting Smartplug {} Mode to {} ".format(
-                self.smart_plug_id, plug_mode
-            )
-        )
-        self.data.wiserhub.setSmartPlugMode(self.smart_plug_id, plug_mode)
+        """Set the smartplug mode."""
+        await self.data.set_smartplug_mode(self.smart_plug_id, plug_mode)
         return True
 
     async def async_added_to_hass(self):
-        """Subscribe for update from the hub"""
+        """Subscribe for update from the hub."""
 
         async def async_update_state():
             """Update sensor state."""
             await self.async_update_ha_state(False)
 
-        async_dispatcher_connect(
-            self.hass, "WiserHubUpdateMessage", async_update_state
+        self.async_on_remove(
+            async_dispatcher_connect(
+                self.hass, "WiserHubUpdateMessage", async_update_state
+            )
         )

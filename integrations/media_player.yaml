@@ -12,6 +12,7 @@ media_player:
     device_class: androidtv
     adb_server_ip: localhost
     adb_server_port: 5037
+    screencap: true
     apps:
       com.netflix.ninja: "Netflix"
       com.google.android.tvlauncher: "Homescreen"

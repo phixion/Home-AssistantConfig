@@ -68,6 +68,6 @@ group:
     name: Motion Detectors
     entities:
       - binary_sensor.motion_sensor
-      - binary_sensor.nodemcu_2_tv_doppler_sensor
+      - binary_sensor.nodemcu_2_wohnzimmer_doppler_sensor
       - binary_sensor.nodemcu_4_kuche_doppler_sensor
       - binary_sensor.nodemcu_5_bad_doppler_sensor

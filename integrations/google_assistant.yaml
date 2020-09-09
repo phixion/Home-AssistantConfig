@@ -11,10 +11,10 @@ google_assistant:
   secure_devices_pin: !secret google_assistant_pin # pragma: allowlist secret
   report_state: false #causes errors in google home console
   expose_by_default: false #setting to true breaks the integration
-  #exposed_domains:
+  exposed_domains:
     #- light
     #- camera
-    #    - scene
+#    - scene
     #- media_player
     #- sensor
     #    - switch

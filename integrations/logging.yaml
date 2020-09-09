@@ -11,7 +11,6 @@ logger:
     homeassistant.components.google_assistant.http: debug
     homeassistant.components.google_cloud: debug
     homeassistant.components.google: debug
-    homeassistant.components.scrape.sensor: debug
     homeassistant.components.http.ban: warning
     custom_components.sensor.authenticated: debug
     aiounifi: info
@@ -22,7 +21,6 @@ logger:
     aioesphomeapi.connection: warn
 recorder:
   purge_keep_days: 30
-#  purge_interval: 1
   db_url: !secret dburl # pragma: allowlist secret
   exclude:
     entities:
@@ -84,8 +82,8 @@ recorder:
       - sensor.network_in_eth0
       - sensor.network_out_eth0
       - sensor.reddit_gamedeals
-      - sensor.nodemcu_2_tv_hohe_nhn
-      - sensor.nodemcu_2_tv_uptime
+      - sensor.nodemcu_2_wohnzimmer_hohe_nhn
+      - sensor.nodemcu_2_wohnzimmer_uptime
       - sensor.schalter_1_bad_uptime
       - sensor.schalter_1_flur_uptime
       - sensor.schalter_1_wohnzimmer_uptime
@@ -140,7 +138,7 @@ logbook:
       - sensor.time_date
       - sensor.time_utc
       - sensor.time
-      - sensor.nodemcu_2_tv_uptime
+      - sensor.nodemcu_2_wohnzimmer_uptime
       - sensor.schalter_1_bad_uptime
       - sensor.schalter_1_flur_uptime
       - sensor.schalter_1_wohnzimmer_uptime
@@ -216,7 +214,7 @@ history:
       - sensor.led_strip_1_wohnzimmer_uptime
       - sensor.led_strip_2_wohnzimmer_uptime
       - sensor.nas_uptime
-      - sensor.nodemcu_2_tv_uptime
+      - sensor.nodemcu_2_wohnzimmer_uptime
       - sensor.schalter_1_bad_uptime
       - sensor.schalter_1_flur_uptime
       - sensor.schalter_1_wohnzimmer_uptime

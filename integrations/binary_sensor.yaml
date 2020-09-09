@@ -77,7 +77,7 @@ binary_sensor:
           - sensor.dark_sky_cloud_coverage
         device_class: light
       dark_inside:
-        value_template: '{{ (states.sensor.nodemcu_2_tv_lichtsensor | float) < 200 }}' # lets consider 200 lux so dark that the cam needs a light
+        value_template: '{{ (states.sensor.nodemcu_2_wohnzimmer_lichtsensor | float) < 200 }}' # lets consider 200 lux so dark that the cam needs a light
         friendly_name: "Dark Inside"
         device_class: light
       window_wohnzimmer:
