@@ -1,0 +1,36 @@
+- alias: New Game Deal
+  id: "1d"
+  trigger:
+    platform: state
+    entity_id: sensor.reddit_gamedealsfree
+  action:
+    - service: notify.android
+      data_template:
+        title: New Game Deal
+        message: "Event triggered: {{ trigger.entity_id }} changed from {{ trigger.from_state.state }} to {{ trigger.to_state.state }}"
+    - service: notify.telegram
+      data_template:
+        title: New Game Deal
+        message: "Event triggered: {{ trigger.entity_id }} changed from {{ trigger.from_state.state }} to {{ trigger.to_state.state }}"
+#    - service: notify.discord
+#      data:
+#        message: "Event triggered: {{ trigger.entity_id }} changed from {{ trigger.from_state.state }} to {{ trigger.to_state.state }}"
+#        target: !secret discord_channel_id0
+- alias: Free Game Key
+  id: "1e"
+  trigger:
+    platform: state
+    entity_id: sensor.freee_game_keys
+  action:
+    - service: notify.android
+      data_template:
+        title: New Game Deal
+        message: "Event triggered: {{ trigger.entity_id }} changed from {{ trigger.from_state.state }} to {{ trigger.to_state.state }}"
+    - service: notify.telegram
+      data_template:
+        title: New Game Deal
+        message: "Event triggered: {{ trigger.entity_id }} changed from {{ trigger.from_state.state }} to {{ trigger.to_state.state }}"
+    - service: notify.discord
+      data:
+        message: "Event triggered: {{ trigger.entity_id }} changed from {{ trigger.from_state.state }} to {{ trigger.to_state.state }}"
+        target: !secret discord_channel_id0

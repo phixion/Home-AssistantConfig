@@ -23,3 +23,7 @@ input_boolean:
     name: Play latest Frenck
     initial: off
     icon: mdi:youtube
+  play_cheeseforever:
+    name: Play latest Cheese Forever
+    initial: off
+    icon: mdi:youtube

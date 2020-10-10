@@ -149,8 +149,36 @@
   exclusions:
     - image
 - platform: feedparser
-  name: rss free steam keys
-  feed_url: 'https://www.reddit.com/r/GameDeals/search.rss?q=subreddit%3AGameDeals+AND+title%3A("free"+OR+"100%25"+OR+"%240.00"+OR+"Giveaway")&restrict_sr=&include_over_18=on&sort=new&t=all.rss'
+  name: RSS Destiny Glitch
+  feed_url: "https://www.reddit.com/r/raidsecrets/search.rss?q=flair%3AGlitch&restrict_sr=on&include_over_18=on&sort=new&t=all.rss"
+  inclusions:
+    - title
+    - link
+    - pubDate
+- platform: feedparser
+  name: RSS Destiny Datamine
+  feed_url: "https://www.reddit.com/r/raidsecrets/search.rss?q=flair%3ADatamine&restrict_sr=on&include_over_18=on&sort=new&t=all.rss"
+  inclusions:
+    - title
+    - link
+    - pubDate
+- platform: feedparser
+  name: RSS Destiny SGA
+  feed_url: "https://www.reddit.com/r/DestinyTheGame/search.rss?q=flair%3ASGA&restrict_sr=on&include_over_18=on&sort=new&t=all.rss"
+  inclusions:
+    - title
+    - link
+    - pubDate
+- platform: feedparser
+  name: RSS Destiny Guide
+  feed_url: "https://www.reddit.com/r/DestinyTheGame/search.rss?q=flair%3AGuide&restrict_sr=on&include_over_18=on&sort=new&t=all.rss"
+  inclusions:
+    - title
+    - link
+    - pubDate
+- platform: feedparser
+  name: Free Game Keys
+  feed_url: "https://www.reddit.com/r/GameDeals/search.rss?q=subreddit:GameDeals%20AND%20title:(%22free%22%20OR%20%22100%%22%20OR%20%22$0.00%22%20OR%20%22Giveaway%22%20NOT%20%22IndieBox%22%20NOT%20%22nintendo%22%20NOT%20%22fanatical%22%20NOT%20%22itchio%22%20NOT%20%22itch.io%22%20NOT%20%22IndieGala%22%20NOT%20%22Groupees%22)&restrict_sr=&include_over_18=on&sort=new&t=all.rss"
   inclusions:
     - title
     - link
@@ -160,6 +188,15 @@
 - platform: feedparser
   name: rss haveibeenpwnd
   feed_url: "http://feeds.feedburner.com/HaveIBeenPwnedLatestBreaches"
+  inclusions:
+    - title
+    - link
+    - pubDate
+  exclusions:
+    - image
+- platform: feedparser
+  name: rss xur
+  feed_url: "https://whereisxur.com/feed/"
   inclusions:
     - title
     - link
@@ -280,45 +317,45 @@
       friendly_name: Flur Modus
       value_template: "{{ states.climate.wiser_flur.attributes.preset_mode | string }}"
     unifi_speedtest_rx:
-      entity_id: sensor.unifi_gateway_www
+      #      entity_id: sensor.unifi_gateway_www
       friendly_name: Download
       unit_of_measurement: MB/s
       value_template: "{{ state_attr('sensor.unifi_gateway_www','xput_down') | default(0) }}"
     unifi_speedtest_tx:
-      entity_id: sensor.unifi_gateway_www
+      #      entity_id: sensor.unifi_gateway_www
       friendly_name: Upload
       unit_of_measurement: MB/s
       value_template: "{{ state_attr('sensor.unifi_gateway_www','xput_up') | default(0) }}"
     unifi_speedtest_ping:
-      entity_id: sensor.unifi_gateway_www
+      #      entity_id: sensor.unifi_gateway_www
       friendly_name: Ping
       unit_of_measurement: ms
       value_template: "{{ state_attr('sensor.unifi_gateway_www','speedtest_ping') | default(0) }}"
     unifi_wlan_user:
-      entity_id: sensor.unifi_gateway_wlan
+      #      entity_id: sensor.unifi_gateway_wlan
       friendly_name: WLAN User
       unit_of_measurement: devices
       value_template: "{{ states.sensor.unifi_gateway_wlan.attributes.num_user | default(0) }}"
     unifi_wlan_guest:
-      entity_id: sensor.unifi_gateway_wlan
+      #      entity_id: sensor.unifi_gateway_wlan
       friendly_name: WLAN Guests
       unit_of_measurement: devices
       value_template: "{{ states.sensor.unifi_gateway_wlan.attributes.num_guest | default(0) }}"
     unifi_wlan_iot:
-      entity_id: sensor.unifi_gateway_wlan
+      #      entity_id: sensor.unifi_gateway_wlan
       friendly_name: WLAN IoT
       unit_of_measurement: devices
       value_template: "{{ states.sensor.unifi_gateway_wlan.attributes.num_iot | default(0) }}"
     sun_sunset:
-      entity_id: sun.sun
+      #      entity_id: sun.sun
       friendly_name: Sonnenuntergang
       value_template: "{{ state_attr('sun.sun','next_dusk') }}"
     sun_sunrise:
-      entity_id: sun.sun
+      #      entity_id: sun.sun
       friendly_name: Sonnenaufgang
       value_template: "{{ state_attr('sun.sun','next_dawn') }}"
     proximity_dir_of_travel:
-      entity_id: proximity.home
+      #      entity_id: proximity.home
       friendly_name: Direction of travel
       value_template: "{{ state_attr('proximity.home','dir_of_travel') }}"
     btc_exchange_rate_in_euro:
@@ -326,22 +363,22 @@
       friendly_name: BTC Exchange Rate (EUR)
       unit_of_measurement: EUR
     coinbase_vault_in_euro:
-      entity_id: sensor.coinbase_btc_vault
+      #      entity_id: sensor.coinbase_btc_vault
       friendly_name: Coinbase BTC Vault (EUR)
       unit_of_measurement: EUR
       value_template: "{{ state_attr('sensor.coinbase_btc_vault','Balance in native currency')|replace('EUR','') }}"
     coinbase_wallet_in_euro:
-      entity_id: sensor.coinbase_btc_wallet
+      #      entity_id: sensor.coinbase_btc_wallet
       friendly_name: Coinbase BTC Wallet (EUR)
       unit_of_measurement: EUR
       value_template: "{{ state_attr('sensor.coinbase_btc_wallet','Balance in native currency')|replace('EUR','') }}"
     coinbase_vault_xlm_in_euro:
-      entity_id: sensor.coinbase_xlm_vault
+      #      entity_id: sensor.coinbase_xlm_vault
       value_template: "{{ state_attr('sensor.coinbase_xlm_vault','Balance in native currency')|replace('EUR','') }}"
       friendly_name: Coinbase XLM Vault (EUR)
       unit_of_measurement: EUR
     coinbase_wallet_xlm_in_euro:
-      entity_id: sensor.coinbase_xlm_wallet
+      #      entity_id: sensor.coinbase_xlm_wallet
       value_template: "{{ state_attr('sensor.coinbase_xlm_wallet','Balance in native currency')|replace('EUR','') }}"
       friendly_name: Coinbase XLM Wallet (EUR)
       unit_of_measurement: EUR
@@ -425,24 +462,24 @@
     google_pixel_battery_level:
       value_template: "{{ states.device_tracker.google_pixel.attributes.battery | default(101) | int if states.device_tracker.google_pixel.attributes.battery is not none}}"
       friendly_name: Goolge Pixel Akku
-      entity_id: device_tracker.google_pixel
+      #      entity_id: device_tracker.google_pixel
       unit_of_measurement: "%"
       device_class: battery
     google_nexus_battery_level:
       value_template: "{{ states.device_tracker.google_nexus.attributes.battery | default(101) | int if states.device_tracker.google_nexus.attributes.battery is not none}}"
       friendly_name: Goolge Nexus Akku
-      entity_id: device_tracker.google_nexus
+      #      entity_id: device_tracker.google_nexus
       unit_of_measurement: "%"
       device_class: battery
     macbook_air_battery_level:
       value_template: "{{ states.device_tracker.macbook_air.attributes.battery | default(101) | int if states.device_tracker.macbook_air.attributes.battery is not none}}"
       friendly_name: MacBook Air Akku
-      entity_id: device_tracker.macbook_air
+      #      entity_id: device_tracker.macbook_air
       unit_of_measurement: "%"
       device_class: battery
-#    date_muellabfuhr:
-#      friendly_name: Müllabfuhr
-#      value_template: "{{ states.calendar.mullabfuhr.attributes.start_time }}"
+    #    date_muellabfuhr:
+    #      friendly_name: Müllabfuhr
+    #      value_template: "{{ states.calendar.mullabfuhr.attributes.start_time }}"
     heating_time_bad:
       friendly_name: Heating Time Bad
       icon_template: mdi:radiator
@@ -458,19 +495,19 @@
       icon_template: mdi:radiator
       value_template: "{{ states('sensor.heating_wohnzimmer_on_today') | float * 60 }}"
       unit_of_measurement: min
-#    low_battery:
-#      friendly_name: "Low Battery"
-#      value_template: >
-#        {%- set threshold = 40 -%}
-#        {%- set domains = ['light', 'switch', 'sensor', 'climate', 'lock'] -%}
-#        {%- for domain in domains -%}
-#        {%- for item in states[domain] if ((item.attributes.battery_level is defined and item.attributes['battery_level'] | int < threshold) or ("battery" in item.name | lower and ((item.state | int < threshold and item.state|int != 0) or item.state | lower == "low" or item.state | lower == "unknown"))) -%}
-#            {{ item.attributes.friendly_name }}{%- if not loop.last %}, {% endif -%}
-#        {%- endfor -%}
-#        {%- endfor -%}
+    #    low_battery:
+    #      friendly_name: "Low Battery"
+    #      value_template: >
+    #        {%- set threshold = 40 -%}
+    #        {%- set domains = ['light', 'switch', 'sensor', 'climate', 'lock'] -%}
+    #        {%- for domain in domains -%}
+    #        {%- for item in states[domain] if ((item.attributes.battery_level is defined and item.attributes['battery_level'] | int < threshold) or ("battery" in item.name | lower and ((item.state | int < threshold and item.state|int != 0) or item.state | lower == "low" or item.state | lower == "unknown"))) -%}
+    #            {{ item.attributes.friendly_name }}{%- if not loop.last %}, {% endif -%}
+    #        {%- endfor -%}
+    #        {%- endfor -%}
     hass_uptime:
-      entity_id:
-        - sensor.time
+      #      entity_id:
+      #        - sensor.time
       value_template: >
         {%- set dt = strptime(states('sensor.last_boot'),"%Y-%m-%dT%H:%M:%S%z") %}
         {%- set time =  (now().timestamp() - dt.timestamp()) | int %}
@@ -857,6 +894,9 @@
 #internet historian
 - platform: youtube
   channel_id: UCR1D15p_vdP3HkrH8wgjQRw
+#cheese forever
+- platform: youtube
+  channel_id: UCl1M49CAo9u99gABBIqEgDQ
 - platform: time_date
   display_options:
     - "time"

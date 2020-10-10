@@ -13,6 +13,7 @@ logger:
     homeassistant.components.google: debug
     homeassistant.components.http.ban: warning
     custom_components.sensor.authenticated: debug
+    homeassistant.components.icloud: debug
     aiounifi: info
     homeassistant.components.unifi: info
     homeassistant.components.device_tracker.unifi: info
@@ -37,11 +38,11 @@ recorder:
       - sensor.load_1m
       - sensor.load_5m
       - sensor.load_15m
-#      - sensor.influxdb_size_telegraf
-#      - sensor.influxdb_size_homeassistant
-#      - sensor.influxdb_size_internal
-#      - sensor.influxdb_size_unifi
-#      - sensor.mariadb_homeassistant
+      #      - sensor.influxdb_size_telegraf
+      #      - sensor.influxdb_size_homeassistant
+      #      - sensor.influxdb_size_internal
+      #      - sensor.influxdb_size_unifi
+      #      - sensor.mariadb_homeassistant
       - sensor.sonoff_pow_r2_whz_power
       - sensor.sonoff_pow_r2_whz_current
       - sensor.sonoff_pow_r2_whz_voltage

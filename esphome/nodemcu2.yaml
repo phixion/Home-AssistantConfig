@@ -45,10 +45,10 @@ sensor:
       unit_of_measurement: "%"
       icon: "mdi:water-percent"
     address: 0x77
-#  - platform: bh1750
-#    name: ${friendly_name} (${room}) Lichtsensor
-#    address: 0x23
-#    unit_of_measurement: lx
+  - platform: bh1750
+    name: ${friendly_name} (${room}) Lichtsensor
+    address: 0x23
+    unit_of_measurement: lx
   - platform: ccs811
     eco2:
       id: eco2
@@ -256,7 +256,7 @@ text_sensor:
       return {};
   - platform: version
     name: ${friendly_name} (${room}) Version
-    icon: 'mdi:car-esp'
+    icon: "mdi:car-esp"
     on_value:
       then:
         - lambda: |-
@@ -318,24 +318,24 @@ binary_sensor:
     name: ${friendly_name} (${room}) Noise Sensor
     filters:
       - delayed_off: 120s
-#    on_state:
-#      then:
-#        - script.execute: mario
-#  - platform: apds9960
-#    direction: UP
-#    name: ${friendly_name} (${room}) UP
-#  - platform: apds9960
-#    direction: DOWN
-#    name: ${friendly_name} (${room}) DOWN
-#  - platform: apds9960
-#    direction: LEFT
-#    name: ${friendly_name} (${room}) LEFT
-#  - platform: apds9960
-#    direction: RIGHT
-#    name: ${friendly_name} (${room}) RIGHT
-#  - platform: status
-#    device_class: connectivity
-#    name: ${friendly_name} (${room}) Status
+  #    on_state:
+  #      then:
+  #        - script.execute: mario
+  #  - platform: apds9960
+  #    direction: UP
+  #    name: ${friendly_name} (${room}) UP
+  #  - platform: apds9960
+  #    direction: DOWN
+  #    name: ${friendly_name} (${room}) DOWN
+  #  - platform: apds9960
+  #    direction: LEFT
+  #    name: ${friendly_name} (${room}) LEFT
+  #  - platform: apds9960
+  #    direction: RIGHT
+  #    name: ${friendly_name} (${room}) RIGHT
+  #  - platform: status
+  #    device_class: connectivity
+  #    name: ${friendly_name} (${room}) Status
   - platform: gpio
     pin: D2
     device_class: motion
@@ -344,15 +344,12 @@ binary_sensor:
     filters:
       - delayed_off: 2min
       - delayed_on: 200ms
-#  - platform: template
-#    id: ${devicename}_templ_doppler
-#    internal: true
-#    lambda: 'return id(${devicename}_doppler).state;'
-#    filters:
-#      - delayed_off: 3min
-#    on_press:
-#      then:
-#        - script.execute: mario
+  - platform: template
+    id: ${devicename}_templ_doppler
+    internal: true
+    lambda: "return id(${devicename}_doppler).state;"
+    filters:
+      - delayed_off: 3min
 #output:
 #  - platform: esp8266_pwm
 #    pin: D5
@@ -517,4 +514,3 @@ binary_sensor:
 switch:
   - platform: restart
     name: ${friendly_name} (${room}) Restart
-
