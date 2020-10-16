@@ -10,7 +10,7 @@
 ## Monitoring
 
 ![Uptime Robot status](https://img.shields.io/uptimerobot/status/m785013905-aac6cbb5e0f5898914257c94?label=web&logo=home-assistant&logoColor=white&style=flat-square) ![Uptime Robot status](https://img.shields.io/uptimerobot/status/m785013899-1b07df90c40854d77eeed0c8?label=ssh&logo=home-assistant&logoColor=white&style=flat-square) ![Uptime Robot status](https://img.shields.io/uptimerobot/status/m785013903-432813b6a77a2d8a693de506?label=ping&logo=home-assistant&logoColor=white&style=flat-square) ![Uptime Robot ratio (30 days)](https://img.shields.io/uptimerobot/ratio/m785013905-aac6cbb5e0f5898914257c94?label=30d&logo=home-assistant&logoColor=white&style=flat-square)
-![Security Headers](https://img.shields.io/security-headers?style=flat-square&url=https%3A%2F%2Fhome.inferior.dev&logo=nginx&logoColor=white)
+![Security Headers](https://img.shields.io/security-headers?style=flat-square&url=https%3A%2F%2Fhome.inferior.dev&logo=nginx&logoColor=white) ![Requires.io](https://img.shields.io/requires/github/phixion/home-assistant-config?logo=ubuntu&logoColor=white&style=flat-square)
 
 ## Hardware
 

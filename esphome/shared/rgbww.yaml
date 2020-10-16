@@ -11,3 +11,4 @@
   default_transition_length: 3s
   restore_mode: RESTORE_DEFAULT_OFF
   effects: !include effects.yaml
+  color_interlock: true
