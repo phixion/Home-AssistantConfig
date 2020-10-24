@@ -1,0 +1,17 @@
+# Creates groups for all domains.
+# https://github.com/Petro31/ad_group_all
+group_all:
+  module: group_all
+  class: GroupAll
+  track_new_entities: true
+  log_level: INFO
+#  domains: all
+  domains: 
+  - light
+  - switch
+  - devices
+
+# https://github.com/apop880/config-check
+check_config:
+  module: checkconfig
+  class: CheckConfig
