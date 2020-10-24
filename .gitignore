@@ -37,6 +37,9 @@
 !.doc/CI/*.yaml
 !.doc/CI/*.json
 
+#images for documentation
+!.doc/images/**
+
 #custom_components directory
 !custom_components/
 !custom_components/**
