@@ -12,5 +12,5 @@ waste_collection_schedule:
         url: !secret wastecol
   fetch_time: '01:00'
   random_fetch_time_offset: '45'
-  day_switch_time: '16:00'
+  day_switch_time: '17:00'
 
