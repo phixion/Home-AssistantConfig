@@ -72,9 +72,6 @@ binary_sensor:
       dark_outside:
         value_template: "{{states.sun.sun.attributes.elevation|float < 2 or states.sensor.dark_sky_cloud_coverage.state|float > 50}}"
         friendly_name: "Dark Outside"
-        entity_id:
-          - sun.sun
-          - sensor.dark_sky_cloud_coverage
         device_class: light
       dark_inside:
         value_template: '{{ (states.sensor.nodemcu_2_wohnzimmer_lichtsensor | float) < 200 }}' # lets consider 200 lux so dark that the cam needs a light
@@ -124,8 +121,6 @@ binary_sensor:
         friendly_name: Motion detected
         delay_off:
           minutes: 3
-        entity_id:
-          - group.motion_detectors
         value_template: "{{is_state('group.motion_detectors', 'on')}}"
       heating_bad:
         device_class: heat

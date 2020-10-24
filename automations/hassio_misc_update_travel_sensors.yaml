@@ -2,7 +2,7 @@
   id: "16"
   trigger:
     - platform: time_pattern
-      hours: /24
+      hours: "/12"
   condition:
     - condition: state
       entity_id: binary_sensor.workday_sensor

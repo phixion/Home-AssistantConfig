@@ -19,8 +19,8 @@ light:
       - light.bulbflur_cwww
       - light.bulbkueche_rgb
       - light.bulbkueche_cwww
-      - light.bulbbad_rgb
-      - light.bulbbad_cwww
+#      - light.bulbbad_rgb
+#      - light.bulbbad_cwww
       - light.schalter_1_bad_light
       - light.schalter_1_flur_light
       - light.schalter_1_wohnzimmer_light
@@ -30,7 +30,6 @@ light:
       - light.ledstripwhz2_rgb
       - light.wled1
       - light.wled2
-      - light.ledstripwhz1_w
       - light.schalter_schrank_kuche_light
   - platform: group
     name: Mood Lights RGB

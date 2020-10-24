@@ -1,5 +1,5 @@
 - alias: "Telegram Play Cheese Forever on TV"
-  id: "41"
+  id: "411"
   trigger:
     platform: event
     event_type: telegram_callback
@@ -13,7 +13,7 @@
     - service: homeassistant.toggle
       entity_id: input_boolean.play_cheese_forever
 - alias: Notification Cheese Forever Video
-  id: "14"
+  id: "114"
   trigger:
     - platform: state
       entity_id: sensor.cheese_forever
@@ -38,10 +38,11 @@
         data:
           sound: "notification"
           icon: "a10835"
-          cycles: 10
+          cycles: 0
+          lifetime: 3600
           priority: "critical"
 - alias: "AndroidTV Play Latest Cheese Forever"
-  id: "33"
+  id: "133"
   trigger:
     platform: state
     entity_id: input_boolean.play_cheeseforever

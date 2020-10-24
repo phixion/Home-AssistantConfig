@@ -20,7 +20,7 @@
   id: "1e"
   trigger:
     platform: state
-    entity_id: sensor.freee_game_keys
+    entity_id: sensor.free_game_keys
   action:
     - service: notify.android
       data_template:
