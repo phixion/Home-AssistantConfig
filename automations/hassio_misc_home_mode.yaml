@@ -24,7 +24,7 @@
         entity_id: input_select.home_mode
         option: Away
 - alias: Home Mode Home
-  id: "3"
+  id: "3a"
   trigger:
     - entity_id: binary_sensor.presence_martin
       platform: state
