@@ -11,3 +11,11 @@
       data_template:
         title: Main disk is almost full!
         message: "Diskusage: {{states(trigger.entity_id)}}"
+    - service: notify.lametric
+      data:
+        message: "hassio diskusage: {{states(trigger.entity_id)}}"
+        data:
+          sound: 'notification'
+          icon: 'a35325'
+          cycles: 3
+          priority: 'critical'
