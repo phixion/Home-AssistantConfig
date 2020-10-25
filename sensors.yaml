@@ -225,6 +225,30 @@
   resource: https://api.myip.com
   name: External IP
   value_template: "{{ value_json.ip }}"
+- platform: rest
+  resource: !secret supervisor_rest_api
+  name: core
+  unit_of_measurement: "%"
+  value_template: "{{ value_json.data.cpu_percent }}"
+  scan_interval: 10
+  headers:
+    Authorization: !secret llt
+    Content-Type: application/json
+  json_attributes_path: "$.data"
+  json_attributes:
+    - memory_percent
+- platform: rest
+  resource: !secret supervisor_rest_api
+  name: supervisor
+  unit_of_measurement: "%"
+  value_template: "{{ value_json.data.cpu_percent }}"
+  scan_interval: 10
+  headers:
+    Authorization: !secret llt
+    Content-Type: application/json
+  json_attributes_path: "$.data"
+  json_attributes:
+    - memory_percent
 - platform: authenticated
   provider: ipvigilante
   enable_notification: true
@@ -528,6 +552,15 @@
       friendly_name: Verbunden
       value_template: >
         {{ as_timestamp(states.sensor.home_phixion_org.last_changed) | timestamp_custom('%c') }}
+    core_mem:
+      friendly_name: Core Memory Usage
+      unit_of_measurement: "%"
+      value_template: "{{ state_attr('sensor.core', 'memory_percent') }}"
+    supervisor_mem:
+      friendly_name: Supervisor Memory Usage
+      unit_of_measurement: "%"
+      value_template: "{{ state_attr('sensor.supervisor', 'memory_percent') }}"
+
 - platform: filter
   filters:
     - filter: time_throttle
@@ -928,3 +961,28 @@
 #- platform: email
 #  email: !secret gmail_monitoring_user
 #  password: !secret gmail_monitoring_pwd
+#https://www.home-assistant.io/integrations/rest/
+- platform: rest
+  resource: !secret supervisor_rest_api
+  name: core
+  unit_of_measurement: "%"
+  value_template: "{{ value_json.data.cpu_percent }}"
+  scan_interval: 10
+  headers:
+    Authorization: !secret llt
+    Content-Type: application/json
+  json_attributes_path: "$.data"
+  json_attributes:
+    - memory_percent
+- platform: rest
+  resource: !secret supervisor_rest_api
+  name: supervisor
+  unit_of_measurement: "%"
+  value_template: "{{ value_json.data.cpu_percent }}"
+  scan_interval: 10
+  headers:
+    Authorization: !secret llt
+    Content-Type: application/json
+  json_attributes_path: "$.data"
+  json_attributes:
+    - memory_percent
