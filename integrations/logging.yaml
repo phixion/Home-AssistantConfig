@@ -6,7 +6,7 @@
 #╚══════╝ ╚═════╝  ╚═════╝  ╚═════╝ ╚═╝╚═╝  ╚═══╝ ╚═════╝
 #
 logger:
-  default: warning
+  default: debug
   logs:
     homeassistant.components.google_assistant.http: debug
     homeassistant.components.google_cloud: debug
