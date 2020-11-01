@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 rename
 libudev-dev
 ffmpeg
@@ -12,3 +13,19 @@ libavresample-dev
 libavfilter-dev
 libprotobuf-dev
 protobuf-compiler
+=======
+rename
+libudev-dev
+ffmpeg
+python-dev
+pkg-config
+libavformat-dev
+libavcodec-dev
+libavdevice-dev
+libavutil-dev
+libswscale-dev
+libavresample-dev
+libavfilter-dev
+libprotobuf-dev
+protobuf-compiler
+>>>>>>> Stashed changes
