@@ -11,7 +11,7 @@
         callback_query_id: "{{ trigger.event.data.id }}"
         message: "Status"
     - service: homeassistant.toggle
-      entity_id: input_boolean.play_cheeseforever
+      entity_id: input_boolean.play_cheese_forever
 - alias: Notification Cheese Forever Video
   id: "114"
   trigger:
@@ -34,11 +34,11 @@
             - "Play Video on TV:/yt_cheeseforever"
     - service: notify.lametric
       data:
-        message: "New Cheese Forever Video"
+        message: "Cheese Forever Video"
         data:
           sound: "notification"
           icon: "a10835"
-          cycles: 10
+          cycles: 0
           lifetime: 3600
           priority: "critical"
 - alias: "AndroidTV Play Latest Cheese Forever"

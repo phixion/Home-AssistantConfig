@@ -21,7 +21,7 @@ switch:
     name: Circadian Lighting CWWW Bulbs
     lights_ct:
       - light.bulbkueche_cwww
-#      - light.bulbbad_cwww
+      - light.bulbbad_cwww
       - light.bulbflur_cwww
       - light.mood_lights_cwww
     min_brightness: 35

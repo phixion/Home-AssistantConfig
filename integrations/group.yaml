@@ -58,8 +58,8 @@ group:
       - light.bulbkueche_cwww
       - light.schalter_schrank_kuche_light
       - light.schalter_1_bad_light
-#      - light.bulbbad_rgb
-#      - light.bulbbad_cwww
+      - light.bulbbad_rgb
+      - light.bulbbad_cwww
   household:
     name: Household
     entities:
