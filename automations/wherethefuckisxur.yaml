@@ -15,19 +15,19 @@
 #        data:
 #          images:
 #            - http://localhost
-- alias: Update Xur Sensor
-  id: "17"
-  trigger:
-    - platform: time_pattern
-      minutes: /120
-  condition:
-    condition: time
-    after: "19:00:00"
-    weekday:
-      - fri
-      - sat
-      - sun
-      - mon
-  action:
-    - service: homeassistant.update_entity
-      entity_id: sensor.wtfisxur
+#- alias: Update Xur Sensor
+#  id: "17"
+#  trigger:
+#    - platform: time_pattern
+#      minutes: /120
+#  condition:
+#    condition: time
+#    after: "19:00:00"
+#    weekday:
+#      - fri
+#      - sat
+#      - sun
+#      - mon
+#  action:
+#    - service: homeassistant.update_entity
+#      entity_id: sensor.wtfisxur

@@ -773,7 +773,7 @@
   duration:
     days: 30
 - platform: scrape
-  scan_interval: 10000000
+  #  scan_interval: 10000000
   name: wtfisxur
   resource: https://wherethefuckisxur.com/
   select: "h1.page-title"

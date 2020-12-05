@@ -1,7 +1,7 @@
 - platform: homeassistant
   id: homeassistant_time
-- platform: sntp
-  id: sntp_time
-  servers:
-    - !secret esphome_sntp_host0
-    - !secret esphome_sntp_host1
+#- platform: sntp
+#  id: sntp_time
+#  servers:
+#    - !secret esphome_sntp_host0
+#    - !secret esphome_sntp_host1

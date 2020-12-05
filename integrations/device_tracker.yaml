@@ -21,12 +21,12 @@ device_tracker:
     entity_id:
       - device_tracker.nexus_gps
       - device_tracker.nexus_wifi
-  - platform: composite
-    name: "MacBook Air"
-    time_as: device_or_local
-    entity_id:
-      - device_tracker.0x3efe_icloud
-      - device_tracker.0x3efe_wifi
+#  - platform: composite
+#    name: "MacBook Air"
+#    time_as: device_or_local
+#    entity_id:
+#      - device_tracker.0x3efe_icloud
+#      - device_tracker.0x3efe_wifi
 #  - platform: traccar
 #    host: !secret traccar_host # pragma: allowlist secret
 #    port: !secret traccar_port # pragma: allowlist secret

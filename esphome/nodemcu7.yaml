@@ -1,0 +1,73 @@
+esphome:
+  name: nodemcu7
+  platform: ESP32
+  board: esp-wrover-kit
+substitutions:
+  devicename: nodemcu7
+  friendly_name: Nodemcu 7
+  room: Wohnzimmer
+  update_interval_short: 2min
+  update_interval_long: 10min
+time: !include shared/time.yaml
+wifi: !include shared/wifi.yaml
+api: !include shared/api.yaml
+ota: !include shared/ota.yaml
+web_server: !include shared/webserver.yaml
+captive_portal:
+logger:
+sensor:
+  - platform: template
+    name: "BLE Sensor"
+    id: ble_sensor
+  - platform: wifi_signal
+    name: ${friendly_name} (${room}) WiFi Signal
+    update_interval: ${update_interval_long}
+    unit_of_measurement: dB
+    icon: mdi:wifi
+    force_update: true
+  - platform: uptime
+    force_update: true
+    id: ${devicename}_uptime
+    internal: true
+    update_interval: ${update_interval_long}
+text_sensor: !include shared/textsensors.yaml
+binary_sensor:
+  - platform: status
+    device_class: connectivity
+    name: ${friendly_name} (${room}) Status
+  - platform: ble_presence
+    id: mibandpresence
+    mac_address: C1:BA:14:0C:26:1A
+    name: "Mi Intelliband 4"
+switch:
+  - platform: restart
+    name: ${friendly_name} (${room}) Restart
+
+esp32_ble_tracker:
+  scan_interval:
+  on_ble_advertise:
+    - mac_address: C1:BA:14:0C:26:1A
+      then:
+        - lambda: |-
+            ESP_LOGD("ble_adv", "New BLE device");
+            ESP_LOGD("ble_adv", "  address: %s", x.address_str().c_str());
+            ESP_LOGD("ble_adv", "  name: %s", x.get_name().c_str());
+            ESP_LOGD("ble_adv", "  Advertised service UUIDs:");
+            for (auto uuid : x.get_service_uuids()) {
+                ESP_LOGD("ble_adv", "    - %s", uuid.to_string().c_str());
+            }
+            ESP_LOGD("ble_adv", "  Advertised service data:");
+            for (auto data : x.get_service_datas()) {
+                ESP_LOGD("ble_adv", "    - %s: (length %i)", data.uuid.to_string().c_str(), data.data.size());
+            }
+            ESP_LOGD("ble_adv", "  Advertised manufacturer data:");
+            for (auto data : x.get_manufacturer_datas()) {
+                ESP_LOGD("ble_adv", "    - %s: (length %i)", data.uuid.to_string().c_str(), data.data.size());
+            }
+exposure_notifications:
+  on_exposure_notification:
+    then:
+      - lambda: |
+          ESP_LOGD("main", "Got notification:");
+          ESP_LOGD("main", "  RPI: %s", hexencode(x.rolling_proximity_identifier).c_str());
+          ESP_LOGD("main", "  RSSI: %d", x.rssi);
