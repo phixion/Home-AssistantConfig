@@ -17,7 +17,7 @@ captive_portal:
 logger:
 sensor:
   - platform: template
-    name: "BLE Sensor"
+    name: ${friendly_name} (${room}) BLE Sensor
     id: ble_sensor
   - platform: wifi_signal
     name: ${friendly_name} (${room}) WiFi Signal
@@ -37,7 +37,7 @@ binary_sensor:
     name: ${friendly_name} (${room}) Status
   - platform: ble_presence
     id: mibandpresence
-    mac_address: C1:BA:14:0C:26:1A
+    mac_address: !secret blemac_0
     name: "Mi Intelliband 4"
 switch:
   - platform: restart
@@ -46,7 +46,7 @@ switch:
 esp32_ble_tracker:
   scan_interval:
   on_ble_advertise:
-    - mac_address: C1:BA:14:0C:26:1A
+    - mac_address: !secret blemac_0
       then:
         - lambda: |-
             ESP_LOGD("ble_adv", "New BLE device");
