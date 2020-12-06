@@ -44,7 +44,6 @@ switch:
     name: ${friendly_name} (${room}) Restart
 
 esp32_ble_tracker:
-  scan_interval:
   on_ble_advertise:
     - mac_address: !secret blemac_0
       then:
