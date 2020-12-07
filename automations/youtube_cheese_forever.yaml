@@ -33,8 +33,8 @@
           inline_keyboard:
             - "Play Video on TV:/yt_cheeseforever"
     - service: notify.lametric
-      data:
-        message: "Cheese Forever Video"
+      data_template:
+        message: "New Cheese Forever Video: {{states.sensor.cheese_forever.state}}"
         data:
           sound: "notification"
           icon: "a10835"
