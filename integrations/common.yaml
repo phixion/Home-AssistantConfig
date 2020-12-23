@@ -13,7 +13,7 @@ hassio:
 esphome:
 conversation:
 map:
-cloud:
+#cloud:
 zeroconf:
 ssdp:
 updater:

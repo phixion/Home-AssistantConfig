@@ -50,6 +50,12 @@
       measurement: '"W"'
       value_template: "{{ value | round(2) }}"
       unit_of_measurement: W
+    - name: Heating Livingroom (last hour)
+      database: homeassistant
+      where: '"entity_id" = ''heating_wohnzimmer_on_today'' AND time >= now() - 60m'
+      measurement: '"min"'
+      value_template: "{{ value | round(2) }}"
+      unit_of_measurement: m
 - platform: sql
   scan_interval: 86400 # 24h
   db_url: !secret dburl # pragma: allowlist secret
@@ -253,7 +259,7 @@
   provider: ipvigilante
   enable_notification: true
 - platform: uptime
-  unit_of_measurement: days
+#  unit_of_measurement: days
 - platform: mvglive
   nextdeparture:
     - station: !secret station_mvg_tram # pragma: allowlist secret
@@ -331,15 +337,6 @@
       unit_of_measurement: "°C"
       device_class: temperature
       value_template: "{{ states.climate.wiser_wohnzimmer.attributes.temperature | default(0) | int if states.climate.wiser_wohnzimmer.attributes.temperature is not none }}"
-    climate_bad_preset:
-      friendly_name: Bad Modus
-      value_template: "{{ states.climate.wiser_bad.attributes.preset_mode | string }}"
-    climate_wohnzimmer_preset:
-      friendly_name: Wohnzimmer Modus
-      value_template: "{{ states.climate.wiser_wohnzimmer.attributes.preset_mode | string }}"
-    climate_flur_preset:
-      friendly_name: Flur Modus
-      value_template: "{{ states.climate.wiser_flur.attributes.preset_mode | string }}"
     unifi_speedtest_rx:
       #      entity_id: sensor.unifi_gateway_www
       friendly_name: Download
@@ -387,22 +384,18 @@
       friendly_name: BTC Exchange Rate (EUR)
       unit_of_measurement: EUR
     coinbase_vault_in_euro:
-      #      entity_id: sensor.coinbase_btc_vault
       friendly_name: Coinbase BTC Vault (EUR)
       unit_of_measurement: EUR
       value_template: "{{ state_attr('sensor.coinbase_btc_vault','Balance in native currency')|replace('EUR','') }}"
     coinbase_wallet_in_euro:
-      #      entity_id: sensor.coinbase_btc_wallet
       friendly_name: Coinbase BTC Wallet (EUR)
       unit_of_measurement: EUR
       value_template: "{{ state_attr('sensor.coinbase_btc_wallet','Balance in native currency')|replace('EUR','') }}"
     coinbase_vault_xlm_in_euro:
-      #      entity_id: sensor.coinbase_xlm_vault
       value_template: "{{ state_attr('sensor.coinbase_xlm_vault','Balance in native currency')|replace('EUR','') }}"
       friendly_name: Coinbase XLM Vault (EUR)
       unit_of_measurement: EUR
     coinbase_wallet_xlm_in_euro:
-      #      entity_id: sensor.coinbase_xlm_wallet
       value_template: "{{ state_attr('sensor.coinbase_xlm_wallet','Balance in native currency')|replace('EUR','') }}"
       friendly_name: Coinbase XLM Wallet (EUR)
       unit_of_measurement: EUR
@@ -687,28 +680,28 @@
   entity_id: binary_sensor.heating_bad
   state: "on"
   type: time
-  start: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
+  start: "{{ now().replace(hour=0, minute=0, second=0) }}"
   end: "{{ now() }}"
 - platform: history_stats
   name: Heating Flur On Today
   entity_id: binary_sensor.heating_flur
   state: "on"
   type: time
-  start: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
+  start: "{{ now().replace(hour=0, minute=0, second=0) }}"
   end: "{{ now() }}"
 - platform: history_stats
   name: Heating Wohnzimmer On Today
   entity_id: binary_sensor.heating_wohnzimmer
   state: "on"
   type: time
-  start: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
+  start: "{{ now().replace(hour=0, minute=0, second=0) }}"
   end: "{{ now() }}"
 - platform: history_stats
   name: Heating Bad On Yesterday
   entity_id: binary_sensor.heating_bad
   state: "on"
   type: time
-  end: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
+  end: "{{ now().replace(hour=0, minute=0, second=0) }}"
   duration:
     hours: 24
 - platform: history_stats
@@ -716,7 +709,7 @@
   entity_id: binary_sensor.heating_flur
   state: "on"
   type: time
-  end: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
+  end: "{{ now().replace(hour=0, minute=0, second=0) }}"
   duration:
     hours: 24
 - platform: history_stats
@@ -724,7 +717,7 @@
   entity_id: binary_sensor.heating_wohnzimmer
   state: "on"
   type: time
-  end: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
+  end: "{{ now().replace(hour=0, minute=0, second=0) }}"
   duration:
     hours: 24
 - platform: history_stats
@@ -732,28 +725,28 @@
   entity_id: binary_sensor.heating_bad
   state: "on"
   type: time
-  start: "{{ as_timestamp( now().replace(hour=0).replace(minute=0).replace(second=0) ) - now().weekday() * 86400 }}"
+  start: "{{ as_timestamp( now().replace(hour=0, minute=0, second=0) ) - now().weekday() * 86400 }}"
   end: "{{ now() }}"
 - platform: history_stats
   name: Heating Flur On this Week
   entity_id: binary_sensor.heating_flur
   state: "on"
   type: time
-  start: "{{ as_timestamp( now().replace(hour=0).replace(minute=0).replace(second=0) ) - now().weekday() * 86400 }}"
+  start: "{{ as_timestamp( now().replace(hour=0, minute=0, second=0) ) - now().weekday() * 86400 }}"
   end: "{{ now() }}"
 - platform: history_stats
   name: Heating Wohnzimmer On this Week
   entity_id: binary_sensor.heating_wohnzimmer
   state: "on"
   type: time
-  start: "{{ as_timestamp( now().replace(hour=0).replace(minute=0).replace(second=0) ) - now().weekday() * 86400 }}"
+  start: "{{ as_timestamp( now().replace(hour=0, minute=0, second=0) ) - now().weekday() * 86400 }}"
   end: "{{ now() }}"
 - platform: history_stats
   name: Heating Bad On past 30 days
   entity_id: binary_sensor.heating_bad
   state: "on"
   type: time
-  end: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
+  end: "{{ now().replace(hour=0, minute=0, second=0) }}"
   duration:
     days: 30
 - platform: history_stats
@@ -761,7 +754,7 @@
   entity_id: binary_sensor.heating_flur
   state: "on"
   type: time
-  end: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
+  end: "{{ now().replace(hour=0, minute=0, second=0) }}"
   duration:
     days: 30
 - platform: history_stats
@@ -769,14 +762,14 @@
   entity_id: binary_sensor.heating_wohnzimmer
   state: "on"
   type: time
-  end: "{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}"
+  end: "{{ now().replace(hour=0, minute=0, second=0) }}"
   duration:
     days: 30
-- platform: scrape
-  #  scan_interval: 10000000
-  name: wtfisxur
-  resource: https://wherethefuckisxur.com/
-  select: "h1.page-title"
+#- platform: scrape
+#  #  scan_interval: 10000000
+#  name: wtfisxur
+#  resource: https://wherethefuckisxur.com/
+#  select: "h1.page-title"
 #- platform: scrape
 #  scan_interval: 10000000
 #  name: wtfnf
@@ -986,3 +979,65 @@
   json_attributes_path: "$.data"
   json_attributes:
     - memory_percent
+- platform: rest
+  name: Where the fuck is Xur
+  json_attributes:
+    - desc
+    - found
+    - img
+    - lastUpdate
+    - planet
+    - present
+    - zone
+  resource: !secret xur_rest_api
+  value_template: "{{ value_json.xur }}"
+- platform: template
+  sensors:
+    desc:
+      friendly_name: "Description"
+      value_template: '{{ states.sensor.json_xur.attributes["desc"] }}'
+    found:
+      friendly_name: "Found"
+      value_template: '{{ states.sensor.json_xur.attributes["found"] }}'
+    img:
+      friendly_name: "Image"
+      value_template: '"https://wherethefuckisxur.com/"{{ states.sensor.json_xur.attributes["img"] }}'
+    lastupdate:
+      friendly_name: "Last Update"
+      value_template: '{{ states.sensor.json_xur.attributes["lastUpdate"] }}'
+    planet:
+      friendly_name: "Last Update"
+      value_template: '{{ states.sensor.json_xur.attributes["planet"] }}'
+    present:
+      friendly_name: "Present"
+      value_template: '{{ states.sensor.json_xur.attributes["present"] }}'
+    zone:
+      friendly_name: "Zone"
+      value_template: '{{ states.sensor.json_xur.attributes["zone"] }}'
+- platform: rest
+  name: Club Status
+  json_attributes:
+    - space
+    - url
+    - state
+    - location
+    - feeds
+  resource: !secret muccc_spaceapi
+  value_template: "{{ value_json.muccc_spaceapi }}"
+- platform: template
+  sensors:
+    space:
+      friendly_name: "Space"
+      value_template: '{{ states.sensor.json_muccc_spaceapi.attributes["space"] }}'
+    url:
+      friendly_name: "Url"
+      value_template: '{{ states.sensor.json_muccc_spaceapi.attributes["url"] }}'
+    state:
+      friendly_name: "State"
+      value_template: '{{ states.sensor.json_muccc_spaceapi.attributes["state"] }}'
+    location:
+      friendly_name: "Location"
+      value_template: '{{ states.sensor.json_muccc_spaceapi.attributes["location"] }}'
+    feeds:
+      friendly_name: "Location"
+      value_template: '{{ states.sensor.json_muccc_spaceapi.attributes["feeds"] }}'

@@ -107,10 +107,10 @@ light.bulbwhzlamp_cwww:
   aliases:
     - Wohnzimmerlampe
     - Standlicht
-light.mood_lights_rgb:
-  expose: true
-  room: Wohnzimmer
-  name: Mood Lights RGB
+#light.mood_lights_rgb:
+#  expose: true
+#  room: Wohnzimmer
+#  name: Mood Lights RGB
 light.wled_schrank:
   expose: true
   room: Wohnzimmer
@@ -119,10 +119,10 @@ light.wled_schreibtisch:
   expose: true
   room: Wohnzimmer
   name: LED-Strip Schreibtisch
-light.mood_lights_cwww:
-  expose: true
-  name: Mood Lights CWWW
-  room: Wohnzimmer
+#light.mood_lights_cwww:
+#  expose: true
+#  name: Mood Lights CWWW
+#  room: Wohnzimmer
 camera.nest_cam:
   expose: true
   name: Nest Cam

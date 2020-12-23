@@ -6,11 +6,11 @@
 #╚═╝  ╚═╝╚═╝╚═╝  ╚═╝  ╚═══╝  ╚═╝╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝
 #                                                                
 # https://www.home-assistant.io/integrations/airvisual
-airvisual:
-  api_key: !secret airvisual_apikey
-  geographies:
+#airvisual:
+#  api_key: !secret airvisual_apikey
+#  geographies:
 #    latitude: !secret home_lat
 #    longitude: !secret home_lon
-    city: Munich
-    state: Bavaria
-    country: Germany
+#    city: Munich
+#    state: Bavaria
+#    country: Germany

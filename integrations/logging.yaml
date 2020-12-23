@@ -14,12 +14,13 @@ logger:
     homeassistant.components.http.ban: warning
     custom_components.sensor.authenticated: debug
     homeassistant.components.icloud: debug
-    aiounifi: info
-    homeassistant.components.unifi: info
-    homeassistant.components.device_tracker.unifi: info
-    homeassistant.components.switch.unifi: info
-    homeassistant.components.automation: debug
+    aiounifi: warn
+    homeassistant.components.unifi: warn
+    homeassistant.components.device_tracker.unifi: warn
+    homeassistant.components.switch.unifi: warn
+    homeassistant.components.automation: warn
     aioesphomeapi.connection: warn
+    homeassistant.components.coinbase: debug
 recorder:
   purge_keep_days: 30
   db_url: !secret dburl # pragma: allowlist secret

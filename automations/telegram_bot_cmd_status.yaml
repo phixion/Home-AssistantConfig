@@ -38,8 +38,6 @@
         target: "{{ trigger.event.data.user_id }}"
         disable_notification: true
         message: >
-          🏃‍♂️ {{states('binary_sensor.noise_sensor')}}
-           🔊 {{states('binary_sensor.motion_sensor')}}
            ☀️ {{states('binary_sensor.nodemcu_2_wohnzimmer_light_sensor')}}
            🚪 {{states('binary_sensor.window_wohnzimmer')}}
            🔥 Wohnzimmer: {{states('binary_sensor.wiser_wohnzimmer')}}

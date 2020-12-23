@@ -6,8 +6,8 @@
 #╚═╝     ╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝╚══════╝
 #
 coinbase:
-  api_key: !secret coinbasekey_pwd # pragma: allowlist secret
-  api_secret: !secret coinbasesecret_pwd # pragma: allowlist secret
+  api_key: !secret coinbasekey_pwd1 # pragma allowlist secret
+  api_secret: !secret coinbasesecret_pwd1 # pragma: allowlist secret
   account_balance_currencies:
     - EUR
     - BTC

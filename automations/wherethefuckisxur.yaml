@@ -2,19 +2,24 @@
   id: "19"
   trigger:
     - platform: state
-      entity_id: sensor.wtfisxur
+      entity_id: sensor.where_the_fuck_is_xur
   action:
     - service: notify.telegram
       data_template:
         title: Xur changed location
-        message: "{{states('sensor.wtfisxur')}}"
+        message: "{{states('sensor.where_the_fuck_is_xur')}}"
     - service: notify.discord
       data:
-        message: "{{states('sensor.wtfisxur')}}"
+        message: "{{state_attr('sensor.where_the_fuck_is_xur', 'desc')}}"
         target: !secret discord_channel_id0
-#        data:
-#          images:
-#            - http://localhost
+        data:
+         images:
+            - https://wherethefuckisxur.com{{state_attr('sensor.where_the_fuck_is_xur', 'desc')}}
+    - service: telegram_bot.send_photo
+      data_template:
+        target: "{{ trigger.event.data.user_id }}"
+        disable_notification: true
+        file: "https://wherethefuckisxur.com{{state_attr('sensor.where_the_fuck_is_xur', 'desc')}}"
 #- alias: Update Xur Sensor
 #  id: "17"
 #  trigger:

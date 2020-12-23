@@ -43,4 +43,3 @@
   name: ${friendly_name} (${room}) MAC Address
   lambda: 'return {WiFi.macAddress().c_str()};'
   icon: mdi:fingerprint
-  update_interval: ${update_interval_long}
