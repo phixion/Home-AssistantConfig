@@ -176,11 +176,11 @@ binary_sensor.updater:
 sensor.nodemcu_2_luxmeter:
   icon: mdi:theme-light-dark
   device_class: illuminance
-sensor.motion_sensor:
-  icon: mdi:motion-sensor
-  device_class: motion
-sensor.noise_sensor:
-  device_class: sound
+#sensor.motion_sensor:
+#  icon: mdi:motion-sensor
+#  device_class: motion
+#sensor.noise_sensor:
+#  device_class: sound
 #switch.restreamer:
 #  icon: mdi:camcorder-box
 #  icon_template: >-

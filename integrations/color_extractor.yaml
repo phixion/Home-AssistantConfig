@@ -5,5 +5,5 @@
 #╚██████╗╚██████╔╝███████╗╚██████╔╝██║  ██║    ███████╗██╔╝ ██╗   ██║   ██║  ██║██║  ██║╚██████╗   ██║   ╚██████╔╝██║  ██║
 # ╚═════╝ ╚═════╝ ╚══════╝ ╚═════╝ ╚═╝  ╚═╝    ╚══════╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝
 #
-#https://www.home-assistant.io/integrations/color_extractor/
+# https://www.home-assistant.io/integrations/color_extractor/
 color_extractor:

@@ -52,7 +52,9 @@
       entity_id: switch.wiser_away_mode
     - service: switch.turn_on
       entity_id: switch.schalter_1_flur_relay
-#    - service: media_player.volume_set
+    - service: switch.turn_off
+      entity_id: switch.restreamer
+      #    - service: media_player.volume_set
 #      data:
 #        entity_id: media_player.google_nest_hub
 #        volume_level: 0.01
@@ -105,11 +107,11 @@
 #      data:
 #        entity_id:
 #          - camera.nest_cam
-    - delay: 00:02:00
-    - service: ffmpeg.restart
-      data:
-        entity_id:
-          - binary_sensor.motion_sensor
+#    - delay: 00:02:00
+#    - service: ffmpeg.restart
+#      data:
+#        entity_id:
+#          - binary_sensor.motion_sensor
 - alias: Set Home Mode Vacation
   id: "6"
   trigger:

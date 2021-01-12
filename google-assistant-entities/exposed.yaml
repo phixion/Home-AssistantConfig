@@ -68,15 +68,15 @@ light.bulbkueche_rgb:
     - RGB Küchenlampe
     - RGB Küchenlicht
     - RGB Küche
-light.bulbkueche_cwww:
-  expose: true
-  room: Küche
-  name: Küche Weiss
-  aliases:
-    - Helle Küchenlampe
-    - Weisses Küchenlicht
-    - Weisse Küchenlampe
-    - Helles Küchenlicht
+#light.bulbkueche_cwww:
+#  expose: true
+#  room: Küche
+#  name: Küche Weiss
+#  aliases:
+#    - Helle Küchenlampe
+#    - Weisses Küchenlicht
+#    - Weisse Küchenlampe
+#    - Helles Küchenlicht
 light.schalter_1_wohnzimmer_light:
   expose: true
   room: Wohnzimmer
@@ -100,25 +100,17 @@ light.schalter_lavalampe_light:
   expose: true
   room: Wohnzimmer
   name: Lavalampe
-light.bulbwhzlamp_cwww:
-  expose: true
-  room: Wohnzimmer
-  name: Stehlampe Weiss
-  aliases:
-    - Wohnzimmerlampe
-    - Standlicht
+#light.bulbwhzlamp_cwww:
+#  expose: true
+#  room: Wohnzimmer
+#  name: Stehlampe Weiss
+#  aliases:
+#    - Wohnzimmerlampe
+#    - Standlicht
 #light.mood_lights_rgb:
 #  expose: true
 #  room: Wohnzimmer
 #  name: Mood Lights RGB
-light.wled_schrank:
-  expose: true
-  room: Wohnzimmer
-  name: LED-Strip Schrank
-light.wled_schreibtisch:
-  expose: true
-  room: Wohnzimmer
-  name: LED-Strip Schreibtisch
 #light.mood_lights_cwww:
 #  expose: true
 #  name: Mood Lights CWWW
@@ -211,7 +203,7 @@ media_player.android_tv:
     - Fernseher
     - TV
     - Android TV
-scene.chilly:
+scene.chill_mode_on:
   expose: true
   name: Chill
   room: Wohnzimmer
@@ -220,3 +212,11 @@ scene.chilly:
     - Chill Out
     - Chill Out Scene
     - Chill Out Szene
+switch.restreamer:
+  expose: true
+  name: Kamera
+  room: Wohnzimmer
+  aliases:
+    - Kamera
+    - Camera
+    - Restreamer

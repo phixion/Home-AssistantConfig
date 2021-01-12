@@ -5,7 +5,7 @@
 #╚██████╗╚██████╔╝██║ ╚═╝ ██║██║ ╚═╝ ██║╚██████╔╝██║ ╚████║
 # ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚═╝     ╚═╝ ╚═════╝ ╚═╝  ╚═══╝
 #
-default_config:
+#default_config:
 config:
 websocket_api:
 system_health:
@@ -18,6 +18,4 @@ zeroconf:
 ssdp:
 updater:
   reporting: false
-discovery:
-  ignore:
-    - sabnzbd
+

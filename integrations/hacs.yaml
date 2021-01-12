@@ -1,0 +1,17 @@
+#██╗  ██╗ █████╗  ██████╗███████╗
+#██║  ██║██╔══██╗██╔════╝██╔════╝
+#███████║███████║██║     ███████╗
+#██╔══██║██╔══██║██║     ╚════██║
+#██║  ██║██║  ██║╚██████╗███████║
+#╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚══════╝
+# https://hacs.xyz/docs/configuration/legacy
+#
+hacs:
+  token: !secret hacs_githubtoken_pwd
+  sidepanel_title: HACS
+  sidepanel_icon: mdi:alpha-c-box
+  appdaemon: true
+  netdaemon: true
+  country: DE
+  release_limit: 10
+  experimental: true

@@ -50,42 +50,66 @@
       measurement: '"W"'
       value_template: "{{ value | round(2) }}"
       unit_of_measurement: W
-    - name: Heating Livingroom (last hour)
+    - name: Heating Wohnzimmer (last hour)
       database: homeassistant
-      where: '"entity_id" = ''heating_wohnzimmer_on_today'' AND time >= now() - 60m'
+      where: 'time > now() - 1h AND time < now() AND "entity_id" = ''heating_time_wohnzimmer'''
       measurement: '"min"'
       value_template: "{{ value | round(2) }}"
-      unit_of_measurement: m
-- platform: sql
-  scan_interval: 86400 # 24h
-  db_url: !secret dburl # pragma: allowlist secret
-  queries:
-    - name: MariaDB Homeassistant
-      query: 'SELECT table_schema "database", Round(Sum(data_length + index_length) / 1024 / 1024 / 1024, 2) "value" FROM information_schema.tables WHERE table_schema="hassio" GROUP BY table_schema;'
-      column: "value"
-      unit_of_measurement: GB
-    - name: MariaDB States recorded today
-      query: "SELECT COUNT(*) as value FROM states WHERE created BETWEEN CURDATE() AND adddate(current_date, 1) LIMIT 1;"
-      column: "value"
-      unit_of_measurement: States
-    - name: MariaDB States recorded yesterday
-      query: "SELECT COUNT(*) as value FROM states WHERE created BETWEEN subdate(current_date, 1) and CURDATE() LIMIT 1;"
-      column: "value"
-      unit_of_measurement: States
-    - name: MariaDB Total states stored
-      query: "SELECT COUNT(*) as value FROM states;"
-      column: "value"
-      unit_of_measurement: States
-    - name: MariaDB Unique Entity IDs
-      query: "SELECT count(DISTINCT entity_id) as value FROM states;"
-      column: "value"
-      unit_of_measurement: Entities
-    - name: MariaDB Newest Entity ID
-      query: "SELECT entity_id, min(last_updated) as last_state FROM states GROUP BY entity_id ORDER BY last_state DESC LIMIT 1;"
-      column: "entity_id"
-    - name: MariaDB Most Updated Entity ID
-      query: "SELECT entity_id, count(*) as count, max(last_updated), min(last_updated) FROM states GROUP BY entity_id ORDER BY count DESC LIMIT 1;"
-      column: "entity_id"
+      unit_of_measurement: min
+    - name: Heating Wohnzimmer (past 24hrs)
+      database: homeassistant
+      where: 'time > now() - 24h AND time < now() AND "entity_id" = ''heating_time_wohnzimmer'''
+      measurement: '"min"'
+      value_template: "{{ value | round(2) }}"
+      unit_of_measurement: min
+    - name: Heating Wohnzimmer (past 7 days)
+      database: homeassistant
+      where: 'time > now() - 7d AND time < now() AND "entity_id" = ''heating_time_wohnzimmer'''
+      measurement: '"min"'
+      value_template: "{{ value | round(2) }}"
+      unit_of_measurement: min
+    - name: Heating Wohnzimmer (past 30 days)
+      database: homeassistant
+      where: 'time > now() - 30d AND time < now() AND "entity_id" = ''heating_time_wohnzimmer'''
+      measurement: '"min"'
+      value_template: "{{ value | round(2) }}"
+      unit_of_measurement: min
+    - name: Heating Wohnzimmer (past year)
+      database: homeassistant
+      where: 'time > now() - 365d AND time < now() AND "entity_id" = ''heating_time_wohnzimmer'''
+      measurement: '"min"'
+      value_template: "{{ value | round(2) }}"
+      unit_of_measurement: min
+      #- platform: sql
+#  scan_interval: 86400 # 24h
+#  db_url: !secret dburl # pragma: allowlist secret
+#  queries:
+#    - name: MariaDB Homeassistant
+#      query: 'SELECT table_schema "database", Round(Sum(data_length + index_length) / 1024 / 1024 / 1024, 2) "value" FROM information_schema.tables WHERE table_schema="hassio" GROUP BY table_schema;'
+#      column: "value"
+#      unit_of_measurement: GB
+#    - name: MariaDB States recorded today
+#      query: "SELECT COUNT(*) as value FROM states WHERE created BETWEEN CURDATE() AND adddate(current_date, 1) LIMIT 1;"
+#      column: "value"
+#      unit_of_measurement: States
+#    - name: MariaDB States recorded yesterday
+#      query: "SELECT COUNT(*) as value FROM states WHERE created BETWEEN subdate(current_date, 1) and CURDATE() LIMIT 1;"
+#      column: "value"
+#      unit_of_measurement: States
+#    - name: MariaDB Total states stored
+#      query: "SELECT COUNT(*) as value FROM states;"
+#      column: "value"
+#      unit_of_measurement: States
+#    - name: MariaDB Unique Entity IDs
+#      query: "SELECT count(DISTINCT entity_id) as value FROM states;"
+#      column: "value"
+#      unit_of_measurement: Entities
+#    - name: MariaDB Newest Entity ID
+#      query: "SELECT entity_id, min(last_updated) as last_state FROM states GROUP BY entity_id ORDER BY last_state DESC LIMIT 1;"
+#      column: "entity_id"
+#    - name: MariaDB Most Updated Entity ID
+#      query: "SELECT entity_id, count(*) as count, max(last_updated), min(last_updated) FROM states GROUP BY entity_id ORDER BY count DESC LIMIT 1;"
+#      column: "entity_id"
 - platform: version
   image: qemux86-64
   source: local
@@ -201,15 +225,6 @@
   exclusions:
     - image
 - platform: feedparser
-  name: rss xur
-  feed_url: "https://whereisxur.com/feed/"
-  inclusions:
-    - title
-    - link
-    - pubDate
-  exclusions:
-    - image
-- platform: feedparser
   name: rss coindesk
   feed_url: "https://www.coindesk.com/feed"
   inclusions:
@@ -293,10 +308,6 @@
   verify_ssl: false
 - platform: template
   sensors:
-    #    airquality_sensor:
-    #      friendly_name: Air Quality
-    #      unit_of_measurement: ppm
-    #      value_template: "{{ states('sensor.serial_sensor').split('|')[1] | float }}"
     climate_wohnung_temp:
       friendly_name: Wohnung
       unit_of_measurement: "°C"
@@ -990,30 +1001,12 @@
     - present
     - zone
   resource: !secret xur_rest_api
-  value_template: "{{ value_json.xur }}"
-- platform: template
-  sensors:
-    desc:
-      friendly_name: "Description"
-      value_template: '{{ states.sensor.json_xur.attributes["desc"] }}'
-    found:
-      friendly_name: "Found"
-      value_template: '{{ states.sensor.json_xur.attributes["found"] }}'
-    img:
-      friendly_name: "Image"
-      value_template: '"https://wherethefuckisxur.com/"{{ states.sensor.json_xur.attributes["img"] }}'
-    lastupdate:
-      friendly_name: "Last Update"
-      value_template: '{{ states.sensor.json_xur.attributes["lastUpdate"] }}'
-    planet:
-      friendly_name: "Last Update"
-      value_template: '{{ states.sensor.json_xur.attributes["planet"] }}'
-    present:
-      friendly_name: "Present"
-      value_template: '{{ states.sensor.json_xur.attributes["present"] }}'
-    zone:
-      friendly_name: "Zone"
-      value_template: '{{ states.sensor.json_xur.attributes["zone"] }}'
+  value_template: "{{ value_json.present }}"
+#- platform: template
+#  sensors:
+#    where_the_fuck_is_xur:
+#      value_template: "{{ value_json.xur }}"
+#      entity_picture_template: "{{ 'https://wherethefuckisxur.com'+state_attr('value_json.xur', 'img')}}"
 - platform: rest
   name: Club Status
   json_attributes:
@@ -1022,22 +1015,10 @@
     - state
     - location
     - feeds
+    - logo
   resource: !secret muccc_spaceapi
-  value_template: "{{ value_json.muccc_spaceapi }}"
-- platform: template
-  sensors:
-    space:
-      friendly_name: "Space"
-      value_template: '{{ states.sensor.json_muccc_spaceapi.attributes["space"] }}'
-    url:
-      friendly_name: "Url"
-      value_template: '{{ states.sensor.json_muccc_spaceapi.attributes["url"] }}'
-    state:
-      friendly_name: "State"
-      value_template: '{{ states.sensor.json_muccc_spaceapi.attributes["state"] }}'
-    location:
-      friendly_name: "Location"
-      value_template: '{{ states.sensor.json_muccc_spaceapi.attributes["location"] }}'
-    feeds:
-      friendly_name: "Location"
-      value_template: '{{ states.sensor.json_muccc_spaceapi.attributes["feeds"] }}'
+  value_template: "{{ value_json.state.message }}"
+  headers:
+    Accept: application/json
+    Content-Type: application/json
+    User-Agent: hassio REST sensor (msg phixion@irc if concerns)

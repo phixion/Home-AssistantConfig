@@ -10,9 +10,9 @@ esphome:
       - lambda: |
           id(ids_seen) = new std::set<std::string>();
 globals:
-   - id: ids_seen
-     type: void*
-     restore_value: no
+  - id: ids_seen
+    type: void*
+    restore_value: no
 substitutions:
   devicename: nodemcu7
   friendly_name: Nodemcu 7
@@ -31,8 +31,8 @@ sensor:
     name: ${friendly_name} (${room}) BLE Sensor
     id: ble_sensor
   - platform: template
-    name: "Corona App User (60s)"
-    update_interval: 60s
+    name: "Corona App User (15min)"
+    update_interval: 300s
     unit_of_measurement: User
     accuracy_decimals: 0
     lambda: !lambda |-
@@ -54,7 +54,7 @@ sensor:
 text_sensor:
   - platform: version
     name: ${friendly_name} (${room}) Version
-    icon: 'mdi:car-esp'
+    icon: "mdi:car-esp"
     on_value:
       then:
         - lambda: |-
@@ -95,7 +95,7 @@ text_sensor:
     update_interval: ${update_interval_long}
   - platform: template
     name: ${friendly_name} (${room}) MAC Address
-    lambda: 'return {WiFi.macAddress().c_str()};'
+    lambda: "return {WiFi.macAddress().c_str()};"
     icon: mdi:fingerprint
   - platform: template
     id: latest_coronamelder_detected
@@ -108,10 +108,10 @@ binary_sensor:
     id: mibandpresence
     mac_address: !secret blemac_0
     name: "Mi Intelliband 4"
+    device_class: presence
 switch:
   - platform: restart
     name: ${friendly_name} (${room}) Restart
-
 esp32_ble_tracker:
   on_ble_advertise:
     - mac_address: !secret blemac_0
@@ -138,23 +138,23 @@ exposure_notifications:
       - if:
           condition:
             lambda: |
-                auto ids_seen_set = (std::set<std::string>*)id(ids_seen);
-                auto id_as_str = hexencode(x.rolling_proximity_identifier);
-                if( !ids_seen_set->count( id_as_str ) )
-                {
-                  ids_seen_set->insert(id_as_str);
-                  ESP_LOGD("main", "Got new notification:");
-                  ESP_LOGD("main", "  RPI: %s", id_as_str.c_str() );
-                  ESP_LOGD("main", "  RSSI: %d", x.rssi);
-                  return true;
-                }
-                else
-                {
-                  ESP_LOGD("main", "Got existing notification:");
-                  ESP_LOGD("main", "  RPI: %s", id_as_str.c_str() );
-                  return false;
-                }
+              auto ids_seen_set = (std::set<std::string>*)id(ids_seen);
+              auto id_as_str = hexencode(x.rolling_proximity_identifier);
+              if( !ids_seen_set->count( id_as_str ) )
+              {
+                ids_seen_set->insert(id_as_str);
+                ESP_LOGD("main", "Got new notification:");
+                ESP_LOGD("main", "  RPI: %s", id_as_str.c_str() );
+                ESP_LOGD("main", "  RSSI: %d", x.rssi);
+                return true;
+              }
+              else
+              {
+                ESP_LOGD("main", "Got existing notification:");
+                ESP_LOGD("main", "  RPI: %s", id_as_str.c_str() );
+                return false;
+              }
           then:
-              - text_sensor.template.publish:
-                  id: latest_coronamelder_detected
-                  state: !lambda 'return hexencode(x.rolling_proximity_identifier).c_str();'
+            - text_sensor.template.publish:
+                id: latest_coronamelder_detected
+                state: !lambda "return hexencode(x.rolling_proximity_identifier).c_str();"

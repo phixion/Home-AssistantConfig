@@ -4,7 +4,7 @@ substitutions:
   room: Wohnzimmer
   update_interval_short: 2min
   update_interval_long: 10min
-  frequency_rgb: 100 Hz
+  frequency_rgb: 1000 Hz
   frequency_cw: 1000 Hz
   frequency_ww: 1000 Hz
 esphome:
@@ -13,6 +13,18 @@ esphome:
   platform: ESP8266
   board: esp01_1m
   board_flash_mode: dout
+  on_boot:
+    priority: 100
+    then:
+      - light.turn_on:
+          state: True
+          id: ${devicename}_cwww
+          transition_length: 3s
+          white: 100%
+          brightness: 100%
+      - light.turn_off:
+          id: ${devicename}_rgb
+          transition_length: 0s
 globals: !include shared/globals.yaml
 web_server: !include shared/webserver.yaml
 time: !include shared/time.yaml
@@ -20,6 +32,7 @@ sensor: !include shared/sensors.yaml
 binary_sensor: !include shared/binarysensors.yaml
 output: !include shared/rgbcwwwoutput.yaml
 light: !include shared/rgbcwww.yaml
+#light: !include shared/rgbww.yaml
 text_sensor: !include shared/textsensors.yaml
 wifi: !include shared/wifi.yaml
 api: !include shared/api.yaml

@@ -1,31 +1,22 @@
-import requests
-import datetime
-import icalendar
-from collections import OrderedDict
 import urllib.parse
 
+import requests
+
 from ..helpers import CollectionAppointment
+from ..service.ICS import ICS
 
 DESCRIPTION = "Source for Berliner Stadtreinigungsbetriebe"
 URL = "bsr.de"
-TEST_CASES = OrderedDict(
-    [
-        (
-            "Bahnhofstr., 12159 Berlin (Tempelhof-Schöneberg)",
-            {
-                "abf_strasse": "Bahnhofstr., 12159 Berlin (Tempelhof-Schöneberg)",
-                "abf_hausnr": 1,
-            },
-        ),
-        (
-            "Am Ried, 13467 Berlin (Reinickendorf)",
-            {
-                "abf_strasse": "Am Ried, 13467 Berlin (Reinickendorf)",
-                "abf_hausnr": "11G",
-            },
-        ),
-    ]
-)
+TEST_CASES = {
+    "Bahnhofstr., 12159 Berlin (Tempelhof-Schöneberg)": {
+        "abf_strasse": "Bahnhofstr., 12159 Berlin (Tempelhof-Schöneberg)",
+        "abf_hausnr": 1,
+    },
+    "Am Ried, 13467 Berlin (Reinickendorf)": {
+        "abf_strasse": "Am Ried, 13467 Berlin (Reinickendorf)",
+        "abf_hausnr": "11G",
+    },
+}
 
 
 def myquote(s):
@@ -37,6 +28,7 @@ class Source:
     def __init__(self, abf_strasse, abf_hausnr):
         self._abf_strasse = abf_strasse
         self._abf_hausnr = abf_hausnr
+        self._ics = ICS()
 
     def fetch(self):
         # get cookie
@@ -67,9 +59,9 @@ class Source:
             "abf_config_biogut": "on",
             "abf_config_wertstoffe": "on",
             "abf_config_laubtonne": "on",
-            #"abf_selectmonth": "5 2020",
-            #"abf_datepicker": "28.04.2020",
-            #"listitems":7,
+            # "abf_selectmonth": "5 2020",
+            # "abf_datepicker": "28.04.2020",
+            # "listitems":7,
         }
         r = requests.post(
             "https://www.bsr.de/abfuhrkalender_ajax.php?script=dynamic_kalender_ajax",
@@ -87,8 +79,8 @@ class Source:
             "abf_config_biogut": "on",
             "abf_config_wertstoffe": "on",
             "abf_config_laubtonne": "on",
-            #"abf_selectmonth": "5 2020",
-            #"listitems":7,
+            # "abf_selectmonth": "5 2020",
+            # "listitems":7,
         }
 
         # create url using private url encoding
@@ -97,17 +89,9 @@ class Source:
         r = requests.get(url, cookies=cookies)
 
         # parse ics file
-        calender = icalendar.Calendar.from_ical(r.text)
+        dates = self._ics.convert(r.text)
 
         entries = []
-        for e in calender.walk():
-            if e.name == "VEVENT":
-                dtstart = None
-                if type(e.get("dtstart").dt) == datetime.date:
-                    dtstart = e.get("dtstart").dt
-                elif type(e.get("dtstart").dt) == datetime.datetime:
-                    dtstart = e.get("dtstart").dt.date()
-                summary = str(e.get("summary"))
-                entries.append(CollectionAppointment(dtstart, summary))
-
+        for d in dates:
+            entries.append(CollectionAppointment(d[0], d[1]))
         return entries

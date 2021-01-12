@@ -1,9 +1,9 @@
 - alias: Trigger alarm while armed away
   id: "55"
   trigger:
-    - platform: state
-      entity_id: binary_sensor.motion_sensor
-      to: "on"
+#    - platform: state
+#      entity_id: binary_sensor.motion_sensor
+#      to: "on"
     - platform: state
       entity_id: binary_sensor.nodemcu_4_kuche_doppler_sensor
       to: "on"

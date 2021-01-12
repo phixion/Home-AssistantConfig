@@ -44,14 +44,14 @@
     - service: switch.toggle
       entity_id:
         - switch.nodemcu_5_bad_restart
-- alias: Restart Motion Sensor Wohnzimmer
-  id: "27c"
-  trigger:
-    - platform: state
-      entity_id: binary_sensor.motion_sensor
-      to: "unavailable"
-      for:
-        minutes: 10
+#- alias: Restart Motion Sensor Wohnzimmer
+#  id: "27c"
+#  trigger:
+#    - platform: state
+#      entity_id: binary_sensor.motion_sensor
+#      to: "unavailable"
+#      for:
+#        minutes: 10
 #  condition:
 #    condition: or
 #    conditions:
@@ -61,8 +61,8 @@
 #      - condition: state
 #        entity_id: input_select.home_mode
 #        state: Vacation
-  action:
-    - service: ffmpeg.restart
-      data:
-        entity_id:
-          - binary_sensor.motion_sensor
+#  action:
+#    - service: ffmpeg.restart
+#      data:
+#        entity_id:
+#          - binary_sensor.motion_sensor

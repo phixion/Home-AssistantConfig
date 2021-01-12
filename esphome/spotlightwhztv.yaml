@@ -13,6 +13,18 @@ esphome:
   platform: ESP8266
   board: esp01_1m
   board_flash_mode: dout
+  on_boot:
+    priority: 100
+    then:
+      - light.turn_on:
+          state: True
+          id: ${devicename}_cwww
+          transition_length: 3s
+          white: 100%
+          brightness: 100%
+      - light.turn_off:
+          id: ${devicename}_rgb
+          transition_length: 0s
 globals: !include shared/globals.yaml
 web_server: !include shared/webserver.yaml
 time: !include shared/time.yaml

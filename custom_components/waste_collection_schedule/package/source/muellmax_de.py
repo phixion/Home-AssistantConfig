@@ -1,35 +1,25 @@
-import requests
-import datetime
-import icalendar
-from collections import OrderedDict
 from html.parser import HTMLParser
 
+import requests
 
 from ..helpers import CollectionAppointment
+from ..service.ICS import ICS
 
 DESCRIPTION = "Source for Muellmax.de based services."
 URL = "https://www.muellmax.de"
-TEST_CASES = OrderedDict(
-    [
-        (
-            "Frankfurt, Achenbachstrasse 5",
-            {
-                "service": "Fes",
-                "mm_frm_str_sel": "Achenbachstraße",
-                "mm_frm_hnr_sel": "60596;Sachsenhausen;5;",
-            },
-        ),
-        (
-            "Rhein-Sieg-Kreis, Alfter",
-            {
-                "service": "Rsa",
-                "mm_frm_ort_sel": "Alfter",
-                "mm_frm_str_sel": "Ahrweg (105-Ende/94-Ende)",
-            },
-        ),
-        ("Münster, Achatiusweg", {"service": "Awm", "mm_frm_str_sel": "Achatiusweg"}),
-    ]
-)
+TEST_CASES = {
+    "Frankfurt, Achenbachstrasse 5": {
+        "service": "Fes",
+        "mm_frm_str_sel": "Achenbachstraße",
+        "mm_frm_hnr_sel": "60596;Sachsenhausen;5;",
+    },
+    "Rhein-Sieg-Kreis, Alfter": {
+        "service": "Rsa",
+        "mm_frm_ort_sel": "Alfter",
+        "mm_frm_str_sel": "Ahrweg (105-Ende/94-Ende)",
+    },
+    "Münster, Achatiusweg": {"service": "Awm", "mm_frm_str_sel": "Achatiusweg"},
+}
 
 
 # Parser for HTML checkbox
@@ -78,6 +68,7 @@ class Source:
         self._mm_frm_ort_sel = mm_frm_ort_sel
         self._mm_frm_str_sel = mm_frm_str_sel
         self._mm_frm_hnr_sel = mm_frm_hnr_sel
+        self._ics = ICS()
 
     def fetch(self):
         mm_ses = InputTextParser(name="mm_ses")
@@ -152,13 +143,9 @@ class Source:
         entries = []
 
         # parse ics file
-        calender = icalendar.Calendar.from_ical(r.text)
+        dates = self._ics.convert(r.text)
 
         entries = []
-        for e in calender.walk():
-            if e.name == "VEVENT":
-                dtstart = e.get("dtstart").dt
-                summary = str(e.get("summary"))
-                entries.append(CollectionAppointment(dtstart, summary))
-
+        for d in dates:
+            entries.append(CollectionAppointment(d[0], d[1]))
         return entries
