@@ -6,7 +6,7 @@
 #╚═╝      ╚═════╝ ╚══════╝╚═════╝ ╚══════╝╚═╝  ╚═╝     ╚══╝╚══╝ ╚═╝  ╚═╝   ╚═╝    ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝
 # https://www.home-assistant.io/integrations/folder_watcher/
 #
-folder_watcher:
-  - folder: /config/tmp/
-    patterns:
-      - "*.yaml"
+folder_watcher: #seddelete
+  - folder: /config/tmp/ #seddelete
+    patterns: #seddelete
+      - "*.yaml" #seddelete

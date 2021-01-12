@@ -31,8 +31,10 @@ jobs:
         run: sudo apt-get -qq update && sed 's/#.*//' $(pwd)/.doc/CI/ubuntu_deps.lst | xargs sudo apt-get install -y -o Dpkg::Options::=--force-confnew
       - name: Copy stub files into configuration folder
         run: cp -R ./.doc/CI/* .
-      - name: remove unwanted configuration entries
-        run:  sed -i '/#seddelete/d' configuration.yaml
+      - name: remove unwanted configuration entries from configuration.yaml
+        run: sed -i '/#seddelete/d' configuration.yaml
+      - name: remove unwanted configuration entries from integrations/folder_watcher.yaml
+        run: sed -i '/#seddelete/d' integrations/folder_watcher.yaml
       - name: Home Assistant Version
         uses: "docker://homeassistant/home-assistant:stable"
         with:
@@ -51,8 +53,10 @@ jobs:
         run: sudo apt-get -qq update && sed 's/#.*//' $(pwd)/.doc/CI/ubuntu_deps.lst | xargs sudo apt-get install -y -o Dpkg::Options::=--force-confnew
       - name: Copy stub files into configuration folder
         run: cp -R ./.doc/CI/* .
-      - name: remove unwanted configuration entries
-        run:  sed -i '/#seddelete/d' configuration.yaml
+      - name: remove unwanted configuration entries from configuration.yaml
+        run: sed -i '/#seddelete/d' configuration.yaml
+      - name: remove unwanted configuration entries from integrations/folder_watcher.yaml
+        run: sed -i '/#seddelete/d' integrations/folder_watcher.yaml
       - name: Home Assistant Version
         uses: "docker://homeassistant/home-assistant:beta"
         with:
@@ -71,8 +75,10 @@ jobs:
         run: sudo apt-get -qq update && sed 's/#.*//' $(pwd)/.doc/CI/ubuntu_deps.lst | xargs sudo apt-get install -y -o Dpkg::Options::=--force-confnew
       - name: Copy stub files into configuration folder
         run: cp -R ./.doc/CI/* .
-      - name: remove unwanted configuration entries
-        run:  sed -i '/#seddelete/d' configuration.yaml
+      - name: remove unwanted configuration entries from configuration.yaml
+        run: sed -i '/#seddelete/d' configuration.yaml
+      - name: remove unwanted configuration entries from integrations/folder_watcher.yaml
+        run: sed -i '/#seddelete/d' integrations/folder_watcher.yaml
       - name: Home Assistant Version
         uses: "docker://homeassistant/home-assistant:dev"
         with:
