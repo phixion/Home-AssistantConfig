@@ -1,0 +1,8 @@
+- id: "1610777679054"
+  alias: Send Notification for Home Assistant Alert
+  description: ""
+  use_blueprint:
+    path: homeassistant/alerts.yaml
+    input:
+      title: New Home Assistant alert
+      urls_supported: true

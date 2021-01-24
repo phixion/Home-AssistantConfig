@@ -17,6 +17,7 @@
   trigger:
     - platform: state
       entity_id: sensor.cheese_forever
+      attribute: url
   condition:
     - condition: template
       value_template: "{{ as_timestamp(now()) - as_timestamp(states.automation.notification_cheese_forever_video.attributes.last_triggered) | int > 900 }}"

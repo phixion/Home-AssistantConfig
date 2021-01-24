@@ -1,7 +1,10 @@
-#
+#███████╗███████╗███╗   ██╗███████╗ ██████╗ ██████╗ ███████╗
+#██╔════╝██╔════╝████╗  ██║██╔════╝██╔═══██╗██╔══██╗██╔════╝
 #███████╗█████╗  ██╔██╗ ██║███████╗██║   ██║██████╔╝███████╗
 #╚════██║██╔══╝  ██║╚██╗██║╚════██║██║   ██║██╔══██╗╚════██║
 #███████║███████╗██║ ╚████║███████║╚██████╔╝██║  ██║███████║
+#╚══════╝╚══════╝╚═╝  ╚═══╝╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝
+#
 - platform: influxdb
   host: !secret influx_host # pragma: allowlist secret
   port: !secret influx_port # pragma: allowlist secret
@@ -233,6 +236,20 @@
     - pubDate
   exclusions:
     - image
+- platform: feedparser
+  name: RSS homeassistant alerts
+  feed_url: "https://alerts.home-assistant.io/feed.xml"
+  inclusions:
+    - title
+    - link
+    - pubDate
+- platform: feedparser
+  name: GitHub Newsfeed
+  feed_url: !secret feed_github_news # pragma: allowlist secret
+  inclusions:
+    - title
+    - link
+    - pubDate
 - platform: places
   name: Martin
   devicetracker_id: device_tracker.google_pixel
@@ -271,7 +288,7 @@
   json_attributes:
     - memory_percent
 - platform: authenticated
-  provider: ipvigilante
+  provider: ipapi
   enable_notification: true
 - platform: uptime
 #  unit_of_measurement: days
@@ -494,7 +511,7 @@
       unit_of_measurement: "%"
       device_class: battery
     google_nexus_battery_level:
-      value_template: "{{ states.device_tracker.google_nexus.attributes.battery | default(101) | int if states.device_tracker.google_nexus.attributes.battery is not none}}"
+      value_template: "{{ states.sensor.nexus_battery_level.state | default(101) | int if states.sensor.nexus_battery_level.state is not none}}"
       friendly_name: Goolge Nexus Akku
       #      entity_id: device_tracker.google_nexus
       unit_of_measurement: "%"
@@ -1022,3 +1039,17 @@
     Accept: application/json
     Content-Type: application/json
     User-Agent: hassio REST sensor (msg phixion@irc if concerns)
+- platform: rest
+  name: Homeassistant Alerts
+  json_attributes:
+    - title
+    - created
+    - updated
+    - integrations
+    - packages
+    - github_issue
+    - homeassistant
+    - filename
+    - alert_url
+  resource: https://alerts.home-assistant.io/alerts.json
+  value_template: "{{ value_json.title }}"

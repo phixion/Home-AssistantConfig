@@ -7,3 +7,30 @@
     - service: rest_command.webhook
       data_template:
         command: "[HASSIO] Homeassistant is shutting down"
+- alias: Webhook on startup
+  id: "56a"
+  trigger:
+    - platform: homeassistant
+      event: start
+  action:
+    - service: rest_command.webhook
+      data_template:
+        command: "[HASSIO] Homeassistant is starting up"
+- alias: Webhook on System Updates
+  id: "56b"
+  trigger:
+    - platform: state
+      entity_id: sensor.system_updates
+  action:
+    - service: rest_command.webhook
+      data_template:
+        command: "[SERVER] {{states('sensor.system_updates')}} Pending System Updates"
+- alias: Webhook on Security Updates
+  id: "56c"
+  trigger:
+    - platform: state
+      entity_id: sensor.security_updates
+  action:
+    - service: rest_command.webhook
+      data_template:
+        command: "[SERVER] {{states('sensor.security_updates')}} Pending Security Updates"

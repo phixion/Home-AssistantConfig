@@ -17,6 +17,7 @@
   trigger:
     - platform: state
       entity_id: sensor.scaretheater
+      attribute: url
   condition:
     - condition: template
       value_template: "{{ as_timestamp(now()) - as_timestamp(states.automation.notification_scaretheater_video.attributes.last_triggered) | int > 900 }}"
@@ -36,10 +37,10 @@
       data:
         message: "Neues ScareTheater Video"
         data:
-          sound: 'notification'
-          icon: 'a10835'
+          sound: "notification"
+          icon: "a10835"
           cycles: 10
-          priority: 'critical'
+          priority: "critical"
 - alias: AndroidTV Play Latest ScareTheater Video
   id: "29"
   trigger:

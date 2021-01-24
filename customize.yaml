@@ -10,10 +10,10 @@ device_tracker.macbook_air:
   entity_picture: /local/_static/mac_book.png
 device_tracker.google_pixel:
   friendly_name: Google Pixel
-  icon: "fas:mobile"
+  icon: "mdi:cellphone-android"
   entity_picture: /local/_static/pixel.png
 device_tracker.google_nexus:
-  icon: "fas:tablet"
+  icon: "mdi:tablet-android"
   friendly_name: Google Nexus
   entity_picture: /local/_static/nexus.png
 person.martin:

@@ -61,6 +61,12 @@
 !integrations/
 !integrations/*.yaml
 
+#blueprints directory
+!blueprints/
+!blueprints/automation/
+!blueprints/automation/homeassistant
+!blueprints/**/*.yaml
+
 #esphome directory
 !esphome/
 !esphome/*.yaml
