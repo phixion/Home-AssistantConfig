@@ -1038,7 +1038,7 @@
   headers:
     Accept: application/json
     Content-Type: application/json
-    User-Agent: hassio REST sensor (msg phixion@irc if concerns)
+    User-Agent: hassio REST sensor (msg rid@muccc irc if concerns)
 - platform: rest
   name: Homeassistant Alerts
   json_attributes:
@@ -1053,3 +1053,18 @@
     - alert_url
   resource: https://alerts.home-assistant.io/alerts.json
   value_template: "{{ value_json.title }}"
+- platform: rest
+  name: Steam Status
+  json_attributes:
+    - psa
+    - services
+    - graph
+    - time
+    - online
+  resource: !secret steamstatus_api
+  value_template: "{{ value_json.online }}"
+  unit_of_measurement: "%"
+  headers:
+    Accept: application/json
+    Content-Type: application/json
+    User-Agent: hassio REST sensor (msg phixion@freenode if concerns)
