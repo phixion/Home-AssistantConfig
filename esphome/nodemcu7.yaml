@@ -109,6 +109,11 @@ binary_sensor:
     mac_address: !secret blemac_0
     name: "Mi Intelliband 4"
     device_class: presence
+  - platform: ble_presence
+    id: nexuspresence
+    mac_address: !secret blemac_1
+    name: "Google Nexus"
+    device_class: presence
 switch:
   - platform: restart
     name: ${friendly_name} (${room}) Restart
