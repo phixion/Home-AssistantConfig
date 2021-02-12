@@ -126,14 +126,14 @@
 - id: normal_mode_on
   name: Normal Mode on
   entities:
-    light.bulbbad_rgb:
-      brightness: 255
-      effect: None
-      state: 'on'
-      rgb_color:
-      - 255
-      - 255
-      - 255
+#    light.bulbbad_rgb:
+#      brightness: 255
+#      effect: None
+#      state: 'on'
+#      rgb_color:
+#      - 255
+#      - 255
+#      - 255
     light.bulbflur_rgb:
       brightness: 255
       effect: None

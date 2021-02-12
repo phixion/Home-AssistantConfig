@@ -44,8 +44,8 @@ group:
   telegram_devices:
     name: Telegram Devices
     entities:
-#      - light.bulbspotwhzdesk_rgb
-#      - light.bulbspotwhzdesk_cwww
+      #      - light.bulbspotwhzdesk_rgb
+      #      - light.bulbspotwhzdesk_cwww
       - light.bulbspotwhztv_rgb
       - light.bulbspotwhztv_cwww
       - light.bulbwhzlamp_rgb
@@ -58,11 +58,11 @@ group:
       - light.bulbkueche_cwww
       - light.schalter_schrank_kuche_light
       - light.schalter_1_bad_light
-      - light.bulbbad_rgb
-#      - light.bulbbad_cwww
+  #      - light.bulbbad_rgb
+  #      - light.bulbbad_cwww
   motion_detectors:
     name: Motion Detectors
     entities:
-      - binary_sensor.nodemcu_2_wohnzimmer_doppler_sensor
+      #      - binary_sensor.nodemcu_2_wohnzimmer_doppler_sensor
       - binary_sensor.nodemcu_4_kuche_doppler_sensor
       - binary_sensor.nodemcu_5_bad_doppler_sensor

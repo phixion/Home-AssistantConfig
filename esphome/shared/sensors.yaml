@@ -4,6 +4,13 @@
     unit_of_measurement: dB
     icon: mdi:wifi
     force_update: true
+  - platform: wifi_signal
+    name: ${friendly_name} (${room}) RSSI
+    update_interval: ${update_interval_long}
+    unit_of_measurement: '%'
+    accuracy_decimals: 0
+    filters:
+    - lambda: return map(x, -100, -20, 0, 100);
   - platform: uptime
     force_update: true
     id: ${devicename}_uptime

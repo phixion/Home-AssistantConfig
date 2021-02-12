@@ -12,6 +12,6 @@ hacs:
   sidepanel_icon: mdi:alpha-c-box
   appdaemon: true
   netdaemon: true
-  country: DE
+#  country: DE
   release_limit: 10
   experimental: true
