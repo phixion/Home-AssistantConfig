@@ -963,9 +963,9 @@
 #- platform: serial
 #  serial_port: /dev/ttyUSB1
 #  baudrate: 9600
-- platform: myjdownloader
-  email: !secret jd_user
-  password: !secret jd_passwd
+#- platform: myjdownloader
+#  email: !secret jd_user
+#  password: !secret jd_passwd
 - platform: waste_collection_schedule
   source_index: 0
   name: Müllabfuhr

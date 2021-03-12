@@ -6,20 +6,20 @@
   action:
     - service: notify.telegram
       data_template:
-        title: Xur changed location
+        title: Xûr changed location
         message: "{{states('sensor.where_the_fuck_is_xur')}}"
     - service: notify.discord
       data:
-        message: "{{state_attr('sensor.where_the_fuck_is_xur', 'desc')}}"
+        message: "Xûr is at {{state_attr('sensor.where_the_fuck_is_xur', 'planet')}}, {{state_attr('sensor.where_the_fuck_is_xur', 'zone')}}, {{state_attr('sensor.where_the_fuck_is_xur', 'desc')}}"
         target: !secret discord_channel_id0
         data:
          images:
-            - https://wherethefuckisxur.com{{state_attr('sensor.where_the_fuck_is_xur', 'desc')}}
+            - "https://wherethefuckisxur.com{{state_attr('sensor.where_the_fuck_is_xur', 'img')}}"
     - service: telegram_bot.send_photo
       data_template:
         target: "{{ trigger.event.data.user_id }}"
         disable_notification: true
-        file: "https://wherethefuckisxur.com{{state_attr('sensor.where_the_fuck_is_xur', 'desc')}}"
+        file: "https://wherethefuckisxur.com{{state_attr('sensor.where_the_fuck_is_xur', 'img')}}"
 #- alias: Update Xur Sensor
 #  id: "17"
 #  trigger:
