@@ -56,7 +56,7 @@
     - name: Heating Wohnzimmer (last hour)
       database: homeassistant
       where: 'time > now() - 1h AND time < now() AND "entity_id" = ''heating_time_wohnzimmer'''
-      measurement: '"min"'
+      measurement: '"min"' 
       value_template: "{{ value | round(2) }}"
       unit_of_measurement: min
     - name: Heating Wohnzimmer (past 24hrs)
@@ -708,22 +708,25 @@
   entity_id: binary_sensor.heating_bad
   state: "on"
   type: time
-  start: "{{ now().replace(hour=0, minute=0, second=0) }}"
-  end: "{{ now() }}"
+  end: "{{ now().replace(hour=0, minute=0, second=0) }}"
+  duration:
+    days: 1
 - platform: history_stats
   name: Heating Flur On Today
   entity_id: binary_sensor.heating_flur
   state: "on"
   type: time
-  start: "{{ now().replace(hour=0, minute=0, second=0) }}"
-  end: "{{ now() }}"
+  end: "{{ now().replace(hour=0, minute=0, second=0) }}"
+  duration:
+    days: 1
 - platform: history_stats
   name: Heating Wohnzimmer On Today
   entity_id: binary_sensor.heating_wohnzimmer
   state: "on"
   type: time
-  start: "{{ now().replace(hour=0, minute=0, second=0) }}"
-  end: "{{ now() }}"
+  end: "{{ now().replace(hour=0, minute=0, second=0) }}"
+  duration:
+    days: 1
 - platform: history_stats
   name: Heating Bad On Yesterday
   entity_id: binary_sensor.heating_bad
@@ -731,7 +734,7 @@
   type: time
   end: "{{ now().replace(hour=0, minute=0, second=0) }}"
   duration:
-    hours: 24
+    days: 2
 - platform: history_stats
   name: Heating Flur On Yesterday
   entity_id: binary_sensor.heating_flur
@@ -739,7 +742,7 @@
   type: time
   end: "{{ now().replace(hour=0, minute=0, second=0) }}"
   duration:
-    hours: 24
+    days: 2
 - platform: history_stats
   name: Heating Wohnzimmer On Yesterday
   entity_id: binary_sensor.heating_wohnzimmer
@@ -747,7 +750,7 @@
   type: time
   end: "{{ now().replace(hour=0, minute=0, second=0) }}"
   duration:
-    hours: 24
+    days: 2
 - platform: history_stats
   name: Heating Bad On this Week
   entity_id: binary_sensor.heating_bad
@@ -1053,18 +1056,18 @@
     - alert_url
   resource: https://alerts.home-assistant.io/alerts.json
   value_template: "{{ value_json.title }}"
-- platform: rest
-  name: Steam Status
-  json_attributes:
-    - psa
-    - services
-    - graph
-    - time
-    - online
-  resource: !secret steamstatus_api
-  value_template: "{{ value_json.online }}"
-  unit_of_measurement: "%"
-  headers:
-    Accept: application/json
-    Content-Type: application/json
-    User-Agent: hassio REST sensor (msg phixion@freenode if concerns)
+#- platform: rest
+#  name: Steam Status
+#  json_attributes:
+#    - psa
+#    - services
+#    - graph
+#    - time
+#    - online
+#  resource: !secret steamstatus_api
+#  value_template: "{{ value_json.online }}"
+#  unit_of_measurement: "%"
+#  headers:
+#    Accept: application/json
+#    Content-Type: application/json
+#    User-Agent: hassio REST sensor (msg phixion@freenode if concerns)

@@ -102,3 +102,5 @@ ip_bans.yaml
 nogit_*
 ad_whitelist.txt
 __pycache__/
+*.asc
+*.pem
