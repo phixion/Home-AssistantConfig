@@ -15,10 +15,10 @@ input_boolean:
     name: Play latest InternetHistorian
     initial: off
     icon: mdi:youtube
-  play_h3:
-    name: Play latest h3 Podcast
-    initial: off
-    icon: mdi:youtube
+#  play_h3:
+#    name: Play latest h3 Podcast
+#    initial: off
+#    icon: mdi:youtube
   play_frenck:
     name: Play latest Frenck
     initial: off

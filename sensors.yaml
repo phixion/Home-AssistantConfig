@@ -943,8 +943,8 @@
 - platform: youtube
   channel_id: UCaGOgwGKnDVOKY0DrFsBAiA
 #h3h3podcast
-- platform: youtube
-  channel_id: UCLtREJY21xRfCuEKvdki1Kw
+#- platform: youtube
+#  channel_id: UCLtREJY21xRfCuEKvdki1Kw
 #reignbot
 - platform: youtube
   channel_id: UCchWU8ta6L-Dy3rGIxPINzw

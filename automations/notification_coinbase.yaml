@@ -1,20 +1,20 @@
-- alias: Notification Coinbase Wallet
-  id: "18"
-  trigger:
-    - platform: state
-      entity_id: sensor.coinbase_eur_wallet
-  action:
-    - service: notify.telegram
-      data_template:
-        title: ₿ Coinbase Wallet Value changed
-        message:
-          "Event triggered: {{ trigger.entity_id }} changed from {{ trigger.from_state.state
-          }} to {{ trigger.to_state.state }}"
-    - service: notify.lametric
-      data:
-        message: "Coinbase Wallet Value changed"
-        data:
-          sound: 'notification'
-          icon: 'i31338'
-          cycles: 10
-          priority: 'critical'
+#- alias: Notification Coinbase Wallet
+#  id: "18"
+#  trigger:
+#    - platform: state
+#      entity_id: sensor.coinbase_eur_wallet
+#  action:
+#    - service: notify.telegram
+#      data_template:
+#        title: ₿ Coinbase Wallet Value changed
+#        message:
+#          "Event triggered: {{ trigger.entity_id }} changed from {{ trigger.from_state.state
+#          }} to {{ trigger.to_state.state }}"
+#    - service: notify.lametric
+#      data:
+#        message: "Coinbase Wallet Value changed"
+#        data:
+#          sound: 'notification'
+#          icon: 'i31338'
+#          cycles: 10
+#          priority: 'critical'
