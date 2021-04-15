@@ -1,0 +1,17 @@
+# █████╗ ██████╗ ██████╗  ██████╗ ███╗   ██╗███████╗
+#██╔══██╗██╔══██╗██╔══██╗██╔═══██╗████╗  ██║██╔════╝
+#███████║██║  ██║██║  ██║██║   ██║██╔██╗ ██║███████╗
+#██╔══██║██║  ██║██║  ██║██║   ██║██║╚██╗██║╚════██║
+#██║  ██║██████╔╝██████╔╝╚██████╔╝██║ ╚████║███████║
+#╚═╝  ╚═╝╚═════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚══════╝
+#                                                   
+
+# restart letsencrypt addon daily to trigger cert renewal
+- alias: "System - Let's Encrypt Renewal"
+  trigger:
+    platform: time
+    at: '04:00:00'
+  action:
+    - service: hassio.addon_restart
+      data:
+        addon: core_letsencrypt

@@ -73,10 +73,10 @@ binary_sensor:
       climate_raumthermostat_wohnzimmer_battery_level_low:
         value_template: "{{ (states.sensor.climate_raumthermostat_wohnzimmer_battery_level | float) < 80 }}"
         friendly_name: "iTRV Raumthermostat Akku kritisch"
-      dark_outside:
-        value_template: "{{states.sun.sun.attributes.elevation|float < 2 or states.sensor.dark_sky_cloud_coverage.state|float > 50}}"
-        friendly_name: "Dark Outside"
-        device_class: light
+#      dark_outside:
+#        value_template: "{{states.sun.sun.attributes.elevation|float < 2 or states.sensor.dark_sky_cloud_coverage.state|float > 50}}"
+#        friendly_name: "Dark Outside"
+#        device_class: light
       dark_inside:
         value_template: "{{ (states.sensor.nodemcu_2_wohnzimmer_lichtsensor | float) < 200 }}" # lets consider 200 lux so dark that the cam needs a light
         friendly_name: "Dark Inside"

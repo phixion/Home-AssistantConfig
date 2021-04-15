@@ -53,66 +53,66 @@
       measurement: '"W"'
       value_template: "{{ value | round(2) }}"
       unit_of_measurement: W
-    - name: Heating Wohnzimmer (last hour)
-      database: homeassistant
-      where: 'time > now() - 1h AND time < now() AND "entity_id" = ''heating_time_wohnzimmer'''
-      measurement: '"min"' 
-      value_template: "{{ value | round(2) }}"
-      unit_of_measurement: min
-    - name: Heating Wohnzimmer (past 24hrs)
-      database: homeassistant
-      where: 'time > now() - 24h AND time < now() AND "entity_id" = ''heating_time_wohnzimmer'''
-      measurement: '"min"'
-      value_template: "{{ value | round(2) }}"
-      unit_of_measurement: min
-    - name: Heating Wohnzimmer (past 7 days)
-      database: homeassistant
-      where: 'time > now() - 7d AND time < now() AND "entity_id" = ''heating_time_wohnzimmer'''
-      measurement: '"min"'
-      value_template: "{{ value | round(2) }}"
-      unit_of_measurement: min
-    - name: Heating Wohnzimmer (past 30 days)
-      database: homeassistant
-      where: 'time > now() - 30d AND time < now() AND "entity_id" = ''heating_time_wohnzimmer'''
-      measurement: '"min"'
-      value_template: "{{ value | round(2) }}"
-      unit_of_measurement: min
-    - name: Heating Wohnzimmer (past year)
-      database: homeassistant
-      where: 'time > now() - 365d AND time < now() AND "entity_id" = ''heating_time_wohnzimmer'''
-      measurement: '"min"'
-      value_template: "{{ value | round(2) }}"
-      unit_of_measurement: min
-      #- platform: sql
-#  scan_interval: 86400 # 24h
-#  db_url: !secret dburl # pragma: allowlist secret
-#  queries:
-#    - name: MariaDB Homeassistant
-#      query: 'SELECT table_schema "database", Round(Sum(data_length + index_length) / 1024 / 1024 / 1024, 2) "value" FROM information_schema.tables WHERE table_schema="hassio" GROUP BY table_schema;'
-#      column: "value"
-#      unit_of_measurement: GB
-#    - name: MariaDB States recorded today
-#      query: "SELECT COUNT(*) as value FROM states WHERE created BETWEEN CURDATE() AND adddate(current_date, 1) LIMIT 1;"
-#      column: "value"
-#      unit_of_measurement: States
-#    - name: MariaDB States recorded yesterday
-#      query: "SELECT COUNT(*) as value FROM states WHERE created BETWEEN subdate(current_date, 1) and CURDATE() LIMIT 1;"
-#      column: "value"
-#      unit_of_measurement: States
-#    - name: MariaDB Total states stored
-#      query: "SELECT COUNT(*) as value FROM states;"
-#      column: "value"
-#      unit_of_measurement: States
-#    - name: MariaDB Unique Entity IDs
-#      query: "SELECT count(DISTINCT entity_id) as value FROM states;"
-#      column: "value"
-#      unit_of_measurement: Entities
-#    - name: MariaDB Newest Entity ID
-#      query: "SELECT entity_id, min(last_updated) as last_state FROM states GROUP BY entity_id ORDER BY last_state DESC LIMIT 1;"
-#      column: "entity_id"
-#    - name: MariaDB Most Updated Entity ID
-#      query: "SELECT entity_id, count(*) as count, max(last_updated), min(last_updated) FROM states GROUP BY entity_id ORDER BY count DESC LIMIT 1;"
-#      column: "entity_id"
+#    - name: Heating Wohnzimmer (last hour)
+#      database: homeassistant
+#      where: 'time > now() - 1h AND time < now() AND "entity_id" = ''heating_time_wohnzimmer'''
+#      measurement: '"min"' 
+#      value_template: "{{ value | round(2) }}"
+#      unit_of_measurement: min
+#    - name: Heating Wohnzimmer (past 24hrs)
+#      database: homeassistant
+#      where: 'time > now() - 24h AND time < now() AND "entity_id" = ''heating_time_wohnzimmer'''
+#      measurement: '"min"'
+#      value_template: "{{ value | round(2) }}"
+#      unit_of_measurement: min
+#    - name: Heating Wohnzimmer (past 7 days)
+#      database: homeassistant
+#      where: 'time > now() - 7d AND time < now() AND "entity_id" = ''heating_time_wohnzimmer'''
+#      measurement: '"min"'
+#      value_template: "{{ value | round(2) }}"
+#      unit_of_measurement: min
+#    - name: Heating Wohnzimmer (past 30 days)
+#      database: homeassistant
+#      where: 'time > now() - 30d AND time < now() AND "entity_id" = ''heating_time_wohnzimmer'''
+#      measurement: '"min"'
+#      value_template: "{{ value | round(2) }}"
+#      unit_of_measurement: min
+#    - name: Heating Wohnzimmer (past year)
+#      database: homeassistant
+#      where: 'time > now() - 365d AND time < now() AND "entity_id" = ''heating_time_wohnzimmer'''
+#      measurement: '"min"'
+#      value_template: "{{ value | round(2) }}"
+#      unit_of_measurement: min
+- platform: sql
+  scan_interval: 86400 # 24h
+  db_url: !secret dburl # pragma: allowlist secret
+  queries:
+    - name: MariaDB Homeassistant
+      query: 'SELECT table_schema "database", Round(Sum(data_length + index_length) / 1024 / 1024 / 1024, 2) "value" FROM information_schema.tables WHERE table_schema="hassio" GROUP BY table_schema;'
+      column: "value"
+      unit_of_measurement: GB
+    - name: MariaDB States recorded today
+      query: "SELECT COUNT(*) as value FROM states WHERE created BETWEEN CURDATE() AND adddate(current_date, 1) LIMIT 1;"
+      column: "value"
+      unit_of_measurement: States
+    - name: MariaDB States recorded yesterday
+      query: "SELECT COUNT(*) as value FROM states WHERE created BETWEEN subdate(current_date, 1) and CURDATE() LIMIT 1;"
+      column: "value"
+      unit_of_measurement: States
+    - name: MariaDB Total states stored
+      query: "SELECT COUNT(*) as value FROM states;"
+      column: "value"
+      unit_of_measurement: States
+    - name: MariaDB Unique Entity IDs
+      query: "SELECT count(DISTINCT entity_id) as value FROM states;"
+      column: "value"
+      unit_of_measurement: Entities
+    - name: MariaDB Newest Entity ID
+      query: "SELECT entity_id, min(last_updated) as last_state FROM states GROUP BY entity_id ORDER BY last_state DESC LIMIT 1;"
+      column: "entity_id"
+    - name: MariaDB Most Updated Entity ID
+      query: "SELECT entity_id, count(*) as count, max(last_updated), min(last_updated) FROM states GROUP BY entity_id ORDER BY count DESC LIMIT 1;"
+      column: "entity_id"
 - platform: version
   image: qemux86-64
   source: local
@@ -411,26 +411,26 @@
       value_template: "{{ ((states.sensor.btc_exchange_rate.state | float) / (states.sensor.eur_exchange_rate.state | float)) | round(2)}}"
       friendly_name: BTC Exchange Rate (EUR)
       unit_of_measurement: EUR
-    coinbase_vault_in_euro:
-      friendly_name: Coinbase BTC Vault (EUR)
-      unit_of_measurement: EUR
-      value_template: "{{ state_attr('sensor.coinbase_btc_vault','Balance in native currency')|replace('EUR','') }}"
-    coinbase_wallet_in_euro:
-      friendly_name: Coinbase BTC Wallet (EUR)
-      unit_of_measurement: EUR
-      value_template: "{{ state_attr('sensor.coinbase_btc_wallet','Balance in native currency')|replace('EUR','') }}"
-    coinbase_vault_xlm_in_euro:
-      value_template: "{{ state_attr('sensor.coinbase_xlm_vault','Balance in native currency')|replace('EUR','') }}"
-      friendly_name: Coinbase XLM Vault (EUR)
-      unit_of_measurement: EUR
-    coinbase_wallet_xlm_in_euro:
-      value_template: "{{ state_attr('sensor.coinbase_xlm_wallet','Balance in native currency')|replace('EUR','') }}"
-      friendly_name: Coinbase XLM Wallet (EUR)
-      unit_of_measurement: EUR
-    coinbase_deposit:
-      value_template: "{{ ((states.sensor.coinbase_vault_in_euro.state | float) + (states.sensor.coinbase_wallet_in_euro.state | float) + (states.sensor.coinbase_eur_wallet.state | float) + (states.sensor.coinbase_wallet_xlm_in_euro.state | float) + (states.sensor.coinbase_vault_xlm_in_euro.state | float)) | round(2)}}"
-      friendly_name: Coinbase Deposit (EUR)
-      unit_of_measurement: EUR
+#    coinbase_vault_in_euro:
+#      friendly_name: Coinbase BTC Vault (EUR)
+#      unit_of_measurement: EUR
+#      value_template: "{{ state_attr('sensor.coinbase_btc_vault','Balance in native currency')|replace('EUR','') }}"
+#    coinbase_wallet_in_euro:
+#      friendly_name: Coinbase BTC Wallet (EUR)
+#      unit_of_measurement: EUR
+#      value_template: "{{ state_attr('sensor.coinbase_btc_wallet','Balance in native currency')|replace('EUR','') }}"
+#    coinbase_vault_xlm_in_euro:
+#      value_template: "{{ state_attr('sensor.coinbase_xlm_vault','Balance in native currency')|replace('EUR','') }}"
+#      friendly_name: Coinbase XLM Vault (EUR)
+#      unit_of_measurement: EUR
+#    coinbase_wallet_xlm_in_euro:
+#      value_template: "{{ state_attr('sensor.coinbase_xlm_wallet','Balance in native currency')|replace('EUR','') }}"
+#      friendly_name: Coinbase XLM Wallet (EUR)
+#      unit_of_measurement: EUR
+#    coinbase_deposit:
+#      value_template: "{{ ((states.sensor.coinbase_vault_in_euro.state | float) + (states.sensor.coinbase_wallet_in_euro.state | float) + (states.sensor.coinbase_eur_wallet.state | float) + (states.sensor.coinbase_wallet_xlm_in_euro.state | float) + (states.sensor.coinbase_vault_xlm_in_euro.state | float)) | round(2)}}"
+#      friendly_name: Coinbase Deposit (EUR)
+#      unit_of_measurement: EUR
     energy_combined_current:
       value_template: "{{ ((states.sensor.sonoff_pow_r2_tv_current.state | float) + (states.sensor.sonoff_pow_r2_whz_current.state | float)) | round(3) }}"
       friendly_name: Energy combined current

@@ -1,4 +1,4 @@
-- alias: Trigger alarm while armed away
+- alias: "Alarm - Trigger alarm while armed away"
   id: "55"
   trigger:
 #    - platform: state
