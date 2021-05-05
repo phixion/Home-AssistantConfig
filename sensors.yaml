@@ -1079,7 +1079,7 @@
     - filename
     - alert_url
   resource: https://alerts.home-assistant.io/alerts.json
-  value_template: "{{ value_json.title }}"
+  value_template: "{{ value_json.state.title }}"
 #- platform: rest
 #  name: Steam Status
 #  json_attributes:

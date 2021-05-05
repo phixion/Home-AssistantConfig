@@ -17,5 +17,3 @@ map:
 zeroconf:
 ssdp:
 updater:
-  reporting: false
-
