@@ -182,6 +182,16 @@
   exclusions:
     - image
 - platform: feedparser
+  name: !secret feed_2_name # pragma: allowlist secret
+  feed_url: !secret feed_2_url # pragma: allowlist secret
+  inclusions:
+    - title
+    - link
+    - pubDate
+    - description
+  exclusions:
+    - image
+- platform: feedparser
   name: RSS Destiny Glitch
   feed_url: "https://www.reddit.com/r/raidsecrets/search.rss?q=flair%3AGlitch&restrict_sr=on&include_over_18=on&sort=new&t=all.rss"
   inclusions:
@@ -246,6 +256,20 @@
 - platform: feedparser
   name: GitHub Newsfeed
   feed_url: !secret feed_github_news # pragma: allowlist secret
+  inclusions:
+    - title
+    - link
+    - pubDate
+- platform: feedparser
+  name: !secret feed_joboffers_sz_name # pragma: allowlist secret
+  feed_url: !secret feed_joboffers_sz_url # pragma: allowlist secret
+  inclusions:
+    - title
+    - link
+    - pubDate
+- platform: feedparser
+  name: !secret feed_joboffers_gh_name # pragma: allowlist secret
+  feed_url: !secret feed_joboffers_gh_url # pragma: allowlist secret
   inclusions:
     - title
     - link

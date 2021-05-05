@@ -39,6 +39,9 @@ recorder:
       - sensor.load_1m
       - sensor.load_5m
       - sensor.load_15m
+      - sensor.core
+      - sensor.supervisor
+      - sensor.supervisor_mem
       #      - sensor.influxdb_size_telegraf
       #      - sensor.influxdb_size_homeassistant
       #      - sensor.influxdb_size_internal
@@ -121,6 +124,9 @@ logbook:
       - binary_sensor.wohnzimmertur
       - sensor.hp_switch_uptime
       - sensor.nas_uptime
+      - sensor.core
+      - sensor.supervisor
+      - sensor.supervisor_mem
       - automation.update_morning_commute_sensor
       - sensor.date_muellabfuhr
       - sensor.hass_uptime
@@ -139,7 +145,6 @@ logbook:
       - sensor.date
       - sensor.time_date
       - sensor.time_utc
-      - sensor.time
       - sensor.nodemcu_2_wohnzimmer_uptime
       - sensor.schalter_1_bad_uptime
       - sensor.schalter_1_flur_uptime
@@ -171,6 +176,9 @@ history:
       - binary_sensor.inside_temperature_rising
       - sensor.influxdb_size_telegraf
       - sensor.influxdb_size_homeassistant
+      - sensor.core
+      - sensor.supervisor
+      - sensor.supervisor_mem
       - sensor.influxdb_size_internal
       - sensor.influxdb_size_unifi
       - sensor.sonoff_pow_r2_whz_power
