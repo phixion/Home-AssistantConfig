@@ -35,7 +35,7 @@
             - "Play Video on TV:/yt_ih"
     - service: notify.lametric
       data:
-        message: "Neues Internet Historian Video"
+        message: "Neues Internet Historian Video: {{states.sensor.internethistorian.state}}"
         data:
           sound: 'notification'
           icon: 'a10835'

@@ -1066,21 +1066,24 @@
     Accept: application/json
     Content-Type: application/json
     User-Agent: hassio REST sensor (msg rid@muccc irc if concerns)
-- platform: rest
-  name: Homeassistant Alerts
-  json_attributes:
-    - title
-    - created
-    - updated
-    - integrations
-    - packages
-    - github_issue
-    - homeassistant
-    - filename
-    - alert_url
-  resource: https://alerts.home-assistant.io/alerts.json
-  value_template: "{{ value_json.state.title }}"
 #- platform: rest
+#  name: Homeassistant Alerts
+#  json_attributes:
+#    - title
+#    - created
+#    - updated
+#    - integrations
+#    - packages
+#    - github_issue
+#    - homeassistant
+#    - filename
+#    - alert_url
+#  resource: https://alerts.home-assistant.io/alerts.json
+#  value_template: "{{ value_json.title }}"
+#  headers:
+#    Accept: application/json
+#    Content-Type: application/json
+  #- platform: rest
 #  name: Steam Status
 #  json_attributes:
 #    - psa

@@ -8,3 +8,5 @@
 circadian_lighting:
   transition: 60
   interval: 120
+  sunrise_time: '06:00:00' #workaround for https://github.com/claytonjn/hass-circadian_lighting/issues/149
+  sunset_time: '20:30:00'

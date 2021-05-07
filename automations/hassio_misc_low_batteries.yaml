@@ -1,17 +1,17 @@
-- alias: Notification Low batteries
-  id: "22"
-  trigger:
-    - platform: numeric_state
-      entity_id:
-        - device_tracker.google_nexus
-        - device_tracker.google_pixel
-        - device_tracker.macbook_air
-      value_template:
-        "{{ state.attributes.battery if state.attributes.battery else
-        101 }}"
-      below: 20
-  action:
-    - service: notify.telegram
-      data_template:
-        title: "{{ trigger.entity_id.name }} Battery Low"
-        message: Charge {{ trigger.to_state.name|default("unknown") }} batteries
+#- alias: Notification Low batteries
+#  id: "22"
+#  trigger:
+#    - platform: numeric_state
+#      entity_id:
+#        - device_tracker.google_nexus
+#        - device_tracker.google_pixel
+#        - device_tracker.macbook_air
+#      value_template:
+#        "{{ state.attributes.battery if state.attributes.battery else
+#        101 }}"
+#      below: 20
+#  action:
+#    - service: notify.telegram
+#      data_template:
+#        title: "{{ trigger.entity_id.name }} Battery Low"
+#        message: Charge {{ trigger.to_state.name|default("unknown") }} batteries

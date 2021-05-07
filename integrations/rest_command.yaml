@@ -10,17 +10,23 @@ rest_command:
     url: !secret google_assistant_relay # pragma: allowlist secret
     method: POST
     content_type: "application/json"
-    payload: '{"command":"{{ command }}", "user":"Home Assistant", "broadcast":true}'
+    headers:
+        authorization: !secret assistant_relay_apikey
+    payload: '{"command":"{{ command }}", "user":"HomeAssistant", "broadcast":true, "device":"Google Nest Hub"}'
   assistant_converse:
     url: !secret google_assistant_relay # pragma: allowlist secret
     method: POST
     content_type: "application/json"
-    payload: '{"command":"{{ command }}", "user":"Home Assistant", "converse":true}'
+    headers:
+        authorization: !secret assistant_relay_apikey # pragma: allowlist secret
+    payload: '{"command":"{{ command }}", "user":"HomeAssistant", "talkback":true, "device":"Google Nest Hub"}'
   assistant_relay:
     url: !secret google_assistant_relay # pragma: allowlist secret
     method: POST
     content_type: "application/json"
-    payload: '{"command":"{{ command }}", "user":"Home Assistant"}'
+    headers:
+        authorization: !secret assistant_relay_apikey # pragma: allowlist secret
+    payload: '{"command":"{{ command }}", "user":"HomeAssistant", "device":"Google Nest Hub"}'
   webhook:
     url: !secret webhook_url # pragma: allowlist secret
     method: POST

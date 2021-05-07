@@ -35,7 +35,7 @@
             - "Play Video on TV:/yt_reignbot"
     - service: notify.lametric
       data:
-        message: "Neues ReignBot Video"
+        message: "Neues ReignBot Video: {{states.sensor.reignbot.state}}"
         data:
           sound: 'notification'
           icon: 'a10835'

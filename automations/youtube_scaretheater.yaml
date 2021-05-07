@@ -26,7 +26,7 @@
   action:
     - service: notify.telegram
       data_template:
-        title: New ScareTheater Video
+        title: New ScareTheater Video 
         message: >
           {{states('sensor.scaretheater')}}
            {{state_attr('sensor.scaretheater', 'url')}}
@@ -35,7 +35,7 @@
             - "Play Video on TV:/yt_scaretheater"
     - service: notify.lametric
       data:
-        message: "Neues ScareTheater Video"
+        message: "Neues ScareTheater Video {{states.sensor.scaretheatre.state}}"
         data:
           sound: "notification"
           icon: "a10835"
