@@ -314,6 +314,10 @@
 - platform: authenticated
   provider: ipapi
   enable_notification: true
+  exclude:
+    - !secret trusted_network_1
+    - !secret trusted_network_2
+    - !secret trusted_network_3
 - platform: uptime
 #  unit_of_measurement: days
 - platform: mvglive
