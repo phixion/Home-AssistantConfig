@@ -966,9 +966,9 @@
 #scaretheatre
 - platform: youtube
   channel_id: UCaGOgwGKnDVOKY0DrFsBAiA
-#h3h3podcast
-#- platform: youtube
-#  channel_id: UCLtREJY21xRfCuEKvdki1Kw
+#JB3
+- platform: youtube
+  channel_id: UCF9AEw1wCDZFNHVjCVCQZ7A
 #reignbot
 - platform: youtube
   channel_id: UCchWU8ta6L-Dy3rGIxPINzw

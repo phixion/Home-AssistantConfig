@@ -38,7 +38,7 @@
         command: Hey Martin, Nexpo hat ein neues Video auf YouTube hochgeladen.
     - service: notify.lametric
       data:
-        message: "Neues Nexpo Video"
+        message: "Neues Nexpo Video {{states.sensor.nexpo.state}}"
         data:
           sound: 'notification'
           icon: 'a10835'
